@@ -17,6 +17,9 @@
 		AB2873A72C4E94DA00BA9BCE /* ShoppingAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873A62C4E94DA00BA9BCE /* ShoppingAppTests.swift */; };
 		AB2873B12C4E94DA00BA9BCE /* ShoppingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */; };
 		AB2873B32C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */; };
+		AB2873F02C4EA19F00BA9BCE /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB2873EF2C4EA19F00BA9BCE /* Common */; };
+		AB2873F42C4EA39700BA9BCE /* SignIn in Resources */ = {isa = PBXBuildFile; fileRef = AB2873F32C4EA39700BA9BCE /* SignIn */; };
+		AB2873F72C4EA3E800BA9BCE /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB2873F62C4EA3E800BA9BCE /* Common */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,8 @@
 		AB2873AC2C4E94DA00BA9BCE /* ShoppingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShoppingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITests.swift; sourceTree = "<group>"; };
 		AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AB2873EF2C4EA19F00BA9BCE /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Common; path = ../../Common; sourceTree = "<group>"; };
+		AB2873F32C4EA39700BA9BCE /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SignIn; path = ../../SignIn; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB2873F72C4EA3E800BA9BCE /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,10 +87,12 @@
 		AB2873802C4E94D900BA9BCE = {
 			isa = PBXGroup;
 			children = (
+				AB2873ED2C4EA15F00BA9BCE /* Modules */,
 				AB28738B2C4E94D900BA9BCE /* ShoppingApp */,
 				AB2873A52C4E94DA00BA9BCE /* ShoppingAppTests */,
 				AB2873AF2C4E94DA00BA9BCE /* ShoppingAppUITests */,
 				AB28738A2C4E94D900BA9BCE /* Products */,
+				AB2873F52C4EA3E800BA9BCE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +138,22 @@
 			path = ShoppingAppUITests;
 			sourceTree = "<group>";
 		};
+		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				AB2873F32C4EA39700BA9BCE /* SignIn */,
+				AB2873EF2C4EA19F00BA9BCE /* Common */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		AB2873F52C4EA3E800BA9BCE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,6 +170,9 @@
 			dependencies = (
 			);
 			name = ShoppingApp;
+			packageProductDependencies = (
+				AB2873F62C4EA3E800BA9BCE /* Common */,
+			);
 			productName = ShoppingApp;
 			productReference = AB2873892C4E94D900BA9BCE /* ShoppingApp.app */;
 			productType = "com.apple.product-type.application";
@@ -234,9 +261,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB2873F42C4EA39700BA9BCE /* SignIn in Resources */,
 				AB2873992C4E94DA00BA9BCE /* Assets.xcassets in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,
 				AB2873942C4E94D900BA9BCE /* Base in Resources */,
+				AB2873F02C4EA19F00BA9BCE /* Common in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +640,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB2873F62C4EA3E800BA9BCE /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		AB2873952C4E94D900BA9BCE /* ShoppingApp.xcdatamodeld */ = {

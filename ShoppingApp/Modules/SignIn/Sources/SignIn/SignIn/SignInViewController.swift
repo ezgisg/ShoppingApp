@@ -40,16 +40,13 @@ public class SignInViewController: BaseViewController {
     //MARK: Module Components
     var viewModel = SignInViewModel()
     
-    
-    var activeTextField: UITextField?
-    
     //MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleAuth()
         setupUI()
         setupKeyboardObservers()
-        setupKeyboardObservers2()
+ 
     }
     
     // MARK: - Module init
@@ -239,30 +236,3 @@ extension SignInViewController: UITextFieldDelegate {
 }
 
 
-extension SignInViewController {
-    private func setupKeyboardObservers2() {
-          NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow2), name: UIResponder.keyboardWillShowNotification, object: nil)
-          NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide2), name: UIResponder.keyboardWillHideNotification, object: nil)
-      }
-      
-      @objc func keyboardWillShow2(notification: NSNotification) {
-          guard let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-                let activeTextField = activeTextField else {
-              return
-          }
-
-          let keyboardTop = view.frame.height - keyboardFrame.height
-          let textFieldBottom = activeTextField.convert(activeTextField.bounds, to: view).maxY
-
-          if textFieldBottom + 40 > keyboardTop {
-              UIView.animate(withDuration: 0.3) {  [weak self] in
-                  guard let self else { return }
-                  view.frame.origin.y = keyboardTop - textFieldBottom - 40
-              }
-          }
-      }
-
-      @objc func keyboardWillHide2(notification: NSNotification) {
-          view.frame.origin.y = 0
-      }
-}

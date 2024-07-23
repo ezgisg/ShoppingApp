@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="SignIn">
             <connections>
+                <outlet property="emailTextField" destination="gEP-vR-0nG" id="oTw-hC-zjb"/>
+                <outlet property="passwordTextField" destination="Xwj-6A-neu" id="bUw-ON-3yQ"/>
                 <outlet property="signInWithGoogle" destination="Ojk-GE-vj4" id="eIw-2M-e50"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -112,6 +114,9 @@
                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="baseBackgroundColor" red="0.023620393793917567" green="0.016313969470319659" blue="0.16860006313131315" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </buttonConfiguration>
+                    <connections>
+                        <action selector="signInWithEmail:" destination="-1" eventType="touchUpInside" id="Lvy-dh-ADZ"/>
+                    </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ojk-GE-vj4" customClass="GIDSignInButton">
                     <rect key="frame" x="36" y="527.33333333333337" width="321" height="34.333333333333371"/>
@@ -165,7 +170,7 @@
     </objects>
     <resources>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

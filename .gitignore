@@ -1,3 +1,10 @@
 ShoppingApp/ShoppingApp.xcodeproj/project.xcworkspace/xcuserdata
 *.xcuserstate
 .DS_Store
+ShoppingApp/Modules/AppResources/.swiftpm/xcode/package.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+ShoppingApp/Modules/SignIn/.swiftpm/xcode/package.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+ShoppingApp/Modules/Components/.swiftpm/xcode/xcuserdata/ezgisumergunaydin.xcuserdatad/xcschemes/xcschememanagement.plist
+ShoppingApp/Modules/Common/.swiftpm/xcode/package.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.xcbkptlist
+*.xcbkptlist
+ShoppingApp/ShoppingApp.xcodeproj/xcuserdata/ezgisumergunaydin.xcuserdatad/xcschemes/xcschememanagement.plist

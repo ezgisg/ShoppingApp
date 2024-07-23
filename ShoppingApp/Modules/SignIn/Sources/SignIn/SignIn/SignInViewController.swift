@@ -12,9 +12,16 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 
+//MARK: - SignInViewController
 public class SignInViewController: UIViewController {
 
+    //MARK: - Outlets
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     @IBOutlet weak var signInWithGoogle: GIDSignInButton!
+    
+    //MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleAuth()
@@ -29,11 +36,14 @@ public class SignInViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
+   
+    
 }
 
 //MARK: - Setups
 extension SignInViewController {
+    
+    ///Google sign-in
     func setupGoogleAuth() {
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(googleSignInTapped))
         signInWithGoogle.addGestureRecognizer(tapGesture)
@@ -59,4 +69,21 @@ extension SignInViewController {
           
         }
     }
+    
+    //E-mail sign-in
+    @IBAction func signInWithEmail(_ sender: Any) {
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else {
+            //TODO: Alert
+            return }
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+          guard let self else { return }
+            guard let error else {
+                //TODO: Page e yönlendirme
+                return
+            }
+            //TODO: Alert
+        }
+    }
+    
 }

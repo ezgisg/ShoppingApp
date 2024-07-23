@@ -16,11 +16,13 @@
 		AB2873A72C4E94DA00BA9BCE /* ShoppingAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873A62C4E94DA00BA9BCE /* ShoppingAppTests.swift */; };
 		AB2873B12C4E94DA00BA9BCE /* ShoppingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */; };
 		AB2873B32C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */; };
-		AB2873F02C4EA19F00BA9BCE /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB2873EF2C4EA19F00BA9BCE /* Common */; };
-		AB2873F42C4EA39700BA9BCE /* SignIn in Resources */ = {isa = PBXBuildFile; fileRef = AB2873F32C4EA39700BA9BCE /* SignIn */; };
-		AB2873F72C4EA3E800BA9BCE /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB2873F62C4EA3E800BA9BCE /* Common */; };
-		AB2873F92C4EA5E100BA9BCE /* SignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AB2873F82C4EA5E100BA9BCE /* SignIn */; };
 		AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */; };
+		AB35BA192C4F977F00129979 /* Components in Resources */ = {isa = PBXBuildFile; fileRef = AB35BA182C4F977F00129979 /* Components */; };
+		AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AB43159D2C4FAE8A00A7A855 /* SignIn */; };
+		AB4315B82C4FB3D900A7A855 /* AppResources in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B72C4FB3D900A7A855 /* AppResources */; };
+		AB4315BA2C4FB3E300A7A855 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B92C4FB3E300A7A855 /* Base */; };
+		AB4315BC2C4FB3EE00A7A855 /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BB2C4FB3EE00A7A855 /* Common */; };
+		AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BD2C4FB3FE00A7A855 /* SignIn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +56,12 @@
 		AB2873AC2C4E94DA00BA9BCE /* ShoppingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShoppingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITests.swift; sourceTree = "<group>"; };
 		AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		AB2873EF2C4EA19F00BA9BCE /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Common; path = ../../Common; sourceTree = "<group>"; };
-		AB2873F32C4EA39700BA9BCE /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SignIn; path = ../../SignIn; sourceTree = "<group>"; };
 		AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AB35BA182C4F977F00129979 /* Components */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Components; sourceTree = "<group>"; };
+		AB4315B72C4FB3D900A7A855 /* AppResources */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppResources; sourceTree = "<group>"; };
+		AB4315B92C4FB3E300A7A855 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Base; sourceTree = "<group>"; };
+		AB4315BB2C4FB3EE00A7A855 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
+		AB4315BD2C4FB3FE00A7A855 /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SignIn; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,8 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB2873F92C4EA5E100BA9BCE /* SignIn in Frameworks */,
-				AB2873F72C4EA3E800BA9BCE /* Common in Frameworks */,
+				AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,8 +147,11 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				AB2873F32C4EA39700BA9BCE /* SignIn */,
-				AB2873EF2C4EA19F00BA9BCE /* Common */,
+				AB4315BD2C4FB3FE00A7A855 /* SignIn */,
+				AB4315BB2C4FB3EE00A7A855 /* Common */,
+				AB4315B92C4FB3E300A7A855 /* Base */,
+				AB4315B72C4FB3D900A7A855 /* AppResources */,
+				AB35BA182C4F977F00129979 /* Components */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -173,8 +180,7 @@
 			);
 			name = ShoppingApp;
 			packageProductDependencies = (
-				AB2873F62C4EA3E800BA9BCE /* Common */,
-				AB2873F82C4EA5E100BA9BCE /* SignIn */,
+				AB43159D2C4FAE8A00A7A855 /* SignIn */,
 			);
 			productName = ShoppingApp;
 			productReference = AB2873892C4E94D900BA9BCE /* ShoppingApp.app */;
@@ -264,11 +270,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB2873F42C4EA39700BA9BCE /* SignIn in Resources */,
 				AB2873992C4E94DA00BA9BCE /* Assets.xcassets in Resources */,
+				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
 				AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,
-				AB2873F02C4EA19F00BA9BCE /* Common in Resources */,
+				AB4315BC2C4FB3EE00A7A855 /* Common in Resources */,
+				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,
+				AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */,
+				AB35BA192C4F977F00129979 /* Components in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,11 +646,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB2873F62C4EA3E800BA9BCE /* Common */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Common;
-		};
-		AB2873F82C4EA5E100BA9BCE /* SignIn */ = {
+		AB43159D2C4FAE8A00A7A855 /* SignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SignIn;
 		};

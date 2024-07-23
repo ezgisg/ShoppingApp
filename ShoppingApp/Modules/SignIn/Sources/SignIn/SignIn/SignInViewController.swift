@@ -100,9 +100,11 @@ extension SignInViewController {
             guard let self else { return }
             guard let error else {
                 //TODO: Page e yönlendirme
+                print("giriş yapıldı")
                 return
             }
             //TODO: Alert
+            print("giriş yapılamadı")
         }
     }
     
@@ -233,6 +235,18 @@ extension SignInViewController: UITextFieldDelegate {
         }
     }
     
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTextField:
+            passwordTextField.becomeFirstResponder()
+        case passwordTextField:
+            passwordTextField.resignFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+
 }
 
 

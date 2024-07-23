@@ -67,7 +67,7 @@
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gEP-vR-0nG">
                                     <rect key="frame" x="0.0" y="17.333333333333314" width="369" height="18.666666666666671"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" smartDashesType="yes" smartInsertDeleteType="yes" textContentType="email"/>
                                 </textField>
                             </subviews>
                             <constraints>

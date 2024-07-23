@@ -34,6 +34,7 @@ public class SignInViewController: UIViewController {
     @IBOutlet weak var haveAccountLabel: UILabel!
     @IBOutlet weak var registerLabel: UILabel!
     
+    @IBOutlet weak var googleContainterView: UIView!
     //MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,6 +141,8 @@ private extension SignInViewController {
         }
     
     func setupColors() {
+        googleContainterView.backgroundColor = .buttonColor
+        googleContainterView.layer.cornerRadius = 5
         onboardingTitleLabel.textColor = .textColor
         onboardingMessageLabel.textColor = .textColor
         emailLabel.textColor = .lightTextColor

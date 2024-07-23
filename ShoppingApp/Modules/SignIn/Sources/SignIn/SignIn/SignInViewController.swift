@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import Base
 import Firebase
 import FirebaseCore
 import FirebaseAuth
@@ -14,7 +15,7 @@ import GoogleSignInSwift
 import UIKit
 
 //MARK: - SignInViewController
-public class SignInViewController: UIViewController {
+public class SignInViewController: BaseViewController {
 
     //MARK: - Outlets
     @IBOutlet weak var emailTextField: UITextField!
@@ -33,6 +34,7 @@ public class SignInViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var haveAccountLabel: UILabel!
     @IBOutlet weak var registerLabel: UILabel!
+    @IBOutlet weak var emailWarningLabel: UILabel!
     
     @IBOutlet weak var googleContainterView: UIView!
     //MARK: - Life Cycles
@@ -40,6 +42,7 @@ public class SignInViewController: UIViewController {
         super.viewDidLoad()
         setupGoogleAuth()
         setupUI()
+        setupKeyboardObservers()
     }
 
     // MARK: - Module init
@@ -50,8 +53,6 @@ public class SignInViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-   
     
 }
 
@@ -111,17 +112,24 @@ private extension SignInViewController {
         setupImages()
         setupPasswordToggle()
         setupColors()
+    
     }
     
     func setupTexts() {
         onboardingTitleLabel.text = L10nSignIn.SignInOnboarding.title.localized()
         onboardingMessageLabel.text = L10nSignIn.SignInOnboarding.message.localized()
-        emailLabel.text = L10nSignIn.email.localized()
-        passwordLabel.text = L10nSignIn.password.localized()
+        emailLabel.text = ""
+        emailTextField.placeholder = L10nSignIn.email.localized()
+        emailWarningLabel.text = ""
+        passwordLabel.text = ""
+        passwordTextField.placeholder = L10nSignIn.password.localized()
         forgetPasswordLabel.text = L10nSignIn.forgetPassword.localized()
         haveAccountLabel.text = L10nSignIn.haveAccount.localized()
         registerLabel.text = L10nSignIn.register.localized()
         signInButton.setTitle(L10nSignIn.signIn.localized(), for: .normal)
+        
+        passwordTextField.delegate = self
+        emailTextField.delegate = self
     }
     
     func setupImages() {
@@ -147,6 +155,7 @@ private extension SignInViewController {
         onboardingMessageLabel.textColor = .textColor
         emailLabel.textColor = .lightTextColor
         emailTextField.textColor = .textColor
+        emailWarningLabel.textColor = .textColor
         passwordLabel.textColor = .lightTextColor
         passwordTextField.textColor = .textColor
         forgetPasswordLabel.textColor = .textColor
@@ -156,5 +165,54 @@ private extension SignInViewController {
         haveAccountLabel.textColor = .lightTextColor
         registerLabel.textColor = .textColor
         view.backgroundColor = .backgroundColor
+    }
+}
+
+
+extension SignInViewController: UITextFieldDelegate {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case emailTextField:
+            emailLabel.text = L10nSignIn.email.localized()
+            emailTextField.placeholder = nil
+        case passwordTextField:
+            passwordLabel.text = L10nSignIn.password.localized()
+            passwordTextField.placeholder = nil
+        default:
+            break
+        }
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case emailTextField:
+            emailLabel.text = nil
+            emailTextField.placeholder = L10nSignIn.email.localized()
+        case passwordTextField:
+            passwordLabel.text = nil
+            passwordTextField.placeholder = L10nSignIn.password.localized()
+        default:
+            break
+        }
+    }
+    
+    public func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard textField == emailTextField,
+              let text = emailTextField.text,
+              !text.isEmpty,
+              !isValidEmail(text)
+        else {
+            emailWarningLabel.text = ""
+            return }
+            emailWarningLabel.text = L10nSignIn.emailWarning.localized()
+    }
+    
+}
+
+private extension SignInViewController {
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailPredicate.evaluate(with: email)
     }
 }

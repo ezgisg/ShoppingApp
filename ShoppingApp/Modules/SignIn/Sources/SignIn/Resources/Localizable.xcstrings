@@ -18,6 +18,23 @@
         }
       }
     },
+    "emailWarning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Invalid e-mail"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçersiz mail adresi"
+          }
+        }
+      }
+    },
     "forgetPassword" : {
       "extractionState" : "manual",
       "localizations" : {

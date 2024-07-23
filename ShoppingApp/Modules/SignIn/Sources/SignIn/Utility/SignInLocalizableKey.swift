@@ -24,6 +24,7 @@ public enum SignInLocalizableKey: String, LocalizableProtocol {
     case email
     case password
     case haveAccount
+    case emailWarning
    
     // MARK: - SignInOnboarding
     public enum SignInOnboarding: String, LocalizableProtocol {

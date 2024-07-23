@@ -13,8 +13,10 @@ let package = Package(
             targets: ["SignIn"]),
     ],
     dependencies: [
-        .package(path: "../Common"),
         .package(path: "../AppResources"),
+        .package(path: "../Base"),
+        .package(path: "../Common"),
+
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -22,8 +24,9 @@ let package = Package(
         .target(
             name: "SignIn",
             dependencies: [
+                "AppResources",
+                "Base",
                 "Common",
-                "AppResources"
             ],
             resources: [
                 .process("Resources")

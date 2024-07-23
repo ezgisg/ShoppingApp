@@ -33,5 +33,8 @@ public extension UIColor {
         UIColor(named: "buttonTextColor", in: Bundle.module, compatibleWith: .current) ?? .black
     }
     
+    static var warningTextColor: UIColor {
+        UIColor(named: "warningTextColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
 }
 

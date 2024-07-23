@@ -11,7 +11,6 @@
 		AB28738F2C4E94D900BA9BCE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28738E2C4E94D900BA9BCE /* SceneDelegate.swift */; };
 		AB2873912C4E94D900BA9BCE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873902C4E94D900BA9BCE /* ViewController.swift */; };
 		AB2873972C4E94D900BA9BCE /* ShoppingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB2873952C4E94D900BA9BCE /* ShoppingApp.xcdatamodeld */; };
-		AB2873992C4E94DA00BA9BCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB2873982C4E94DA00BA9BCE /* Assets.xcassets */; };
 		AB28739C2C4E94DA00BA9BCE /* Base in Resources */ = {isa = PBXBuildFile; fileRef = AB28739B2C4E94DA00BA9BCE /* Base */; };
 		AB2873A72C4E94DA00BA9BCE /* ShoppingAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873A62C4E94DA00BA9BCE /* ShoppingAppTests.swift */; };
 		AB2873B12C4E94DA00BA9BCE /* ShoppingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */; };
@@ -48,7 +47,6 @@
 		AB28738E2C4E94D900BA9BCE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AB2873902C4E94D900BA9BCE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AB2873962C4E94D900BA9BCE /* ShoppingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShoppingApp.xcdatamodel; sourceTree = "<group>"; };
-		AB2873982C4E94DA00BA9BCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB28739B2C4E94DA00BA9BCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB28739D2C4E94DA00BA9BCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB2873A22C4E94DA00BA9BCE /* ShoppingAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShoppingAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +117,6 @@
 				AB28738C2C4E94D900BA9BCE /* AppDelegate.swift */,
 				AB28738E2C4E94D900BA9BCE /* SceneDelegate.swift */,
 				AB2873902C4E94D900BA9BCE /* ViewController.swift */,
-				AB2873982C4E94DA00BA9BCE /* Assets.xcassets */,
 				AB28739A2C4E94DA00BA9BCE /* LaunchScreen.storyboard */,
 				AB28739D2C4E94DA00BA9BCE /* Info.plist */,
 				AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */,
@@ -272,7 +269,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB2873992C4E94DA00BA9BCE /* Assets.xcassets in Resources */,
 				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
 				AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,

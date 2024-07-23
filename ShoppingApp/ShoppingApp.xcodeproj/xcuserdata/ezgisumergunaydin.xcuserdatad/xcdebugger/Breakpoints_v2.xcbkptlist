@@ -162,36 +162,6 @@
             endingLineNumber = "44"
             landmarkName = "currentLanguage()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "AE3F454E-B31E-408B-956A-D3142BC655F1 - 531607771a131396"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static AppResources.Localize.currentLanguage() -&gt; Swift.String"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/AppResources/Sources/AppResources/Utils/Localizable/Localize.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "44"
-                  endingLineNumber = "44">
-               </Location>
-               <Location
-                  uuid = "AE3F454E-B31E-408B-956A-D3142BC655F1 - 531607771a131396"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static AppResources.Localize.currentLanguage() -&gt; Swift.String"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/AppResources/Sources/AppResources/Utils/Localizable/Localize.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "44"
-                  endingLineNumber = "44">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

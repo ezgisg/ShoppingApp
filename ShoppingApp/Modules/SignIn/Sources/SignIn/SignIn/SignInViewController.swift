@@ -22,7 +22,8 @@ public class SignInViewController: UIViewController {
     
     @IBOutlet weak var signInWithGoogle: GIDSignInButton!
     
-
+    @IBOutlet weak var loginMainImage: UIImageView!
+    @IBOutlet weak var passwordHideShowImage: UIImageView!
     
     @IBOutlet weak var onboardingTitleLabel: UILabel!
     @IBOutlet weak var onboardingMessageLabel: UILabel!
@@ -37,7 +38,7 @@ public class SignInViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleAuth()
-        setupTexts()
+        setupUI()
     }
 
     // MARK: - Module init
@@ -104,6 +105,12 @@ extension SignInViewController {
 
 //MARK: - Setup UI
 private extension SignInViewController {
+    func setupUI() {
+        setupTexts()
+        setupImages()
+        setupPasswordToggle()
+    }
+    
     func setupTexts() {
         onboardingTitleLabel.text = L10nSignIn.SignInOnboarding.title.localized()
         onboardingMessageLabel.text = L10nSignIn.SignInOnboarding.message.localized()
@@ -112,7 +119,22 @@ private extension SignInViewController {
         forgetPasswordLabel.text = L10nSignIn.forgetPassword.localized()
         haveAccountLabel.text = L10nSignIn.haveAccount.localized()
         registerLabel.text = L10nSignIn.register.localized()
-        
         signInButton.setTitle(L10nSignIn.signIn.localized(), for: .normal)
     }
+    
+    func setupImages() {
+        loginMainImage.image = .loginImage
+        passwordHideShowImage.image = .passwordShowImage
+    }
+    
+    func setupPasswordToggle() {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(togglePasswordVisibility))
+            passwordHideShowImage.isUserInteractionEnabled = true
+            passwordHideShowImage.addGestureRecognizer(tapGesture)
+        }
+        
+        @objc func togglePasswordVisibility() {
+            passwordTextField.isSecureTextEntry.toggle()
+            passwordHideShowImage.image = passwordTextField.isSecureTextEntry ? .passwordShowImage : .passwordHideImage
+        }
 }

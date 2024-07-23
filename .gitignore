@@ -8,3 +8,4 @@ ShoppingApp/Modules/Common/.swiftpm/xcode/package.xcworkspace/xcshareddata/IDEWo
 *.xcbkptlist
 *.xcbkptlist
 ShoppingApp/ShoppingApp.xcodeproj/xcuserdata/ezgisumergunaydin.xcuserdatad/xcschemes/xcschememanagement.plist
+*.xcuserstate

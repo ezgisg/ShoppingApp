@@ -30,5 +30,10 @@
 			</array>
 		</dict>
 	</dict>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>tr</string>
+    </array>
 </dict>
 </plist>

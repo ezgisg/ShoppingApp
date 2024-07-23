@@ -105,16 +105,14 @@ extension SignInViewController {
 //MARK: - Setup UI
 private extension SignInViewController {
     func setupTexts() {
-        onboardingTitleLabel.text = L10n.SignInOnboarding.title.localized()
-        onboardingMessageLabel.text = L10n.SignInOnboarding.message.localized()
-        emailLabel.text = L10n.email.localized()
-        passwordLabel.text = L10n.password.localized()
-        forgetPasswordLabel.text = L10n.forgetPassword.localized()
-        haveAccountLabel.text = L10n.haveAccount.localized()
-        registerLabel.text = L10n.register.localized()
+        onboardingTitleLabel.text = L10nSignIn.SignInOnboarding.title.localized()
+        onboardingMessageLabel.text = L10nSignIn.SignInOnboarding.message.localized()
+        emailLabel.text = L10nSignIn.email.localized()
+        passwordLabel.text = L10nSignIn.password.localized()
+        forgetPasswordLabel.text = L10nSignIn.forgetPassword.localized()
+        haveAccountLabel.text = L10nSignIn.haveAccount.localized()
+        registerLabel.text = L10nSignIn.register.localized()
         
-        signInButton.setTitle(L10n.signIn.localized(), for: .normal)
-        
+        signInButton.setTitle(L10nSignIn.signIn.localized(), for: .normal)
     }
-    
 }

@@ -1,5 +1,5 @@
 {
-  "sourceLanguage" : "en",
+  "sourceLanguage" : "tr",
   "strings" : {
     "email" : {
       "extractionState" : "manual",
@@ -48,6 +48,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hesabın yok mu?"
+          }
+        }
+      }
+    },
+    "password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola"
           }
         }
       }

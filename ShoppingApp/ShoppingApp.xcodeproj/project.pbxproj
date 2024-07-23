@@ -22,6 +22,7 @@
 		AB4315BA2C4FB3E300A7A855 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B92C4FB3E300A7A855 /* Base */; };
 		AB4315BC2C4FB3EE00A7A855 /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BB2C4FB3EE00A7A855 /* Common */; };
 		AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BD2C4FB3FE00A7A855 /* SignIn */; };
+		AB4315C52C4FD0C000A7A855 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB4315C42C4FD0C000A7A855 /* Common */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		AB4315B92C4FB3E300A7A855 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Base; sourceTree = "<group>"; };
 		AB4315BB2C4FB3EE00A7A855 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		AB4315BD2C4FB3FE00A7A855 /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SignIn; sourceTree = "<group>"; };
+		AB4315C32C4FCFF800A7A855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */,
+				AB4315C52C4FD0C000A7A855 /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +181,7 @@
 			name = ShoppingApp;
 			packageProductDependencies = (
 				AB43159D2C4FAE8A00A7A855 /* SignIn */,
+				AB4315C42C4FD0C000A7A855 /* Common */,
 			);
 			productName = ShoppingApp;
 			productReference = AB2873892C4E94D900BA9BCE /* ShoppingApp.app */;
@@ -249,6 +253,7 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = AB2873802C4E94D900BA9BCE;
 			productRefGroup = AB28738A2C4E94D900BA9BCE /* Products */;
@@ -342,6 +347,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				AB28739B2C4E94DA00BA9BCE /* Base */,
+				AB4315C32C4FCFF800A7A855 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -354,6 +360,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -417,6 +424,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -645,6 +653,10 @@
 		AB43159D2C4FAE8A00A7A855 /* SignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SignIn;
+		};
+		AB4315C42C4FD0C000A7A855 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -11,6 +11,10 @@ import Foundation
 public protocol LocalizableProtocol {
     var stringValue: String { get }
     
+    func localized(in bundle: Bundle?) -> String
+    func localizedFormat(arguments: CVarArg..., in bundle: Bundle?) -> String
+    func localizedPlural(argument: CVarArg, in bundle: Bundle?) -> String
+    
     func localized() -> String
     func localizedFormat(arguments: CVarArg...) -> String
     func localizedPlural(argument: CVarArg) -> String
@@ -18,15 +22,15 @@ public protocol LocalizableProtocol {
 
 // MARK: - Functions
 public extension LocalizableProtocol {
-    func localized() -> String {
-        return stringValue.localized()
+    func localized(in bundle: Bundle? = AppResources.bundle) -> String {
+        return self.stringValue.localized(in: bundle)
     }
-    
-    func localizedFormat(arguments: CVarArg...) -> String {
-        return stringValue.localizedFormat(arguments: arguments)
+
+    func localizedFormat(arguments: CVarArg..., in bundle: Bundle? = AppResources.bundle) -> String {
+        return self.stringValue.localizedFormat(arguments: arguments, in: bundle)
     }
-    
-    func localizedPlural(argument: CVarArg) -> String {
-        return stringValue.localizedPlural(argument: argument)
+
+    func localizedPlural(argument: CVarArg, in bundle: Bundle? = AppResources.bundle) -> String {
+        return self.stringValue.localizedPlural(argument: argument, in: bundle)
     }
 }

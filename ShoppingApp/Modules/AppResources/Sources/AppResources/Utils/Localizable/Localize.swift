@@ -21,7 +21,6 @@ public let BaseBundle = "Base"
 /// Name for language change notification
 public let LanguageChangeNotification = "LanguageChangeNotification"
 
-
 // MARK: - Language Setting Functions
 open class Localize: NSObject {
     /**
@@ -36,7 +35,7 @@ open class Localize: NSObject {
         }
         return availableLanguages
     }
-    
+
     /**
      Current language
      - Returns: The current language. String.
@@ -47,7 +46,7 @@ open class Localize: NSObject {
         }
         return defaultLanguage()
     }
-    
+
     /**
      Change the current language
      - Parameter language: Desired language.
@@ -63,7 +62,7 @@ open class Localize: NSObject {
             )
         }
     }
-    
+
     /**
      Default language
      - Returns: The app's default language. String.
@@ -81,14 +80,14 @@ open class Localize: NSObject {
         }
         return defaultLanguage
     }
-    
+
     /**
      Resets the current language to the default
      */
     open class func resetCurrentLanguageToDefault() {
         setCurrentLanguage(self.defaultLanguage())
     }
-    
+
     /**
      Get the current language's display name for a language.
      - Parameter language: Desired language.
@@ -102,4 +101,5 @@ open class Localize: NSObject {
         return String()
     }
 }
+
 

@@ -24,6 +24,9 @@ let package = Package(
             dependencies: [
                 "Common",
                 "AppResources"
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

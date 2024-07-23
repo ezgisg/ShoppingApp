@@ -17,16 +17,16 @@ public protocol LocalizableProtocol {
 }
 
 // MARK: - Functions
-extension LocalizableProtocol {
-    public func localized() -> String {
+public extension LocalizableProtocol {
+    func localized() -> String {
         return stringValue.localized()
     }
     
-    public func localizedFormat(arguments: CVarArg...) -> String {
+    func localizedFormat(arguments: CVarArg...) -> String {
         return stringValue.localizedFormat(arguments: arguments)
     }
     
-    public func localizedPlural(argument: CVarArg) -> String {
+    func localizedPlural(argument: CVarArg) -> String {
         return stringValue.localizedPlural(argument: argument)
     }
 }

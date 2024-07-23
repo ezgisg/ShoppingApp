@@ -27,7 +27,6 @@ public enum LocalizableKey: String, LocalizableProtocol {
     case haveAccount
     
    
-   
     public enum SignInOnboarding: String, LocalizableProtocol {
         // MARK: - RawValue
         public var stringValue: String {

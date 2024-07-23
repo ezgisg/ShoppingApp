@@ -5,12 +5,13 @@
 //  Created by Ezgi Sümer Günaydın on 22.07.2024.
 //
 
-import UIKit
+import AppResources
 import Firebase
 import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
+import UIKit
 
 //MARK: - SignInViewController
 public class SignInViewController: UIViewController {
@@ -21,10 +22,22 @@ public class SignInViewController: UIViewController {
     
     @IBOutlet weak var signInWithGoogle: GIDSignInButton!
     
+
+    
+    @IBOutlet weak var onboardingTitleLabel: UILabel!
+    @IBOutlet weak var onboardingMessageLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var forgetPasswordLabel: UILabel!
+    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var haveAccountLabel: UILabel!
+    @IBOutlet weak var registerLabel: UILabel!
+    
     //MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleAuth()
+        setupTexts()
     }
 
     // MARK: - Module init
@@ -40,7 +53,7 @@ public class SignInViewController: UIViewController {
     
 }
 
-//MARK: - Setups
+//MARK: - Setups Sign In
 extension SignInViewController {
     
     ///Google sign-in
@@ -84,6 +97,24 @@ extension SignInViewController {
             }
             //TODO: Alert
         }
+    }
+    
+}
+
+
+//MARK: - Setup UI
+private extension SignInViewController {
+    func setupTexts() {
+        onboardingTitleLabel.text = L10n.SignInOnboarding.title.localized()
+        onboardingMessageLabel.text = L10n.SignInOnboarding.message.localized()
+        emailLabel.text = L10n.email.localized()
+        passwordLabel.text = L10n.password.localized()
+        forgetPasswordLabel.text = L10n.forgetPassword.localized()
+        haveAccountLabel.text = L10n.haveAccount.localized()
+        registerLabel.text = L10n.register.localized()
+        
+        signInButton.setTitle(L10n.signIn.localized(), for: .normal)
+        
     }
     
 }

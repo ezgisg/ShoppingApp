@@ -1,274 +1,53 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "addToFavorite" : {
+    "email" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to Favorites"
+            "value" : "E-mail"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorilere Ekle"
+            "value" : "E-posta"
           }
         }
       }
     },
-    "chose" : {
+    "forgetPassword" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "chose"
+            "value" : "Forget password?"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seç"
+            "value" : "Şifremi Unuttum?"
           }
         }
       }
     },
-    "choseSearchType" : {
+    "haveAccount" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chose Search Type..."
+            "value" : "Don't have an account?"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arama tipini seçiniz..."
-          }
-        }
-      }
-    },
-    "favorites" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favorites"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favoriler"
-          }
-        }
-      }
-    },
-    "inTheaters" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Theaters"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vizyondakiler"
-          }
-        }
-      }
-    },
-    "letsAdd" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let's add!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hadi ekle!"
-          }
-        }
-      }
-    },
-    "next" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İleri"
-          }
-        }
-      }
-    },
-    "noConnection" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Connection"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bağlantı Yok"
-          }
-        }
-      }
-    },
-    "noConnectionMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please check your internet connection"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lütfen internet bağlantınızı kontrol edin"
-          }
-        }
-      }
-    },
-    "noMoviesToList" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No movies to list"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Görüntülenecek film yok!"
-          }
-        }
-      }
-    },
-    "noResult" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No result"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sonuç yok"
-          }
-        }
-      }
-    },
-    "onboardingFirstMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thousands of movies is waiting for you!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Binlerce film keşfetmen için seni bekliyor!"
-          }
-        }
-      }
-    },
-    "onboardingSecondMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let's Discover!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keşfe başla!"
-          }
-        }
-      }
-    },
-    "popular" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Popular"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Popüler Filmler"
-          }
-        }
-      }
-    },
-    "posters" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posters"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afişler"
-          }
-        }
-      }
-    },
-    "rating" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rating"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Puan"
+            "value" : "Hesabın yok mu?"
           }
         }
       }
@@ -279,200 +58,64 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dasdas"
+            "value" : "Register"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vizyona Girecek Filmler"
+            "state" : "translated",
+            "value" : "Kaydol"
           }
         }
       }
     },
-    "removeFromFavorite" : {
+    "signIn" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remove From Favorites"
+            "value" : "Sign In"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorilerden Çıkar"
+            "value" : "Giriş Yap"
           }
         }
       }
     },
-    "searchInput.all" : {
+    "SignInOnboarding.message" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search in all..."
+            "value" : "Sign in with your data that you have entered during your registration"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tüm fimler içinde ara..."
+            "value" : "Kayıtlı bilgilerinizi girerek giriş yapın."
           }
         }
       }
     },
-    "searchInput.search" : {
+    "SignInOnboarding.title" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search..."
+            "value" : "Let's sign you in."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ara..."
-          }
-        }
-      }
-    },
-    "searchInput.theater" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search in theaters..."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vizyondakiler içinde ara..."
-          }
-        }
-      }
-    },
-    "seeMore" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "See more.."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daha fazlasını gör.."
-          }
-        }
-      }
-    },
-    "similarMovies" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Similar Movies"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benzer Filmler"
-          }
-        }
-      }
-    },
-    "skip" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skip"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geç"
-          }
-        }
-      }
-    },
-    "specialLists" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Special Lists"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Özel Listeler"
-          }
-        }
-      }
-    },
-    "start" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Başla"
-          }
-        }
-      }
-    },
-    "topRated" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top Rated"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En Yüksek Puanlılar"
-          }
-        }
-      }
-    },
-    "upcoming" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upcoming"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vizyona Girecekler"
+            "value" : "Hadi Başla!"
           }
         }
       }

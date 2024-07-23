@@ -10,8 +10,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="SignIn">
             <connections>
+                <outlet property="emailLabel" destination="IEY-io-6Pd" id="fEi-Lo-ytL"/>
                 <outlet property="emailTextField" destination="gEP-vR-0nG" id="oTw-hC-zjb"/>
+                <outlet property="forgetPasswordLabel" destination="aNS-AO-gzZ" id="ieC-3w-hlI"/>
+                <outlet property="haveAccountLabel" destination="jq7-gQ-kfE" id="I3O-KL-XqP"/>
+                <outlet property="onboardingMessageLabel" destination="X63-dx-tlC" id="RXa-1m-rqa"/>
+                <outlet property="onboardingTitleLabel" destination="Tsq-b2-L5a" id="3fI-tN-m7f"/>
+                <outlet property="passwordLabel" destination="NSF-h5-vk8" id="MoD-Kj-p5l"/>
                 <outlet property="passwordTextField" destination="Xwj-6A-neu" id="bUw-ON-3yQ"/>
+                <outlet property="registerLabel" destination="Wb2-z9-oNf" id="6he-Sz-CfN"/>
+                <outlet property="signInButton" destination="Llo-bC-uyf" id="AQW-Go-I02"/>
                 <outlet property="signInWithGoogle" destination="Ojk-GE-vj4" id="eIw-2M-e50"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

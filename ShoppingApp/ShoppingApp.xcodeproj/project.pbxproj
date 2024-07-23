@@ -17,7 +17,6 @@
 		AB2873B12C4E94DA00BA9BCE /* ShoppingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */; };
 		AB2873B32C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */; };
 		AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */; };
-		AB35BA192C4F977F00129979 /* Components in Resources */ = {isa = PBXBuildFile; fileRef = AB35BA182C4F977F00129979 /* Components */; };
 		AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AB43159D2C4FAE8A00A7A855 /* SignIn */; };
 		AB4315B82C4FB3D900A7A855 /* AppResources in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B72C4FB3D900A7A855 /* AppResources */; };
 		AB4315BA2C4FB3E300A7A855 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B92C4FB3E300A7A855 /* Base */; };
@@ -57,7 +56,6 @@
 		AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITests.swift; sourceTree = "<group>"; };
 		AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AB35BA182C4F977F00129979 /* Components */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Components; sourceTree = "<group>"; };
 		AB4315B72C4FB3D900A7A855 /* AppResources */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppResources; sourceTree = "<group>"; };
 		AB4315B92C4FB3E300A7A855 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Base; sourceTree = "<group>"; };
 		AB4315BB2C4FB3EE00A7A855 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 				AB4315BB2C4FB3EE00A7A855 /* Common */,
 				AB4315B92C4FB3E300A7A855 /* Base */,
 				AB4315B72C4FB3D900A7A855 /* AppResources */,
-				AB35BA182C4F977F00129979 /* Components */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -277,7 +274,6 @@
 				AB4315BC2C4FB3EE00A7A855 /* Common in Resources */,
 				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,
 				AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */,
-				AB35BA192C4F977F00129979 /* Components in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

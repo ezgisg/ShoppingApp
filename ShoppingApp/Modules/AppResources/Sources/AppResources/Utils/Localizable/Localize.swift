@@ -10,13 +10,13 @@ import Foundation
 import Foundation
 
 ///  current language key
-let CurrentLanguageKey = "CurrentLanguageKey"
+public let CurrentLanguageKey = "CurrentLanguageKey"
 
 /// Default language. English. If English is unavailable defaults to base localization.
-let DefaultLanguage = "tr"
+public let DefaultLanguage = "tr"
 
 /// Base bundle as fallback.
-let BaseBundle = "Base"
+public let BaseBundle = "Base"
 
 /// Name for language change notification
 public let LanguageChangeNotification = "LanguageChangeNotification"

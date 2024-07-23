@@ -7,7 +7,7 @@
 
 import UIKit
 import Combine
-
+/*
 // MARK: - ThemeSwitchButton
 final public class ThemeSwitchButton: UIView, NibOwnerLoadable {
     // MARK: - Module
@@ -100,3 +100,4 @@ private extension ThemeSwitchButton {
         }
     }
 }
+*/

@@ -109,6 +109,7 @@ private extension SignInViewController {
         setupTexts()
         setupImages()
         setupPasswordToggle()
+        setupColors()
     }
     
     func setupTexts() {
@@ -137,4 +138,20 @@ private extension SignInViewController {
             passwordTextField.isSecureTextEntry.toggle()
             passwordHideShowImage.image = passwordTextField.isSecureTextEntry ? .passwordShowImage : .passwordHideImage
         }
+    
+    func setupColors() {
+        onboardingTitleLabel.textColor = .textColor
+        onboardingMessageLabel.textColor = .textColor
+        emailLabel.textColor = .lightTextColor
+        emailTextField.textColor = .textColor
+        passwordLabel.textColor = .lightTextColor
+        passwordTextField.textColor = .textColor
+        forgetPasswordLabel.textColor = .textColor
+        signInButton.backgroundColor = .buttonColor
+        signInButton.setTitleColor(.buttonTextColor, for: .normal)
+        signInButton.layer.cornerRadius = 5
+        haveAccountLabel.textColor = .lightTextColor
+        registerLabel.textColor = .textColor
+        view.backgroundColor = .backgroundColor
+    }
 }

@@ -120,7 +120,7 @@
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="tinted" title="Sign In">
                         <backgroundConfiguration key="background">
-                            <color key="backgroundColor" red="0.023620393789999999" green="0.016313969469999998" blue="0.1686000631" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </backgroundConfiguration>
                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="baseBackgroundColor" red="0.023620393793917567" green="0.016313969470319659" blue="0.16860006313131315" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

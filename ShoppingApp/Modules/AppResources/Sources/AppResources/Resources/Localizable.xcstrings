@@ -34,23 +34,6 @@
           }
         }
       }
-    },
-    "generic.register" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Register-"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydol-"
-          }
-        }
-      }
     }
   },
   "version" : "1.0"

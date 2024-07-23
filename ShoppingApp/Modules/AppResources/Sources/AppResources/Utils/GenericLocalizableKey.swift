@@ -22,8 +22,7 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     case ok = "generic.okay"
     /// Vazgeç
     case abort = "generic.abort"
-    /// Kaydol
-    case register = "generic.register"
+ 
 }
 
 // MARK: - Functions

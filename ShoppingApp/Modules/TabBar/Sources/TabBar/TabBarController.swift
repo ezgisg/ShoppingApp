@@ -14,24 +14,26 @@ import UIKit
 public class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     let circleInsideImage = UIImageView(image: UIImage.tabbarCircle)
+    let tabBarItemCount: CGFloat = 5
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
         self.selectedIndex = 1
         setupTabbar()
-        setupMiddleButton()
+
     }
 }
-extension TabBarController {
 
+//MARK: Configuration
+private extension TabBarController {
     //TODO: Oluşturulduğunde gerçek ekranlara atanacak
+    ///Determining tabbar view controllers
     final func setupTabbar() {
         
         let homeTitle = L10nGeneric.home.localized(in: AppResources.bundle)
         let homeVC = SignInViewController()
         let homeNavigationController = getStyledNavigationController(with: homeVC, title: homeTitle, image: .systemHouseImage)
-        
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
         let categoriesVC = SignInViewController()
@@ -52,13 +54,17 @@ extension TabBarController {
         
         tabBar.items?[2].isEnabled = false
         customizeTabBarAppearance()
+        setupMiddleButton()
     }
-}
-
-extension TabBarController {
-    func setupMiddleButton() {
+    
+    final func setupMiddleButton() {
         
-        let middleButton = UIButton(frame: CGRect(x: (self.view.bounds.width / 2) - 35, y: -20, width: 70, height: 70))
+        let middleButtonOffset: CGFloat = 20
+        let tabBarHeight = self.tabBar.frame.size.height
+        let tabBarWidth = self.tabBar.frame.size.width
+        let middleButtonWidth = min((tabBarWidth / tabBarItemCount), (tabBarHeight + middleButtonOffset))
+     
+        let middleButton = UIButton(frame: CGRect(x: (self.view.bounds.width / 2) - (middleButtonWidth / 2), y: -middleButtonOffset, width: middleButtonWidth, height: middleButtonWidth))
 
         middleButton.setBackgroundImage(UIImage.systemCircleImage, for: .normal)
         middleButton.tintColor = .middleButtonColor
@@ -66,7 +72,8 @@ extension TabBarController {
         middleButton.layer.shadowOpacity = 0.1
         middleButton.layer.shadowOffset = CGSize(width: 4, height: 4)
         
-        circleInsideImage.frame = CGRect(x: 20, y: 20, width: 30, height: 30)
+        let circleInsideImageWidth = middleButtonWidth - (middleButtonOffset * 2 )
+        circleInsideImage.frame = CGRect(x: middleButtonOffset, y: middleButtonOffset, width: circleInsideImageWidth, height: circleInsideImageWidth)
         middleButton.addSubview(circleInsideImage)
 
         self.tabBar.addSubview(middleButton)
@@ -74,41 +81,20 @@ extension TabBarController {
 
         self.view.layoutIfNeeded()
     }
-
-    @objc func menuButtonAction(sender: UIButton) {
+    
+    @objc final func menuButtonAction(sender: UIButton) {
         self.selectedIndex = 2
         setSelected(isSelected: true)
-        }
-        
-        func setSelected(isSelected: Bool) {
-            if isSelected {
-                circleInsideImage.image = .tabbarCircleSelected
-            } else {
-                circleInsideImage.image = .tabbarCircle
-            }
-        }
-        
+    }
     
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if self.selectedIndex == 2 {
-            setSelected(isSelected: true)
+    final func setSelected(isSelected: Bool) {
+        if isSelected {
+            circleInsideImage.image = .tabbarCircleSelected
         } else {
-            setSelected(isSelected: false)
+            circleInsideImage.image = .tabbarCircle
         }
     }
 
-    final func getStyledNavigationController(with viewController: UIViewController, title: String, image: UIImage?, isNeededRendering: Bool? = false) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: viewController)
-        var resizedImage = image
-        if let image,
-           let isNeededRendering,
-           isNeededRendering {
-            resizedImage = UIImage.resizeImage(image: image, targetSize:  CGSize(width: 35, height: 35))?.withRenderingMode(.alwaysOriginal)
-        }
-        navigationController.tabBarItem = UITabBarItem(title: title, image: resizedImage, tag: 0)
-        return navigationController
-    }
-    
     final func customizeTabBarAppearance() {
         let tabBarAppearance = UITabBarAppearance()
         let tabBarItemAppearance = UITabBarItemAppearance()
@@ -123,6 +109,32 @@ extension TabBarController {
         
         tabBar.standardAppearance = tabBarAppearance
         tabBar.scrollEdgeAppearance = tabBarAppearance
+    }
+}
+
+//MARK: TabBarController didSelect control
+public extension TabBarController {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if self.selectedIndex == 2 {
+            setSelected(isSelected: true)
+        } else {
+            setSelected(isSelected: false)
+        }
+    }
+}
+
+//MARK: Helpers
+extension TabBarController {
+    final func getStyledNavigationController(with viewController: UIViewController, title: String, image: UIImage?, isNeededRendering: Bool? = false) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        var resizedImage = image
+        if let image,
+           let isNeededRendering,
+           isNeededRendering {
+            resizedImage = UIImage.resizeImage(image: image, targetSize:  CGSize(width: 35, height: 35))?.withRenderingMode(.alwaysOriginal)
+        }
+        navigationController.tabBarItem = UITabBarItem(title: title, image: resizedImage, tag: 0)
+        return navigationController
     }
     
 }

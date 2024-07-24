@@ -7,6 +7,8 @@
 
 import UIKit
 import SignIn
+import TabBar
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,8 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
 //        let splashVC = SplashViewController()
-        let signInVC = SignInViewController()
-        let navigavtionController = UINavigationController(rootViewController: signInVC)
+//        let signInVC = SignInViewController()
+        let tabBar = TabBarController()
+        let navigavtionController = UINavigationController(rootViewController: tabBar)
         window?.rootViewController = navigavtionController
     }
 

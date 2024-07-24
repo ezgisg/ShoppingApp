@@ -21,4 +21,12 @@ public extension UIImage {
         return UIImage(named: "passwordShow", in: Bundle.module, compatibleWith: .current)
     }
     
+    static var tabbarCircle: UIImage? {
+        return UIImage(named: "tabbarCircle", in: Bundle.module, compatibleWith: .current)
+    }
+    
+    static var tabbarCircleSelected: UIImage? {
+        return UIImage(named: "tabbarCircleSelected", in: Bundle.module, compatibleWith: .current)
+    }
+    
 }

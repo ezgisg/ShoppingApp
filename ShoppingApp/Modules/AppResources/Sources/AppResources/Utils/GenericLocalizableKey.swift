@@ -22,6 +22,14 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     case ok = "generic.okay"
     /// Vazgeç
     case abort = "generic.abort"
+    /// Anasayfa
+    case home = "home"
+    ///  Kategoriler
+    case categories = "categories"
+    /// Sepetim
+    case basket = "basket"
+    ///  Favorilerim
+    case favorites = "favorites"
  
 }
 

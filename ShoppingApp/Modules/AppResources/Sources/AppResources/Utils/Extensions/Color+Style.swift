@@ -36,5 +36,17 @@ public extension UIColor {
     static var warningTextColor: UIColor {
         UIColor(named: "warningTextColor", in: Bundle.module, compatibleWith: .current) ?? .black
     }
+    
+    static var tabbarBackgroundColor: UIColor {
+        UIColor(named: "tabbarBackgroundColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
+    
+    static var tabbarSelectedColor: UIColor {
+        UIColor(named: "tabbarSelectedColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
+    
+    static var middleButtonColor: UIColor {
+        UIColor(named: "middleButtonColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
 }
 

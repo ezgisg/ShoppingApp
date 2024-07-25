@@ -12,10 +12,15 @@ import UIKit
 // MARK: - Module init
 public class SplashViewController: UIViewController {
 
-    @IBOutlet var mainView: UIView!
-    @IBOutlet weak var animationContainerView: UIView!
+    // MARK: - Outlets
+    @IBOutlet private var mainView: UIView!
+    @IBOutlet private weak var animationContainerView: UIView!
+    @IBOutlet private weak var appNameLabel: UILabel!
+    
+    // MARK: - Private Variables
     private var animationView: LottieAnimationView?
-    @IBOutlet weak var appNameLabel: UILabel!
+    
+    // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -31,17 +36,18 @@ public class SplashViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    
-    private func setupUI() {
+//MARK: Functions that manage the splash flow
+private extension SplashViewController {
+    final func setupUI() {
         appNameLabel.text = L10nGeneric.appName.localized()
-        
-        appNameLabel.textColor = .black
+        appNameLabel.textColor = .buttonColor
         mainView.backgroundColor = .white
         animationContainerView.backgroundColor = .clear
     }
    
-    private func setupAnimation() {
+    final func setupAnimation() {
         guard let animation = LottieAnimation.named("splashLottie", bundle: AppResources.bundle) else {
             //TODO: Label'ı gösterelim
             return
@@ -55,7 +61,7 @@ public class SplashViewController: UIViewController {
         }
     }
 
-    private func startAnimation() {
+    final func startAnimation() {
         appNameLabel.isHidden = true
         animationView?.play { [weak self] finished in
             guard let self else { return }
@@ -66,70 +72,37 @@ public class SplashViewController: UIViewController {
 
     }
     
-    private func hideAnimation() {
+    final func hideAnimation() {
         animationContainerView.fadeOut(duration: 1) { [weak self] _ in
             guard let self else { return }
-            appNameLabel.isHidden = false
             animationView?.removeFromSuperview()
-            
-            let imageView = UIImageView(image: UIImage.splashImage)
-            imageView.contentMode = .scaleAspectFit
-            imageView.frame = animationContainerView.bounds
-            animationContainerView.addSubview(imageView)
-            
-            appNameLabel.fadeOut(duration: 0)
-            appNameLabel.fadeIn()
-            animationContainerView.fadeIn(duration: 1) {  [weak self] _ in
-                guard let self else { return }
-                hideImage()
-            }
-            
-            
+            showSplashImage()
         }
-        
-
     }
     
-    private func hideImage() {
+    final func showSplashImage() {
+        appNameLabel.isHidden = false
+        appNameLabel.fadeOut(duration: 0)
+        appNameLabel.fadeIn()
+        let imageView = UIImageView(image: UIImage.splashImage)
+        imageView.contentMode = .scaleAspectFit
+        imageView.frame = animationContainerView.bounds
+        animationContainerView.addSubview(imageView)
+        animationContainerView.fadeIn(duration: 1) {  [weak self] _ in
+            guard let self else { return }
+            hideSplashImage()
+        }
+    }
+    
+    final func hideSplashImage() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
             guard let self else { return }
             appNameLabel.fadeOut()
             animationContainerView.fadeOut {  [weak self] _ in
                 guard let self else { return }
                 animationContainerView.removeFromSuperview()
-                mainView.fadeIn()
-                mainView.backgroundColor = .buttonColor
-                appNameLabel.textColor = .buttonTextColor
                 appNameLabel.fadeIn()
             }
         }
-    }
-
-}
-
-
-public extension UIView {
-    func fadeIn(
-        duration: TimeInterval = 1,
-        completion: ((Bool) -> Void)? = nil
-    ) {
-        if isHidden {
-            isHidden = false
-        }
-        UIView.animate(withDuration: duration, animations: {
-            self.alpha = 1
-        }, completion: completion)
-    }
-
-    func fadeOut(
-        duration: TimeInterval = 1,
-        completion: ((Bool) -> Void)? = nil
-    ) {
-        if isHidden {
-            isHidden = false
-        }
-        UIView.animate(withDuration: duration, animations: {
-            self.alpha = 0
-        }, completion: completion)
     }
 }

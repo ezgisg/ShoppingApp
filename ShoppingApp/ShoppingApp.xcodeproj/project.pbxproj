@@ -22,6 +22,7 @@
 		AB4315BC2C4FB3EE00A7A855 /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BB2C4FB3EE00A7A855 /* Common */; };
 		AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BD2C4FB3FE00A7A855 /* SignIn */; };
 		AB4315C52C4FD0C000A7A855 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB4315C42C4FD0C000A7A855 /* Common */; };
+		AB4D114C2C52728C0074CFCC /* Onboarding in Resources */ = {isa = PBXBuildFile; fileRef = AB4D114B2C52728C0074CFCC /* Onboarding */; };
 		AB950A222C50DAA00045EEDC /* TabBar in Resources */ = {isa = PBXBuildFile; fileRef = AB950A212C50DAA00045EEDC /* TabBar */; };
 		AB950A242C50E7090045EEDC /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = AB950A232C50E7090045EEDC /* TabBar */; };
 		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
@@ -64,6 +65,7 @@
 		AB4315BB2C4FB3EE00A7A855 /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		AB4315BD2C4FB3FE00A7A855 /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SignIn; sourceTree = "<group>"; };
 		AB4315C32C4FCFF800A7A855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		AB4D114B2C52728C0074CFCC /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Onboarding; sourceTree = "<group>"; };
 		AB950A212C50DAA00045EEDC /* TabBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TabBar; sourceTree = "<group>"; };
 		ABA5629A2C5229A700C7B1A9 /* Splash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Splash; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,6 +155,7 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AB4D114B2C52728C0074CFCC /* Onboarding */,
 				ABA5629A2C5229A700C7B1A9 /* Splash */,
 				AB950A212C50DAA00045EEDC /* TabBar */,
 				AB4315BD2C4FB3FE00A7A855 /* SignIn */,
@@ -283,6 +286,7 @@
 			files = (
 				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
 				ABA5629B2C5229A700C7B1A9 /* Splash in Resources */,
+				AB4D114C2C52728C0074CFCC /* Onboarding in Resources */,
 				AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */,
 				AB950A222C50DAA00045EEDC /* TabBar in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,

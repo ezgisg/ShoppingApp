@@ -7,6 +7,7 @@
 
 import AppResources
 import Lottie
+import Onboarding
 import UIKit
 
 // MARK: - Module init
@@ -105,8 +106,28 @@ private extension SplashViewController {
             animationContainerView.fadeOut {  [weak self] _ in
                 guard let self else { return }
                 animationContainerView.removeFromSuperview()
-                appNameLabel.fadeIn()
+                appNameLabel.fadeIn() {  [weak self] _ in
+                    guard let self else { return }
+                    //TODO: Eğer onboarding geçildi ise, bir daha gösterilmeyecek sign in e navigate olunacak
+                    navigateToOnboarding()
+                }
             }
         }
     }
+    
+    final func navigateToOnboarding() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
+            guard let self else { return }
+            let onboardingVC = OnboardingViewController()
+            
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.type = .fade
+            transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            navigationController?.view.layer.add(transition, forKey: kCATransition)
+            navigationController?.setViewControllers([onboardingVC], animated: false)
+        }
+    }
 }
+

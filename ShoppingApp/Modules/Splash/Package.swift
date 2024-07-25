@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../AppResources"),
+        .package(path: "../Onboarding"),
         .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMajor(from: "4.5.0")),
     ],
     targets: [
@@ -24,6 +25,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Lottie", package: "lottie-spm"),
                 "AppResources",
+                "Onboarding"
             ]),
         .testTarget(
             name: "SplashTests",

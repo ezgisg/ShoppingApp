@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Splash
 import SignIn
 import TabBar
 
@@ -23,10 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-//        let splashVC = SplashViewController()
+        let splashVC = SplashViewController()
 //        let signInVC = SignInViewController()
         let tabBar = TabBarController()
-        let navigavtionController = UINavigationController(rootViewController: tabBar)
+        let navigavtionController = UINavigationController(rootViewController: splashVC)
         window?.rootViewController = navigavtionController
     }
 

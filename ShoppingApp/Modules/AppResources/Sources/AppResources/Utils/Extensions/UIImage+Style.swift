@@ -29,4 +29,8 @@ public extension UIImage {
         return UIImage(named: "tabbarCircleSelected", in: Bundle.module, compatibleWith: .current)
     }
     
+    static var splashImage: UIImage? {
+        return UIImage(named: "splashImage", in: Bundle.module, compatibleWith: .current)
+    }
+    
 }

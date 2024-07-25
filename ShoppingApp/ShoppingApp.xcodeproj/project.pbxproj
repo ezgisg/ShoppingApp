@@ -24,6 +24,8 @@
 		AB4315C52C4FD0C000A7A855 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB4315C42C4FD0C000A7A855 /* Common */; };
 		AB950A222C50DAA00045EEDC /* TabBar in Resources */ = {isa = PBXBuildFile; fileRef = AB950A212C50DAA00045EEDC /* TabBar */; };
 		AB950A242C50E7090045EEDC /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = AB950A232C50E7090045EEDC /* TabBar */; };
+		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
+		ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = ABA5629C2C52348800C7B1A9 /* Splash */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,7 @@
 		AB4315BD2C4FB3FE00A7A855 /* SignIn */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SignIn; sourceTree = "<group>"; };
 		AB4315C32C4FCFF800A7A855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		AB950A212C50DAA00045EEDC /* TabBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TabBar; sourceTree = "<group>"; };
+		ABA5629A2C5229A700C7B1A9 /* Splash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Splash; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */,
+				ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */,
 				AB4315C52C4FD0C000A7A855 /* Common in Frameworks */,
 				AB950A242C50E7090045EEDC /* TabBar in Frameworks */,
 			);
@@ -149,6 +153,7 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABA5629A2C5229A700C7B1A9 /* Splash */,
 				AB950A212C50DAA00045EEDC /* TabBar */,
 				AB4315BD2C4FB3FE00A7A855 /* SignIn */,
 				AB4315BB2C4FB3EE00A7A855 /* Common */,
@@ -185,6 +190,7 @@
 				AB43159D2C4FAE8A00A7A855 /* SignIn */,
 				AB4315C42C4FD0C000A7A855 /* Common */,
 				AB950A232C50E7090045EEDC /* TabBar */,
+				ABA5629C2C52348800C7B1A9 /* Splash */,
 			);
 			productName = ShoppingApp;
 			productReference = AB2873892C4E94D900BA9BCE /* ShoppingApp.app */;
@@ -276,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
+				ABA5629B2C5229A700C7B1A9 /* Splash in Resources */,
 				AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */,
 				AB950A222C50DAA00045EEDC /* TabBar in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,
@@ -664,6 +671,10 @@
 		AB950A232C50E7090045EEDC /* TabBar */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TabBar;
+		};
+		ABA5629C2C52348800C7B1A9 /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Splash;
 		};
 /* End XCSwiftPackageProductDependency section */
 

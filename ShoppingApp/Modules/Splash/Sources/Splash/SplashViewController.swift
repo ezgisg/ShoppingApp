@@ -42,7 +42,7 @@ public class SplashViewController: UIViewController {
 private extension SplashViewController {
     final func setupUI() {
         appNameLabel.text = L10nGeneric.appName.localized()
-        appNameLabel.textColor = .buttonColor
+        appNameLabel.textColor = .lightButtonColor
         mainView.backgroundColor = .white
         animationContainerView.backgroundColor = .clear
     }
@@ -84,10 +84,14 @@ private extension SplashViewController {
         appNameLabel.isHidden = false
         appNameLabel.fadeOut(duration: 0)
         appNameLabel.fadeIn()
+        let containerImageView = UIImageView(image: UIImage.systemCircleImage)
+        containerImageView.frame = animationContainerView.bounds
+        containerImageView.tintColor = .lightButtonColor
+        animationContainerView.addSubview(containerImageView)
         let imageView = UIImageView(image: UIImage.splashImage)
         imageView.contentMode = .scaleAspectFit
-        imageView.frame = animationContainerView.bounds
-        animationContainerView.addSubview(imageView)
+        imageView.frame = containerImageView.bounds
+        containerImageView.addSubview(imageView)
         animationContainerView.fadeIn(duration: 1) {  [weak self] _ in
             guard let self else { return }
             hideSplashImage()

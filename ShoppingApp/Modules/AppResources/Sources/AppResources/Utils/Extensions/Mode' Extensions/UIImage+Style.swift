@@ -33,4 +33,8 @@ public extension UIImage {
         return UIImage(named: "splashImage", in: Bundle.module, compatibleWith: .current)
     }
     
+    static var systemCircleImage: UIImage? {
+        return UIImage(systemName: "circle.fill")?.withRenderingMode(.alwaysTemplate)
+    }
+    
 }

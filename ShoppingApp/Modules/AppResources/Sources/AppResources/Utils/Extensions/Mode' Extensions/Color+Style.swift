@@ -17,6 +17,11 @@ public extension UIColor {
         UIColor(named: "buttonColor", in: Bundle.module, compatibleWith: .current)
     }
     
+    static var lightButtonColor: UIColor? {
+        UIColor(named: "lightButtonColor", in: Bundle.module, compatibleWith: .current)
+    }
+    
+    
     static var textColor: UIColor {
         UIColor(named: "textColor", in: Bundle.module, compatibleWith: .current) ?? .black
     }

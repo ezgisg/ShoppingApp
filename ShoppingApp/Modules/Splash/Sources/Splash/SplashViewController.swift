@@ -34,7 +34,8 @@ public class SplashViewController: UIViewController {
 
     
     private func setupUI() {
-        appNameLabel.text = "Shopping App"
+        appNameLabel.text = L10nGeneric.appName.localized()
+        
         appNameLabel.textColor = .black
         mainView.backgroundColor = .white
         animationContainerView.backgroundColor = .clear
@@ -56,8 +57,8 @@ public class SplashViewController: UIViewController {
 
     private func startAnimation() {
         appNameLabel.isHidden = true
-        animationView?.play { [weak self] (finished) in
-            guard let self = self else { return }
+        animationView?.play { [weak self] finished in
+            guard let self else { return }
             if finished {
                 self.hideAnimation()
             }
@@ -66,20 +67,42 @@ public class SplashViewController: UIViewController {
     }
     
     private func hideAnimation() {
-        animationContainerView.fadeOut(duration: 1) { _ in
-            self.appNameLabel.isHidden = false
-            self.animationView?.removeFromSuperview()
-      
+        animationContainerView.fadeOut(duration: 1) { [weak self] _ in
+            guard let self else { return }
+            appNameLabel.isHidden = false
+            animationView?.removeFromSuperview()
+            
             let imageView = UIImageView(image: UIImage.splashImage)
             imageView.contentMode = .scaleAspectFit
-            imageView.frame = self.animationContainerView.bounds
-            self.animationContainerView.addSubview(imageView)
-            self.animationContainerView.fadeIn()
-            self.appNameLabel.fadeIn()
+            imageView.frame = animationContainerView.bounds
+            animationContainerView.addSubview(imageView)
+            
+            appNameLabel.fadeOut(duration: 0)
+            appNameLabel.fadeIn()
+            animationContainerView.fadeIn(duration: 1) {  [weak self] _ in
+                guard let self else { return }
+                hideImage()
+            }
+            
+            
         }
         
 
-  
+    }
+    
+    private func hideImage() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
+            guard let self else { return }
+            appNameLabel.fadeOut()
+            animationContainerView.fadeOut {  [weak self] _ in
+                guard let self else { return }
+                animationContainerView.removeFromSuperview()
+                mainView.fadeIn()
+                mainView.backgroundColor = .buttonColor
+                appNameLabel.textColor = .buttonTextColor
+                appNameLabel.fadeIn()
+            }
+        }
     }
 
 }

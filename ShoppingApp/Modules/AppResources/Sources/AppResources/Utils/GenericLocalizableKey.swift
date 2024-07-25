@@ -23,13 +23,15 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     /// Vazgeç
     case abort = "generic.abort"
     /// Anasayfa
-    case home = "home"
+    case home
     ///  Kategoriler
-    case categories = "categories"
+    case categories
     /// Sepetim
-    case basket = "basket"
+    case basket
     ///  Favorilerim
-    case favorites = "favorites"
+    case favorites
+    /// App ismi
+    case appName
  
 }
 

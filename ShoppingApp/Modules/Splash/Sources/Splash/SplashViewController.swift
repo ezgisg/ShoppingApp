@@ -42,12 +42,12 @@ public class SplashViewController: UIViewController {
 //MARK: Functions that manage the splash flow
 private extension SplashViewController {
     final func setupUI() {
-        appNameLabel.text = L10nGeneric.appName.localized()
+        appNameLabel.text = L10nGeneric.appName.localized(in: AppResources.bundle)
         appNameLabel.textColor = .lightButtonColor
         mainView.backgroundColor = .white
         animationContainerView.backgroundColor = .clear
     }
-   
+
     final func setupAnimation() {
         guard let animation = LottieAnimation.named("splashLottie", bundle: AppResources.bundle) else {
             //TODO: Label'ı gösterelim
@@ -65,12 +65,11 @@ private extension SplashViewController {
     final func startAnimation() {
         appNameLabel.isHidden = true
         animationView?.play { [weak self] finished in
-            guard let self else { return }
-            if finished {
-                self.hideAnimation()
-            }
+            guard let self,
+                  finished else { return }
+//            hideAnimation()
+            navigateToOnboarding()
         }
-
     }
     
     final func hideAnimation() {

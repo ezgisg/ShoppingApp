@@ -23,9 +23,9 @@ public class OnboardingViewController: UIViewController {
     private var controllers = [UIViewController]()
     
     let pages: [(image: UIImage, title: String, description: String)] = [
-        (.loginImage ?? UIImage(), "Welcome to the app!", "1"),
-        (.splashImage ?? UIImage(), "Learn how to use the app!", "2"),
-        (.tabbarCircle ?? UIImage(), "Start using the app!", "3")
+        (.loginImage ?? UIImage(), L10nOnboarding.OnboardingTitleMessage.first.localized(), L10nOnboarding.OnboardingDetailMessage.first.localized()),
+        (.loginImage ?? UIImage(), L10nOnboarding.OnboardingTitleMessage.second.localized(), L10nOnboarding.OnboardingDetailMessage.second.localized()),
+        (.loginImage ?? UIImage(), L10nOnboarding.OnboardingTitleMessage.third.localized(), L10nOnboarding.OnboardingDetailMessage.third.localized()),
      ]
     
     
@@ -116,8 +116,8 @@ private extension OnboardingViewController {
         bottomView.isHidden = true
         view.backgroundColor = .backgroundColor
         
-        skipButtonLabel.text = "Skip"
-        nextButtonLabel.text = "Next"
+        skipButtonLabel.text = L10nOnboarding.skip.localized()
+        nextButtonLabel.text = L10nOnboarding.next.localized()
         
         let skipTapGesture = UITapGestureRecognizer(target: self, action: #selector(skipTapped))
         let nextTapGesture = UITapGestureRecognizer(target: self, action: #selector(nextTapped))

@@ -22,7 +22,11 @@ let package = Package(
             name: "Onboarding",
             dependencies: [
                 "AppResources"
-            ]),
+            ],
+            resources: [
+                .process("Resources")
+            ]
+        ),
         .testTarget(
             name: "OnboardingTests",
             dependencies: ["Onboarding"]),

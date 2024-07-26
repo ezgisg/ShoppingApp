@@ -6,3 +6,4 @@
 //
 
 import Foundation
+//TODO: navigate ler taşınabilir mi buraya?

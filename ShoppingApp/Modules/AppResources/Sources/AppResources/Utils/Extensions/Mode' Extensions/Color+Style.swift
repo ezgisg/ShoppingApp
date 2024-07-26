@@ -53,5 +53,9 @@ public extension UIColor {
     static var middleButtonColor: UIColor {
         UIColor(named: "middleButtonColor", in: Bundle.module, compatibleWith: .current) ?? .black
     }
+    
+    static var lightBackgroundColor: UIColor {
+        UIColor(named: "lightBackgroundColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
 }
 

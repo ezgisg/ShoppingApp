@@ -37,4 +37,16 @@ public extension UIImage {
         return UIImage(systemName: "circle.fill")?.withRenderingMode(.alwaysTemplate)
     }
     
+    static var welcomeImage: UIImage {
+        return UIImage(named: "welcomeImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var browseImage: UIImage {
+        return UIImage(named: "browseImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var checkoutImage: UIImage {
+        return UIImage(named: "checkoutImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

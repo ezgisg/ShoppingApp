@@ -6,3 +6,32 @@
 //
 
 import Foundation
+import SignIn
+
+//TODO: navigate leri buraya alma?
+// MARK: - Enum
+public enum OnboardingRoutes {
+    case signIn
+    case home
+}
+
+// MARK: - OnboardingViewModelProtocol
+public protocol OnboardingViewModelProtocol: AnyObject {
+
+}
+
+// MARK: - OnboardingViewModelDelegate
+public protocol OnboardingViewModelDelegate: AnyObject {
+    
+}
+
+// MARK: - OnboardingViewModel
+public final class OnboardingViewModel {
+
+}
+
+// MARK: - OnboardingViewModelProtocol
+extension OnboardingViewModel: OnboardingViewModelProtocol {
+
+    
+}

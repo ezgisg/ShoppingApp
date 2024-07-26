@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="jFm-c4-xgF">
-                    <rect key="frame" x="24" y="83" width="345" height="448"/>
+                    <rect key="frame" x="24" y="83" width="345" height="579"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o5k-UT-JEF">
                             <rect key="frame" x="0.0" y="0.0" width="345" height="297"/>
@@ -64,11 +64,8 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRG-hr-rgU">
-                            <rect key="frame" x="0.0" y="407" width="345" height="41"/>
+                            <rect key="frame" x="0.0" y="407" width="345" height="172"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="41" id="6rj-D9-gPc"/>
-                            </constraints>
                             <string key="text">LabelLabelLLabelLabelLabelLabelLabelLabelLabelLabelLabLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel LabeLabel LabelLabelLabel LabelLabelLabel Labe</string>
                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
                             <nil key="textColor"/>

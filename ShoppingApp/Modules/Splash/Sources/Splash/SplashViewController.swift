@@ -8,6 +8,7 @@
 import AppResources
 import Lottie
 import Onboarding
+import SignIn
 import UIKit
 
 // MARK: - Module init
@@ -20,6 +21,7 @@ public class SplashViewController: UIViewController {
     
     // MARK: - Private Variables
     private var animationView: LottieAnimationView?
+    private let isFirstLaunch = UserDefaults.standard.object(forKey: Constants.UserDefaults.isFirstLaunch)
     
     // MARK: - Life Cycles
     public override func viewDidLoad() {
@@ -44,15 +46,14 @@ private extension SplashViewController {
     final func setupUI() {
         appNameLabel.text = L10nGeneric.appName.localized(in: AppResources.bundle)
         appNameLabel.textColor = .lightButtonColor
-        mainView.backgroundColor = .white
+        mainView.backgroundColor = .lightBackgroundColor
         animationContainerView.backgroundColor = .clear
     }
 
     final func setupAnimation() {
         guard let animation = LottieAnimation.named("splashLottie", bundle: AppResources.bundle) else {
-            //TODO: Label'ı gösterelim
-            return
-        }
+            showSplashImage()
+            return }
         animationView = LottieAnimationView(animation: animation)
         animationView?.frame = animationContainerView.bounds
         animationView?.contentMode = .scaleAspectFill
@@ -67,8 +68,9 @@ private extension SplashViewController {
         animationView?.play { [weak self] finished in
             guard let self,
                   finished else { return }
-//            hideAnimation()
-            navigateToOnboarding()
+            //TODO: Denemelerde uzun sürmemesi için şimdilik doğrudan next e gidiyoruz, düzeltilecek
+            hideAnimation()
+//            navigateToNextScreen()
         }
     }
     
@@ -108,24 +110,34 @@ private extension SplashViewController {
                 appNameLabel.fadeIn() {  [weak self] _ in
                     guard let self else { return }
                     //TODO: Eğer onboarding geçildi ise, bir daha gösterilmeyecek sign in e navigate olunacak
-                    navigateToOnboarding()
+                    navigateToNextScreen()
                 }
             }
         }
     }
     
-    final func navigateToOnboarding() {
+    final func navigateToNextScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
             guard let self else { return }
-            let onboardingVC = OnboardingViewController()
             
+            var nextViewController: UIViewController?
+            
+            if let isFirst = isFirstLaunch as? Bool,
+               !isFirst {
+                nextViewController = SignInViewController()
+            } else {
+                nextViewController = OnboardingViewController()
+            }
+            
+            guard let nextViewController else { return }
+    
             let transition = CATransition()
             transition.duration = 0.5
             transition.type = .fade
             transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             
             navigationController?.view.layer.add(transition, forKey: kCATransition)
-            navigationController?.setViewControllers([onboardingVC], animated: false)
+            navigationController?.setViewControllers([nextViewController], animated: false)
         }
     }
 }

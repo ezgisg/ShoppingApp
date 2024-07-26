@@ -13,7 +13,9 @@ let package = Package(
             targets: ["Onboarding"]),
     ],
     dependencies: [
-        .package(path: "../AppResources")
+        .package(path: "../AppResources"),
+        .package(path: "../SignIn"),
+        .package(path: "../TabBar")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,7 +23,9 @@ let package = Package(
         .target(
             name: "Onboarding",
             dependencies: [
-                "AppResources"
+                "AppResources",
+                "SignIn",
+                "TabBar"
             ],
             resources: [
                 .process("Resources")

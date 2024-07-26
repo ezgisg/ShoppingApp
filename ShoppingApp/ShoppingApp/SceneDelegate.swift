@@ -27,8 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let splashVC = SplashViewController()
 //        let signInVC = SignInViewController()
         let tabBar = TabBarController()
-        let navigavtionController = UINavigationController(rootViewController: splashVC)
-        window?.rootViewController = navigavtionController
+        let navigationController = UINavigationController(rootViewController: splashVC)
+        window?.rootViewController = navigationController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

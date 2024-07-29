@@ -10,14 +10,16 @@ import UIKit
 
 class RegisterViewController: UIViewController {
 
+    @IBOutlet var containerView: UIView!
+    @IBOutlet weak var informationContainerView: UIView!
+
+    @IBOutlet weak var topImageView: UIImageView!
     @IBOutlet weak var checkBoxView: CheckBoxView!
     @IBOutlet weak var secondCheckBoxView: CheckBoxView!
-    
+    @IBOutlet weak var registerButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: "Deneme 123", boldContent: "123", isCheckBoxImageNeeded: false)
-        secondCheckBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: "Deneme 456", boldContent: "Deneme", isCheckBoxImageNeeded: true)
-  
+        setupUI()
     }
     
 
@@ -32,19 +34,51 @@ class RegisterViewController: UIViewController {
     }
     
     
+    @IBAction func registerButtonClicked(_ sender: Any) {
+    }
+    
 
 }
 
 
-extension UILabel {
-    func setBoldText(fullText: String, boldPart: String) {
-        
-        let attributedString = NSMutableAttributedString(string: fullText)
-        let boldRange = (fullText as NSString).range(of: boldPart)
-        
-        // Set the bold attributes
-        attributedString.addAttributes([.font: UIFont.boldSystemFont(ofSize: self.font.pointSize)], range: boldRange)
-        
-        self.attributedText = attributedString
+private extension RegisterViewController {
+    final func setupText() {
+        checkBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: L10nSignIn.PrivacyPolicy.longTitle.localized(), boldContent: L10nSignIn.PrivacyPolicy.title.localized(), isCheckBoxImageNeeded: false)
+        secondCheckBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: L10nSignIn.MembershipAgreement.longTitle.localized(), boldContent: L10nSignIn.MembershipAgreement.title.localized(), isCheckBoxImageNeeded: true)
+        registerButton.setTitle(L10nSignIn.register.localized(), for: .normal)
+
     }
+    
+    final func setupColor() {
+        registerButton.backgroundColor = .buttonColor
+        registerButton.setTitleColor(.buttonTextColor, for: .normal)
+//        informationContainerView.backgroundColor = .backgroundColor
+        applyGradient(view: containerView)
+
+    }
+    
+    final func setupUI() {
+        setupText()
+        setupColor()
+        
+        topImageView.image = .registerImage
+
+    }
+    
+    private func applyGradient(view: UIView) {
+          
+          let gradientLayer = CAGradientLayer()
+          gradientLayer.frame = view.bounds
+          gradientLayer.colors = [
+            UIColor.lightButtonColor!.cgColor,
+            UIColor.buttonColor!.cgColor,
+            UIColor.backgroundColor.cgColor
+          ]
+          gradientLayer.locations = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0] // Renklerin geçiş noktaları
+          
+          // Gradient'ı topView'a ekleme
+          view.layer.insertSublayer(gradientLayer, at: 0)
+      }
+    
+      
 }

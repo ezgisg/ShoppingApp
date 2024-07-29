@@ -49,4 +49,8 @@ public extension UIImage {
         return UIImage(named: "checkoutImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var registerImage: UIImage {
+        return UIImage(named: "registerImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

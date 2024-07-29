@@ -23,7 +23,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Invalid e-mail"
           }
         },
@@ -69,6 +69,57 @@
         }
       }
     },
+    "MembershipAgreement.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I have read and accept the Membership Agreement. This agreement outlines your rights and obligations related to the use of our services. Complying with the agreement is a condition for using our services."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üyelik Sözleşmesi'ni okuyup kabul ediyorum. Bu sözleşme, hizmetlerimizin kullanımıyla ilgili hak ve yükümlülüklerinizi belirler. Sözleşmeye uymak, hizmetlerimizi kullanma şartlarından biridir."
+          }
+        }
+      }
+    },
+    "MembershipAgreement.longTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I have read and accept the Membership Agreement."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üyelik Sözleşmesi'ni okudum ve kabul ediyorum."
+          }
+        }
+      }
+    },
+    "MembershipAgreement.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membership Agreement"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üyelik Sözleşmesi"
+          }
+        }
+      }
+    },
     "password" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -86,12 +137,63 @@
         }
       }
     },
+    "PrivacyPolicy.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We provide the following information regarding the processing of your personal data:\\n\\nData Controller: Shopping App\\nPurpose of Data Processing: Your personal data may be processed for the purposes of providing our services, managing customer relations, and fulfilling legal obligations.\\nMethods of Data Collection: Your personal data may be collected through our website, mobile applications, or directly through communication.\\nData Sharing: Your personal data may be shared only with legal obligations and our service providers.\\nData Retention Period: Your personal data will be retained for a specific period according to the purposes of processing."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kişisel verilerinizin işlenmesine dair aşağıdaki bilgileri sunmaktayız:\\n\\nVeri Sorumlusu: Shopping App\\nVeri İşleme Amaçları: Kişisel verileriniz, hizmetlerimizin sunulması, müşteri ilişkilerinin yönetimi ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenebilir.\\nVeri Toplama Yöntemleri: Kişisel verileriniz, web sitemiz üzerinden, mobil uygulamalarımız aracılığıyla veya doğrudan iletişim kurarak toplanabilir.\\nVeri Paylaşımı: Kişisel verileriniz, yalnızca yasal zorunluluklar ve hizmet sağlayıcılarımız ile paylaşılabilir.\\nVeri Saklama Süresi: Kişisel verileriniz, işleme amaçlarına uygun olarak belirli bir süre saklanır."
+          }
+        }
+      }
+    },
+    "PrivacyPolicy.longTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please read the Privacy Policy regarding the processing of personal data."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kişisel verilerin işlenmesine dair Aydınlatma Metni'ni okuyunuz."
+          }
+        }
+      }
+    },
+    "PrivacyPolicy.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aydınlatma Metni"
+          }
+        }
+      }
+    },
     "register" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Register"
           }
         },

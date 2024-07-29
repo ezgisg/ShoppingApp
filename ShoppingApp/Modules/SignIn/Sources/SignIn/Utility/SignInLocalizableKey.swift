@@ -36,6 +36,28 @@ public enum SignInLocalizableKey: String, LocalizableProtocol {
         case title = "SignInOnboarding.title"
         case message = "SignInOnboarding.message"
     }
+    
+    public enum PrivacyPolicy: String, LocalizableProtocol {
+        // MARK: - RawValue
+        public var stringValue: String {
+            return rawValue
+        }
+
+        case title = "PrivacyPolicy.title"
+        case longTitle = "PrivacyPolicy.longTitle"
+        case description = "PrivacyPolicy.description"
+    }
+    
+    public enum MembershipAgreement: String, LocalizableProtocol {
+        // MARK: - RawValue
+        public var stringValue: String {
+            return rawValue
+        }
+
+        case title = "MembershipAgreement.title"
+        case longTitle = "MembershipAgreement.longTitle"
+        case description = "MembershipAgreement.description"
+    }
 }
 
 // MARK: - LocalizableProtocol

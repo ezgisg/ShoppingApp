@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CheckBoxView" customModule="SignIn">
+            <connections>
+                <outlet property="descriptionLabel" destination="rr7-ur-xVL" id="6gf-Zj-W2q"/>
+                <outlet property="imageContainerView" destination="UAd-kc-GTG" id="CnI-jv-uI0"/>
+                <outlet property="imageView" destination="8kq-sc-Nzw" id="rNu-dC-MIP"/>
+                <outlet property="topButton" destination="tSU-gd-qaS" id="jpa-13-XtS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="399" height="53"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSU-gd-qaS">
+                    <rect key="frame" x="21" y="0.0" width="357" height="53"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain"/>
+                    <connections>
+                        <action selector="topButtonClicked:" destination="-1" eventType="touchUpInside" id="oXs-cv-WYn"/>
+                    </connections>
+                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="IWC-qc-E7d">
+                    <rect key="frame" x="0.0" y="0.0" width="399" height="53"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UAd-kc-GTG">
+                            <rect key="frame" x="0.0" y="0.0" width="26" height="53"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8kq-sc-Nzw">
+                                    <rect key="frame" x="4" y="17.666666666666668" width="18" height="18.000000000000004"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="8kq-sc-Nzw" secondAttribute="height" multiplier="1:1" id="amu-gF-bAL"/>
+                                        <constraint firstAttribute="height" constant="18" id="gH6-zh-Die"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemRedColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="26" id="Fg5-av-CmI"/>
+                                <constraint firstItem="8kq-sc-Nzw" firstAttribute="centerY" secondItem="UAd-kc-GTG" secondAttribute="centerY" id="lRx-ye-3Mt"/>
+                                <constraint firstItem="8kq-sc-Nzw" firstAttribute="centerX" secondItem="UAd-kc-GTG" secondAttribute="centerX" id="mUo-9h-iPi"/>
+                                <constraint firstAttribute="width" constant="26" id="t5Z-Su-VSw"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rr7-ur-xVL">
+                            <rect key="frame" x="34" y="0.0" width="365" height="53"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="IWC-qc-E7d" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1fT-qG-Wvz"/>
+                <constraint firstItem="IWC-qc-E7d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ihW-8h-6tT"/>
+                <constraint firstAttribute="trailing" secondItem="IWC-qc-E7d" secondAttribute="trailing" id="w5E-iK-BiX"/>
+                <constraint firstAttribute="bottom" secondItem="IWC-qc-E7d" secondAttribute="bottom" id="yCQ-bT-noG"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="72.51908396946564" y="-95.422535211267615"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

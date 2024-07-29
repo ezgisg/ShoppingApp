@@ -53,4 +53,12 @@ public extension UIImage {
         return UIImage(named: "registerImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var check: UIImage {
+        return UIImage(named: "check", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var uncheck: UIImage {
+        return UIImage(named: "uncheck", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

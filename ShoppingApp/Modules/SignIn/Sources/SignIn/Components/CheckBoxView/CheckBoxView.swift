@@ -25,6 +25,8 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
     private var isCheckBoxImageNeeded: Bool?
     
     
+    var onImageTapped: (() -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadNibContent()
@@ -42,6 +44,10 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
         imageView.image = initialImage
         descriptionLabel.setBoldText(fullText: textContent ?? "", boldPart: boldContent ?? "")
         setupGestureRecognizers()
+        imageView.layer.borderWidth = 3
+        imageView.backgroundColor = .white
+        imageView.layer.cornerRadius = 3
+
     }
     
     private func setupGestureRecognizers() {
@@ -56,6 +62,12 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
      
      @objc private func imageTapped() {
          print("ImageView tapped")
+         if imageView.image == initialImage {
+                   imageView.image = secondImage
+               } else {
+                   imageView.image = initialImage
+               }
+               onImageTapped?()
      }
      
      @objc private func labelTapped() {

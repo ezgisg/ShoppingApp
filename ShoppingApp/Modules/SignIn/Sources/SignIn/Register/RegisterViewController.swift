@@ -28,11 +28,25 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     
+    @IBOutlet weak var emailWarningLabel: UILabel!
+    @IBOutlet weak var passwordWarningLabel: UILabel!
+    
+
+    
+    private var isSelectedMembershipAggrementCheckBox: Bool = false {
+        didSet {
+            print("Membership Agreement CheckBox is selected: \(isSelectedMembershipAggrementCheckBox)")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
 
-        
+        secondCheckBoxView.onImageTapped = { [weak self] in
+            guard let self else { return }
+            isSelectedMembershipAggrementCheckBox.toggle()
+        }
 
     }
 
@@ -57,8 +71,8 @@ class RegisterViewController: UIViewController {
 
 private extension RegisterViewController {
     final func setupText() {
-        checkBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: L10nSignIn.PrivacyPolicy.longTitle.localized(), boldContent: L10nSignIn.PrivacyPolicy.title.localized(), isCheckBoxImageNeeded: false)
-        secondCheckBoxView.configureWith(initialImage: .browseImage, secondImage: .welcomeImage, textContent: L10nSignIn.MembershipAgreement.longTitle.localized(), boldContent: L10nSignIn.MembershipAgreement.title.localized(), isCheckBoxImageNeeded: true)
+        checkBoxView.configureWith(initialImage: .uncheck, secondImage: .check, textContent: L10nSignIn.PrivacyPolicy.longTitle.localized(), boldContent: L10nSignIn.PrivacyPolicy.title.localized(), isCheckBoxImageNeeded: false)
+        secondCheckBoxView.configureWith(initialImage: .uncheck, secondImage: .check, textContent: L10nSignIn.MembershipAgreement.longTitle.localized(), boldContent: L10nSignIn.MembershipAgreement.title.localized(), isCheckBoxImageNeeded: true)
         registerButton.setTitle(L10nSignIn.register.localized(), for: .normal)
         registerMessage.text = L10nSignIn.registerMessage.localized()
         
@@ -83,6 +97,8 @@ private extension RegisterViewController {
         emailLabel.textColor = .textColor
         passwordLabel.textColor = .textColor
         confirmPasswordLabel.textColor = .textColor
+        emailWarningLabel.textColor = .warningTextColor
+        passwordWarningLabel.textColor = .warningTextColor
         
     }
     
@@ -90,9 +106,7 @@ private extension RegisterViewController {
         setupText()
         setupColor()
         
-
-
-
+        registerButton.layer.cornerRadius = 10
 
     }
     

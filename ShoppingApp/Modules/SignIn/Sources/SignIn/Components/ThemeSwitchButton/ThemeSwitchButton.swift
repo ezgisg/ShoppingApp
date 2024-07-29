@@ -5,6 +5,8 @@
 //  Created by Ezgi Sümer Günaydın on 23.07.2024.
 //
 
+//TODO: Düzeltilecek
+
 import UIKit
 import Combine
 /*

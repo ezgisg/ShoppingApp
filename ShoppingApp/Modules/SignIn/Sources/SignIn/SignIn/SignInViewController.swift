@@ -13,6 +13,9 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 import UIKit
+import TabBar
+
+//TODO: error alertleri, şifremi unuttum.., kullanıcıyı login ettikten sonra hatırlama, register ....
 
 //MARK: - SignInViewController
 public class SignInViewController: BaseViewController {
@@ -46,6 +49,9 @@ public class SignInViewController: BaseViewController {
         setupGoogleAuth()
         setupUI()
         setupKeyboardObservers()
+        
+        resetPasswordSetup()
+        setupRegister()
  
     }
     
@@ -85,8 +91,14 @@ extension SignInViewController {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
             Auth.auth().signIn(with: credential) { result, error in
                 guard let _ = result, nil == nil else { return }
+                guard let error else { 
+                    let tabBarVC = TabBarController()
+                    self.navigationController?.setViewControllers([tabBarVC], animated: false)
+                    print("giriş yapıldı")
+                    return }
+                //TODO: Alert
+                print("giriş yapılamadı")
             }
-            
         }
     }
     
@@ -99,8 +111,21 @@ extension SignInViewController {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self else { return }
             guard let error else {
-                //TODO: Page e yönlendirme
+                let tabBarVC = TabBarController()
+                navigationController?.setViewControllers([tabBarVC], animated: false)
                 print("giriş yapıldı")
+                
+             //TODO: Doğrulama maili ve password reset mailleri yerel dilde gönderilecek
+                //TODO: email doğrulama deneme için buraya koyuldu, doğrulamadan içeri alınmayacak şekilde düzenleme yapılacak
+                if Auth.auth().currentUser != nil {
+                    Auth.auth().currentUser?.sendEmailVerification { error in
+                     print("doğrulama maili gönderildi")
+                    }
+                } else {
+                  // No user is signed in.
+                  // ...
+                }
+                
                 return
             }
             //TODO: Alert
@@ -108,7 +133,99 @@ extension SignInViewController {
         }
     }
     
-}
+    func resetPasswordSetup() {
+        forgetPasswordLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(forgetPasswordTapped))
+        forgetPasswordLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    //TODO: forgetpassword için yeni bir sayfaya yönlendirme yapılacak
+    @objc func forgetPasswordTapped() {
+        let email = "ezgisumer-93"
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error {
+                print("**** error: ",error.localizedDescription)
+            } else {
+                print("**** mail yollandı")
+            }
+        }
+    }
+    
+    // TODO: checkemailverification
+    func checkEmailVerification() {
+        if let user = Auth.auth().currentUser {
+            user.reload { error in
+                if let error = error {
+                    print("Kullanıcı bilgileri güncellenemedi: \(error.localizedDescription)")
+                } else {
+                    if user.isEmailVerified {
+                      //ana ekrana yönlendirelim
+                    } else {
+                        // alert çünkü email verify değil
+                    }
+                }
+            }
+        } else {
+            // giriş yok sign in sayfasına yönlendirelim
+        }
+    }
+    
+    
+    //TODO: register düzenlenecek
+    func setupRegister() {
+        registerLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(registerTapped))
+        registerLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func registerTapped() {
+        
+        let viewController = RegisterViewController()
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = .fade
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        
+        navigationController?.view.layer.add(transition, forKey: kCATransition)
+        navigationController?.pushViewController(viewController, animated: false)
+        
+//        let email = "asdsadafsdfcsad7sd@hotmail.com"
+//        let password = "deneme12356"
+//        let name = "Ezgi"
+//        let surname = "SG"
+//        
+//        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+//            if let error = error {
+//                print("Kullanıcı oluşturulamadı: \(error.localizedDescription)")
+//                return
+//            }
+//            
+//    
+//            guard let uid = authResult?.user.uid else { return }
+//                Task {
+//                    await self.addUser(uid: uid, name: name, surname: surname)
+//                }
+//            
+//        }
+    }
+
+    func addUser(uid: String, name: String, surname: String) async {
+        let db = Firestore.firestore()
+        do {
+            try await db.collection("users").document(uid).setData([
+                "name": name,
+                "surname": surname,
+                "uid": uid
+            ])
+            print("Document added with ID: \(uid)")
+        } catch {
+            print("Error adding document: \(error)")
+        }
+    }
+    
+    }
+    
+
 
 
 //MARK: - Setup UI
@@ -159,7 +276,7 @@ private extension SignInViewController {
     
     @objc func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
-        passwordHideShowImage.image = passwordTextField.isSecureTextEntry ? .passwordShowImage : .passwordHideImage
+        passwordHideShowImage.image = passwordTextField.isSecureTextEntry ? .passwordHideImage : .passwordShowImage
     }
     
     func setupColors() {

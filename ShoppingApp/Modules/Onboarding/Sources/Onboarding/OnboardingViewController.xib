@@ -13,6 +13,7 @@
                 <outlet property="bottomStackView" destination="dbv-Qs-eiS" id="TnK-Z2-4Tj"/>
                 <outlet property="bottomView" destination="Gq1-fJ-Nex" id="DgG-8W-VIr"/>
                 <outlet property="contentView" destination="q7N-zk-5KZ" id="S48-25-IJj"/>
+                <outlet property="gapView" destination="beW-Ze-7kp" id="qcz-6b-N8r"/>
                 <outlet property="nextButtonLabel" destination="5ux-mQ-rMk" id="PZM-q5-jTa"/>
                 <outlet property="pageControl" destination="CQT-Ia-DNX" id="Ljs-Ug-Hs8"/>
                 <outlet property="skipButtonLabel" destination="rda-9t-f7B" id="oNB-rY-z5e"/>
@@ -97,14 +98,22 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="beW-Ze-7kp">
+                    <rect key="frame" x="0.0" y="898" width="430" height="34"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lnQ-di-Edc" secondAttribute="trailing" id="5hw-0z-WEY"/>
+                <constraint firstItem="beW-Ze-7kp" firstAttribute="top" secondItem="lnQ-di-Edc" secondAttribute="bottom" id="6rg-gj-as5"/>
                 <constraint firstItem="QeZ-zR-dSH" firstAttribute="width" secondItem="Gq1-fJ-Nex" secondAttribute="width" id="77e-j4-PUG"/>
+                <constraint firstAttribute="bottom" secondItem="beW-Ze-7kp" secondAttribute="bottom" id="7zl-g1-byn"/>
                 <constraint firstItem="lnQ-di-Edc" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="CvZ-Hs-egC"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="q7N-zk-5KZ" secondAttribute="trailing" id="GpQ-bF-i7Y"/>
+                <constraint firstAttribute="trailing" secondItem="beW-Ze-7kp" secondAttribute="trailing" id="H22-wK-wjd"/>
+                <constraint firstItem="beW-Ze-7kp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="H7O-J2-ykf"/>
                 <constraint firstItem="q7N-zk-5KZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Qie-ST-hJd"/>
                 <constraint firstItem="lnQ-di-Edc" firstAttribute="top" secondItem="q7N-zk-5KZ" secondAttribute="bottom" id="Wph-dY-irs"/>
                 <constraint firstItem="QeZ-zR-dSH" firstAttribute="centerY" secondItem="Gq1-fJ-Nex" secondAttribute="centerY" id="eTZ-jv-bco"/>

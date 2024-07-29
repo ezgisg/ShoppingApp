@@ -10,6 +10,7 @@ import Splash
 import SignIn
 import TabBar
 
+//TODO: main frameworksler arasında ve burada denemelerden sonra sadece splash kalacak (+common genelde)
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         let splashVC = SplashViewController()
-//        let signInVC = SignInViewController()
+        let signInVC = SignInViewController()
         let tabBar = TabBarController()
         let navigationController = UINavigationController(rootViewController: splashVC)
         window?.rootViewController = navigationController

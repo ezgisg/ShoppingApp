@@ -119,9 +119,7 @@ private extension SplashViewController {
     final func navigateToNextScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
             guard let self else { return }
-            
             var nextViewController: UIViewController?
-            
             if let isFirst = isFirstLaunch as? Bool,
                !isFirst {
                 nextViewController = SignInViewController()
@@ -130,7 +128,6 @@ private extension SplashViewController {
             }
             
             guard let nextViewController else { return }
-    
             let transition = CATransition()
             transition.duration = 0.5
             transition.type = .fade

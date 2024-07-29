@@ -10,6 +10,7 @@ import CoreData
 import Common
 import Firebase
 import FirebaseCore
+import FirebaseFirestore
 import GoogleSignIn
 
 @main

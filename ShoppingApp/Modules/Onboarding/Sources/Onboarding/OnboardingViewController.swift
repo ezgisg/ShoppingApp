@@ -30,13 +30,14 @@ enum Routes {
 public class OnboardingViewController: UIViewController {
 
     // MARK: - Outlets
-    @IBOutlet weak var skipButtonLabel: UILabel!
-    @IBOutlet weak var nextButtonLabel: UILabel!
-    @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var bottomStackView: UIStackView!
-    @IBOutlet weak var bottomView: UIImageView!
-    @IBOutlet weak var startLabel: UILabel!
+    @IBOutlet private weak var skipButtonLabel: UILabel!
+    @IBOutlet private weak var nextButtonLabel: UILabel!
+    @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var bottomStackView: UIStackView!
+    @IBOutlet private weak var bottomView: UIImageView!
+    @IBOutlet private weak var startLabel: UILabel!
+    @IBOutlet private weak var gapView: UIView!
     
     // MARK: - Private Variables
     private let isFirstLaunch = UserDefaults.standard.object(forKey: Constants.UserDefaults.isFirstLaunch)
@@ -132,7 +133,9 @@ private extension OnboardingViewController {
     
     final func setupUI() {
         bottomView.backgroundColor = .lightButtonColor
+        gapView.backgroundColor = .clear
         bottomView.isHidden = true
+        startLabel.isHidden = true
      
         view.backgroundColor = .backgroundColor
         
@@ -181,16 +184,22 @@ private extension OnboardingViewController {
         navigateToNextScreen(Routes.signIn.getViewController())
     }
     
+    
+    //TODO: gapview için daha iyi bir çözüm olabilir mi?fdsa    
     final func setupLastonboardingScreen(index: Int) {
        guard index == controllers.count - 1 else {
            skipButtonLabel.isHidden = false
            nextButtonLabel.isHidden = false
            bottomView.isHidden = true
+           startLabel.isHidden = true
+           gapView.backgroundColor = .clear
            return
        }
         skipButtonLabel.isHidden = true
         nextButtonLabel.isHidden = true
+        gapView.backgroundColor = bottomView.backgroundColor
         bottomView.isHidden = false
+        startLabel.isHidden = false
     }
     
 }

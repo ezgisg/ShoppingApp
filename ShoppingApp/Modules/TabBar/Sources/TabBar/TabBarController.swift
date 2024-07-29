@@ -7,7 +7,6 @@
 
 import AppResources
 import Foundation
-import SignIn
 import UIKit
 
 // MARK: - TabBarController
@@ -32,22 +31,22 @@ private extension TabBarController {
     final func setupTabbar() {
         
         let homeTitle = L10nGeneric.home.localized(in: AppResources.bundle)
-        let homeVC = SignInViewController()
+        let homeVC = MiddleViewController()
         let homeNavigationController = getStyledNavigationController(with: homeVC, title: homeTitle, image: .systemHouseImage)
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
-        let categoriesVC = SignInViewController()
+        let categoriesVC = MiddleViewController()
         let categoriesNavigationController = getStyledNavigationController(with: categoriesVC, title: categoriesTitle, image: .systemListImage)
 
         let middleVC = MiddleViewController()
         let middleNavigationController = getStyledNavigationController(with: middleVC, title: "", image: nil)
 
         let basketTitle = L10nGeneric.basket.localized(in: AppResources.bundle)
-        let basketVC = SignInViewController()
+        let basketVC = MiddleViewController()
         let basketNavigationController = getStyledNavigationController(with: basketVC, title: basketTitle, image: .systemCartImage)
 
         let favoritesTitle = L10nGeneric.favorites.localized(in: AppResources.bundle)
-        let favoritesVC = SignInViewController()
+        let favoritesVC = MiddleViewController()
         let favoritesNavigationController = getStyledNavigationController(with: favoritesVC, title: favoritesTitle, image: .systemHeartImage)
 
         viewControllers = [homeNavigationController, categoriesNavigationController, middleNavigationController, basketNavigationController, favoritesNavigationController]

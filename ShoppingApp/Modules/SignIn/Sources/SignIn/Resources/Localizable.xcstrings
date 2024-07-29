@@ -143,13 +143,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We provide the following information regarding the processing of your personal data:\\n\\nData Controller: Shopping App\\nPurpose of Data Processing: Your personal data may be processed for the purposes of providing our services, managing customer relations, and fulfilling legal obligations.\\nMethods of Data Collection: Your personal data may be collected through our website, mobile applications, or directly through communication.\\nData Sharing: Your personal data may be shared only with legal obligations and our service providers.\\nData Retention Period: Your personal data will be retained for a specific period according to the purposes of processing."
+            "value" : "We provide the following information regarding the processing of your personal data:\nData Controller: Shopping App\\nPurpose of Data Processing: Your personal data may be processed for the purposes of providing our services, managing customer relations, and fulfilling legal obligations.\nMethods of Data Collection: Your personal data may be collected through our website, mobile applications, or directly through communication.\nData Sharing: Your personal data may be shared only with legal obligations and our service providers.\nData Retention Period: Your personal data will be retained for a specific period according to the purposes of processing."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kişisel verilerinizin işlenmesine dair aşağıdaki bilgileri sunmaktayız:\\n\\nVeri Sorumlusu: Shopping App\\nVeri İşleme Amaçları: Kişisel verileriniz, hizmetlerimizin sunulması, müşteri ilişkilerinin yönetimi ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenebilir.\\nVeri Toplama Yöntemleri: Kişisel verileriniz, web sitemiz üzerinden, mobil uygulamalarımız aracılığıyla veya doğrudan iletişim kurarak toplanabilir.\\nVeri Paylaşımı: Kişisel verileriniz, yalnızca yasal zorunluluklar ve hizmet sağlayıcılarımız ile paylaşılabilir.\\nVeri Saklama Süresi: Kişisel verileriniz, işleme amaçlarına uygun olarak belirli bir süre saklanır."
+            "value" : "Kişisel verilerinizin işlenmesine dair aşağıdaki bilgileri sunmaktayız:\nVeri Sorumlusu: Shopping App\nVeri İşleme Amaçları: Kişisel verileriniz, hizmetlerimizin sunulması, müşteri ilişkilerinin yönetimi ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenebilir.\nVeri Toplama Yöntemleri: Kişisel verileriniz, web sitemiz üzerinden, mobil uygulamalarımız aracılığıyla veya doğrudan iletişim kurarak toplanabilir.\nVeri Paylaşımı: Kişisel verileriniz, yalnızca yasal zorunluluklar ve hizmet sağlayıcılarımız ile paylaşılabilir.\nVeri Saklama Süresi: Kişisel verileriniz, işleme amaçlarına uygun olarak belirli bir süre saklanır."
           }
         }
       }
@@ -201,6 +201,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kaydol"
+          }
+        }
+      }
+    },
+    "registerMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your account. \nIt's free and only takes a minute."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesap oluştur.\nÜcretsiz hesabı oluşturmak yalnızca bir dakikanı alacak."
           }
         }
       }

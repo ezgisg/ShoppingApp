@@ -20,6 +20,7 @@ public enum SignInLocalizableKey: String, LocalizableProtocol {
     
     case signIn
     case register
+    case registerMessage
     case forgetPassword
     case email
     case password

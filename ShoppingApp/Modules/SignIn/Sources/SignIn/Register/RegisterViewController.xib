@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterViewController" customModule="SignIn">
             <connections>
                 <outlet property="checkBoxView" destination="UZD-yH-Hpi" id="EvI-qT-Xo2"/>
+                <outlet property="secondCheckBoxView" destination="grT-SI-TMJ" id="1Xi-0P-CnB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -43,7 +44,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="430" height="698"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="hwc-mQ-hlO">
-                                    <rect key="frame" x="20" y="20" width="390" height="454.66666666666669"/>
+                                    <rect key="frame" x="20" y="20.000000000000028" width="390" height="510.66666666666674"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="6fp-8U-fbf">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="61.333333333333336"/>
@@ -182,8 +183,15 @@
                                                 <constraint firstAttribute="height" priority="250" constant="26" id="Egp-sn-tw0"/>
                                             </constraints>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grT-SI-TMJ" customClass="CheckBoxView" customModule="SignIn">
+                                            <rect key="frame" x="0.0" y="382.66666666666663" width="390" height="52"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" priority="250" constant="26" id="yqr-KJ-zUa"/>
+                                            </constraints>
+                                        </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2m-J3-Iaj">
-                                            <rect key="frame" x="0.0" y="382.66666666666663" width="390" height="72"/>
+                                            <rect key="frame" x="0.0" y="438.66666666666663" width="390" height="72"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2v9-kg-RMM">
                                                     <rect key="frame" x="12" y="12" width="366" height="48"/>

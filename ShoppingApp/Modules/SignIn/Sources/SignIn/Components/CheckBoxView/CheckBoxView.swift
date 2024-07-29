@@ -16,12 +16,13 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
     
     @IBOutlet weak var imageContainerView: UIView!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var topButton: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     
     private var initialImage: UIImage?
     private var secondImage: UIImage?
     private var textContent: String?
+    private var boldContent: String?
+    private var isCheckBoxImageNeeded: Bool?
     
     
     override init(frame: CGRect) {
@@ -36,39 +37,48 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
     }
         
     final func setup() {
+        imageContainerView.isHidden = !(isCheckBoxImageNeeded ?? true)
+        imageView.isHidden = !(isCheckBoxImageNeeded ?? true)
         imageView.image = initialImage
-        descriptionLabel.text = textContent
+        descriptionLabel.setBoldText(fullText: textContent ?? "", boldPart: boldContent ?? "")
+        setupGestureRecognizers()
     }
     
-    @IBAction func topButtonClicked(_ sender: Any) {
-        print("tıklandı")
-    }
+    private func setupGestureRecognizers() {
+         let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+         imageView.isUserInteractionEnabled = true
+         imageView.addGestureRecognizer(imageTapGesture)
+         
+         let labelTapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+         descriptionLabel.isUserInteractionEnabled = true
+         descriptionLabel.addGestureRecognizer(labelTapGesture)
+     }
+     
+     @objc private func imageTapped() {
+         print("ImageView tapped")
+     }
+     
+     @objc private func labelTapped() {
+         print("DescriptionLabel tapped")
+     }
+    
+
 }
 
 public extension CheckBoxView {
     final func configureWith(
         initialImage: UIImage,
         secondImage: UIImage,
-        textContent: String
+        textContent: String,
+        boldContent: String,
+        isCheckBoxImageNeeded: Bool
     ) {
         self.initialImage = initialImage
         self.secondImage = secondImage
         self.textContent = textContent
+        self.boldContent = boldContent
+        self.isCheckBoxImageNeeded = isCheckBoxImageNeeded
         setup()
     }
     
-    final func configureWithBoldText(
-            initialImage: UIImage,
-            secondImage: UIImage,
-            fullText: String,
-            boldPart: String,
-            target: Any,
-            action: Selector
-        ) {
-            self.initialImage = initialImage
-            self.secondImage = secondImage
-            self.textContent = fullText
-            setup()
-            descriptionLabel.setBoldAndClickableText(fullText: fullText, clickablePart: boldPart, target: target, action: action)
-        }
 }

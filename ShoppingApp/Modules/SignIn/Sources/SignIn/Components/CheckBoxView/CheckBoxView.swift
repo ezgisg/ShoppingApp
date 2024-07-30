@@ -11,22 +11,26 @@ import UIKit
 
 // MARK: - CheckBoxView
 public class CheckBoxView: UIView, NibOwnerLoadable {
+    
     // MARK: - Module
     public static var module = Bundle.module
     
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    // MARK: - Outlets
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
+    // MARK: - Private Variables
     private var initialImage: UIImage?
     private var secondImage: UIImage?
-    private var textContent: String?
-    private var boldContent: String?
-    private var isCheckBoxImageNeeded: Bool?
-    
+    private var textContent: String = ""
+    private var boldContent: String = ""
+    private var isCheckBoxImageNeeded: Bool = false
     
     var onImageTapped: (() -> Void)?
+    var onTextTapped: (() -> Void)?
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         loadNibContent()
@@ -37,20 +41,21 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
         super.init(coder: coder)
         loadNibContent()
     }
-        
-    final func setup() {
-        imageContainerView.isHidden = !(isCheckBoxImageNeeded ?? true)
-        imageView.isHidden = !(isCheckBoxImageNeeded ?? true)
-        imageView.image = initialImage
-        descriptionLabel.setBoldText(fullText: textContent ?? "", boldPart: boldContent ?? "")
-        setupGestureRecognizers()
-        imageView.layer.borderWidth = 3
-        imageView.backgroundColor = .white
-        imageView.layer.cornerRadius = 3
+}
 
+// MARK: - Setups
+private extension CheckBoxView {
+    final func setup() {
+        imageContainerView.isHidden = !isCheckBoxImageNeeded
+        imageView.image = initialImage
+        imageView.layer.borderWidth = 3
+        imageView.layer.cornerRadius = 3
+        imageView.backgroundColor = .white
+        descriptionLabel.setBoldText(fullText: textContent, boldPart: boldContent)
+        setupGestureRecognizers()
     }
     
-    private func setupGestureRecognizers() {
+    final func setupGestureRecognizers() {
          let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
          imageView.isUserInteractionEnabled = true
          imageView.addGestureRecognizer(imageTapGesture)
@@ -60,23 +65,17 @@ public class CheckBoxView: UIView, NibOwnerLoadable {
          descriptionLabel.addGestureRecognizer(labelTapGesture)
      }
      
-     @objc private func imageTapped() {
-         print("ImageView tapped")
-         if imageView.image == initialImage {
-                   imageView.image = secondImage
-               } else {
-                   imageView.image = initialImage
-               }
-               onImageTapped?()
-     }
+    @objc final func imageTapped() {
+        imageView.image = (imageView.image == initialImage) ? secondImage : initialImage
+        onImageTapped?()
+    }
      
-     @objc private func labelTapped() {
-         print("DescriptionLabel tapped")
+     @objc final func labelTapped() {
+        onTextTapped?()
      }
-    
-
 }
 
+// MARK: - Configure
 public extension CheckBoxView {
     final func configureWith(
         initialImage: UIImage,
@@ -92,5 +91,4 @@ public extension CheckBoxView {
         self.isCheckBoxImageNeeded = isCheckBoxImageNeeded
         setup()
     }
-    
 }

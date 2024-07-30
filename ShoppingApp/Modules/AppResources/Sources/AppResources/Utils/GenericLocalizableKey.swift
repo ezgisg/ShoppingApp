@@ -32,6 +32,12 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     case favorites
     /// App ismi
     case appName
+    case email
+    case password
+    case passwordConfirm
+    case name
+    case surname
+    case emailWarning
  
 }
 

@@ -1,40 +1,6 @@
 {
   "sourceLanguage" : "tr",
   "strings" : {
-    "email" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "E-mail"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "E-posta"
-          }
-        }
-      }
-    },
-    "emailWarning" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid e-mail"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geçersiz mail adresi"
-          }
-        }
-      }
-    },
     "forgetPassword" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -120,19 +86,19 @@
         }
       }
     },
-    "password" : {
+    "passwordWarning" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password"
+            "state" : "needs_review",
+            "value" : "Passwords doesn't match"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parola"
+            "value" : "Parolalar eşleşmiyor"
           }
         }
       }

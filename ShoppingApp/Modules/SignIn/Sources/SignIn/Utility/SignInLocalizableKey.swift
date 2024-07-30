@@ -22,10 +22,8 @@ public enum SignInLocalizableKey: String, LocalizableProtocol {
     case register
     case registerMessage
     case forgetPassword
-    case email
-    case password
     case haveAccount
-    case emailWarning
+    case passwordWarning
    
     // MARK: - SignInOnboarding
     public enum SignInOnboarding: String, LocalizableProtocol {

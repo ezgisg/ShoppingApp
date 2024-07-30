@@ -241,11 +241,11 @@ private extension SignInViewController {
     func setupTexts() {
         onboardingTitleLabel.text = L10nSignIn.SignInOnboarding.title.localized()
         onboardingMessageLabel.text = L10nSignIn.SignInOnboarding.message.localized()
-        emailLabel.text = L10nSignIn.email.localized()
-        emailTextField.placeholder = L10nSignIn.email.localized()
+        emailLabel.text = L10nGeneric.email.localized()
+        emailTextField.placeholder = L10nGeneric.email.localized()
         emailWarningLabel.text = ""
-        passwordLabel.text = L10nSignIn.password.localized()
-        passwordTextField.placeholder = L10nSignIn.password.localized()
+        passwordLabel.text = L10nGeneric.password.localized()
+        passwordTextField.placeholder = L10nGeneric.password.localized()
         forgetPasswordLabel.text = L10nSignIn.forgetPassword.localized()
         haveAccountLabel.text = L10nSignIn.haveAccount.localized()
         registerLabel.text = L10nSignIn.register.localized()
@@ -325,10 +325,10 @@ extension SignInViewController: UITextFieldDelegate {
         switch textField {
         case emailTextField:
             emailLabel.isHidden = true
-            emailTextField.placeholder = L10nSignIn.email.localized()
+            emailTextField.placeholder = L10nGeneric.email.localized()
         case passwordTextField:
             passwordLabel.isHidden = true
-            passwordTextField.placeholder = L10nSignIn.password.localized()
+            passwordTextField.placeholder = L10nGeneric.password.localized()
         default:
             break
         }
@@ -345,7 +345,7 @@ extension SignInViewController: UITextFieldDelegate {
                 emailWarningLabel.text = ""
                 return
             }
-            emailWarningLabel.text = L10nSignIn.emailWarning.localized()
+            emailWarningLabel.text = L10nGeneric.emailWarning.localized()
             
         default:
             break

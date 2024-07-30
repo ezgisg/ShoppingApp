@@ -19,6 +19,7 @@ public protocol BaseViewControllerProtocol: AnyObject {
 open class BaseViewController: UIViewController, LoadingShowable {
     private var tapGesture: UITapGestureRecognizer!
     public var activeTextField: UITextField?
+    var scrollView: UIScrollView?
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,11 +52,13 @@ extension BaseViewController: BaseViewControllerProtocol {
 ///When keyboard is active then other tap properties disabled and when tap anywhere else but keyboard then keyboard hide
 ///Checking whether the selected textfield remains under the keyboard. If it is under keyboard then shifting the view. For this activeTextField must set
 public extension BaseViewController {
-    final func setupKeyboardObservers(activeTextField: UITextField? = nil) {
+    final func setupKeyboardObservers(activeTextField: UITextField? = nil, scrollView: UIScrollView? = nil) {
+        setupKeyboardObservers2()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.activeTextField = activeTextField
+        self.scrollView = scrollView
     }
 
     @objc final func keyboardWillShow(notification: NSNotification) {
@@ -91,5 +94,28 @@ public extension BaseViewController {
 
     @objc final func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    final func setupKeyboardObservers2() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow2(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide2(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc final func keyboardWillShow2(notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        scrollView?.contentInset = contentInsets
+        scrollView?.scrollIndicatorInsets = contentInsets
+    }
+    
+    @objc final func keyboardWillHide2(notification: NSNotification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView?.contentInset = contentInsets
+        scrollView?.scrollIndicatorInsets = contentInsets
     }
 }

@@ -17,7 +17,7 @@ public protocol BaseViewControllerProtocol: AnyObject {
 
 // MARK: - BaseViewController
 open class BaseViewController: UIViewController, LoadingShowable {
-    private var tapGesture: UITapGestureRecognizer!
+    private var tapGesture: UITapGestureRecognizer?
     public var activeTextField: UITextField?
     var scrollView: UIScrollView?
     
@@ -53,7 +53,6 @@ extension BaseViewController: BaseViewControllerProtocol {
 ///Checking whether the selected textfield remains under the keyboard. If it is under keyboard then shifting the view. For this activeTextField must set
 public extension BaseViewController {
     final func setupKeyboardObservers(activeTextField: UITextField? = nil, scrollView: UIScrollView? = nil) {
-        setupKeyboardObservers2()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -62,9 +61,12 @@ public extension BaseViewController {
     }
 
     @objc final func keyboardWillShow(notification: NSNotification) {
+        keyboardWillShowForScrollView(notification: notification)
+    
         if tapGesture == nil {
             tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         }
+        guard let tapGesture else { return }
         view.addGestureRecognizer(tapGesture)
         
         ///To scroll the view up
@@ -85,7 +87,8 @@ public extension BaseViewController {
     }
 
     @objc final func keyboardWillHide(notification: NSNotification) {
-        if tapGesture != nil {
+        keyboardWillHideForScrollView(notification: notification)
+        if let tapGesture {
             view.removeGestureRecognizer(tapGesture)
         }
         ///To return the view to its original place
@@ -96,24 +99,19 @@ public extension BaseViewController {
         view.endEditing(true)
     }
     
-    final func setupKeyboardObservers2() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow2(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide2(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc final func keyboardWillShow2(notification: NSNotification) {
+    @objc final func keyboardWillShowForScrollView(notification: NSNotification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
         }
         
         let keyboardSize = keyboardFrame.size
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height + 40 , right: 0)
         scrollView?.contentInset = contentInsets
         scrollView?.scrollIndicatorInsets = contentInsets
     }
     
-    @objc final func keyboardWillHide2(notification: NSNotification) {
+    @objc final func keyboardWillHideForScrollView(notification: NSNotification) {
         let contentInsets = UIEdgeInsets.zero
         scrollView?.contentInset = contentInsets
         scrollView?.scrollIndicatorInsets = contentInsets

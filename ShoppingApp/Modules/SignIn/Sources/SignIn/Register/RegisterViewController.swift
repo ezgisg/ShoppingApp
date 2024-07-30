@@ -12,8 +12,9 @@ import UIKit
 // MARK: - RegisterViewController
 class RegisterViewController: BaseViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+   
     // MARK: - Outlets
+    @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var containerView: UIView!
 
     @IBOutlet private weak var leftBackgroundCircle: UIImageView!
@@ -51,7 +52,8 @@ class RegisterViewController: BaseViewController {
         setupUI()
         controlCheckStatus()
         setupKeyboardObservers(scrollView: scrollView)
-//        setupKeyboardObservers2()
+        setupDelegate()
+        
     }
 
     // MARK: - Module init
@@ -62,33 +64,7 @@ class RegisterViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    private func setupKeyboardObservers2() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow2(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide2(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    
-//    @objc private func keyboardWillShow2(notification: NSNotification) {
-//        guard let userInfo = notification.userInfo,
-//              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-//            return
-//        }
-//        
-//        let keyboardSize = keyboardFrame.size
-//        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-//        scrollView.contentInset = contentInsets
-//        scrollView.scrollIndicatorInsets = contentInsets
-//    }
-//    
-//    @objc private func keyboardWillHide2(notification: NSNotification) {
-//        let contentInsets = UIEdgeInsets.zero
-//        scrollView.contentInset = contentInsets
-//        scrollView.scrollIndicatorInsets = contentInsets
-//    }
 }
-
-
-
 
 // MARK: - Setups
 private extension RegisterViewController {
@@ -111,6 +87,14 @@ private extension RegisterViewController {
         emailTextField.placeholder = L10nGeneric.email.localized()
         passwordTextField.placeholder = L10nGeneric.password.localized()
         confirmPasswordTextField.placeholder = L10nGeneric.passwordConfirm.localized()
+        
+        nameLabel.isHidden = true
+        surnameLabel.isHidden = true
+        emailLabel.isHidden = true
+        passwordLabel.isHidden = true
+        confirmPasswordLabel.isHidden = true
+        emailWarningLabel.isHidden = true
+        passwordWarningLabel.isHidden = true
     }
     
     final func setupColor() {
@@ -157,11 +141,72 @@ private extension RegisterViewController {
         }
         checkBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-//            isSelectedMembershipAggrementCheckBox.toggle()
+            //TODO: Metin alanı açılacak
         }
         secondCheckBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-//            isSelectedMembershipAggrementCheckBox.toggle()
+            //TODO: Metin alanı açılacak
         }
+    }
+}
+
+
+//MARK: UITextFieldDelegate
+extension RegisterViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case nameTextField:
+            showLabel(label: nameLabel, textField: nameTextField)
+        case surnameTextField:
+            showLabel(label: surnameLabel, textField: surnameTextField)
+        case emailTextField:
+            showLabel(label: emailLabel, textField: emailTextField)
+        case passwordTextField:
+            showLabel(label: passwordLabel, textField: passwordTextField)
+        case confirmPasswordTextField:
+            showLabel(label: confirmPasswordLabel, textField: confirmPasswordTextField)
+        default:
+            break
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case nameTextField:
+            hideLabel(label: nameLabel, textField: nameTextField, placeholderText: L10nGeneric.name.localized())
+        case surnameTextField:
+            hideLabel(label: surnameLabel, textField: surnameTextField, placeholderText: L10nGeneric.surname.localized())
+        case emailTextField:
+            hideLabel(label: emailLabel, textField: emailTextField, placeholderText: L10nGeneric.email.localized())
+        case passwordTextField:
+            hideLabel(label: passwordLabel, textField: passwordTextField, placeholderText: L10nGeneric.password.localized())
+        case confirmPasswordTextField:
+            hideLabel(label: confirmPasswordLabel, textField: confirmPasswordTextField, placeholderText: L10nGeneric.passwordConfirm.localized())
+        default:
+            break
+        }
+    }
+    
+    func setupDelegate() {
+        nameTextField.delegate = self
+        surnameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+    }
+    
+}
+
+//MARK: Helpers
+private extension RegisterViewController {
+    final func showLabel(label: UILabel, textField: UITextField) {
+        UIView.animate(withDuration: 0.2) {
+            label.isHidden = false
+            textField.placeholder = nil
+        }
+    }
+    final func hideLabel(label: UILabel, textField: UITextField, placeholderText: String) {
+        label.isHidden = true
+        textField.placeholder = placeholderText
     }
 }

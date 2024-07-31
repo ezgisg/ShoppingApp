@@ -51,13 +51,7 @@ class RegisterViewController: BaseViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        controlCheckStatus()
-        setupKeyboardObservers(scrollView: scrollView)
-        setupDelegate()
-        setupInitialStatus()
-        
-
+        setup()
     }
 
     // MARK: - Module init
@@ -124,12 +118,6 @@ private extension RegisterViewController {
         confirmPasswordTextField.textColor = .textColor
     }
     
-    final func setupUI() {
-        registerButton.layer.cornerRadius = 10
-        setupText()
-        setupColor()
-    }
-    
     final func setupInitialStatus() {
         nameLabel.isHidden = true
         surnameLabel.isHidden = true
@@ -141,6 +129,17 @@ private extension RegisterViewController {
         passwordWarningLabel.isHidden = true
         customInformationView.isHidden = true
         registerButton.isEnabled = false
+    }
+    
+    final func setup() {
+        registerButton.layer.cornerRadius = 10
+        setupText()
+        setupColor()
+        
+        controlCheckStatus()
+        setupKeyboardObservers(scrollView: scrollView)
+        setupDelegate()
+        setupInitialStatus()
     }
     
 }
@@ -155,21 +154,19 @@ private extension RegisterViewController {
         secondCheckBoxView.onImageTapped = { [weak self] in
             guard let self else { return }
             viewModel.isSelectedMembershipAggrementCheckBox.toggle()
+            controlRegisterConditions()
         }
         checkBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
             customInformationView.configureWith(message: L10nSignIn.PrivacyPolicy.description.localized(), messageTitle: L10nSignIn.PrivacyPolicy.title.localized())
             customInformationView.isHidden = false
         }
-        
-        
         secondCheckBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
             customInformationView.configureWith(message: L10nSignIn.MembershipAgreement.description.localized(), messageTitle: L10nSignIn.MembershipAgreement.title.localized())
             customInformationView.isHidden = false
         }
     }
-    
 }
 
 
@@ -194,6 +191,7 @@ extension RegisterViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        controlRegisterConditions()
         switch textField {
         case nameTextField:
             hideLabel(label: nameLabel, textField: nameTextField, placeholderText: L10nGeneric.name.localized())
@@ -231,8 +229,10 @@ extension RegisterViewController: UITextFieldDelegate {
     
     public func textFieldDidChangeSelection(_ textField: UITextField) {
         switch textField {
-        case nameTextField, surnameTextField:
-            passwordConditionWarningLabel.isHidden = isPasswordValid(password: passwordTextField.text ?? "")
+        case nameTextField,
+             surnameTextField:
+            guard let password = passwordTextField.text else { return }
+            passwordConditionWarningLabel.isHidden = isPasswordValid(password: password)
         case emailTextField:
             guard
                 let text = emailTextField.text,
@@ -243,10 +243,11 @@ extension RegisterViewController: UITextFieldDelegate {
                 return
             }
             emailWarningLabel.isHidden = false
+            
         case passwordTextField, confirmPasswordTextField:
-            passwordConditionWarningLabel.isHidden = isPasswordValid(password: passwordTextField.text ?? "")
+            guard let password1 = passwordTextField.text else { return }
+            passwordConditionWarningLabel.isHidden = isPasswordValid(password: password1)
             guard
-                let password1 = passwordTextField.text,
                 let password2 = confirmPasswordTextField.text,
                 !password1.isEmpty, !password2.isEmpty,
                 password1 != password2
@@ -274,6 +275,8 @@ extension RegisterViewController: UITextFieldDelegate {
             return false
         }
     }
+
+
     
     func setupDelegate() {
         nameTextField.delegate = self
@@ -307,7 +310,21 @@ private extension RegisterViewController {
     }
     
     final func controlRegisterConditions() {
-        
+        guard let name = nameTextField.text,
+              let surname = surnameTextField.text,
+              let email = emailTextField.text,
+              let password = passwordTextField.text,
+              let passwordConfirm = confirmPasswordTextField.text,
+              !name.isEmpty,
+              !surname.isEmpty,
+              password == passwordConfirm,
+              email.isValidEmail,
+              isPasswordValid(password: password),
+              viewModel.isSelectedMembershipAggrementCheckBox
+        else {
+            return registerButton.isEnabled = false
+        }
+        registerButton.isEnabled = true
     }
 
 }

@@ -129,4 +129,11 @@ public extension String {
         return false
     }
     
+    var trimming: String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    var withoutSpaces: String {
+         return self.replacingOccurrences(of: " ", with: "")
+     }
 }

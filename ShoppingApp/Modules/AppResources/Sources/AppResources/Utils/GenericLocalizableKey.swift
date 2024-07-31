@@ -38,7 +38,23 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     case name
     case surname
     case emailWarning
- 
+    
+    public enum PasswordControlMessages: String, LocalizableProtocol {
+        // MARK: - RawValue
+        public var stringValue: String {
+            return rawValue
+        }
+
+        case number = "PasswordControlMessages.number"
+        case letter = "PasswordControlMessages.letter"
+        case special = "PasswordControlMessages.special"
+        case consecutive = "PasswordControlMessages.consecutive"
+        case repeating = "PasswordControlMessages.repeating"
+        case minCharacter = "PasswordControlMessages.minCharacter"
+        case maxCharacter = "PasswordControlMessages.maxCharacter"
+        case nameContain = "PasswordControlMessages.nameContain"
+        case surnameContain = "PasswordControlMessages.surnameContain"
+    }
 }
 
 // MARK: - Functions

@@ -205,6 +205,159 @@
         }
       }
     },
+    "PasswordControlMessages.consecutive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must not contain consecutive numbers like 123."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrenizde 123 gibi ardışık rakamlar olmamalı."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.letter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must contain at least 1 letter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz en az bir harf içermeli."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.maxCharacter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password cannot be longer than 16 characters."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz 16 karakterden uzun olamaz."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.minCharacter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must be at least 8 characters long."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz en az 8 karakter olmalı."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.nameContain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must not contain your name."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz isminizi içeremez."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.number" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must contain at least 1 number."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz en az 1 sayı içermeli."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.repeating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must not contain repeating numbers like 111."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrenizde 111 gibi tekrar eden rakamlar olmamalı."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.special" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must contain at least 1 special character."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz en az bir özel karakter içermeli."
+          }
+        }
+      }
+    },
+    "PasswordControlMessages.surnameContain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must not contain your surname."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreniz soyadınızı içeremez."
+          }
+        }
+      }
+    },
     "surname" : {
       "extractionState" : "manual",
       "localizations" : {

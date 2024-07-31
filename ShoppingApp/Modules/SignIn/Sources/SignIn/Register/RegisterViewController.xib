@@ -15,6 +15,7 @@
                 <outlet property="confirmPasswordLabel" destination="VGB-DI-s3U" id="cNv-aE-Qot"/>
                 <outlet property="confirmPasswordTextField" destination="PYT-BZ-LJH" id="alq-8q-8Be"/>
                 <outlet property="containerView" destination="i5M-Pr-FkT" id="DDe-Y7-Pxp"/>
+                <outlet property="customInformationView" destination="DUt-Ys-xoP" id="pyw-r8-3tN"/>
                 <outlet property="emailLabel" destination="giw-qC-V9Z" id="1y5-jg-9Po"/>
                 <outlet property="emailTextField" destination="72Q-dM-YdD" id="Jw9-YK-5Rd"/>
                 <outlet property="emailWarningLabel" destination="YKT-cz-AHZ" id="xFh-RN-RZq"/>
@@ -308,16 +309,26 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUt-Ys-xoP" customClass="CustomInformationView" customModule="SignIn">
+                    <rect key="frame" x="20" y="378.66666666666669" width="390" height="200.00000000000006"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" priority="998" constant="200" id="dS8-bJ-jKT"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DUt-Ys-xoP" secondAttribute="trailing" constant="20" id="0MB-zR-xBU"/>
                 <constraint firstItem="PwD-Or-DjQ" firstAttribute="top" secondItem="bs8-yv-mc9" secondAttribute="bottom" constant="24" id="0Q8-sp-WNb"/>
+                <constraint firstItem="DUt-Ys-xoP" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="1eO-s2-XeI"/>
                 <constraint firstItem="rbw-eq-Nqi" firstAttribute="centerY" secondItem="4yz-Fn-eNv" secondAttribute="centerY" id="1lw-R6-MoC"/>
                 <constraint firstItem="bs8-yv-mc9" firstAttribute="centerY" secondItem="nOJ-vu-WSl" secondAttribute="centerY" id="8VK-kC-Yvz"/>
                 <constraint firstItem="nOJ-vu-WSl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FTa-fF-JVk"/>
                 <constraint firstItem="rbw-eq-Nqi" firstAttribute="height" secondItem="4yz-Fn-eNv" secondAttribute="height" constant="20" id="KW4-Ev-tLy"/>
                 <constraint firstItem="Pxn-zO-fBy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Vo0-ya-spA"/>
                 <constraint firstItem="bs8-yv-mc9" firstAttribute="width" secondItem="nOJ-vu-WSl" secondAttribute="width" constant="20" id="WQG-g8-Bwy"/>
+                <constraint firstItem="DUt-Ys-xoP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="cuy-bq-Rhi"/>
                 <constraint firstItem="4yz-Fn-eNv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="eD0-jP-0oI"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Pxn-zO-fBy" secondAttribute="trailing" id="elx-ZX-WYV"/>
                 <constraint firstItem="4yz-Fn-eNv" firstAttribute="leading" secondItem="nOJ-vu-WSl" secondAttribute="trailing" constant="-100" id="j8K-G9-Qh4"/>

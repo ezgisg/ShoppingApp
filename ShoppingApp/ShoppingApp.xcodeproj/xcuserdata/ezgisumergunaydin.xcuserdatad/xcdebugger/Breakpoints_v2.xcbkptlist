@@ -7,32 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BAA5E4E4-364E-4250-A304-4DDA0D2A9DB1"
+            uuid = "00653009-FEBD-4CE7-8452-84422523858D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/AppResources/Sources/AppResources/Utils/Extensions/UITextField+Validation.swift"
+            filePath = "Modules/SignIn/Sources/SignIn/Register/RegisterViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "isOnlyNumbersWithNoSpaces(range:string:maxLength:)"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "hidetheview()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8C3E03F9-5296-4375-B179-56194EE2C9F0"
+            uuid = "94C8A1D9-7F11-4F3F-8B3A-5BA78303987A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/AppResources/Sources/AppResources/Utils/Extensions/UITextField+Validation.swift"
+            filePath = "Modules/SignIn/Sources/SignIn/Register/RegisterViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "isOnlyNumbersWithNoSpaces(range:string:maxLength:)"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "controlCheckStatus()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "649EFF4E-C0D2-4D35-AFF1-32F209510C09"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Modules/SignIn/Sources/SignIn/Register/RegisterViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "controlCheckStatus()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

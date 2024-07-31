@@ -12,11 +12,12 @@ import UIKit
 // MARK: - RegisterViewController
 class RegisterViewController: BaseViewController {
 
-   
+    private var tapGesture: UITapGestureRecognizer?
     // MARK: - Outlets
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var containerView: UIView!
-
+    @IBOutlet private weak var customInformationView: CustomInformationView!
+    
     @IBOutlet private weak var leftBackgroundCircle: UIImageView!
     @IBOutlet private weak var leftMainCircle: UIImageView!
     @IBOutlet private weak var rightMainCircle: UIImageView!
@@ -55,6 +56,7 @@ class RegisterViewController: BaseViewController {
         setupKeyboardObservers(scrollView: scrollView)
         setupDelegate()
         setupInitialStatus()
+        
 
     }
 
@@ -137,7 +139,7 @@ private extension RegisterViewController {
         emailWarningLabel.isHidden = true
         passwordConditionWarningLabel.isHidden = true
         passwordWarningLabel.isHidden = true
-        
+        customInformationView.isHidden = true
         registerButton.isEnabled = false
     }
     
@@ -156,18 +158,34 @@ private extension RegisterViewController {
         }
         checkBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-//            showTextViewAlert(title: "TİTLE", message: "MESSAGE", buttonTitle: "okito")
+            customInformationView.configureWith(message: L10nSignIn.PrivacyPolicy.description.localized(), messageTitle: L10nSignIn.PrivacyPolicy.title.localized())
+            customInformationView.isHidden = false
+           
+            tapGesture = UITapGestureRecognizer(target: self, action: #selector(hidetheview))
+            guard let tapGesture else { return }
+            view.addGestureRecognizer(tapGesture)
         }
+        
+        
         secondCheckBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-            //TODO: Metin alanı açılacak
+            customInformationView.configureWith(message: L10nSignIn.MembershipAgreement.description.localized(), messageTitle: L10nSignIn.MembershipAgreement.title.localized())
+            customInformationView.isHidden = false
         }
+    }
+    
+    @objc func hidetheview() {
+        if let tapGesture {
+            view.removeGestureRecognizer(tapGesture)
+        }
+        customInformationView.isHidden = true
     }
 }
 
 
 //MARK: UITextFieldDelegate
 extension RegisterViewController: UITextFieldDelegate {
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case nameTextField:
@@ -301,10 +319,7 @@ private extension RegisterViewController {
     final func controlRegisterConditions() {
         
     }
-    
 
-
-    
 }
 
 

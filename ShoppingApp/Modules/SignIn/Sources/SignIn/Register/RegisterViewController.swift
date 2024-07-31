@@ -234,6 +234,7 @@ extension RegisterViewController: UITextFieldDelegate {
             }
             emailWarningLabel.isHidden = false
         case passwordTextField, confirmPasswordTextField:
+            passwordConditionWarningLabel.isHidden = isPasswordValid(password: passwordTextField.text ?? "")
             guard
                 let password1 = passwordTextField.text,
                 let password2 = confirmPasswordTextField.text,
@@ -245,6 +246,7 @@ extension RegisterViewController: UITextFieldDelegate {
             }
                 passwordWarningLabel.isHidden = false
             break
+            
         default:
             break
         }
@@ -281,8 +283,31 @@ private extension RegisterViewController {
         textField.placeholder = placeholderText
     }
     
-    final func controlPasswordComplexity(password: String) {
-        guard password.isWhitespace else { return }
+    final func isPasswordValid(password: String) -> Bool {
+        var message: String? = nil
+        guard !password.isEmpty else { return true }
+        if !password.hasNumbers {
+            message = "Numara içermeli"
+        } else if !password.hasLetters {
+            message = "karakter içermeli"
+        } else if !password.hasSpecialCharacters {
+            message = "özel içermeli"
+        } else if password.hasConsecutiveDigits {
+            message = "cons olmamalı"
+        } else if password.hasRepeatingDigits {
+            message = "rep olmamalı"
+        } else if password.count < 8 {
+            message = "8 den uzun olmalı"
+        } else if password.count > 16 {
+            message = "16 dan kısa olmalı"
+        } else {
+            message = nil
+        }
+        
+        guard let message else { return true }
+        passwordConditionWarningLabel.text = message
+        return false
+
     }
     
     final func controlRegisterConditions() {

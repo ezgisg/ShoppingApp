@@ -53,7 +53,8 @@ class RegisterViewController: BaseViewController {
         controlCheckStatus()
         setupKeyboardObservers(scrollView: scrollView)
         setupDelegate()
-        
+        setupInitialStatus()
+
     }
 
     // MARK: - Module init
@@ -88,13 +89,6 @@ private extension RegisterViewController {
         passwordTextField.placeholder = L10nGeneric.password.localized()
         confirmPasswordTextField.placeholder = L10nGeneric.passwordConfirm.localized()
         
-        nameLabel.isHidden = true
-        surnameLabel.isHidden = true
-        emailLabel.isHidden = true
-        passwordLabel.isHidden = true
-        confirmPasswordLabel.isHidden = true
-        emailWarningLabel.isHidden = true
-        passwordWarningLabel.isHidden = true
     }
     
     final func setupColor() {
@@ -119,6 +113,11 @@ private extension RegisterViewController {
         emailWarningLabel.textColor = .warningTextColor
         passwordWarningLabel.textColor = .warningTextColor
         
+        nameTextField.textColor = .textColor
+        surnameTextField.textColor = .textColor
+        emailTextField.textColor = .textColor
+        passwordTextField.textColor = .textColor
+        confirmPasswordTextField.textColor = .textColor
     }
     
     final func setupUI() {
@@ -126,6 +125,19 @@ private extension RegisterViewController {
         setupText()
         setupColor()
     }
+    
+    final func setupInitialStatus() {
+        nameLabel.isHidden = true
+        surnameLabel.isHidden = true
+        emailLabel.isHidden = true
+        passwordLabel.isHidden = true
+        confirmPasswordLabel.isHidden = true
+        emailWarningLabel.isHidden = true
+        passwordWarningLabel.isHidden = true
+        
+        registerButton.isEnabled = false
+    }
+    
 }
 
 // MARK: - Check conditions
@@ -187,6 +199,54 @@ extension RegisterViewController: UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case nameTextField:
+            surnameTextField.becomeFirstResponder()
+        case surnameTextField:
+            emailTextField.becomeFirstResponder()
+        case emailTextField:
+            passwordTextField.becomeFirstResponder()
+        case passwordTextField:
+            confirmPasswordTextField.becomeFirstResponder()
+        case confirmPasswordTextField:
+            confirmPasswordTextField.resignFirstResponder()
+        default:
+            break
+        }
+        return true
+    }
+    
+    
+    public func textFieldDidChangeSelection(_ textField: UITextField) {
+        switch textField {
+        case emailTextField:
+            guard
+                let text = emailTextField.text,
+                !text.isEmpty,
+                !viewModel.isValidEmail(text)
+            else {
+                emailWarningLabel.isHidden = true
+                return
+            }
+            emailWarningLabel.isHidden = false
+        case passwordTextField, confirmPasswordTextField:
+            guard
+                let password1 = passwordTextField.text,
+                let password2 = confirmPasswordTextField.text,
+                !password1.isEmpty, !password2.isEmpty,
+                password1 != password2
+            else {
+                passwordWarningLabel.isHidden = true
+                return
+            }
+                passwordWarningLabel.isHidden = false
+            break
+        default:
+            break
+        }
+    }
+    
     func setupDelegate() {
         nameTextField.delegate = self
         surnameTextField.delegate = self
@@ -209,4 +269,13 @@ private extension RegisterViewController {
         label.isHidden = true
         textField.placeholder = placeholderText
     }
+    
+    final func controlPasswordComplexity() {
+        
+    }
+    
+    final func controlRegisterConditions() {
+        
+    }
+    
 }

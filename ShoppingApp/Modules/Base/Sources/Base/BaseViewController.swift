@@ -25,7 +25,7 @@ open class BaseViewController: UIViewController, LoadingShowable {
         super.viewDidLoad()
     }
     
-    final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", completion: (() -> Void)?) {
+    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", completion: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
             completion?()

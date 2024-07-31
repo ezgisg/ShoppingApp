@@ -8,6 +8,9 @@
 import AppResources
 import Base
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
+import TabBar
 
 // MARK: - RegisterViewController
 class RegisterViewController: BaseViewController {
@@ -148,6 +151,52 @@ private extension RegisterViewController {
 private extension RegisterViewController {
     
     @IBAction func registerButtonClicked(_ sender: Any) {
+        guard let name = nameTextField.text,
+              let surname = surnameTextField.text,
+              let email = emailTextField.text,
+              let password = passwordTextField.text
+        else {
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error {
+                self.showAlert(title: L10nGeneric.error.localized(), message: error.localizedDescription, buttonTitle: L10nGeneric.ok.localized(), completion: nil)
+                return
+            }
+        
+            guard let uid = authResult?.user.uid else { return }
+            Task {
+                await self.addUser(uid: uid, name: name, surname: surname)
+            }
+            
+        }
+              
+    }
+    
+    func addUser(uid: String, name: String, surname: String) async {
+        let db = Firestore.firestore()
+        do {
+            try await db.collection("users").document(uid).setData([
+                "name": name,
+                "surname": surname,
+                "uid": uid
+            ])
+            //TODO: düzenlenecek
+            //TODO: email doğrulandı mı kontrolü yapılacak, doğrulanmadıysa tabbar a geçilmeyecek
+            print("Document added with ID: \(uid)")
+            let viewController = TabBarController()
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.type = .fade
+            transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            navigationController?.view.layer.add(transition, forKey: kCATransition)
+            navigationController?.pushViewController(viewController, animated: false)
+        } catch {
+            //TODO: kayıt yapılmış oluyor, burada hata alınırsa baştan almak gerek?
+            print("Error adding document: \(error)")
+        }
     }
     
     final func controlCheckStatus() {

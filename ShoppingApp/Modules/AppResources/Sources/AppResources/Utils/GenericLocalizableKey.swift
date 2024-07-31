@@ -18,6 +18,8 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     }
 
     // MARK: - Keys
+    
+    case error
     /// Tamam
     case ok = "generic.okay"
     /// Vazgeç

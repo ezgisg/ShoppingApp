@@ -171,8 +171,6 @@ extension SignInViewController {
         }
     }
     
-    
-    //TODO: register düzenlenecek
     func setupRegister() {
         registerLabel.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(registerTapped))
@@ -180,48 +178,8 @@ extension SignInViewController {
     }
     
     @objc func registerTapped() {
-        
         let viewController = RegisterViewController()
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = .fade
-        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        
-        navigationController?.view.layer.add(transition, forKey: kCATransition)
-        navigationController?.pushViewController(viewController, animated: false)
-        
-//        let email = "asdsadafsdfcsad7sd@hotmail.com"
-//        let password = "deneme12356"
-//        let name = "Ezgi"
-//        let surname = "SG"
-//        
-//        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-//            if let error = error {
-//                print("Kullanıcı oluşturulamadı: \(error.localizedDescription)")
-//                return
-//            }
-//            
-//    
-//            guard let uid = authResult?.user.uid else { return }
-//                Task {
-//                    await self.addUser(uid: uid, name: name, surname: surname)
-//                }
-//            
-//        }
-    }
-
-    func addUser(uid: String, name: String, surname: String) async {
-        let db = Firestore.firestore()
-        do {
-            try await db.collection("users").document(uid).setData([
-                "name": name,
-                "surname": surname,
-                "uid": uid
-            ])
-            print("Document added with ID: \(uid)")
-        } catch {
-            print("Error adding document: \(error)")
-        }
+        pushWithTransition(viewController)
     }
     
     }

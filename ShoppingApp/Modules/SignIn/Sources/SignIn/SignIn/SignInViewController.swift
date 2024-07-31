@@ -40,6 +40,7 @@ public class SignInViewController: BaseViewController {
     @IBOutlet weak var registerLabel: UILabel!
     @IBOutlet weak var emailWarningLabel: UILabel!
     
+    //TODO: Gerek olmazsa kaldırılacak
     //MARK: Module Components
     var viewModel = SignInViewModel()
     
@@ -340,7 +341,7 @@ extension SignInViewController: UITextFieldDelegate {
             guard
                 let text = emailTextField.text,
                 !text.isEmpty,
-                !viewModel.isValidEmail(text)
+                !text.isValidEmail
             else {
                 emailWarningLabel.text = ""
                 return

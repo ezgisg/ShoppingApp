@@ -22,6 +22,7 @@
                 <outlet property="leftMainCircle" destination="nOJ-vu-WSl" id="UBq-Tl-8Pc"/>
                 <outlet property="nameLabel" destination="G82-kV-dXe" id="w9h-XY-a2s"/>
                 <outlet property="nameTextField" destination="ule-NK-DE8" id="fcs-ZG-e0Z"/>
+                <outlet property="passwordConditionWarningLabel" destination="Xfa-em-aQU" id="Ghu-z6-Afi"/>
                 <outlet property="passwordLabel" destination="NqZ-UL-EzK" id="762-zf-nc1"/>
                 <outlet property="passwordTextField" destination="4Tu-Ap-5c4" id="Qva-B2-jTM"/>
                 <outlet property="passwordWarningLabel" destination="Zz1-Hh-JUA" id="OnW-CO-Pzj"/>
@@ -77,7 +78,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="430" height="663"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hwc-mQ-hlO">
-                                    <rect key="frame" x="20" y="20" width="390" height="586.66666666666663"/>
+                                    <rect key="frame" x="20" y="20" width="390" height="609"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="6fp-8U-fbf">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="58"/>
@@ -197,8 +198,14 @@
                                                 </view>
                                             </subviews>
                                         </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xfa-em-aQU">
+                                            <rect key="frame" x="0.0" y="286.33333333333337" width="390" height="14.333333333333314"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                            <color key="textColor" name="warningTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Q3J-1Y-mMd">
-                                            <rect key="frame" x="0.0" y="286.33333333333337" width="390" height="58"/>
+                                            <rect key="frame" x="0.0" y="308.66666666666663" width="390" height="58"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGB-DI-s3U">
                                                     <rect key="frame" x="0.0" y="0.0" width="390" height="17"/>
@@ -226,34 +233,34 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zz1-Hh-JUA">
-                                            <rect key="frame" x="0.0" y="352.33333333333337" width="390" height="14.333333333333314"/>
+                                            <rect key="frame" x="0.0" y="374.66666666666663" width="390" height="14.333333333333314"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                             <color key="textColor" name="warningTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1v-EI-bIv">
-                                            <rect key="frame" x="0.0" y="374.66666666666663" width="390" height="12"/>
+                                            <rect key="frame" x="0.0" y="397" width="390" height="12"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="12" id="gPa-qF-Sxm"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZD-yH-Hpi" customClass="CheckBoxView" customModule="SignIn">
-                                            <rect key="frame" x="0.0" y="394.66666666666663" width="390" height="52"/>
+                                            <rect key="frame" x="0.0" y="417" width="390" height="52"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="26" id="Egp-sn-tw0"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grT-SI-TMJ" customClass="CheckBoxView" customModule="SignIn">
-                                            <rect key="frame" x="0.0" y="454.66666666666663" width="390" height="52"/>
+                                            <rect key="frame" x="0.0" y="477" width="390" height="52"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="26" id="yqr-KJ-zUa"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2m-J3-Iaj">
-                                            <rect key="frame" x="0.0" y="514.66666666666663" width="390" height="72"/>
+                                            <rect key="frame" x="0.0" y="537" width="390" height="72"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2v9-kg-RMM">
                                                     <rect key="frame" x="0.0" y="12" width="390" height="48"/>

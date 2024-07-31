@@ -41,6 +41,7 @@ class RegisterViewController: BaseViewController {
     @IBOutlet private weak var registerButton: UIButton!
 
     @IBOutlet private weak var emailWarningLabel: UILabel!
+    @IBOutlet private weak var passwordConditionWarningLabel: UILabel!
     @IBOutlet private weak var passwordWarningLabel: UILabel!
     
     // MARK: - Module Components
@@ -110,6 +111,7 @@ private extension RegisterViewController {
         emailLabel.textColor = .textColor
         passwordLabel.textColor = .textColor
         confirmPasswordLabel.textColor = .textColor
+        passwordConditionWarningLabel.textColor = .warningTextColor
         emailWarningLabel.textColor = .warningTextColor
         passwordWarningLabel.textColor = .warningTextColor
         
@@ -133,6 +135,7 @@ private extension RegisterViewController {
         passwordLabel.isHidden = true
         confirmPasswordLabel.isHidden = true
         emailWarningLabel.isHidden = true
+        passwordConditionWarningLabel.isHidden = true
         passwordWarningLabel.isHidden = true
         
         registerButton.isEnabled = false
@@ -224,7 +227,7 @@ extension RegisterViewController: UITextFieldDelegate {
             guard
                 let text = emailTextField.text,
                 !text.isEmpty,
-                !viewModel.isValidEmail(text)
+                !text.isValidEmail
             else {
                 emailWarningLabel.isHidden = true
                 return
@@ -270,8 +273,8 @@ private extension RegisterViewController {
         textField.placeholder = placeholderText
     }
     
-    final func controlPasswordComplexity() {
-        
+    final func controlPasswordComplexity(password: String) {
+        guard password.isWhitespace else { return }
     }
     
     final func controlRegisterConditions() {

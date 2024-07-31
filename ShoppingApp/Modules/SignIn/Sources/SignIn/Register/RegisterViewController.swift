@@ -160,10 +160,6 @@ private extension RegisterViewController {
             guard let self else { return }
             customInformationView.configureWith(message: L10nSignIn.PrivacyPolicy.description.localized(), messageTitle: L10nSignIn.PrivacyPolicy.title.localized())
             customInformationView.isHidden = false
-           
-            tapGesture = UITapGestureRecognizer(target: self, action: #selector(hidetheview))
-            guard let tapGesture else { return }
-            view.addGestureRecognizer(tapGesture)
         }
         
         
@@ -174,12 +170,6 @@ private extension RegisterViewController {
         }
     }
     
-    @objc func hidetheview() {
-        if let tapGesture {
-            view.removeGestureRecognizer(tapGesture)
-        }
-        customInformationView.isHidden = true
-    }
 }
 
 

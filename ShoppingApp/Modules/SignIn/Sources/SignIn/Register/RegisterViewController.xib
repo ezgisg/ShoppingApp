@@ -310,25 +310,22 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUt-Ys-xoP" customClass="CustomInformationView" customModule="SignIn">
-                    <rect key="frame" x="20" y="378.66666666666669" width="390" height="200.00000000000006"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" priority="998" constant="200" id="dS8-bJ-jKT"/>
-                    </constraints>
+                    <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DUt-Ys-xoP" secondAttribute="trailing" constant="20" id="0MB-zR-xBU"/>
                 <constraint firstItem="PwD-Or-DjQ" firstAttribute="top" secondItem="bs8-yv-mc9" secondAttribute="bottom" constant="24" id="0Q8-sp-WNb"/>
-                <constraint firstItem="DUt-Ys-xoP" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="1eO-s2-XeI"/>
                 <constraint firstItem="rbw-eq-Nqi" firstAttribute="centerY" secondItem="4yz-Fn-eNv" secondAttribute="centerY" id="1lw-R6-MoC"/>
+                <constraint firstItem="DUt-Ys-xoP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="7gt-cj-aVb"/>
                 <constraint firstItem="bs8-yv-mc9" firstAttribute="centerY" secondItem="nOJ-vu-WSl" secondAttribute="centerY" id="8VK-kC-Yvz"/>
                 <constraint firstItem="nOJ-vu-WSl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FTa-fF-JVk"/>
                 <constraint firstItem="rbw-eq-Nqi" firstAttribute="height" secondItem="4yz-Fn-eNv" secondAttribute="height" constant="20" id="KW4-Ev-tLy"/>
+                <constraint firstAttribute="bottom" secondItem="DUt-Ys-xoP" secondAttribute="bottom" id="Lf2-kO-JeM"/>
+                <constraint firstItem="DUt-Ys-xoP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="N1P-6B-hkt"/>
                 <constraint firstItem="Pxn-zO-fBy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Vo0-ya-spA"/>
                 <constraint firstItem="bs8-yv-mc9" firstAttribute="width" secondItem="nOJ-vu-WSl" secondAttribute="width" constant="20" id="WQG-g8-Bwy"/>
-                <constraint firstItem="DUt-Ys-xoP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="cuy-bq-Rhi"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DUt-Ys-xoP" secondAttribute="trailing" id="bQq-Km-AqM"/>
                 <constraint firstItem="4yz-Fn-eNv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="eD0-jP-0oI"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Pxn-zO-fBy" secondAttribute="trailing" id="elx-ZX-WYV"/>
                 <constraint firstItem="4yz-Fn-eNv" firstAttribute="leading" secondItem="nOJ-vu-WSl" secondAttribute="trailing" constant="-100" id="j8K-G9-Qh4"/>

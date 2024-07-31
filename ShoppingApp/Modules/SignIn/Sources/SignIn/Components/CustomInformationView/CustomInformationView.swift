@@ -21,6 +21,7 @@ public class CustomInformationView: UIView, NibOwnerLoadable {
     @IBOutlet private weak var title: UILabel!
     @IBOutlet private weak var textView: UITextView!
     @IBOutlet private weak var cancelButton: UIButton!
+    @IBOutlet private weak var outsideTapButton: UIButton!
     
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     // MARK: - Private Variables
@@ -46,6 +47,9 @@ public class CustomInformationView: UIView, NibOwnerLoadable {
        self.isHidden = true
     }
     
+    @IBAction func didTapOutsideButton(_ sender: Any) {
+        self.isHidden = true
+    }
 }
 
 // MARK: - Setup
@@ -66,6 +70,7 @@ private extension CustomInformationView {
         
 
         textViewHeightConstraint.constant = textView.updateHeightToFitContent(max: 200)
+        backgroundColor = .black.withAlphaComponent(0.2)
     }
     
 }

@@ -7,15 +7,14 @@
 
 import AppResources
 import Base
-import UIKit
-import FirebaseFirestore
 import FirebaseAuth
+import FirebaseFirestore
+import UIKit
 import TabBar
 
 // MARK: - RegisterViewController
 class RegisterViewController: BaseViewController {
 
-    private var tapGesture: UITapGestureRecognizer?
     // MARK: - Outlets
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var containerView: UIView!
@@ -32,7 +31,6 @@ class RegisterViewController: BaseViewController {
     @IBOutlet private weak var emailLabel: UILabel!
     @IBOutlet private weak var passwordLabel: UILabel!
     @IBOutlet private weak var confirmPasswordLabel: UILabel!
-    
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var surnameTextField: UITextField!
@@ -55,6 +53,7 @@ class RegisterViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        viewModel.delegate = self
     }
 
     // MARK: - Module init
@@ -70,8 +69,21 @@ class RegisterViewController: BaseViewController {
 // MARK: - Setups
 private extension RegisterViewController {
     final func setupText() {
-        checkBoxView.configureWith(initialImage: .uncheck, secondImage: .check, textContent: L10nSignIn.PrivacyPolicy.longTitle.localized(), boldContent: L10nSignIn.PrivacyPolicy.title.localized(), isCheckBoxImageNeeded: false)
-        secondCheckBoxView.configureWith(initialImage: .uncheck, secondImage: .check, textContent: L10nSignIn.MembershipAgreement.longTitle.localized(), boldContent: L10nSignIn.MembershipAgreement.title.localized(), isCheckBoxImageNeeded: true)
+        checkBoxView.configureWith(
+            initialImage: .uncheck,
+            secondImage: .check,
+            textContent: L10nSignIn.PrivacyPolicy.longTitle.localized(),
+            boldContent: L10nSignIn.PrivacyPolicy.title.localized(),
+            isCheckBoxImageNeeded: false
+        )
+        secondCheckBoxView.configureWith(
+            initialImage: .uncheck,
+            secondImage: .check,
+            textContent: L10nSignIn.MembershipAgreement.longTitle.localized(),
+            boldContent: L10nSignIn.MembershipAgreement.title.localized(),
+            isCheckBoxImageNeeded: true
+        )
+        
         registerButton.setTitle(L10nSignIn.register.localized(), for: .normal)
         registerMessage.text = L10nSignIn.registerMessage.localized()
         
@@ -88,12 +100,12 @@ private extension RegisterViewController {
         emailTextField.placeholder = L10nGeneric.email.localized()
         passwordTextField.placeholder = L10nGeneric.password.localized()
         confirmPasswordTextField.placeholder = L10nGeneric.passwordConfirm.localized()
-        
     }
     
     final func setupColor() {
-        registerButton.backgroundColor = .buttonColor
+        registerButton.backgroundColor = .lightButtonColor
         registerButton.setTitleColor(.buttonTextColor, for: .normal)
+        
         
         containerView.backgroundColor = .backgroundColor
         
@@ -134,6 +146,14 @@ private extension RegisterViewController {
         registerButton.isEnabled = false
     }
     
+    func setupDelegate() {
+        nameTextField.delegate = self
+        surnameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+    }
+    
     final func setup() {
         registerButton.layer.cornerRadius = 10
         setupText()
@@ -143,85 +163,98 @@ private extension RegisterViewController {
         setupKeyboardObservers(scrollView: scrollView)
         setupDelegate()
         setupInitialStatus()
+        
+        ///To change register button enabling status simultaneously
+        /// Modification is made manually in other text fields so it works only these two
+        [nameTextField, surnameTextField].forEach { textField in
+            textField.addTarget(
+                self,
+                action: #selector(textFieldDidChange(_:)),
+                for: .editingChanged
+            )
+        }
     }
-    
 }
 
-// MARK: - Check conditions
+// MARK: - Actions
 private extension RegisterViewController {
-    
     @IBAction func registerButtonClicked(_ sender: Any) {
-        guard let name = nameTextField.text,
-              let surname = surnameTextField.text,
-              let email = emailTextField.text,
-              let password = passwordTextField.text
-        else {
-            return
-        }
+        guard
+            let name = nameTextField.text?.trimming,
+            let surname = surnameTextField.text?.trimming,
+            let email = emailTextField.text,
+            let password = passwordTextField.text
+        else { return }
         
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+        view.endEditing(true)
+        showLoadingView()
+        
+        ///Creating user with firebase
+        Auth.auth().createUser(withEmail: email, password: password) {
+            [weak self] authResult,
+            error in
+            guard let self else { return }
+            hideLoadingView()
             if let error {
-                self.showAlert(title: L10nGeneric.error.localized(), message: error.localizedDescription, buttonTitle: L10nGeneric.ok.localized(), completion: nil)
-                return
+                showAlert(
+                    title: L10nGeneric.error.localized(),
+                    message: error.localizedDescription,
+                    buttonTitle: L10nGeneric.ok.localized(),
+                    completion: nil
+                )
+            } else if let uid = authResult?.user.uid {
+                Task {  [weak self] in
+                    guard let self else { return }
+                    ///Recording user name&surname infos to firebase firestore
+                    await viewModel.addUserInfosToFirestore(uid: uid, name: name, surname: surname)
+                }
+            } else {
+                showAlert(
+                    title: L10nGeneric.error.localized(),
+                    message: L10nGeneric.unknownError.localized(),
+                    buttonTitle: L10nGeneric.ok.localized(),
+                    completion: nil
+                )
             }
-        
-            guard let uid = authResult?.user.uid else { return }
-            Task {
-                await self.addUser(uid: uid, name: name, surname: surname)
-            }
-            
-        }
-              
-    }
-    
-    func addUser(uid: String, name: String, surname: String) async {
-        let db = Firestore.firestore()
-        do {
-            try await db.collection("users").document(uid).setData([
-                "name": name,
-                "surname": surname,
-                "uid": uid
-            ])
-            //TODO: düzenlenecek
-            //TODO: email doğrulandı mı kontrolü yapılacak, doğrulanmadıysa tabbar a geçilmeyecek
-            print("Document added with ID: \(uid)")
-            let viewController = TabBarController()
-            let transition = CATransition()
-            transition.duration = 0.5
-            transition.type = .fade
-            transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-            
-            navigationController?.view.layer.add(transition, forKey: kCATransition)
-            navigationController?.pushViewController(viewController, animated: false)
-        } catch {
-            //TODO: kayıt yapılmış oluyor, burada hata alınırsa baştan almak gerek?
-            print("Error adding document: \(error)")
         }
     }
-    
+}
+
+// MARK: - Control checkBox status
+private extension RegisterViewController {
+   
     final func controlCheckStatus() {
         secondCheckBoxView.onImageTapped = { [weak self] in
             guard let self else { return }
             viewModel.isSelectedMembershipAggrementCheckBox.toggle()
+            ///To control enable-disable status for register button
             controlRegisterConditions()
         }
+        
         checkBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-            customInformationView.configureWith(message: L10nSignIn.PrivacyPolicy.description.localized(), messageTitle: L10nSignIn.PrivacyPolicy.title.localized())
+            customInformationView.configureWith(
+                message: L10nSignIn.PrivacyPolicy.description.localized(),
+                messageTitle: L10nSignIn.PrivacyPolicy.title.localized()
+            )
             customInformationView.isHidden = false
         }
+        
         secondCheckBoxView.onTextTapped = { [weak self] in
             guard let self else { return }
-            customInformationView.configureWith(message: L10nSignIn.MembershipAgreement.description.localized(), messageTitle: L10nSignIn.MembershipAgreement.title.localized())
+            customInformationView.configureWith(
+                message: L10nSignIn.MembershipAgreement.description.localized(),
+                messageTitle: L10nSignIn.MembershipAgreement.title.localized()
+            )
             customInformationView.isHidden = false
         }
     }
 }
 
-
 //MARK: UITextFieldDelegate
 extension RegisterViewController: UITextFieldDelegate {
     
+    ///To control show-hide status of title label and placeholder
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case nameTextField:
@@ -239,6 +272,7 @@ extension RegisterViewController: UITextFieldDelegate {
         }
     }
     
+    ///To control show-hide status of title label and placeholder
     func textFieldDidEndEditing(_ textField: UITextField) {
         controlRegisterConditions()
         switch textField {
@@ -275,14 +309,16 @@ extension RegisterViewController: UITextFieldDelegate {
         return true
     }
     
-    
     public func textFieldDidChangeSelection(_ textField: UITextField) {
         switch textField {
         case nameTextField,
              surnameTextField:
+            ///To check whether the password contains name/surname when the name or surname changes
             guard let password = passwordTextField.text else { return }
             passwordConditionWarningLabel.isHidden = isPasswordValid(password: password)
+            
         case emailTextField:
+            ///To check whether email complies with the format
             guard
                 let text = emailTextField.text,
                 !text.isEmpty,
@@ -294,12 +330,14 @@ extension RegisterViewController: UITextFieldDelegate {
             emailWarningLabel.isHidden = false
             
         case passwordTextField, confirmPasswordTextField:
-            guard let password1 = passwordTextField.text else { return }
-            passwordConditionWarningLabel.isHidden = isPasswordValid(password: password1)
+            ///To check whether the  current password is suitable for password rules
+            guard let password = passwordTextField.text else { return }
+            passwordConditionWarningLabel.isHidden = isPasswordValid(password: password)
+            ///To check passwords are match or not
             guard
-                let password2 = confirmPasswordTextField.text,
-                !password1.isEmpty, !password2.isEmpty,
-                password1 != password2
+                let passwordConfirm = confirmPasswordTextField.text,
+                !password.isEmpty, !passwordConfirm.isEmpty,
+                password != passwordConfirm
             else {
                 passwordWarningLabel.isHidden = true
                 return
@@ -314,50 +352,59 @@ extension RegisterViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
+        ///To control spaces to allow just between words
         case nameTextField, surnameTextField:
-            return textField.isOnlyLettersWithValidSpaces(range: range, string: string, maxLength: 42)
+            return textField.isOnlyLettersWithValidSpaces(
+                range: range,
+                string: string,
+                maxLength: 42
+            )
+        ///To remove spaces
         default:
             if let textRange = Range(range, in: textField.text ?? "") {
-                let updatedText = textField.text?.replacingCharacters(in: textRange, with: string)
+                let updatedText = textField.text?.replacingCharacters(
+                    in: textRange,
+                    with: string
+                )
                 textField.text = updatedText?.withoutSpaces
+                ///To change register button enabling status simultaneously
+                ///Can not use editingChanged because modification is made manually
+                controlRegisterConditions()
             }
             return false
         }
     }
 
-
-    
-    func setupDelegate() {
-        nameTextField.delegate = self
-        surnameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        confirmPasswordTextField.delegate = self
+    /// Triggered on the search text value changes.
+    @objc final func textFieldDidChange(_ textField: UITextField) {
+        controlRegisterConditions()
     }
-    
 }
 
 //MARK: Helpers
 private extension RegisterViewController {
+    ///To show label when textfield is active
     final func showLabel(label: UILabel, textField: UITextField) {
         UIView.animate(withDuration: 0.2) {
             label.isHidden = false
             textField.placeholder = nil
         }
     }
+    ///To hide label when textfield is not active
     final func hideLabel(label: UILabel, textField: UITextField, placeholderText: String) {
         label.isHidden = true
         textField.placeholder = placeholderText
     }
     
+    ///To control whether password is valid or not and set the password control message for the condition
     final func isPasswordValid(password: String) -> Bool {
-        let message = viewModel.isPasswordValid(password: password, name: nameTextField.text, surname: surnameTextField.text)
+        let message = viewModel.determinePasswordValidationMessage(password: password, name: nameTextField.text, surname: surnameTextField.text)
         guard let message else { return true }
         passwordConditionWarningLabel.text = message
         return false
-
     }
     
+    ///To control register enabling status,
     final func controlRegisterConditions() {
         guard let name = nameTextField.text,
               let surname = surnameTextField.text,
@@ -371,11 +418,30 @@ private extension RegisterViewController {
               isPasswordValid(password: password),
               viewModel.isSelectedMembershipAggrementCheckBox
         else {
+            registerButton.backgroundColor = .lightButtonColor
             return registerButton.isEnabled = false
         }
+        registerButton.backgroundColor = .buttonColor
         registerButton.isEnabled = true
     }
-
 }
 
 
+//MARK: RegisterViewModelDelegate
+extension RegisterViewController: RegisterViewModelDelegate {
+    func didAddUserInfos() {
+        // TODO: email doğrulandı mı kontrolü yapılacak, doğrulanmadıysa tabbar a geçilmeyecek
+        let viewController = TabBarController()
+        pushWithTransition(viewController)
+    }
+    
+    func didFailToAddUserInfos(error: Error) {
+        //TODO: ok'a basıldığında başarılı olduğunda nereye gidiliyorsa oraya gidelim
+        showAlert(
+            title: L10nGeneric.error.localized(),
+            message: error.localizedDescription,
+            buttonTitle: L10nGeneric.ok.localized(),
+            completion: nil
+        )
+    }
+}

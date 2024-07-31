@@ -6,25 +6,57 @@
 //
 
 import AppResources
+import FirebaseFirestore
 import Foundation
+import TabBar
 
+//MARK: - RegisterViewModelProtocol
 protocol RegisterViewModelProtocol: AnyObject {
     var isSelectedMembershipAggrementCheckBox: Bool { get set }
-    func isPasswordValid(password: String, name: String?, surname: String?)  -> String?
+    func determinePasswordValidationMessage(password: String, name: String?, surname: String?)  -> String?
+    func addUserInfosToFirestore(uid: String, name: String, surname: String) async
     
 }
 
+//MARK: - RegisterViewModelDelegate
 protocol RegisterViewModelDelegate: AnyObject {
-    
+    func didAddUserInfos()
+    func didFailToAddUserInfos(error: Error)
 }
 
+//MARK: - RegisterViewModel
 final class RegisterViewModel {
+    weak var delegate: RegisterViewModelDelegate?
     var isSelectedMembershipAggrementCheckBox = false
 }
 
-
+//MARK: - RegisterViewModelProtocol
 extension RegisterViewModel: RegisterViewModelProtocol {
-    func isPasswordValid(password: String, name: String?, surname: String?) -> String? {
+    ///Recording user name&surname infos to firebase firestore
+    func addUserInfosToFirestore(uid: String, name: String, surname: String) async {
+        let db = Firestore.firestore()
+        Task {
+            do {
+                try await db.collection("users").document(uid).setData([
+                    "name": name,
+                    "surname": surname,
+                    "uid": uid
+                ])
+                DispatchQueue.main.async {  [weak self] in
+                    guard let self else { return }
+                    delegate?.didAddUserInfos()
+                }
+            } catch {
+                DispatchQueue.main.async {  [weak self] in
+                    guard let self else { return }
+                    self.delegate?.didFailToAddUserInfos(error: error)
+                }
+            }
+        }
+    }
+    
+    ///To check password does not meet the which condition
+    func determinePasswordValidationMessage(password: String, name: String?, surname: String?) -> String? {
         var message: String? = nil
         guard !password.isEmpty else { return nil }
         if !password.hasNumbers {

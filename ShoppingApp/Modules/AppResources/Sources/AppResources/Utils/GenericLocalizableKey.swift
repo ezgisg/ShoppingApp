@@ -20,20 +20,15 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     // MARK: - Keys
     
     case error
-    /// Tamam
+    case unknownError
     case ok = "generic.okay"
-    /// Vazgeç
     case abort = "generic.abort"
-    /// Anasayfa
     case home
-    ///  Kategoriler
     case categories
-    /// Sepetim
     case basket
-    ///  Favorilerim
     case favorites
-    /// App ismi
     case appName
+    
     case email
     case password
     case passwordConfirm

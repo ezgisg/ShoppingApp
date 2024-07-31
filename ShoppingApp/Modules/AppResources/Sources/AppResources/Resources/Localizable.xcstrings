@@ -391,6 +391,23 @@
           }
         }
       }
+    },
+    "unknownError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unknown error occurred."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Bilinmeyen bir hata oluştu."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

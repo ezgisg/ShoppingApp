@@ -364,7 +364,14 @@ extension SignInViewController: UITextFieldDelegate {
         }
         return true
     }
-
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let textRange = Range(range, in: textField.text ?? "") {
+            let updatedText = textField.text?.replacingCharacters(in: textRange, with: string)
+            textField.text = updatedText?.withoutSpaces
+        }
+        return false
+    }
 }
 
 

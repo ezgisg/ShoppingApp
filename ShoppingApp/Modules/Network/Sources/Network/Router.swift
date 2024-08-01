@@ -16,7 +16,7 @@ enum Router: URLRequestConvertible {
     static let apiKey = ""
     
     case products(productId: Int?)
-    case categories(Void)
+    case categories
     case carts(cartId: Int?, startDate: String?, endDate: String?)
     case productsFromCategory(categoryName: String)
     
@@ -32,12 +32,12 @@ enum Router: URLRequestConvertible {
             } else {
                 return "products"
             }
-        case .categories():
+        case .categories:
             return "products/categories"
         case .carts(cardId: let cartId):
             return "carts/\(cartId)"
         case .productsFromCategory(let categoryName):
-            return "products/\(categoryName)"
+            return "products/category/\(categoryName)"
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import AppResources
 import Foundation
 
 //MARK: NetworkManager
@@ -33,9 +34,7 @@ final class NetworkManager {
         }
         
     }
-    
 }
-
 
 // MARK: - Error Management
 private extension NetworkManager {

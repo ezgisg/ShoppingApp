@@ -1,16 +1,15 @@
 //
-//  File.swift
-//  
+//  BaseError.swift
+//
 //
 //  Created by Ezgi Sümer Günaydın on 1.08.2024.
 //
-
 
 //TODO: Hata mesajları localize olarak düzenlenecek
 import Foundation
 
 //MARK: BaseError Enum
-enum BaseError: Error {
+public enum BaseError: Error {
     case decoding
     case badRequest
     case auth

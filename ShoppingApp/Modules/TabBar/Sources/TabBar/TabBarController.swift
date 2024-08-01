@@ -7,6 +7,7 @@
 
 import AppResources
 import Foundation
+import Home
 import UIKit
 
 // MARK: - TabBarController
@@ -31,7 +32,7 @@ private extension TabBarController {
     final func setupTabbar() {
         
         let homeTitle = L10nGeneric.home.localized(in: AppResources.bundle)
-        let homeVC = MiddleViewController()
+        let homeVC = HomeViewController()
         let homeNavigationController = getStyledNavigationController(with: homeVC, title: homeTitle, image: .systemHouseImage)
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)

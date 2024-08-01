@@ -1,0 +1,176 @@
+    [
+        {
+            "language": "TR",
+            "elements": [
+                {
+                    "id": 1,
+                    "type": "top",
+                    "title": "",
+                    "subtitle": "",
+                    "items": [
+                        {
+                            "id": 11,
+                            "name": "%70-%60-%50",
+                            "subheading": "",
+                            "image": "TR_11_Image"
+                        },
+                        {
+                            "id": 12,
+                            "name": "Sadece Online'da",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 13,
+                            "name": "Sonbahar Fırsatı",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 14,
+                            "name": "Tek Kalanlar",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 15,
+                            "name": "3 Al 2 Öde",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 16,
+                            "name": "Tavsiye et - Kazan",
+                            "subheading": "",
+                            "image": ""
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "type": "banner",
+                    "title": "Shopping App'te Bu Hafta",
+                    "subtitle": "",
+                    "items": [
+                        {
+                            "id": 21,
+                            "name": "",
+                            "subheading": "",
+                            "image": "TR_21_Image"
+                        },
+                        {
+                            "id": 22,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 23,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 24,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 25,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "EN",
+            "elements": [
+                {
+                    "id": 1,
+                    "type": "top",
+                    "title": "",
+                    "subtitle": "",
+                    "items": [
+                        {
+                            "id": 11,
+                            "name": "70%-60%-50%",
+                            "subheading": "",
+                            "image": "EN_11_Image"
+                        },
+                        {
+                            "id": 12,
+                            "name": "Online Only",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 13,
+                            "name": "Autumn Offer",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 14,
+                            "name": "Last Ones",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 15,
+                            "name": "Buy 3 Pay 2",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 16,
+                            "name": "Recommend and Earn",
+                            "subheading": "",
+                            "image": ""
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "type": "banner",
+                    "title": "This Week on Shopping App",
+                    "subtitle": "",
+                    "items": [
+                        {
+                            "id": 21,
+                            "name": "",
+                            "subheading": "",
+                            "image": "EN_21_Image"
+                        },
+                        {
+                            "id": 22,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 23,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 24,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        },
+                        {
+                            "id": 25,
+                            "name": "",
+                            "subheading": "",
+                            "image": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]

@@ -107,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+//TODO: buradan onboarding kaldırılıp localizable ı başka yere alınacak
 private extension AppDelegate {
     final func showConnectionAlert() {
         guard let topViewController = UIApplication.topViewController() as? BaseViewController else { return }

@@ -30,6 +30,7 @@
 		ABA33FA22C5B6BA000C519FB /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = ABA33FA12C5B6BA000C519FB /* Base */; };
 		ABA33FA62C5B70EB00C519FB /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA33FA52C5B70EB00C519FB /* UIApplication+Extensions.swift */; };
 		ABA33FA92C5B786200C519FB /* UIWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */; };
+		ABA33FAB2C5BBB6300C519FB /* Home in Resources */ = {isa = PBXBuildFile; fileRef = ABA33FAA2C5BBB6300C519FB /* Home */; };
 		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
 		ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = ABA5629C2C52348800C7B1A9 /* Splash */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		ABA33F9D2C5B644600C519FB /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		ABA33FA52C5B70EB00C519FB /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
+		ABA33FAA2C5BBB6300C519FB /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		ABA5629A2C5229A700C7B1A9 /* Splash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Splash; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABA33FAA2C5BBB6300C519FB /* Home */,
 				ABA33F9D2C5B644600C519FB /* Network */,
 				AB4D114B2C52728C0074CFCC /* Onboarding */,
 				ABA5629A2C5229A700C7B1A9 /* Splash */,
@@ -317,6 +320,7 @@
 				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,
 				AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */,
 				ABA33F9E2C5B644600C519FB /* Network in Resources */,
+				ABA33FAB2C5BBB6300C519FB /* Home in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

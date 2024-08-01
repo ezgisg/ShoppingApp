@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct ProductResponse: Decodable {
+public struct ProductResponseElement: Decodable {
     let id: Int?
     let title: String?
     let price: Double?
     let description: String?
     let category: String?
     let image: String?
-    let rating: [Rating]?
+    let rating: Rating?
 }
 
 public struct Rating: Decodable {
@@ -24,4 +24,6 @@ public struct Rating: Decodable {
 
 
 // MARK: - Alias
-public typealias ProductResult = Result<[ProductResponse], BaseError>
+public typealias ProductListResponse = [ProductResponseElement]
+public typealias ProductListResult = Result<ProductListResponse, BaseError>
+public typealias ProductResult = Result<ProductResponseElement, BaseError>

@@ -11,13 +11,15 @@ import Foundation
 
 
 // MARK: - Router
-enum Router: URLRequestConvertible {
+public enum Router: URLRequestConvertible {
     
     static let apiKey = ""
     
-    case products(productId: Int?)
+    case products
+    case product(productId: Int)
     case categories
-    case carts(cartId: Int?, startDate: String?, endDate: String?)
+    case carts(startDate: String?, endDate: String?)
+    case cart(cartId: Int)
     case productsFromCategory(categoryName: String)
     
     var baseURL: URL? {
@@ -26,15 +28,15 @@ enum Router: URLRequestConvertible {
     
     var path: String {
         switch self {
-        case .products(let productId):
-            if let productId {
-                return "products/\(productId)"
-            } else {
-                return "products"
-            }
+        case .products:
+            return "products"
+        case .product(let productId):
+            return "products/\(productId)"
         case .categories:
             return "products/categories"
-        case .carts(cardId: let cartId):
+        case .carts:
+            return "carts"
+        case .cart(let cartId):
             return "carts/\(cartId)"
         case .productsFromCategory(let categoryName):
             return "products/category/\(categoryName)"
@@ -43,7 +45,7 @@ enum Router: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .products, .categories, .carts, .productsFromCategory:
+        case .products, .product, .categories, .carts, .cart, .productsFromCategory:
             return .get
         }
     }
@@ -53,11 +55,19 @@ enum Router: URLRequestConvertible {
         switch self {
         case .products:
             return nil
+        case .product:
+            return nil
         case .categories:
             return nil
-        case .carts(cartId: let cartId, startDate: let startDate, endDate: let endDate):
-            params["startdate"] = startDate
-            params["endDate"] = endDate
+        case .carts(startDate: let startDate, endDate: let endDate):
+            if let startDate {
+                params["startdate"] = startDate
+            }
+            if let endDate {
+                params["endDate"] = endDate
+            }
+        case .cart:
+            return nil
         case .productsFromCategory:
             return nil
         }
@@ -71,7 +81,7 @@ enum Router: URLRequestConvertible {
         }
     }
     
-    func asURLRequest() throws -> URLRequest {
+    public func asURLRequest() throws -> URLRequest {
         guard let baseURL else {throw URLError(.badURL)}
         var urlRequest = URLRequest(url: baseURL.appending(path: path))
 
@@ -79,7 +89,7 @@ enum Router: URLRequestConvertible {
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        var completeParameters = parameters ?? [:]
+        let completeParameters = parameters ?? [:]
 //        completeParameters["api_key"] = Router.apiKey
         
         do {

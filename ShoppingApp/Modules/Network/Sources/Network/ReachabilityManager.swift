@@ -14,12 +14,16 @@ public final class ReachabilityManager {
     public static let shared = ReachabilityManager()
     
     private init() {}
-    private let reachabilityManager = Alamofire.NetworkReachabilityManager(host: Constants.URLPaths.baseURL)
+    private let reachabilityManager = Alamofire.NetworkReachabilityManager(host: Constants.URLPaths.hostURL)
     
     public func startNetworkReachabilityObserver(completion: @escaping (Bool) -> Void) {
         reachabilityManager?.startListening { status in
             switch status {
-            case .unknown, .notReachable:
+            case .unknown:
+                print("Network status is unknown")
+                completion(false)
+            case .notReachable:
+                print("Network is not reachable")
                 completion(false)
             case .reachable(_):
                 completion(true)

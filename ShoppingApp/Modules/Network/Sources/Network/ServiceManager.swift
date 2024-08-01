@@ -9,28 +9,41 @@ import AppResources
 import Foundation
 
 // MARK: - ShoppingServiceProtocol
-protocol ShoppingServiceProtocol {
-    func fetchProducts(productId: Int?, completion: @escaping (ProductResult) -> ())
+public protocol ShoppingServiceProtocol {
+    func fetchProducts(completion: @escaping (ProductListResult) -> ())
+    func fetchProduct(productId: Int, completion: @escaping (ProductResult) -> ())
     func fetchCategories(completion: @escaping (Result<[String],BaseError>) -> ())
-    func fetchCarts(cartId: Int?, startDate: String?, endDate: String?, completion: @escaping (CartResult) -> ())
-    func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductResult) -> ())
+    func fetchCarts(startDate: String?, endDate: String?, completion: @escaping (CartListResult) -> ())
+    func fetchCart(cartId: Int, completion: @escaping (CartResult) -> ())
+    func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductListResult) -> ())
 }
 
-final class ShoppingService: ShoppingServiceProtocol {
-    func fetchProducts(productId: Int?, completion: @escaping (ProductResult) -> ()) {
-        NetworkManager.shared.request(Router.products(productId: productId), decodeToType: [ProductResponse].self, completion: completion)
+public final class ShoppingService: ShoppingServiceProtocol {
+
+    public init() { }
+    
+    public func fetchProducts(completion: @escaping (ProductListResult) -> ()) {
+        NetworkManager.shared.request(Router.products, decodeToType: ProductListResponse.self, completion: completion)
     }
     
-    func fetchCategories(completion: @escaping (Result<[String], BaseError>) -> ()) {
+    public func fetchProduct(productId: Int, completion: @escaping (ProductResult) -> ()) {
+        NetworkManager.shared.request(Router.product(productId: productId), decodeToType: ProductResponseElement.self, completion: completion)
+    }
+    
+    public func fetchCategories(completion: @escaping (Result<[String], BaseError>) -> ()) {
         NetworkManager.shared.request(Router.categories, decodeToType: [String].self, completion: completion)
     }
     
-    func fetchCarts(cartId: Int?, startDate: String?, endDate: String?, completion: @escaping (CartResult) -> ()) {
-        NetworkManager.shared.request(Router.carts(cartId: cartId, startDate: startDate, endDate: endDate), decodeToType: [CartResponse].self, completion: completion)
+    public func fetchCarts(startDate: String? = nil, endDate: String? = nil, completion: @escaping (CartListResult) -> ()) {
+        NetworkManager.shared.request(Router.carts(startDate: startDate, endDate: endDate), decodeToType: CartListResponse.self, completion: completion)
     }
     
-    func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductResult) -> ()) {
-        NetworkManager.shared.request(Router.productsFromCategory(categoryName: categoryName), decodeToType: [ProductResponse].self, completion: completion)
+    public func fetchCart(cartId: Int, completion: @escaping (CartResult) -> ()) {
+        NetworkManager.shared.request(Router.cart(cartId: cartId), decodeToType: CartResponseElement.self, completion: completion)
+    }
+    
+    public func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductListResult) -> ()) {
+        NetworkManager.shared.request(Router.productsFromCategory(categoryName: categoryName), decodeToType: ProductListResponse.self, completion: completion)
     }
     
 }

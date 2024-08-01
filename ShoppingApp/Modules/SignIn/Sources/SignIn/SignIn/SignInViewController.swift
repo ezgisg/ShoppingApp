@@ -15,7 +15,10 @@ import GoogleSignInSwift
 import UIKit
 import TabBar
 
+import Network
+
 //TODO: error alertleri, şifremi unuttum.., kullanıcıyı login ettikten sonra hatırlama, register ....
+
 
 //MARK: - SignInViewController
 public class SignInViewController: BaseViewController {
@@ -53,7 +56,7 @@ public class SignInViewController: BaseViewController {
         
         resetPasswordSetup()
         setupRegister()
- 
+        
     }
     
     // MARK: - Module init

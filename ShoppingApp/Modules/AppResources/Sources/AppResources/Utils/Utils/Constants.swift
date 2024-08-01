@@ -14,6 +14,7 @@ public struct Constants {
     }
     
     public struct URLPaths {
-        public static let baseURL = "'https://fakestoreapi.com/"
+        public static let baseURL = "https://fakestoreapi.com/"
+        public static let hostURL = "fakestoreapi.com"
     }
 }

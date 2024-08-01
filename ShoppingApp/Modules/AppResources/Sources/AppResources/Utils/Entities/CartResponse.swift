@@ -7,10 +7,12 @@
 
 import Foundation
 
-public struct CartResponse: Decodable {
+public struct CartResponseElement: Decodable {
     let id: Int?
     let userId: Int?
+    let date: String?
     let products: [cartProduct]?
+    let __v: Int?
 }
 
 public struct cartProduct: Decodable {
@@ -20,4 +22,6 @@ public struct cartProduct: Decodable {
 
 
 // MARK: - Alias
-public typealias CartResult = Result<[CartResponse], BaseError>
+public typealias CartListResponse = [CartResponseElement]
+public typealias CartListResult = Result<CartListResponse, BaseError>
+public typealias CartResult = Result<CartResponseElement, BaseError>

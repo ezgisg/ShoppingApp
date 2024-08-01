@@ -10,7 +10,7 @@ import Foundation
 
 //MARK: BaseError Enum
 public enum BaseError: Error {
-    case decoding
+    case decoding(errorDescription: String)
     case badRequest
     case auth
     case forbidden

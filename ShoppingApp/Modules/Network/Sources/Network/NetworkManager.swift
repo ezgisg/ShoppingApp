@@ -23,7 +23,7 @@ final class NetworkManager {
                     let result = try decoder.decode(type.self, from: data)
                     completion(.success(result))
                 } catch {
-                    completion(.failure(.decoding))
+                    completion(.failure(.decoding(errorDescription: error.localizedDescription)))
                     debugPrint(error.localizedDescription)
                 }
             case .failure(let error):

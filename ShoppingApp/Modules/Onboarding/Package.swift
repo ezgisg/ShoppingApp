@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../AppResources"),
+        .package(path: "../Base"),
         .package(path: "../SignIn"),
         .package(path: "../TabBar")
     ],
@@ -24,6 +25,7 @@ let package = Package(
             name: "Onboarding",
             dependencies: [
                 "AppResources",
+                "Base",
                 "SignIn",
                 "TabBar"
             ],

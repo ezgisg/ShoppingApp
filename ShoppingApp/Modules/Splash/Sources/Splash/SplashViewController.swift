@@ -6,13 +6,14 @@
 //
 
 import AppResources
+import Base
 import Lottie
 import Onboarding
 import SignIn
 import UIKit
 
 // MARK: - Module init
-public class SplashViewController: UIViewController {
+public class SplashViewController: BaseViewController {
 
     // MARK: - Outlets
     @IBOutlet private var mainView: UIView!

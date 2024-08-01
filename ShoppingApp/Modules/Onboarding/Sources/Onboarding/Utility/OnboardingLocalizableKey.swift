@@ -45,6 +45,18 @@ public enum OnboardingLocalizableKey: String, LocalizableProtocol {
         case second = "OnboardingDetailMessage.second"
         case third = "OnboardingDetailMessage.third"
     }
+    
+    // MARK: - NoConnection
+    public enum NoConnection: String, LocalizableProtocol {
+        // MARK: - RawValue
+        public var stringValue: String {
+            return rawValue
+        }
+
+        case title = "NoConnection.title"
+        case message = "NoConnection.message"
+        case tryAgain = "NoConnection.tryAgain"
+    }
 }
 
 // MARK: - LocalizableProtocol

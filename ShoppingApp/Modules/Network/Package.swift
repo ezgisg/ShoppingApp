@@ -4,38 +4,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "Splash",
+    name: "Network",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Splash",
-            targets: ["Splash"]),
+            name: "Network",
+            targets: ["Network"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.9.1")),
         .package(path: "../AppResources"),
-        .package(path: "../Base"),
-        .package(path: "../Onboarding"),
-        .package(path: "../TabBar"),
-        .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMajor(from: "4.5.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Splash",
+            name: "Network",
             dependencies: [
-                .product(name: "Lottie", package: "lottie-spm"),
+                "Alamofire",
                 "AppResources",
-                "Base",
-                "Onboarding",
-                "TabBar"
-            ]),
+            ]
+        ),
         .testTarget(
-            name: "SplashTests",
-            dependencies: ["Splash"]),
+            name: "NetworkTests",
+            dependencies: ["Network"]),
     ]
 )
-
-
-

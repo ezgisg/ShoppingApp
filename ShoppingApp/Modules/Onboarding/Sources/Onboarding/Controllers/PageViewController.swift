@@ -6,9 +6,10 @@
 //
 
 import AppResources
+import Base
 import UIKit
 
-class PageViewController: UIViewController {
+class PageViewController: BaseViewController {
 
     @IBOutlet private weak var image: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!

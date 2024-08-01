@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import Base
 import CoreData
 import Common
 import Firebase
 import FirebaseCore
 import FirebaseFirestore
 import GoogleSignIn
+import Network
+import Onboarding
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        ReachabilityManager.shared.startNetworkReachabilityObserver { [weak self] status in
+            guard let self else { return }
+            switch status {
+            case true:
+                break
+            case false:
+                showConnectionAlert()
+            }
+        }
         return true
     }
     
@@ -31,9 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
     }
+    
 
     // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -92,4 +106,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
+private extension AppDelegate {
+    final func showConnectionAlert() {
+        guard let topViewController = UIApplication.topViewController() as? BaseViewController else { return }
+        topViewController.showAlert(title: L10nOnboarding.NoConnection.title.localized(), message: L10nOnboarding.NoConnection.message.localized(), buttonTitle: L10nOnboarding.NoConnection.tryAgain.localized()) { [weak self] in
+            guard let self,
+                 !ReachabilityManager.shared.isConnectedToInternet() else { return }
+            showConnectionAlert()
+        }
+    }
+}
+
+
 

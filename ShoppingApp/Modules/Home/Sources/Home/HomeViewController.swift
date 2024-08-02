@@ -11,48 +11,18 @@ import UIKit
 public class HomeViewController: UIViewController {
 
     
-    // MARK: - Module
-    public static var module = Bundle.module
+    private var viewModel = HomeViewModel()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let currentLanguage = Localize.currentLanguage()
+        viewModel.delegate = self
+        let currentLanguage = Localize.currentLanguage().uppercased()
+        viewModel.loadBannerData(for: currentLanguage)
         
-        let selectedLanguage = currentLanguage.uppercased()
-        loadBannerData(for: selectedLanguage) { bannerData in
-            if let data = bannerData {
-                print("Banner Data for \(selectedLanguage): \(data)")
-            } else {
-                print("No data available for \(selectedLanguage)")
-            }
-        }
-     
     }
     
-    func loadBannerData(for language: String, completion: @escaping (BannerData?) -> Void) {
-        guard let url = Bundle.module.url(forResource: "Banner", withExtension: "json") else {
-            print("Banner.json file not found")
-            completion(nil)
-            return
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let bannerDataList = try JSONDecoder().decode([BannerData].self, from: data)
-            
-            // Find the data for the requested language
-            if let bannerData = bannerDataList.first(where: { $0.language == language }) {
-                completion(bannerData)
-            } else {
-                print("No data found for language: \(language)")
-                completion(nil)
-            }
-        } catch {
-            print("Error decoding JSON: \(error)")
-            completion(nil)
-        }
-    }
+
 
     // Example usage
     // MARK: - Module init
@@ -64,4 +34,10 @@ public class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+extension HomeViewController: HomeViewModelDelegate {
+    func getBannerData(bannerData: BannerData) {
+        print(bannerData)
+    }
 }

@@ -199,23 +199,24 @@ extension HomeViewController {
         section.orthogonalScrollingBehavior = .groupPaging
         
 
-            let headerSize = NSCollectionLayoutSize(
+            let footerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .estimated(50)
             )
-            let header = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
+            let footer = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
                 elementKind: UICollectionView.elementKindSectionFooter,
                 alignment: .bottom
             )
-            section.boundarySupplementaryItems = [header]
-        
+            section.boundarySupplementaryItems = [footer]
+    
         section.visibleItemsInvalidationHandler = { [weak self] (items, offset, env) -> Void in
             guard let self = self else { return }
-
             let page = round(offset.x / self.view.bounds.width)
-
-          
+        
+            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
+                headerView.configure(with: ImageArray.count, currentPage: Int(page))
+            }
         }
         
         return section
@@ -242,19 +243,7 @@ extension HomeViewController {
 }
 
 
-extension HomeViewController: UICollectionViewDelegate, UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-          guard scrollView == collectionView else { return }
-          let pageWidth = collectionView.frame.width
-          let page = Int(scrollView.contentOffset.x / pageWidth)
-          
-          // Debug amacıyla currentPage yazdır
-          print("Current page: \(page)")
-          
-          // Header view'ı güncelle
-          if let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
-              headerView.configure(with: ImageArray.count, currentPage: page)
-          }
-      }
+extension HomeViewController: UICollectionViewDelegate {
+ 
 }
 

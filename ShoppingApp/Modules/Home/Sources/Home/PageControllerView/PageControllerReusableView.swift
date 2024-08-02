@@ -14,21 +14,23 @@ class PageControllerReusableView: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        setupView()
-        // Initialization code
+        setupUI()
     }
     
-    private func setupView() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50)
-            ])
+    private func setupUI() {
+        containerView.backgroundColor = .clear
+        pageController.backgroundColor = .clear
+        pageController.currentPageIndicatorTintColor = .textColor
+        pageController.pageIndicatorTintColor = .lightTextColor
     }
 
-    func configure(with numberOfPages: Int, currentPage: Int) {
-        pageController.numberOfPages = numberOfPages
+    func configureCurrentPage(with currentPage: Int) {
         pageController.currentPage = currentPage
+    }
+    
+    func configureNumberOfPage(with numberOfPages: Int) {
+        pageController.numberOfPages = numberOfPages
+        pageController.currentPage = 0
     }
     
 }

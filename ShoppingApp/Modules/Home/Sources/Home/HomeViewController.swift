@@ -30,7 +30,7 @@ public class HomeViewController: BaseViewController {
     
     private var bannerData : BannerData? = nil
     
-    var ImageArray : [UIImage] = [.browseImage, .checkoutImage]
+    var ImageArray : [UIImage] = [.browseImage, .checkoutImage, .browseImage, .checkoutImage, .browseImage, .checkoutImage, .browseImage, .checkoutImage]
 
     // MARK: - Life Cycles
     public override func viewDidLoad() {
@@ -129,7 +129,7 @@ extension HomeViewController: UICollectionViewDataSource {
         if kind == UICollectionView.elementKindSectionFooter {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: PageControllerReusableView.self, for: indexPath)
             if indexPath.section == HomeScreenSectionType.banner.rawValue {
-                headerView.configure(with: ImageArray.count, currentPage: 0)
+                headerView.configureNumberOfPage(with: ImageArray.count)
             }
             return headerView
         }
@@ -198,27 +198,30 @@ extension HomeViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        
+        let footerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(20)
+        )
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+        
+        footer.extendsBoundary = false
 
-            let footerSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(50)
-            )
-            let footer = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: footerSize,
-                elementKind: UICollectionView.elementKindSectionFooter,
-                alignment: .bottom
-            )
-            section.boundarySupplementaryItems = [footer]
-    
+        section.boundarySupplementaryItems = [footer]
+        
         section.visibleItemsInvalidationHandler = { [weak self] (items, offset, env) -> Void in
-            guard let self = self else { return }
+            guard let self else { return }
             let page = round(offset.x / self.view.bounds.width)
         
             if let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
-                headerView.configure(with: ImageArray.count, currentPage: Int(page))
+                headerView.configureCurrentPage(with: Int(page))
             }
         }
-        
+    
         return section
     }
     
@@ -230,6 +233,7 @@ extension HomeViewController {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -238,6 +242,7 @@ extension HomeViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 }

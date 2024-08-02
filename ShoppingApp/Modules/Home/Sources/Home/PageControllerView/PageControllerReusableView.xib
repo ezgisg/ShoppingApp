@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="PageControllerReusableView" customModule="Home">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEJ-td-2fL">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <subviews>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="M8Z-br-I7K">
+                            <rect key="frame" x="102" y="12" width="116" height="26"/>
+                            <color key="backgroundColor" name="textColor"/>
+                        </pageControl>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="M8Z-br-I7K" firstAttribute="centerY" secondItem="QEJ-td-2fL" secondAttribute="centerY" id="XgP-If-F7t"/>
+                        <constraint firstAttribute="height" constant="50" id="iiN-iH-ujL"/>
+                        <constraint firstItem="M8Z-br-I7K" firstAttribute="centerX" secondItem="QEJ-td-2fL" secondAttribute="centerX" id="vPJ-yl-qzA"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="QEJ-td-2fL" secondAttribute="bottom" id="Vfo-AX-2CG"/>
+                <constraint firstAttribute="trailing" secondItem="QEJ-td-2fL" secondAttribute="trailing" id="s3i-Hf-xhb"/>
+                <constraint firstItem="QEJ-td-2fL" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" id="uRr-ED-jvN"/>
+                <constraint firstItem="QEJ-td-2fL" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="z9j-s2-Hyz"/>
+            </constraints>
+            <connections>
+                <outlet property="containerView" destination="QEJ-td-2fL" id="Nq7-xt-lKe"/>
+                <outlet property="pageController" destination="M8Z-br-I7K" id="QhL-F8-to2"/>
+            </connections>
+            <point key="canvasLocation" x="-99" y="-12"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <namedColor name="textColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

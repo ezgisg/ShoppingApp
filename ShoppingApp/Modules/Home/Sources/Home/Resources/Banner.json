@@ -4,7 +4,7 @@
             "elements": [
                 {
                     "id": 1,
-                    "type": "top",
+                    "type": "campaign",
                     "title": "",
                     "subtitle": "",
                     "items": [
@@ -91,7 +91,7 @@
             "elements": [
                 {
                     "id": 1,
-                    "type": "top",
+                    "type": "campaign",
                     "title": "",
                     "subtitle": "",
                     "items": [

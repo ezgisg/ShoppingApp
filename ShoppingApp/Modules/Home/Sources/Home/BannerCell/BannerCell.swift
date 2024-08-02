@@ -20,4 +20,8 @@ class BannerCell: UICollectionViewCell {
         imageView.image = image
     }
     
+    func setupUI() {
+        
+    }
+    
 }

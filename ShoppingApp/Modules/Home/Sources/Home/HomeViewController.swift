@@ -27,6 +27,9 @@ public class HomeViewController: BaseViewController {
     // MARK: - Module Components
     private var viewModel = HomeViewModel()
     
+    
+    private var bannerData : BannerData? = nil
+    
     var ImageArray : [UIImage] = [.browseImage, .checkoutImage]
 
     // MARK: - Life Cycles
@@ -65,7 +68,8 @@ public class HomeViewController: BaseViewController {
 // MARK: - HomeViewModelDelegate
 extension HomeViewController: HomeViewModelDelegate {
     func getBannerData(bannerData: BannerData) {
-        print(bannerData)
+        self.bannerData = bannerData
+        collectionView.reloadData()
     }
 }
 
@@ -76,6 +80,7 @@ extension HomeViewController {
         collectionView.delegate = self
         collectionView.register(nibWithCellClass: BannerCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CampaignCell.self, at: Bundle.module)
+        collectionView.registerReusableView(nibWithViewClass: PageControllerReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, at: Bundle.module)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
 }
@@ -88,14 +93,16 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sectionType = HomeScreenSectionType(rawValue: section) else { return 0 }
+        guard let sectionType = HomeScreenSectionType(rawValue: section),
+              let data = bannerData
+        else { return 0 }
         switch sectionType {
         case .campaign:
-            return ImageArray.count
+            return data.elements?.filter { $0.type == "campaign" }.first?.items?.count ?? 0
         case .banner:
             return ImageArray.count
         case .categoryBanner:
-            return 0
+            return ImageArray.count
         }
     }
     
@@ -103,24 +110,37 @@ extension HomeViewController: UICollectionViewDataSource {
         guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
         switch sectionType {
         case .campaign:
-            let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
-            cell.configureWith(image: ImageArray[indexPath.row])
+            let cell = collectionView.dequeueReusableCell(withClass: CampaignCell.self, for: indexPath)
+            let campaignData = bannerData?.elements?.filter { $0.type == "campaign" }.first?.items
+            cell.configureWith(image: .browseImage, text:   campaignData?[safe: indexPath.row]?.name ?? "")
             return cell
         case .banner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
             cell.configureWith(image: ImageArray[indexPath.row])
             return cell
         case .categoryBanner:
-            let cell = collectionView.dequeueReusableCell(with: BannerCell.self , for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
+            cell.configureWith(image: ImageArray[indexPath.row])
             return cell
         }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: PageControllerReusableView.self, for: indexPath)
+            if indexPath.section == HomeScreenSectionType.banner.rawValue {
+                headerView.configure(with: ImageArray.count, currentPage: 0)
+            }
+            return headerView
+        }
+        return UICollectionReusableView()
     }
 }
 
 // MARK: - Compositional Layout
 extension HomeViewController {
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
             guard let sectionType = HomeScreenSectionType(rawValue: sectionIndex) else { return nil }
             
             switch sectionType {
@@ -132,20 +152,26 @@ extension HomeViewController {
                 return self.createCategoryBannerSection()
             }
         }
+        
+        return layout
     }
     
     private func createCampaignSection() -> NSCollectionLayoutSection {
-        // Create item size
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(104),
+            heightDimension: .estimated(156)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Create group size
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8),
-                                               heightDimension: .fractionalHeight(0.3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(104),
+            heightDimension: .estimated(156)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
         
-        // Create section
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         
@@ -153,43 +179,82 @@ extension HomeViewController {
     }
     
     private func createBannerSection() -> NSCollectionLayoutSection {
-        // Create item size
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Create group size
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.5))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+   
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(0.5)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
         
-        // Create section
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(50)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionFooter,
+                alignment: .bottom
+            )
+            section.boundarySupplementaryItems = [header]
+        
+        section.visibleItemsInvalidationHandler = { [weak self] (items, offset, env) -> Void in
+            guard let self = self else { return }
+
+            let page = round(offset.x / self.view.bounds.width)
+
+          
+        }
+        
         return section
     }
+    
+
     
     private func createCategoryBannerSection() -> NSCollectionLayoutSection {
-        // Create item size
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // Create group size
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.3))
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(0.5)
+        )
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
-        // Create section
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        
         return section
     }
 }
 
 
-extension HomeViewController: UICollectionViewDelegate {
-    
+extension HomeViewController: UICollectionViewDelegate, UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+          guard scrollView == collectionView else { return }
+          let pageWidth = collectionView.frame.width
+          let page = Int(scrollView.contentOffset.x / pageWidth)
+          
+          // Debug amacıyla currentPage yazdır
+          print("Current page: \(page)")
+          
+          // Header view'ı güncelle
+          if let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
+              headerView.configure(with: ImageArray.count, currentPage: page)
+          }
+      }
 }
+

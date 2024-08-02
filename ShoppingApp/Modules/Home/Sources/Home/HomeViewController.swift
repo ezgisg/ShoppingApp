@@ -112,7 +112,10 @@ extension HomeViewController: UICollectionViewDataSource {
         case .campaign:
             let cell = collectionView.dequeueReusableCell(withClass: CampaignCell.self, for: indexPath)
             let campaignData = bannerData?.elements?.filter { $0.type == "campaign" }.first?.items
-            cell.configureWith(image: .browseImage, text:   campaignData?[safe: indexPath.row]?.name ?? "")
+            cell.configureWith(
+                imagePath: campaignData?[safe: indexPath.row]?.image ?? "",
+                text:   campaignData?[safe: indexPath.row]?.name ?? ""
+            )
             return cell
         case .banner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
@@ -159,13 +162,13 @@ extension HomeViewController {
     private func createCampaignSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(104),
-            heightDimension: .estimated(156)
+            heightDimension: .uniformAcrossSiblings(estimate: 150)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .estimated(104),
-            heightDimension: .estimated(156)
+            heightDimension: .uniformAcrossSiblings(estimate: 150)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,

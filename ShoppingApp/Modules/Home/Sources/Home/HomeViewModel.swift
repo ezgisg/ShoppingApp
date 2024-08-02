@@ -7,9 +7,11 @@
 
 import AppResources
 import Foundation
+import Network
 
 protocol HomeViewModelProtocol: AnyObject {
     func loadBannerData(for language: String)
+    func fetchCategories()
 }
 
 protocol HomeViewModelDelegate: AnyObject {
@@ -18,6 +20,7 @@ protocol HomeViewModelDelegate: AnyObject {
 
 final class HomeViewModel {
     var delegate: HomeViewModelDelegate?
+    var service: ShoppingServiceProtocol?
 }
 
 
@@ -29,11 +32,25 @@ extension HomeViewModel: HomeViewModelProtocol {
             let data = try Data(contentsOf: url)
             let bannerDataList = try JSONDecoder().decode([BannerData].self, from: data)
             if let bannerData = bannerDataList.first(where: { $0.language == language }) {
+                print(bannerData)
                 delegate?.getBannerData(bannerData: bannerData)
             }
         } catch {
             return
         }
     }
+    
+    //TODO: kategorilere uygun resimler eklenecek ayrı bir json ile beraber alınacak
+    func fetchCategories() {
+        service?.fetchCategories(completion: { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        })
+    }
+    
     
 }

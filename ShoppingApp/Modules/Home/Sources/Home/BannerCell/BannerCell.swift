@@ -21,6 +21,13 @@ class BannerCell: UICollectionViewCell {
 
     }
     
+    func configureWithImagePath(imagePath: String, cornerRadius: CGFloat = 0) {
+        let url = URL(string: imagePath)
+        if let url {
+            imageView.loadImage(with: url, cornerRadius: cornerRadius)
+        }
+    }
+    
     func setupUI() {
         imageView.backgroundColor = .clear
         imageView.layer.borderWidth = 1

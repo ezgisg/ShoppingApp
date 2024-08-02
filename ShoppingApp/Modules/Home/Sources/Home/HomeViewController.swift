@@ -23,6 +23,7 @@ public class HomeViewController: BaseViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var backgroundView: UIView!
     
     // MARK: - Module Components
     private var viewModel = HomeViewModel()
@@ -30,20 +31,21 @@ public class HomeViewController: BaseViewController {
     
     private var bannerData : BannerData? = nil
     
-    var ImageArray : [UIImage] = [.browseImage, .checkoutImage, .browseImage, .checkoutImage, .browseImage, .checkoutImage, .browseImage, .checkoutImage]
-
+    //TODO: titleArray vm e alınıp localizable dan eklenecek
+    var ImageArray : [UIImage] = [.browseImage, .checkoutImage, .welcomeImage, .registerImage]
+    var titleArray: [String] = ["Büyük İndirime Hazır Olun","%50'ye varan indirimler","Son Kalanları Kaçırma","Hemen Alışverişe Başla"]
+    var currentIndex = 0
+    var timer: Timer?
+    
     // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCollectionView()
+        setups()
         viewModel.delegate = self
-        let currentLanguage = Localize.currentLanguage().uppercased()
-        viewModel.loadBannerData(for: currentLanguage)
-        setupKeyboardObservers()
-        
-    }
     
+    }
+        
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -61,6 +63,11 @@ public class HomeViewController: BaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        
+        timer?.invalidate()
     }
 
 }
@@ -100,7 +107,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case .campaign:
             return data.elements?.filter { $0.type == "campaign" }.first?.items?.count ?? 0
         case .banner:
-            return ImageArray.count
+            return data.elements?.filter { $0.type == "banner" }.first?.items?.count ?? 0
         case .categoryBanner:
             return ImageArray.count
         }
@@ -119,7 +126,8 @@ extension HomeViewController: UICollectionViewDataSource {
             return cell
         case .banner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
-            cell.configureWith(image: ImageArray[indexPath.row])
+            let bannerData = bannerData?.elements?.filter { $0.type == "banner" }.first?.items
+            cell.configureWithImagePath(imagePath: bannerData?[safe: indexPath.row]?.image ?? "", cornerRadius: 20)
             return cell
         case .categoryBanner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
@@ -188,6 +196,8 @@ extension HomeViewController {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        
    
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -245,7 +255,7 @@ extension HomeViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 }
@@ -255,3 +265,48 @@ extension HomeViewController: UICollectionViewDelegate {
  
 }
 
+//MARK: Setups
+extension HomeViewController {
+    final func setupUI() {
+        collectionView.backgroundColor = .white
+        backgroundView.backgroundColor = .tabbarBackgroundColor
+        topLabel.backgroundColor = .middleButtonColor
+        topLabel.textColor = .white
+        searchBar.clipsToBounds = true
+        searchBar.layer.cornerRadius = 10
+        profileImage.image = .profile
+    }
+    
+    final func fetchInitialData() {
+        let currentLanguage = Localize.currentLanguage().uppercased()
+        viewModel.loadBannerData(for: currentLanguage)
+    }
+    
+    final func setups() {
+        viewModel.delegate = self
+        fetchInitialData()
+        setupCollectionView()
+        setupUI()
+        setupKeyboardObservers()
+        startTextRotation()
+    }
+    
+    func startTextRotation() {
+        topLabel.text = titleArray[currentIndex]
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateLabelText), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateLabelText() {
+        UIView.transition(with: topLabel,
+                          duration: 1,
+                          options: .transitionCrossDissolve,
+                          animations: {  [weak self] in
+            guard let self else { return }
+            currentIndex = (currentIndex + 1) % titleArray.count
+            topLabel.text = titleArray[currentIndex]
+        }
+                          ,
+                          completion: nil)
+      }
+
+}

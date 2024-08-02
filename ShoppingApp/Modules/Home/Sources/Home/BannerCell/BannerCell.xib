@@ -21,9 +21,10 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5CR-XS-hIW">
                                 <rect key="frame" x="0.0" y="0.0" width="484" height="83"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="5CR-XS-hIW" secondAttribute="bottom" id="7RS-ZR-a0e"/>
                             <constraint firstAttribute="trailing" secondItem="5CR-XS-hIW" secondAttribute="trailing" id="LoK-VX-67S"/>
@@ -34,6 +35,7 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="VuW-NI-zVT" secondAttribute="bottom" id="9tW-yD-tmP"/>
                 <constraint firstItem="VuW-NI-zVT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="MJD-Sh-a9E"/>

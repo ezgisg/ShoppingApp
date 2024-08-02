@@ -61,4 +61,8 @@ public extension UIImage {
         return UIImage(named: "uncheck", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var profile: UIImage {
+        return UIImage(named: "profile", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

@@ -26,9 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
 //        let splashVC = SplashViewController()
-        let signInVC = SignInViewController()
-//        let tabBar = TabBarController()
-        let navigationController = UINavigationController(rootViewController: signInVC)
+//        let signInVC = SignInViewController()
+        let tabBar = TabBarController()
+        let navigationController = UINavigationController(rootViewController: tabBar)
         window?.rootViewController = navigationController
     }
 

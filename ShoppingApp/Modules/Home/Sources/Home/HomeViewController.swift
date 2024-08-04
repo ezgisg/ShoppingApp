@@ -88,6 +88,7 @@ extension HomeViewController {
         collectionView.register(nibWithCellClass: BannerCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CampaignCell.self, at: Bundle.module)
         collectionView.registerReusableView(nibWithViewClass: PageControllerReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, at: Bundle.module)
+        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
 }
@@ -95,10 +96,12 @@ extension HomeViewController {
 // MARK: - UICollectionViewDataSource
 extension HomeViewController: UICollectionViewDataSource {
     
+    ///determine number of sections
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return HomeScreenSectionType.allCases.count
     }
     
+    ///determine number of items in section
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let sectionType = HomeScreenSectionType(rawValue: section),
               let data = bannerData
@@ -113,6 +116,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
     }
     
+    ///configure with cell for item
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
         switch sectionType {
@@ -136,15 +140,27 @@ extension HomeViewController: UICollectionViewDataSource {
         }
     }
     
+    ///dequeue and configure supplementary view
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionFooter {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: PageControllerReusableView.self, for: indexPath)
+        guard let bannerSectionData = bannerData?.elements?.first(where: { $0.type == "banner" }) else { return UICollectionReusableView() }
+        switch kind {
+        case UICollectionView.elementKindSectionFooter:
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: PageControllerReusableView.self, for: indexPath)
             if indexPath.section == HomeScreenSectionType.banner.rawValue {
-                headerView.configureNumberOfPage(with: ImageArray.count)
+                footerView.configureNumberOfPage(with: bannerSectionData.items?.count ?? 0)
             }
+            return footerView
+        case UICollectionView.elementKindSectionHeader:
+            guard indexPath.section == HomeScreenSectionType.banner.rawValue,
+                  let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseIdentifier, for: indexPath) as? SectionHeader 
+            else {
+                return UICollectionReusableView()
+            }
+            headerView.configure(with: bannerSectionData.title ?? "", color: .opaqueSeparator)
             return headerView
+        default:
+            return UICollectionReusableView()
         }
-        return UICollectionReusableView()
     }
 }
 
@@ -153,7 +169,6 @@ extension HomeViewController {
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
             guard let sectionType = HomeScreenSectionType(rawValue: sectionIndex) else { return nil }
-            
             switch sectionType {
             case .campaign:
                 return self.createCampaignSection()
@@ -163,7 +178,6 @@ extension HomeViewController {
                 return self.createCategoryBannerSection()
             }
         }
-        
         return layout
     }
     
@@ -196,7 +210,8 @@ extension HomeViewController {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        let horizontalContentInset: CGFloat = 8
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: horizontalContentInset, bottom: 0, trailing: horizontalContentInset)
         
    
         let groupSize = NSCollectionLayoutSize(
@@ -211,6 +226,17 @@ extension HomeViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(44)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        header.contentInsets =  NSDirectionalEdgeInsets(top: 0, leading: horizontalContentInset, bottom: 0, trailing: horizontalContentInset)
+        
         
         let footerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -221,17 +247,16 @@ extension HomeViewController {
             elementKind: UICollectionView.elementKindSectionFooter,
             alignment: .bottom
         )
-        
         footer.extendsBoundary = false
 
-        section.boundarySupplementaryItems = [footer]
+        section.boundarySupplementaryItems = [header, footer]
         
         section.visibleItemsInvalidationHandler = { [weak self] (items, offset, env) -> Void in
             guard let self else { return }
             let page = round(offset.x / self.view.bounds.width)
         
-            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
-                headerView.configureCurrentPage(with: Int(page))
+            if let footerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
+                footerView.configureCurrentPage(with: Int(page))
             }
         }
     
@@ -255,7 +280,7 @@ extension HomeViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 }

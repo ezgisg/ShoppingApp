@@ -18,12 +18,12 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEJ-td-2fL">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                     <subviews>
-                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="M8Z-br-I7K">
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="100" translatesAutoresizingMaskIntoConstraints="NO" id="M8Z-br-I7K">
                             <rect key="frame" x="85" y="0.0" width="150" height="50"/>
                             <color key="backgroundColor" name="textColor"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="150" id="Q6L-RY-2LU"/>
                                 <constraint firstAttribute="height" constant="50" id="Zgc-da-PLC"/>
+                                <constraint firstAttribute="width" constant="150" id="ijo-wh-ihQ"/>
                             </constraints>
                         </pageControl>
                     </subviews>

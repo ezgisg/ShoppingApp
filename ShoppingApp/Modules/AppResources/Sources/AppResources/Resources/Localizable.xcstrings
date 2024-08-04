@@ -183,7 +183,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Name"
+            "value" : "İsim"
           }
         }
       }
@@ -403,7 +403,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bilinmeyen bir hata oluştu."
           }
         }

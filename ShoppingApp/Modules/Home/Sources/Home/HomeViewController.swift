@@ -30,6 +30,7 @@ public class HomeViewController: BaseViewController {
     
     
     private var bannerData : BannerData? = nil
+    private var categories: [String] = []
     
     //TODO: titleArray vm e alınıp localizable dan eklenecek
     var ImageArray : [UIImage] = [.browseImage, .checkoutImage, .welcomeImage, .registerImage]
@@ -78,6 +79,10 @@ extension HomeViewController: HomeViewModelDelegate {
         self.bannerData = bannerData
         collectionView.reloadData()
     }
+    func getCategories(categories: [String]) {
+        self.categories = categories
+        collectionView.reloadData()
+    }
 }
 
 
@@ -112,7 +117,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case .banner:
             return data.elements?.filter { $0.type == "banner" }.first?.items?.count ?? 0
         case .categoryBanner:
-            return ImageArray.count
+            return categories.count
         }
     }
     
@@ -135,7 +140,10 @@ extension HomeViewController: UICollectionViewDataSource {
             return cell
         case .categoryBanner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
-            cell.configureWith(image: ImageArray[indexPath.row])
+            let imagePaths = viewModel.loadCategoryImagesPath()
+            guard let category = categories[safe: indexPath.row] else { return UICollectionViewCell() }
+            let imagePath = imagePaths[category] ?? ""
+            cell.configureWithImagePath(imagePath: imagePath, text: category)
             return cell
         }
     }
@@ -271,7 +279,7 @@ extension HomeViewController {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -280,7 +288,7 @@ extension HomeViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 48, leading: 0, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 }
@@ -305,6 +313,7 @@ extension HomeViewController {
     final func fetchInitialData() {
         let currentLanguage = Localize.currentLanguage().uppercased()
         viewModel.loadBannerData(for: currentLanguage)
+        viewModel.fetchCategories()
     }
     
     final func setups() {

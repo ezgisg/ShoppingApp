@@ -10,6 +10,7 @@ import UIKit
 class BannerCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var label: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,18 +22,21 @@ class BannerCell: UICollectionViewCell {
 
     }
     
-    func configureWithImagePath(imagePath: String, cornerRadius: CGFloat = 0) {
+    func configureWithImagePath(imagePath: String, cornerRadius: CGFloat = 0, text: String = "") {
         let url = URL(string: imagePath)
         if let url {
             imageView.loadImage(with: url, cornerRadius: cornerRadius)
         }
+        label.text = text
     }
     
     func setupUI() {
         imageView.backgroundColor = .clear
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.opaqueSeparator.cgColor
         self.backgroundColor = .clear
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.textColor = .white
+        label.backgroundColor = .clear
     }
     
 }
+

@@ -22,7 +22,6 @@
                             <rect key="frame" x="85" y="0.0" width="150" height="50"/>
                             <color key="backgroundColor" name="textColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="Zgc-da-PLC"/>
                                 <constraint firstAttribute="width" constant="150" id="ijo-wh-ihQ"/>
                             </constraints>
                         </pageControl>

@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,22 +27,24 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyK-vo-uEw">
-                                <rect key="frame" x="84" y="12" width="191" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="84" y="12" width="179" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTA-bX-94J">
-                                <rect key="frame" x="287" y="25.666666666666671" width="12" height="21"/>
+                                <rect key="frame" x="275" y="22.333333333333329" width="24" height="27.666666666666671"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="12" id="cn1-Y4-vxm"/>
+                                    <constraint firstAttribute="width" priority="999" constant="24" id="n8a-Vw-ATq"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="jGs-Xb-eTv" secondAttribute="bottom" constant="12" id="4s0-34-evg"/>
                             <constraint firstItem="jGs-Xb-eTv" firstAttribute="top" secondItem="rrq-Eb-Me7" secondAttribute="top" constant="12" id="E8t-Rr-TBs"/>
@@ -56,13 +57,24 @@
                             <constraint firstItem="cTA-bX-94J" firstAttribute="leading" secondItem="LyK-vo-uEw" secondAttribute="trailing" constant="12" id="quw-c8-VtD"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="btK-H3-Qyj">
+                        <rect key="frame" x="0.0" y="71" width="323" height="1"/>
+                        <color key="backgroundColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="10V-Rr-t74"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="rrq-Eb-Me7" secondAttribute="bottom" id="EZo-32-H9M"/>
                 <constraint firstItem="rrq-Eb-Me7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IJh-4o-5Py"/>
+                <constraint firstAttribute="trailing" secondItem="btK-H3-Qyj" secondAttribute="trailing" id="Iuv-f1-w6Y"/>
                 <constraint firstAttribute="trailing" secondItem="rrq-Eb-Me7" secondAttribute="trailing" id="Kkf-vx-r9g"/>
+                <constraint firstAttribute="bottom" secondItem="btK-H3-Qyj" secondAttribute="bottom" id="iM6-Ij-3E1"/>
+                <constraint firstItem="btK-H3-Qyj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lXb-Un-vU1"/>
                 <constraint firstItem="rrq-Eb-Me7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="tqD-0V-A0b"/>
             </constraints>
             <size key="customSize" width="323" height="72"/>
@@ -74,9 +86,4 @@
             <point key="canvasLocation" x="107.63358778625954" y="-4.9295774647887329"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

@@ -11,7 +11,7 @@ import UIKit
 
 
 // MARK: - Enums
-enum CategoriesScreenSectionType: Int, CaseIterable {
+enum CategoriesScreenSectionType: Int, CaseIterable, Hashable {
     case banner = 0
     case categories = 1
     
@@ -30,11 +30,13 @@ public class CategoriesViewController: BaseViewController {
 
     //MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var containerView: UIView!
     
     //MARK: - Private Variables
+    ///Creating data sources with different models to try applying diffable data source with different models
     private var categories: [CategoryResponseElement]?
-    private var banners: [CategoryResponseElement]?
-    private var dataSource: UICollectionViewDiffableDataSource<CategoriesScreenSectionType, CategoryResponseElement>?
+    private var banners: [BannerElement]?
+    private var dataSource: UICollectionViewDiffableDataSource<CategoriesScreenSectionType, AnyHashable>?
     
     // MARK: - Module Components
     private var viewModel = CategoriesViewModel()
@@ -62,7 +64,8 @@ public class CategoriesViewController: BaseViewController {
 //MARK: Setups
 extension CategoriesViewController {
     final func setupUI() {
-        collectionView.backgroundColor = .orange
+        collectionView.backgroundColor = .white
+        containerView.backgroundColor = .tabbarBackgroundColor
     }
     
     final func setupCollectionView() {
@@ -84,16 +87,20 @@ extension CategoriesViewController: UICollectionViewDelegate {
 // MARK: - Diffable Data Source
 private extension CategoriesViewController {
     final func configureDatasource() {
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, categories in
-            guard let sectionType = CategoriesScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell()}
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { [weak self] collectionView, indexPath, categories in
+            guard let self,
+                  let sectionType = CategoriesScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell()}
             switch sectionType {
             case .banner:
                 let cell = collectionView.dequeueReusableCell(withClass: CategoryBannerCell.self, for: indexPath)
-                cell.configureWith(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")
+                if let imagePath = banners?[indexPath.row].imagePath {
+                    cell.configureWith(imagePath: imagePath )
+                }
                 return cell
             case .categories:
                 let cell = collectionView.dequeueReusableCell(withClass: CategoryCell.self, for: indexPath)
-                cell.configureWith(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800", text: "category")
+                let data = self.categories?[indexPath.row]
+                cell.configureWith(imagePath: data?.imagePath ?? "", text: data?.value ?? "")
                 return cell
             }
         })
@@ -101,7 +108,7 @@ private extension CategoriesViewController {
     }
     
     final func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<CategoriesScreenSectionType, CategoryResponseElement>()
+        var snapshot = NSDiffableDataSourceSnapshot<CategoriesScreenSectionType, AnyHashable>()
         for section in CategoriesScreenSectionType.allCases {
             snapshot.appendSections([section]) }
         if let banners {
@@ -136,8 +143,7 @@ private extension CategoriesViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),  heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
         
         return section
     }
@@ -154,13 +160,11 @@ private extension CategoriesViewController {
     }
 }
 
-
-
 //MARK: CategoriesViewModelDelegate
 extension CategoriesViewController: CategoriesViewModelDelegate {
     func getCategories(categories: [CategoryResponseElement]) {
         self.categories = categories
-        banners = [CategoryResponseElement(value: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")]
+        banners = viewModel.banners
         applySnapshot()
     }
 }

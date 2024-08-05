@@ -38,6 +38,7 @@ private extension TabBarController {
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
         let categoriesVC = CategoriesViewController()
+        categoriesVC.title = categoriesTitle
         let categoriesNavigationController = getStyledNavigationController(with: categoriesVC, title: categoriesTitle, image: .systemListImage)
 
         let middleVC = MiddleViewController()
@@ -126,7 +127,7 @@ public extension TabBarController {
 
 //MARK: Helpers
 extension TabBarController {
-    final func getStyledNavigationController(with viewController: UIViewController, title: String, image: UIImage?, isNeededRendering: Bool? = false) -> UINavigationController {
+    final func getStyledNavigationController(with viewController: UIViewController, title: String, image: UIImage?, isNeededRendering: Bool? = false, titleColor: UIColor = .buttonTextColor ) -> UINavigationController {
         let navigationController = UINavigationController(rootViewController: viewController)
         var resizedImage = image
         if let image,
@@ -135,6 +136,9 @@ extension TabBarController {
             resizedImage = UIImage.resizeImage(image: image, targetSize:  CGSize(width: 35, height: 35))?.withRenderingMode(.alwaysOriginal)
         }
         navigationController.tabBarItem = UITabBarItem(title: title, image: resizedImage, tag: 0)
+        navigationController.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: titleColor
+        ]
         return navigationController
     }
     

@@ -26,13 +26,16 @@ class CategoryCell: UICollectionViewCell {
         if let url {
             imageView.loadImage(with: url, cornerRadius: imageView.frame.width / 2)
         }
-        categoryName.text = text
+        categoryName.text = text.capitalizingEachWord()
     }
     
     func setupUI() {
         categoryName.textColor = .tabbarBackgroundColor
+        categoryName.layer.opacity = 0.7
+        decorationLabel.textColor = .tabbarBackgroundColor
+        decorationLabel.layer.opacity = 0.3
         imageView.layer.cornerRadius = imageView.frame.width / 2
         imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.tabbarBackgroundColor.cgColor
+        imageView.layer.borderColor = UIColor.opaqueSeparator.cgColor
     }
 }

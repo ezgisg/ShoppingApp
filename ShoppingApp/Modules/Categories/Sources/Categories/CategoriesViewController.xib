@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoriesViewContoller" customModule="Categories">
             <connections>
                 <outlet property="collectionView" destination="za2-p6-mcw" id="dxA-ed-axj"/>
+                <outlet property="containerView" destination="cIv-7S-wzx" id="ufA-ep-vvA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,6 +20,10 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cIv-7S-wzx">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="za2-p6-mcw">
                     <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -33,10 +38,14 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="cIv-7S-wzx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="76f-oB-Xv7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="za2-p6-mcw" secondAttribute="trailing" id="F95-tc-XXl"/>
                 <constraint firstItem="za2-p6-mcw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Uzw-U9-W1g"/>
+                <constraint firstAttribute="bottom" secondItem="cIv-7S-wzx" secondAttribute="bottom" id="hne-7x-iWT"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="za2-p6-mcw" secondAttribute="bottom" id="oZQ-Yi-27i"/>
                 <constraint firstItem="za2-p6-mcw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="rZ0-mq-JlG"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cIv-7S-wzx" secondAttribute="trailing" id="ryx-hq-k7Z"/>
+                <constraint firstItem="cIv-7S-wzx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="sGj-En-N3C"/>
             </constraints>
             <point key="canvasLocation" x="-98" y="-12"/>
         </view>

@@ -10,10 +10,12 @@ import Foundation
 public struct CategoryResponseElement: Hashable {
     public let id: UUID
     public let value: String?
+    public let imagePath: String?
 
-    public init(value: String) {
+    public init(value: String, imagePath: String) {
         self.id = UUID()
         self.value = value
+        self.imagePath = imagePath
     }
 }
 

@@ -28,6 +28,8 @@ class CategoryBannerCell: UICollectionViewCell {
     
     func setupUI() {
         imageView.layer.cornerRadius = 4
+        insideContainerView.layer.cornerRadius = 16
+        outsideContainerView.layer.cornerRadius = 28
         insideContainerView.backgroundColor = .middleButtonColor
         outsideContainerView.backgroundColor = .tabbarBackgroundColor
     }

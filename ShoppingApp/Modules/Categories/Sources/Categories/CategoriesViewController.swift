@@ -38,6 +38,7 @@ public class CategoriesViewController: BaseViewController {
     private var filteredCategories: [CategoryResponseElement]?
     private var banners: [BannerElement]?
     private var dataSource: UICollectionViewDiffableDataSource<CategoriesScreenSectionType, AnyHashable>?
+    private var searchController: UISearchController?
     
     // MARK: - Module Components
     private var viewModel = CategoriesViewModel()
@@ -50,7 +51,6 @@ public class CategoriesViewController: BaseViewController {
         setupUI()
         setupCollectionView()
         setupSearchButton()
-        //TODO: searchcontroller view üzerine view açtığı için bu doğrudan çalışmıyor, düzenleme gerekecek
         setupKeyboardObservers()
     }
     
@@ -62,7 +62,11 @@ public class CategoriesViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    public override func dismissKeyboard() {
+        guard let searchBar = searchController?.searchBar else { return }
+        searchBar.resignFirstResponder()
+    }
 }
 
 //MARK: Setups
@@ -197,7 +201,7 @@ private extension CategoriesViewController {
     }
 }
 
-extension CategoriesViewController {
+extension CategoriesViewController: UISearchBarDelegate, UISearchControllerDelegate {
     private func setupSearchButton() {
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem = searchButton
@@ -207,8 +211,10 @@ extension CategoriesViewController {
         guard navigationItem.searchController == nil else {
             navigationItem.searchController = nil
             return }
-     
-        let searchController = UISearchController(searchResultsController: nil)
+        
+        searchController = UISearchController(searchResultsController: nil)
+        guard let searchController else { return }
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         //TODO: localizable
@@ -218,8 +224,9 @@ extension CategoriesViewController {
         searchController.searchBar.searchTextField.tintColor = .black
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        searchController.searchBar.becomeFirstResponder()
-       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            searchController.searchBar.becomeFirstResponder()
+        }
     }
 }
 

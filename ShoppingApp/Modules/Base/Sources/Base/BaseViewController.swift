@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import UIKit
 
 // MARK: - BaseViewControllerProtocol
@@ -34,6 +33,10 @@ open class BaseViewController: UIViewController, LoadingShowable {
         self.present(alert, animated: true, completion: nil)
     }
     
+    @objc open func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
 }
 
 // MARK: - BaseViewController: BaseViewControllerProtocol
@@ -85,7 +88,7 @@ public extension BaseViewController {
             }
         }
     }
-
+    
     @objc final func keyboardWillHide(notification: NSNotification) {
         keyboardWillHideForScrollView(notification: notification)
         if let tapGesture {
@@ -93,10 +96,6 @@ public extension BaseViewController {
         }
         ///To return the view to its original place
         view.frame.origin.y = 0
-    }
-
-    @objc final func dismissKeyboard() {
-        view.endEditing(true)
     }
     
     @objc final func keyboardWillShowForScrollView(notification: NSNotification) {

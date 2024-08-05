@@ -29,13 +29,14 @@ enum HomeScreenSectionType: Int, CaseIterable {
 
 // MARK: - HomeViewController
 public class HomeViewController: BaseViewController {
-
-    @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var searchBar: UISearchBar!
+    
+    //MARK: - Outlets
+    @IBOutlet private weak var topLabel: UILabel!
+    @IBOutlet private weak var searchBar: UISearchBar!
     //TODO: profil sayfası yapıldığında bu image a bağlanacak
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet private weak var profileImage: UIImageView!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var backgroundView: UIView!
     
     // MARK: - Module Components
     private var viewModel = HomeViewModel()

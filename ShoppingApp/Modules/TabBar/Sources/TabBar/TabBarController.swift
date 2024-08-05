@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import Categories
 import Foundation
 import Home
 import UIKit
@@ -36,7 +37,7 @@ private extension TabBarController {
         let homeNavigationController = getStyledNavigationController(with: homeVC, title: homeTitle, image: .systemHouseImage)
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
-        let categoriesVC = MiddleViewController()
+        let categoriesVC = CategoriesViewController()
         let categoriesNavigationController = getStyledNavigationController(with: categoriesVC, title: categoriesTitle, image: .systemListImage)
 
         let middleVC = MiddleViewController()

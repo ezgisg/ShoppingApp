@@ -32,10 +32,10 @@ final class HomeViewModel {
 
 extension HomeViewModel: HomeViewModelProtocol {
     func loadCategoryImagesPath() -> [String:String] {
-        ["electronics": "https://img.freepik.com/free-photo/tablet-with-headphones-rest_23-2148149492.jpg?t=st=1722765161~exp=1722768761~hmac=8049310aff95d803fdb23d76d530622e9c057881bd09a2848329595cd8061495&w=1480",
-         "jewelery":"https://img.freepik.com/free-photo/hand-gloves-takes-exclusive-rings-showcase-luxury-jewelry-store_613910-20954.jpg?t=st=1722762468~exp=1722766068~hmac=5d49006cd88c23266d22d073d92d8e0b4b10136de6a2d559532e98a4d6cb6914&w=1480",
-         "men's clothing":"https://img.freepik.com/free-photo/top-view-composition-different-traveling-elements_23-2148884942.jpg?t=st=1722762553~exp=1722766153~hmac=8560009a1be38d40d27272aad3e0aeceec4ae4c142788fb5f2d70346ee5e5ff6&w=1480",
-         "women's clothing":"https://img.freepik.com/free-photo/flat-lay-woman-style-accessories-red-knitted-sweater-checkered-shirt-denim-jeans-black-leather-boots-hat-autumn-fashion-trend-view-from-vintage-photo-camera-traveler-outfit_285396-5104.jpg?t=st=1722762594~exp=1722766194~hmac=7c5d30ee7cbb27529cfd898d17e880266efc067f93d5e528c04f6b9072257f20&w=1480"]
+        ["electronics": "https://img.freepik.com/free-photo/top-view-male-self-care-items_23-2150347090.jpg?t=st=1722838396~exp=1722841996~hmac=9fc0d41bb04da998b971f05dd911f37beb6a950f753811d37610fe76459d930a&w=1800",
+         "jewelery":"https://img.freepik.com/free-photo/luxury-shine-diamonds-digital-art_23-2151695039.jpg?t=st=1722838346~exp=1722841946~hmac=45007107b4025c5c98956612e18dddcf1144b82aa5be6830dafba16cf452b59f&w=1800",
+         "men's clothing":"https://img.freepik.com/free-photo/fast-fashion-concept-with-full-clothing-store_23-2150871146.jpg?t=st=1722838496~exp=1722842096~hmac=f4d1f0e15c257d3be3cf0892dacb934e99ec29aaa2abfc64b7efd950219abea3&w=1800",
+         "women's clothing":"https://img.freepik.com/free-photo/elegant-fashion-collection-hanging-modern-boutique-generated-by-ai_188544-24625.jpg?t=st=1722838793~exp=1722842393~hmac=810a1e19bd1820b9888669668e01e0895ef3a8c049e9f9c22a047fa192f77b00&w=1800"]
     }
     
     func loadBannerData(for language: String) {

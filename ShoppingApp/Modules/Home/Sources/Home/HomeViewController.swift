@@ -164,7 +164,7 @@ extension HomeViewController: UICollectionViewDataSource {
             else {
                 return UICollectionReusableView()
             }
-            headerView.configure(with: bannerSectionData.title ?? "", color: .opaqueSeparator)
+            headerView.configure(with: bannerSectionData.title ?? "", color: .gray)
             return headerView
         default:
             return UICollectionReusableView()
@@ -341,6 +341,6 @@ extension HomeViewController {
         }
                           ,
                           completion: nil)
-      }
+    }
 
 }

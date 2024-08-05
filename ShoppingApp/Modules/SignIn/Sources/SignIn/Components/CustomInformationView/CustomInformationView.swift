@@ -59,18 +59,21 @@ private extension CustomInformationView {
         containerView.backgroundColor = .buttonColor
         containerView.layer.borderColor = UIColor.opaqueSeparator.cgColor
         containerView.layer.borderWidth = 2
+        
         textView.layer.cornerRadius = 8
         textView.backgroundColor = .backgroundColor
         textView.textColor = .textColor
         textView.text = message
+        textView.isEditable = false
+        
         title.text = messageTitle
         title.textColor = .buttonTextColor
         
         cancelButton.tintColor = .buttonTextColor
-        
-
+      
         textViewHeightConstraint.constant = textView.updateHeightToFitContent(max: 200)
         backgroundColor = .black.withAlphaComponent(0.2)
+        
     }
     
 }

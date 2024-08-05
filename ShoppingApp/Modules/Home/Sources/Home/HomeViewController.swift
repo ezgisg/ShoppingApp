@@ -14,6 +14,17 @@ enum HomeScreenSectionType: Int, CaseIterable {
     case campaign = 0
     case banner = 1
     case categoryBanner = 2
+    
+    var stringValue: String? {
+         switch self {
+         case .campaign:
+             return "campaign"
+         case .banner:
+             return "banner"
+         case .categoryBanner:
+             return "category"
+         }
+     }
 }
 
 // MARK: - HomeViewController
@@ -21,6 +32,7 @@ public class HomeViewController: BaseViewController {
 
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
+    //TODO: profil sayfası yapıldığında bu image a bağlanacak
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var backgroundView: UIView!
@@ -28,23 +40,17 @@ public class HomeViewController: BaseViewController {
     // MARK: - Module Components
     private var viewModel = HomeViewModel()
     
-    
+    // MARK: - Private Variables
     private var bannerData : BannerData? = nil
     private var categories: [String] = []
-    
-    //TODO: titleArray vm e alınıp localizable dan eklenecek
-    var ImageArray : [UIImage] = [.browseImage, .checkoutImage, .welcomeImage, .registerImage]
-    var titleArray: [String] = ["Büyük İndirime Hazır Olun","%50'ye varan indirimler","Son Kalanları Kaçırma","Hemen Alışverişe Başla"]
-    var currentIndex = 0
-    var timer: Timer?
+    private var currentIndex = 0
+    private var timer: Timer?
     
     // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         setups()
         viewModel.delegate = self
-    
     }
         
     public override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +73,6 @@ public class HomeViewController: BaseViewController {
     }
     
     deinit {
-        
         timer?.invalidate()
     }
 
@@ -85,22 +90,8 @@ extension HomeViewController: HomeViewModelDelegate {
     }
 }
 
-
-extension HomeViewController {
-    final func setupCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(nibWithCellClass: BannerCell.self, at: Bundle.module)
-        collectionView.register(nibWithCellClass: CampaignCell.self, at: Bundle.module)
-        collectionView.registerReusableView(nibWithViewClass: PageControllerReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, at: Bundle.module)
-        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
-        collectionView.collectionViewLayout = createCompositionalLayout()
-    }
-}
-
 // MARK: - UICollectionViewDataSource
 extension HomeViewController: UICollectionViewDataSource {
-    
     ///determine number of sections
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return HomeScreenSectionType.allCases.count
@@ -108,14 +99,11 @@ extension HomeViewController: UICollectionViewDataSource {
     
     ///determine number of items in section
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sectionType = HomeScreenSectionType(rawValue: section),
-              let data = bannerData
-        else { return 0 }
+        guard let sectionType = HomeScreenSectionType(rawValue: section) else { return 0 }
         switch sectionType {
-        case .campaign:
-            return data.elements?.filter { $0.type == "campaign" }.first?.items?.count ?? 0
-        case .banner:
-            return data.elements?.filter { $0.type == "banner" }.first?.items?.count ?? 0
+        case .campaign, .banner:
+            guard let type = sectionType.stringValue else { return 0 }
+            return bannerData?.elements?.filter { $0.type == type }.first?.items?.count ?? 0
         case .categoryBanner:
             return categories.count
         }
@@ -124,46 +112,52 @@ extension HomeViewController: UICollectionViewDataSource {
     ///configure with cell for item
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        
         switch sectionType {
         case .campaign:
             let cell = collectionView.dequeueReusableCell(withClass: CampaignCell.self, for: indexPath)
-            let campaignData = bannerData?.elements?.filter { $0.type == "campaign" }.first?.items
+            let campaignData = bannerData?.elements?.filter { $0.type == sectionType.stringValue }.first?.items
             cell.configureWith(
                 imagePath: campaignData?[safe: indexPath.row]?.image ?? "",
-                text:   campaignData?[safe: indexPath.row]?.name ?? ""
+                text: campaignData?[safe: indexPath.row]?.name ?? ""
             )
             return cell
         case .banner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
-            let bannerData = bannerData?.elements?.filter { $0.type == "banner" }.first?.items
-            cell.configureWithImagePath(imagePath: bannerData?[safe: indexPath.row]?.image ?? "", cornerRadius: 20)
+            let bannerData = bannerData?.elements?.filter { $0.type == sectionType.stringValue }.first?.items
+            cell.configureWithImagePath(
+                imagePath: bannerData?[safe: indexPath.row]?.image ?? "",
+                cornerRadius: 20
+            )
             return cell
         case .categoryBanner:
             let cell = collectionView.dequeueReusableCell(withClass: BannerCell.self, for: indexPath)
             let imagePaths = viewModel.loadCategoryImagesPath()
             guard let category = categories[safe: indexPath.row] else { return UICollectionViewCell() }
             let imagePath = imagePaths[category] ?? ""
-            cell.configureWithImagePath(imagePath: imagePath, text: category)
+            cell.configureWithImagePath(
+                imagePath: imagePath,
+                text: category
+            )
             return cell
         }
     }
     
     ///dequeue and configure supplementary view
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let bannerSectionData = bannerData?.elements?.first(where: { $0.type == "banner" }) else { return UICollectionReusableView() }
+        guard let bannerSectionData = bannerData?.elements?.first(where: { $0.type == HomeScreenSectionType.banner.stringValue }),
+              indexPath.section == HomeScreenSectionType.banner.rawValue
+        else {
+            return UICollectionReusableView()
+        }
+        
         switch kind {
         case UICollectionView.elementKindSectionFooter:
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: PageControllerReusableView.self, for: indexPath)
-            if indexPath.section == HomeScreenSectionType.banner.rawValue {
-                footerView.configureNumberOfPage(with: bannerSectionData.items?.count ?? 0)
-            }
+            footerView.configureNumberOfPage(with: bannerSectionData.items?.count ?? 0)
             return footerView
         case UICollectionView.elementKindSectionHeader:
-            guard indexPath.section == HomeScreenSectionType.banner.rawValue,
-                  let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseIdentifier, for: indexPath) as? SectionHeader 
-            else {
-                return UICollectionReusableView()
-            }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseIdentifier, for: indexPath) as? SectionHeader else { return UICollectionReusableView() }
             headerView.configure(with: bannerSectionData.title ?? "", color: .gray)
             return headerView
         default:
@@ -221,7 +215,6 @@ extension HomeViewController {
         let horizontalContentInset: CGFloat = 8
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: horizontalContentInset, bottom: 0, trailing: horizontalContentInset)
         
-   
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalWidth(0.5)
@@ -245,7 +238,6 @@ extension HomeViewController {
         )
         header.contentInsets =  NSDirectionalEdgeInsets(top: 0, leading: horizontalContentInset, bottom: 0, trailing: horizontalContentInset)
         
-        
         let footerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .estimated(20)
@@ -256,22 +248,20 @@ extension HomeViewController {
             alignment: .bottom
         )
         footer.extendsBoundary = false
-
+        
         section.boundarySupplementaryItems = [header, footer]
         
         section.visibleItemsInvalidationHandler = { [weak self] (items, offset, env) -> Void in
             guard let self else { return }
             let page = round(offset.x / self.view.bounds.width)
-        
+            
             if let footerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: HomeScreenSectionType.banner.rawValue)) as? PageControllerReusableView {
                 footerView.configureCurrentPage(with: Int(page))
             }
         }
-    
+        
         return section
     }
-    
-
     
     private func createCategoryBannerSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
@@ -293,9 +283,14 @@ extension HomeViewController {
     }
 }
 
-
+//TODO: Kategori ürün sayfaları oluşturulduğunda doldurulacak 1-Kategorilerden ürünlere gidiş 2-kampanyalardan kampanya sayfalarına veya ürünlere gidiş
 extension HomeViewController: UICollectionViewDelegate {
  
+}
+
+//TODO: Kategori ürün sayfaları oluşturulduğunda arama ile ürünler aranacak
+extension HomeViewController: UISearchBarDelegate {
+    
 }
 
 //MARK: Setups
@@ -316,17 +311,31 @@ extension HomeViewController {
         viewModel.fetchCategories()
     }
     
+    final func setupCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(nibWithCellClass: BannerCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: CampaignCell.self, at: Bundle.module)
+        collectionView.registerReusableView(nibWithViewClass: PageControllerReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, at: Bundle.module)
+        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
+        collectionView.collectionViewLayout = createCompositionalLayout()
+    }
+    
     final func setups() {
         viewModel.delegate = self
+        searchBar.delegate = self
+        
         fetchInitialData()
-        setupCollectionView()
         setupUI()
+        setupCollectionView()
         setupKeyboardObservers()
         startTextRotation()
     }
     
+    
+    ///Changing topLabel text in every 5 seconds with animate
     func startTextRotation() {
-        topLabel.text = titleArray[currentIndex]
+        topLabel.text = viewModel.campaignMessages[currentIndex]
         timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateLabelText), userInfo: nil, repeats: true)
     }
     
@@ -336,11 +345,9 @@ extension HomeViewController {
                           options: .transitionCrossDissolve,
                           animations: {  [weak self] in
             guard let self else { return }
-            currentIndex = (currentIndex + 1) % titleArray.count
-            topLabel.text = titleArray[currentIndex]
-        }
-                          ,
-                          completion: nil)
+            currentIndex = (currentIndex + 1) % viewModel.campaignMessages.count
+            topLabel.text = viewModel.campaignMessages[currentIndex]
+        }, completion: nil)
     }
-
+    
 }

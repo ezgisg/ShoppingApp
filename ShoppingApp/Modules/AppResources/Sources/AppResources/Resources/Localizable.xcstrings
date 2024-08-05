@@ -35,6 +35,108 @@
         }
       }
     },
+    "CampaignMessages.1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Ready for the Big Sale"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Büyük İndirime Hazır Olun"
+          }
+        }
+      }
+    },
+    "CampaignMessages.2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 50% Off"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%50'ye varan indirimler"
+          }
+        }
+      }
+    },
+    "CampaignMessages.3" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't Miss the Last Items"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son Kalanları Kaçırma"
+          }
+        }
+      }
+    },
+    "CampaignMessages.4" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Shopping Now"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hemen Alışverişe Başla"
+          }
+        }
+      }
+    },
+    "CampaignMessages.5" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trend Products for the Season"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sezona Uygun Trend Ürünler"
+          }
+        }
+      }
+    },
+    "CampaignMessages.6" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusive Online Products"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Online'a Özel Farklı Ürünler"
+          }
+        }
+      }
+    },
     "categories" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -52,6 +52,21 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
         case nameContain = "PasswordControlMessages.nameContain"
         case surnameContain = "PasswordControlMessages.surnameContain"
     }
+    
+    public enum CampaignMessages: String, LocalizableProtocol {
+        // MARK: - RawValue
+        public var stringValue: String {
+            return rawValue
+        }
+        
+        case CampaignMessages1 = "CampaignMessages.1"
+        case CampaignMessages2 = "CampaignMessages.2"
+        case CampaignMessages3 = "CampaignMessages.3"
+        case CampaignMessages4 = "CampaignMessages.4"
+        case CampaignMessages5 = "CampaignMessages.5"
+        case CampaignMessages6 = "CampaignMessages.6"
+    
+    }
 }
 
 // MARK: - Functions

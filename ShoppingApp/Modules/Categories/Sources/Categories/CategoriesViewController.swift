@@ -35,6 +35,7 @@ public class CategoriesViewController: BaseViewController {
     //MARK: - Private Variables
     ///Creating data sources with different models to try applying diffable data source with different models
     private var categories: [CategoryResponseElement]?
+    private var filteredCategories: [CategoryResponseElement]?
     private var banners: [BannerElement]?
     private var dataSource: UICollectionViewDiffableDataSource<CategoriesScreenSectionType, AnyHashable>?
     
@@ -48,6 +49,9 @@ public class CategoriesViewController: BaseViewController {
         viewModel.fetchCategories()
         setupUI()
         setupCollectionView()
+        setupSearchButton()
+        //TODO: searchcontroller view üzerine view açtığı için bu doğrudan çalışmıyor, düzenleme gerekecek
+        setupKeyboardObservers()
     }
     
      // MARK: - Module init
@@ -73,6 +77,7 @@ extension CategoriesViewController {
         configureDatasource()
         collectionView.register(nibWithCellClass: CategoryBannerCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CategoryCell.self, at: Bundle.module)
+        collectionView.registerReusableView(nibWithViewClass: FooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, at: Bundle.module)
         configureDatasource()
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
@@ -99,12 +104,14 @@ private extension CategoriesViewController {
                 return cell
             case .categories:
                 let cell = collectionView.dequeueReusableCell(withClass: CategoryCell.self, for: indexPath)
-                let data = self.categories?[indexPath.row]
+                let data = self.filteredCategories?[indexPath.row]
                 cell.configureWith(imagePath: data?.imagePath ?? "", text: data?.value ?? "")
                 return cell
             }
         })
         applySnapshot()
+        configureSupplementaryViewsDataSource()
+        
     }
     
     final func applySnapshot() {
@@ -114,13 +121,30 @@ private extension CategoriesViewController {
         if let banners {
             snapshot.appendItems(banners, toSection: .banner)
         }
-        if let categories {
-            snapshot.appendItems(categories, toSection: .categories)
+        if let filteredCategories {
+      
+            snapshot.appendItems(filteredCategories, toSection: .categories)
         }
         dataSource?.apply(snapshot)
     }
+    
+    final func configureSupplementaryViewsDataSource() {
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard let sectionType = CategoriesScreenSectionType(rawValue: indexPath.section) else { return UICollectionReusableView() }
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: FooterView.self, for: indexPath)
+            switch sectionType {
+            case .banner:
+                return UICollectionReusableView()
+            case .categories:
+                //TODO: burası loca. alınacak
+                footerView.configureWith(text: "Tüm Kategoriler")
+                return footerView
+            }
+        }
+        
+    }
+    
 }
-
 
 // MARK: - Compositional Layout
 private extension CategoriesViewController {
@@ -149,14 +173,73 @@ private extension CategoriesViewController {
     }
     
     final func createCategoriesSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(72))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(72))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 10, bottom: 12, trailing: 10)
+        
+        let footerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(20)
+        )
+        
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: footerSize,
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+        
+        section.boundarySupplementaryItems = [footer]
+        
         return section
+    }
+}
+
+extension CategoriesViewController {
+    private func setupSearchButton() {
+        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+        navigationItem.rightBarButtonItem = searchButton
+    }
+    
+    @objc private func searchButtonTapped() {
+        guard navigationItem.searchController == nil else {
+            navigationItem.searchController = nil
+            return }
+     
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        //TODO: localizable
+        searchController.searchBar.placeholder = "Search Categories"
+        searchController.searchBar.tintColor = .white
+        searchController.searchBar.searchTextField.backgroundColor = .white
+        searchController.searchBar.searchTextField.tintColor = .black
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.becomeFirstResponder()
+       
+    }
+}
+
+extension CategoriesViewController: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+            filteredCategories = categories
+            applySnapshot()
+            return
+        }
+        filterCategories(for: searchText)
+    }
+    
+    //TODO: viewmodele taşınacak fonk
+    private func filterCategories(for searchText: String) {
+        filteredCategories = categories?.filter { category in
+            return category.value?.lowercased().contains(searchText.lowercased()) ?? false
+        }
+        applySnapshot()
+        
     }
 }
 
@@ -164,6 +247,7 @@ private extension CategoriesViewController {
 extension CategoriesViewController: CategoriesViewModelDelegate {
     func getCategories(categories: [CategoryResponseElement]) {
         self.categories = categories
+        filteredCategories = categories
         banners = viewModel.banners
         applySnapshot()
     }

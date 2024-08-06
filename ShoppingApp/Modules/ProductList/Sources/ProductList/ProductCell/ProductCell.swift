@@ -8,6 +8,7 @@
 import AppResources
 import UIKit
 
+//MARK: - ProductCell
 class ProductCell: UICollectionViewCell {
 
     @IBOutlet weak var mainContainerView: UIView!
@@ -22,11 +23,10 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
-    
+    //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
-        // Initialization code
     }
     
     override func prepareForReuse() {
@@ -34,27 +34,11 @@ class ProductCell: UICollectionViewCell {
         ratingView.setRating(0)
     }
     
-    func configure(withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
-        ratingView.setRating(rating ?? 0)
-        ratingCountLabel.text = "(\(String(ratingCount ?? 0)))"
-        categoryNameLabel.text = categoryName ?? ""
-        productNameLabel.text = productName ?? ""
-        if let price {
-            priceLabel.text = "\(String(price)) $"
-        } else {
-            priceLabel.text = "N/A"
-        }
-        let url = URL(string: imagePath ?? "")
-        if let url {
-            productImage.loadImage(with: url, contentMode: .scaleAspectFit)
-        }
-
-      }
-    
     private func setupUI() {
+        imageContainerView.layer.cornerRadius = 2
         imageContainerView.layer.borderWidth = 1
         imageContainerView.layer.borderColor = UIColor.opaqueSeparator.cgColor
-        imageContainerView.layer.cornerRadius = 2
+        
         imageContainerView.backgroundColor = .white
         mainContainerView.backgroundColor = .white
         stackView.backgroundColor = .white
@@ -64,11 +48,22 @@ class ProductCell: UICollectionViewCell {
         categoryNameLabel.textColor = .darkGray
         ratingCountLabel.textColor = .darkGray
         priceLabel.textColor = .darkGray
-        
+        //TODO: Sepete veya favorilere eklenip eklenmemesine göre farklı renkler alacak
         addFavoriteImage.tintColor = .lightGray
         addCartImage.tintColor = .lightGray
-        
-        
     }
-    
+}
+
+//MARK: - ProductCell Configure
+extension ProductCell {
+    func configure(withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
+        ratingView.setRating(rating ?? 0)
+        ratingCountLabel.text = "(\(String(ratingCount ?? 0)))"
+        categoryNameLabel.text = categoryName ?? ""
+        productNameLabel.text = productName ?? ""
+        priceLabel.text = price != nil ? "\(String(price!)) $" : "N/A"
+        //TODO: url yoksa "no image" image basalım
+        guard let urlString = imagePath, let url = URL(string: urlString) else { return }
+        productImage.loadImage(with: url, contentMode: .scaleAspectFit)
+    }
 }

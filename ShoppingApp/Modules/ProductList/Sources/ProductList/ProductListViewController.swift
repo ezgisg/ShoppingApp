@@ -8,7 +8,6 @@
 import AppResources
 import UIKit
 
-
 // MARK: - Enums
 enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
     case filter = 0
@@ -27,19 +26,22 @@ enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
 // MARK: - ProductListViewController
 public class ProductListViewController: UIViewController {
 
-    @IBOutlet weak var filterImage: UIImageView!
-    @IBOutlet weak var filterLabel: UILabel!
-    @IBOutlet weak var orderingImage: UIImageView!
-    @IBOutlet weak var orderingLabel: UILabel!
-    @IBOutlet weak var bigLayoutImage: UIImageView!
-    @IBOutlet weak var smallLayoutImage: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var filterAreaStackView: UIStackView!
+    // MARK: - Outlets
+    @IBOutlet private weak var filterImage: UIImageView!
+    @IBOutlet private weak var filterLabel: UILabel!
+    @IBOutlet private weak var orderingImage: UIImageView!
+    @IBOutlet private weak var orderingLabel: UILabel!
+    @IBOutlet private weak var bigLayoutImage: UIImageView!
+    @IBOutlet private weak var smallLayoutImage: UIImageView!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var filterAreaStackView: UIStackView!
     
+    // MARK: - Variables
     var category = String()
     var categories = [CategoryResponseElement]()
     
+    // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
     
     // MARK: - Module Components
@@ -48,15 +50,11 @@ public class ProductListViewController: UIViewController {
     // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.tintColor = .tabbarSelectedColor
-        setupUI()
+        setups()
         viewModel.delegate = self
         viewModel.fetchProducts(categoryName: category)
         viewModel.fetchCategories(categoryName: category)
-        print("Selected category: \(category)")
-        setupCollectionView()
     }
-
     
     // MARK: - Module init
     public init(category: String, categories: [CategoryResponseElement] = [CategoryResponseElement]()) {
@@ -71,32 +69,35 @@ public class ProductListViewController: UIViewController {
 
 }
 
-
 //MARK: - UI Setups
 private extension ProductListViewController {
     final func setupUI() {
         containerView.backgroundColor = .tabbarBackgroundColor
         collectionView.backgroundColor = .white
         applyGradientToFilterArea()
-        filterImage.image = .filter
-        filterLabel.text = L10nGeneric.filter.localized()
-        filterLabel.textColor = .darkGray
-        orderingImage.image = .sorting
-        orderingLabel.text = L10nGeneric.sorting.localized()
-        orderingLabel.textColor = .darkGray
-        smallLayoutImage.image = .smallLayout
-        bigLayoutImage.image = .bigLayout
         filterAreaStackView.backgroundColor = UIColor.lightGray
         filterAreaStackView.layer.borderColor = UIColor.opaqueSeparator.cgColor
         filterAreaStackView.layer.borderWidth = 1
+        
+        orderingImage.image = .sorting
+        smallLayoutImage.image = .smallLayout
+        bigLayoutImage.image = .bigLayout
+        filterImage.image = .filter
+        
+        filterLabel.text = L10nGeneric.filter.localized()
+        filterLabel.textColor = .darkGray
+        orderingLabel.text = L10nGeneric.sorting.localized()
+        orderingLabel.textColor = .darkGray
+        
+        navigationController?.navigationBar.tintColor = .tabbarSelectedColor
     }
     
-    private func applyGradientToFilterArea() {
+    final func applyGradientToFilterArea() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = .init(
             x: filterAreaStackView.bounds.minX,
             y: filterAreaStackView.bounds.minY,
-            ///It doesn't get the correct size when called in didload as filterAreaStackView.bounds, we could update it in viewDidLayoutSubviews but in this case the gradient appears to fill after the screen is opened
+            ///It doesn't get the correct size when called in didload with "filterAreaStackView.bounds", we could update it in viewDidLayoutSubviews but in this case the gradient appears to fill after the screen is opened
             width: UIScreen.main.bounds.width,
             height: filterAreaStackView.bounds.height
         )
@@ -107,15 +108,18 @@ private extension ProductListViewController {
         filterAreaStackView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
-    
     final func setupCollectionView() {
         configureDatasource()
         collectionView.register(nibWithCellClass: ProductCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
+    
+    final func setups() {
+        setupUI()
+        setupCollectionView()
+    }
 }
-
 
 //MARK: - Diffable Data Source
 private extension ProductListViewController {
@@ -149,12 +153,6 @@ private extension ProductListViewController {
     
 }
 
-extension ProductListViewController: ProductListViewModelDelegate {
-    func reloadCollectionView() {
-        applySnapshot()
-    }
-}
-
 // MARK: - Compositional Layout
 private extension ProductListViewController {
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
@@ -173,6 +171,7 @@ private extension ProductListViewController {
     final func createFilterSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(20), heightDimension: .estimated(32))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .estimated(32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
@@ -180,7 +179,7 @@ private extension ProductListViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
         section.orthogonalScrollingBehavior = .continuous
-        
+    
         return section
     }
     
@@ -198,3 +197,9 @@ private extension ProductListViewController {
     }
 }
 
+//MARK: - ProductListViewModelDelegate
+extension ProductListViewController: ProductListViewModelDelegate {
+    func reloadCollectionView() {
+        applySnapshot()
+    }
+}

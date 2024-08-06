@@ -239,6 +239,23 @@
         }
       }
     },
+    "filter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtre"
+          }
+        }
+      }
+    },
     "generic.abort" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -507,6 +524,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm Kategorilerde Ara"
+          }
+        }
+      }
+    },
+    "sorting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sırala"
           }
         }
       }

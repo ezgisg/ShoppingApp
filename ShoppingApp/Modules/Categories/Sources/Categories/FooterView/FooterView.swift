@@ -25,6 +25,7 @@ class FooterView: UICollectionReusableView {
     func setupUI() {
         label.textColor = .tabbarBackgroundColor
         label.layer.opacity = 0.7
+        containerView.backgroundColor = .clear
         decorationLabel.textColor = .tabbarBackgroundColor
         decorationLabel.layer.opacity = 0.3
     }

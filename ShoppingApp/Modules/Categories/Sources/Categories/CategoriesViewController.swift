@@ -8,6 +8,7 @@
 import AppResources
 import Base
 import UIKit
+import ProductList
 
 
 // MARK: - Enums
@@ -89,10 +90,13 @@ private extension CategoriesViewController {
     }
 }
 
-//TODO: ürün detay sayfası yapıldığında doldurulacak
 //MARK: UICollectionViewDelegate
 extension CategoriesViewController: UICollectionViewDelegate {
-    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let category = viewModel.filteredCategories[indexPath.row].value else { return }
+        let productListViewController = ProductListViewController(category: category)
+        navigationController?.pushViewController(productListViewController, animated: false)
+    }
 }
 
 // MARK: - Diffable Data Source

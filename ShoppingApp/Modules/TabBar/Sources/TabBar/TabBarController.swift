@@ -22,7 +22,14 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         self.selectedIndex = 1
         setupTabbar()
-
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(
+            true,
+            animated: false
+        )
     }
 }
 

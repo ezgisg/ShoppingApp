@@ -65,4 +65,20 @@ public extension UIImage {
         return UIImage(named: "profile", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var bigLayout: UIImage {
+        return UIImage(named: "bigLayout", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var smallLayout: UIImage {
+        return UIImage(named: "smallLayout", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var filter: UIImage {
+        return UIImage(named: "filter", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var sorting: UIImage {
+        return UIImage(named: "sorting", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

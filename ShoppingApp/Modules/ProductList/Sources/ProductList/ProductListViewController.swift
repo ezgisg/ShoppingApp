@@ -43,6 +43,7 @@ public class ProductListViewController: UIViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
+    private var itemCount: Double?
     
     // MARK: - Module Components
     private var viewModel = ProductListViewModel()
@@ -56,6 +57,11 @@ public class ProductListViewController: UIViewController {
         viewModel.fetchCategories(categoryName: category)
     }
     
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.layoutIfNeeded()
+    }
+    
     // MARK: - Module init
     public init(category: String, categories: [CategoryResponseElement] = [CategoryResponseElement]()) {
         self.category = category
@@ -66,7 +72,7 @@ public class ProductListViewController: UIViewController {
    required init?(coder: NSCoder) {
        fatalError("init(coder:) has not been implemented")
    }
-
+    
 }
 
 //MARK: - UI Setups
@@ -115,9 +121,39 @@ private extension ProductListViewController {
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
     
+    final func setupGestures() {
+          let bigLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(bigLayoutTapped))
+          bigLayoutImage.addGestureRecognizer(bigLayoutTapGesture)
+          bigLayoutImage.isUserInteractionEnabled = true
+          
+          let smallLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(smallLayoutTapped))
+          smallLayoutImage.addGestureRecognizer(smallLayoutTapGesture)
+          smallLayoutImage.isUserInteractionEnabled = true
+      }
+    
+    @objc final func bigLayoutTapped() {
+        guard itemCount != 1 else { return }
+        itemCount = 1
+        updateProductsSectionLayout()
+    }
+    
+    @objc final func smallLayoutTapped() {
+        guard itemCount != 2 else { return }
+        itemCount = 2
+        updateProductsSectionLayout()
+    }
+    
+    //TODO: anlık olarak oluşan breakingconst. düzeltmek gerekiyor
+    final func updateProductsSectionLayout() {
+        let layout = createCompositionalLayout()
+        collectionView.setCollectionViewLayout(layout, animated: true)
+//        applySnapshot()
+    }
+    
     final func setups() {
         setupUI()
         setupCollectionView()
+        setupGestures()
     }
 }
 
@@ -148,7 +184,10 @@ private extension ProductListViewController {
             snapshot.appendSections([section]) }
         snapshot.appendItems(categories, toSection: .filter)
         snapshot.appendItems(viewModel.filteredProducts, toSection: .products)
-        dataSource?.apply(snapshot)
+        if itemCount != nil {
+            snapshot.reloadSections([.products])
+        }
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
 }
@@ -169,7 +208,7 @@ private extension ProductListViewController {
     }
     
     final func createFilterSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(20), heightDimension: .estimated(32))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(120), heightDimension: .estimated(32))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .estimated(32))
@@ -179,15 +218,14 @@ private extension ProductListViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
         section.orthogonalScrollingBehavior = .continuous
-    
         return section
     }
     
     final func createProductSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .uniformAcrossSiblings(estimate: 300))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/(itemCount ?? 2)), heightDimension: .estimated(300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .uniformAcrossSiblings(estimate: 300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
@@ -195,6 +233,7 @@ private extension ProductListViewController {
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 12, trailing: 4)
         return section
     }
+
 }
 
 //MARK: - ProductListViewModelDelegate

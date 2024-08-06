@@ -12,7 +12,7 @@ import Network
 // MARK: - CategoriesViewModelProtocol
 protocol CategoriesViewModelProtocol: AnyObject {
     var banners : [BannerElement] { get }
-    var filteredCategories: [CategoryResponseElement]  { get set}
+    var filteredCategories: [CategoryResponseElement]  { get set }
     func fetchCategories()
     func searchInCategories(searchText: String)
 }
@@ -26,6 +26,8 @@ protocol CategoriesViewModelDelegate: AnyObject {
 final class CategoriesViewModel {
     var delegate: CategoriesViewModelDelegate?
     var filteredCategories: [CategoryResponseElement] = []
+    var banners: [BannerElement] = [BannerElement(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")]
+    
     
     private var service: ShoppingServiceProtocol
     private var categories : [CategoryResponseElement] = []
@@ -44,10 +46,6 @@ final class CategoriesViewModel {
 // MARK: - CategoriesViewModelProtocol
 extension CategoriesViewModel: CategoriesViewModelProtocol {
 
-    var banners: [BannerElement] {
-        [BannerElement(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")]
-    }
-    
     func fetchCategories() {
         service.fetchCategories { [weak self] result in
             guard let self else { return }

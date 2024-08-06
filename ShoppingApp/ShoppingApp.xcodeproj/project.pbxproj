@@ -24,6 +24,7 @@
 		AB4315C52C4FD0C000A7A855 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = AB4315C42C4FD0C000A7A855 /* Common */; };
 		AB4D114C2C52728C0074CFCC /* Onboarding in Resources */ = {isa = PBXBuildFile; fileRef = AB4D114B2C52728C0074CFCC /* Onboarding */; };
 		AB7399752C60B7C400D4B7E5 /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = AB7399742C60B7C400D4B7E5 /* Categories */; };
+		AB7470E32C62082E002A69C3 /* ProductList in Resources */ = {isa = PBXBuildFile; fileRef = AB7470E22C62082E002A69C3 /* ProductList */; };
 		AB950A222C50DAA00045EEDC /* TabBar in Resources */ = {isa = PBXBuildFile; fileRef = AB950A212C50DAA00045EEDC /* TabBar */; };
 		AB950A242C50E7090045EEDC /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = AB950A232C50E7090045EEDC /* TabBar */; };
 		ABA33F9E2C5B644600C519FB /* Network in Resources */ = {isa = PBXBuildFile; fileRef = ABA33F9D2C5B644600C519FB /* Network */; };
@@ -74,6 +75,7 @@
 		AB4315C32C4FCFF800A7A855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		AB4D114B2C52728C0074CFCC /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Onboarding; sourceTree = "<group>"; };
 		AB7399742C60B7C400D4B7E5 /* Categories */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Categories; sourceTree = "<group>"; };
+		AB7470E22C62082E002A69C3 /* ProductList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductList; sourceTree = "<group>"; };
 		AB950A212C50DAA00045EEDC /* TabBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TabBar; sourceTree = "<group>"; };
 		ABA33F9D2C5B644600C519FB /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		ABA33FA52C5B70EB00C519FB /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AB7470E22C62082E002A69C3 /* ProductList */,
 				AB7399742C60B7C400D4B7E5 /* Categories */,
 				ABA33FAA2C5BBB6300C519FB /* Home */,
 				ABA33F9D2C5B644600C519FB /* Network */,
@@ -316,6 +319,7 @@
 				AB7399752C60B7C400D4B7E5 /* Categories in Resources */,
 				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
 				ABA5629B2C5229A700C7B1A9 /* Splash in Resources */,
+				AB7470E32C62082E002A69C3 /* ProductList in Resources */,
 				AB4D114C2C52728C0074CFCC /* Onboarding in Resources */,
 				AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */,
 				AB950A222C50DAA00045EEDC /* TabBar in Resources */,

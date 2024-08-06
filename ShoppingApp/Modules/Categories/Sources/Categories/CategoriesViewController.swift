@@ -34,7 +34,6 @@ public class CategoriesViewController: BaseViewController {
     
     //MARK: - Private Variables
     ///Creating data sources with different models to try applying diffable data source with different models
-    private var banners: [BannerElement]?
     private var dataSource: UICollectionViewDiffableDataSource<CategoriesScreenSectionType, AnyHashable>?
     private var searchController: UISearchController?
     
@@ -46,7 +45,6 @@ public class CategoriesViewController: BaseViewController {
         super.viewDidLoad()
         viewModel.delegate = self
         viewModel.fetchCategories()
-        banners = viewModel.banners
         setups()
     }
     
@@ -106,7 +104,7 @@ private extension CategoriesViewController {
             switch sectionType {
             case .banner:
                 let cell = collectionView.dequeueReusableCell(withClass: CategoryBannerCell.self, for: indexPath)
-                if let imagePath = banners?[indexPath.row].imagePath {
+                if let imagePath = viewModel.banners[indexPath.row].imagePath {
                     cell.configureWith(imagePath: imagePath )
                 }
                 return cell
@@ -126,10 +124,7 @@ private extension CategoriesViewController {
         for section in CategoriesScreenSectionType.allCases {
             snapshot.appendSections([section]) }
         
-        //TODO: Doğrudan viewmodelden alınca arama sırasında constraint hatası veriyor, o yüzden bu şekilde yapıldı ama tekrar bakılacak!
-        if let banners {
-            snapshot.appendItems(banners, toSection: .banner)
-        }
+        snapshot.appendItems(viewModel.banners, toSection: .banner)
         snapshot.appendItems(viewModel.filteredCategories, toSection: .categories)
         
         dataSource?.apply(snapshot)

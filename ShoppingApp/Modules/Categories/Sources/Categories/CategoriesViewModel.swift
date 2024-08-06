@@ -13,6 +13,7 @@ import Network
 protocol CategoriesViewModelProtocol: AnyObject {
     var banners : [BannerElement] { get }
     var filteredCategories: [CategoryResponseElement]  { get set }
+    var categories : [CategoryResponseElement] { get }
     func fetchCategories()
     func searchInCategories(searchText: String)
 }
@@ -28,7 +29,7 @@ final class CategoriesViewModel {
     private var service: ShoppingServiceProtocol
     
     var filteredCategories: [CategoryResponseElement] = []
-    private var categories : [CategoryResponseElement] = []
+    var categories : [CategoryResponseElement] = []
     
     //for mocking data
     var banners: [BannerElement] = [BannerElement(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")]

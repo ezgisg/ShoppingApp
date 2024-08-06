@@ -38,6 +38,8 @@ public class ProductListViewController: UIViewController {
     @IBOutlet weak var filterAreaStackView: UIStackView!
     
     var category = String()
+    var categories = [CategoryResponseElement]()
+    
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
     
     // MARK: - Module Components
@@ -46,6 +48,7 @@ public class ProductListViewController: UIViewController {
     // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.tintColor = .tabbarSelectedColor
         setupUI()
         viewModel.delegate = self
         viewModel.fetchProducts(categoryName: category)
@@ -56,8 +59,9 @@ public class ProductListViewController: UIViewController {
 
     
     // MARK: - Module init
-    public init(category: String) {
+    public init(category: String, categories: [CategoryResponseElement] = [CategoryResponseElement]()) {
         self.category = category
+        self.categories = categories
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
@@ -107,6 +111,7 @@ private extension ProductListViewController {
     final func setupCollectionView() {
         configureDatasource()
         collectionView.register(nibWithCellClass: ProductCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
 }
@@ -120,7 +125,9 @@ private extension ProductListViewController {
                   let sectionType = ProductListScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell()}
             switch sectionType {
             case .filter:
-                return UICollectionViewCell()
+                let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
+                cell.configureWith(text: categories[indexPath.row].value ?? "")
+                return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCell.self, for: indexPath)
                 let data = viewModel.filteredProducts[indexPath.row]
@@ -135,8 +142,7 @@ private extension ProductListViewController {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListScreenSectionType, AnyHashable>()
         for section in ProductListScreenSectionType.allCases {
             snapshot.appendSections([section]) }
-        //TODO: düzeltilecek
-//        snapshot.appendItems(viewModel.filteredProducts, toSection: .filter)
+        snapshot.appendItems(categories, toSection: .filter)
         snapshot.appendItems(viewModel.filteredProducts, toSection: .products)
         dataSource?.apply(snapshot)
     }
@@ -165,12 +171,15 @@ private extension ProductListViewController {
     }
     
     final func createFilterSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(20), heightDimension: .estimated(32))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),  heightDimension: .estimated(300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .estimated(32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        section.orthogonalScrollingBehavior = .continuous
         
         return section
     }
@@ -178,17 +187,13 @@ private extension ProductListViewController {
     final func createProductSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .uniformAcrossSiblings(estimate: 300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.edgeSpacing
 
-    
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .uniformAcrossSiblings(estimate: 300))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 12, trailing: 4)
         return section
     }
 }

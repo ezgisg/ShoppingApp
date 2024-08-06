@@ -94,7 +94,7 @@ private extension CategoriesViewController {
 extension CategoriesViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let category = viewModel.filteredCategories[indexPath.row].value else { return }
-        let productListViewController = ProductListViewController(category: category)
+        let productListViewController = ProductListViewController(category: category, categories: [viewModel.filteredCategories[indexPath.row]])
         navigationController?.pushViewController(productListViewController, animated: false)
     }
 }
@@ -144,7 +144,7 @@ private extension CategoriesViewController {
             case .categories:
                 footerView.configureWith(text: L10nGeneric.allCategories.localized()) {  [weak self] in
                     guard let self else { return }
-                    let productListViewController = ProductListViewController(category: "")
+                    let productListViewController = ProductListViewController(category: "", categories: viewModel.categories)
                     navigationController?.pushViewController(productListViewController, animated: false)
                 }
                 return footerView

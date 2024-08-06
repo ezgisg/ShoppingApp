@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProductList
 
 class FooterView: UICollectionReusableView {
 
@@ -13,14 +14,17 @@ class FooterView: UICollectionReusableView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var decorationLabel: UILabel!
     
+    var buttonTappedAction: (() -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
     
-    func configureWith(text: String) {
-        label.text = text.capitalizingEachWord()
-    }
+    func configureWith(text: String, buttonTappedAction: @escaping () -> Void) {
+         label.text = text.capitalizingEachWord()
+         self.buttonTappedAction = buttonTappedAction
+     }
     
     func setupUI() {
         label.textColor = .tabbarBackgroundColor
@@ -31,7 +35,6 @@ class FooterView: UICollectionReusableView {
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
-        //TODO: tüm ürünlere gidecek
-        print("tüm ürünler açılacak")
+        buttonTappedAction?()
     }
 }

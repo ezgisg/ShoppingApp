@@ -142,7 +142,11 @@ private extension CategoriesViewController {
             case .banner:
                 return UICollectionReusableView()
             case .categories:
-                footerView.configureWith(text: L10nGeneric.allCategories.localized())
+                footerView.configureWith(text: L10nGeneric.allCategories.localized()) {  [weak self] in
+                    guard let self else { return }
+                    let productListViewController = ProductListViewController(category: "")
+                    navigationController?.pushViewController(productListViewController, animated: false)
+                }
                 return footerView
             }
         }

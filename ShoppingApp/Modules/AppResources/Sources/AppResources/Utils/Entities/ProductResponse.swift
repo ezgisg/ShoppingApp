@@ -7,19 +7,29 @@
 
 import Foundation
 
-public struct ProductResponseElement: Decodable {
-    let id: Int?
-    let title: String?
-    let price: Double?
-    let description: String?
-    let category: String?
-    let image: String?
-    let rating: Rating?
+public struct ProductResponseElement: Decodable, Hashable {
+    
+    public let id: Int?
+    public let title: String?
+    public let price: Double?
+    public let description: String?
+    public let category: String?
+    public let image: String?
+    public let rating: Rating?
+    
+    public static func == (lhs: ProductResponseElement, rhs: ProductResponseElement) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
 }
 
 public struct Rating: Decodable {
-    let rate: Double?
-    let count: Int?
+    public let rate: Double?
+    public let count: Int?
 }
 
 

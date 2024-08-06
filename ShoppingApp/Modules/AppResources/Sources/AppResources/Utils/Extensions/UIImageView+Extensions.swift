@@ -11,9 +11,9 @@ import Kingfisher
 
 ///To load image from url with KF
 public extension UIImageView {
-    func loadImage(with url: URL, cornerRadius: CGFloat = 10) {
+    func loadImage(with url: URL, cornerRadius: CGFloat = 10, contentMode: UIView.ContentMode = .scaleAspectFill) {
         kf.indicatorType = .activity
-        contentMode = .scaleToFill
+        self.contentMode = contentMode
         layer.cornerRadius = cornerRadius
         kf.setImage(with: url) { [weak self] result in
             guard let self else { return }

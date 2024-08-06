@@ -12,18 +12,23 @@ import Network
 // MARK: - CategoriesViewModelProtocol
 protocol CategoriesViewModelProtocol: AnyObject {
     var banners : [BannerElement] { get }
+    var filteredCategories: [CategoryResponseElement]  { get set}
     func fetchCategories()
+    func searchInCategories(searchText: String)
 }
 
 // MARK: - CategoriesViewModelDelegate
 protocol CategoriesViewModelDelegate: AnyObject {
-    func getCategories(categories: [CategoryResponseElement])
+    func reloadCollectionView()
 }
 
 // MARK: - CategoriesViewModel
 final class CategoriesViewModel {
     var delegate: CategoriesViewModelDelegate?
+    var filteredCategories: [CategoryResponseElement] = []
+    
     private var service: ShoppingServiceProtocol
+    private var categories : [CategoryResponseElement] = []
     private var imagePath =         [
         "https://img.freepik.com/free-photo/smartwatch-screen-digital-device_53876-96809.jpg?w=996&t=st=1722862900~exp=1722863500~hmac=8695f1ec074900415fcac5d07c780e8d67d6cb8366934095f85b734c861d8c66",
         "https://img.freepik.com/free-photo/view-luxurious-golden-ring_23-2150329701.jpg?t=st=1722862114~exp=1722865714~hmac=144b5c8bff17ec99c7fd8e7593b4395aeb8c1183b0129fb34636e132f7eb95d9&w=740",
@@ -38,6 +43,7 @@ final class CategoriesViewModel {
 
 // MARK: - CategoriesViewModelProtocol
 extension CategoriesViewModel: CategoriesViewModelProtocol {
+
     var banners: [BannerElement] {
         [BannerElement(imagePath: "https://img.freepik.com/free-vector/flat-design-e-commerce-website-landing-page_23-2149581952.jpg?t=st=1722854157~exp=1722857757~hmac=885e196d1daa6b95704a327715ecc42310a1168aec293a4de39eb0de2a75ff53&w=1800")]
     }
@@ -48,11 +54,27 @@ extension CategoriesViewModel: CategoriesViewModelProtocol {
             switch result {
             case .success(let categories):
                 let categoryElements = zip(categories, self.imagePath).map { CategoryResponseElement(value: $0.0, imagePath: $0.1) }
-                self.delegate?.getCategories(categories: categoryElements)
+                self.categories = categoryElements
+                filteredCategories = categoryElements
+                self.delegate?.reloadCollectionView()
             case .failure(_):
                 debugPrint("Kategoriler yüklenemedi")
             }
         }
+    }
+    
+    func searchInCategories(searchText: String) {
+        guard !searchText.isEmpty
+        else
+        {
+            filteredCategories = categories
+            self.delegate?.reloadCollectionView()
+            return
+        }
+        filteredCategories = categories.filter { category in
+            return category.value?.lowercased().contains(searchText.lowercased()) ?? false
+        }
+        self.delegate?.reloadCollectionView()
     }
 
 }

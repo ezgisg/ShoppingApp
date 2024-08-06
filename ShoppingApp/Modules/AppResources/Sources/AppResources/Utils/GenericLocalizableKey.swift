@@ -36,6 +36,9 @@ public enum GenericLocalizableKey: String, LocalizableProtocol {
     case surname
     case emailWarning
     
+    case searchCategories
+    case allCategories
+    
     public enum PasswordControlMessages: String, LocalizableProtocol {
         // MARK: - RawValue
         public var stringValue: String {

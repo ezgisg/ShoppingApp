@@ -43,7 +43,20 @@ public class ProductListViewController: UIViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
-    private var itemCount: Double = 2
+    private var itemCount: Double = 2 {
+        didSet {
+            let layout = createCompositionalLayout()
+            collectionView.setCollectionViewLayout(layout, animated: true)
+            ///using only set CollectionViewLayout animates causes animation in filter section unnecessarily. With applysnapshot it affects only changed section
+            applySnapshot()
+        }
+    }
+    private var selectedCategories = Set<CategoryResponseElement>() {
+        didSet {
+            
+            applySnapshot()
+        }
+    }
     
     // MARK: - Module Components
     private var viewModel = ProductListViewModel()
@@ -115,6 +128,7 @@ private extension ProductListViewController {
     }
     
     final func setupCollectionView() {
+        collectionView.delegate = self
         configureDatasource()
         collectionView.register(nibWithCellClass: ProductCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
@@ -134,20 +148,11 @@ private extension ProductListViewController {
     @objc final func bigLayoutTapped() {
         guard itemCount != 1 else { return }
         itemCount = 1
-        updateProductsSectionLayout()
     }
     
     @objc final func smallLayoutTapped() {
         guard itemCount != 2 else { return }
         itemCount = 2
-        updateProductsSectionLayout()
-    }
-    
-    //TODO: anlık olarak oluşan breakingconst. düzeltmek gerekiyor
-    final func updateProductsSectionLayout() {
-        let layout = createCompositionalLayout()
-        collectionView.setCollectionViewLayout(layout, animated: true)
-        applySnapshot()
     }
     
     final func setups() {
@@ -166,7 +171,9 @@ private extension ProductListViewController {
             switch sectionType {
             case .filter:
                 let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
-                cell.configureWith(text: categories[indexPath.row].value ?? "")
+                let category = categories[indexPath.row]
+                cell.configureWith(text: category.value ?? "")
+                cell.isSelectedCell = selectedCategories.contains(category)
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCell.self, for: indexPath)
@@ -207,7 +214,7 @@ private extension ProductListViewController {
     }
     
     final func createFilterSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(149.67), heightDimension: .absolute(32))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(150), heightDimension: .estimated(32))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .absolute(32))
@@ -243,4 +250,28 @@ extension ProductListViewController: ProductListViewModelDelegate {
         applySnapshot()
     }
 
+}
+
+extension ProductListViewController: UICollectionViewDelegate {
+ 
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = ProductListScreenSectionType(rawValue: indexPath.section) else { return }
+        
+        switch sectionType {
+        case .filter:
+            let selectedCategory = categories[indexPath.row]
+            if selectedCategories.contains(selectedCategory) {
+                selectedCategories.remove(selectedCategory)
+            } else {
+                selectedCategories.insert(selectedCategory)
+            }
+            
+            collectionView.reloadData()
+            applySnapshot()
+            
+        case .products:
+            break
+        }
+    }
+    
 }

@@ -14,15 +14,18 @@ class FilterCell: UICollectionViewCell {
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var label: UILabel!
     
+    var isSelectedCell: Bool = false {
+        didSet {
+            containerView.backgroundColor = isSelectedCell ? .lightGray : .white
+        }
+    }
+
     //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
 
-    //MARK: - Actions
-    @IBAction func cellClicked(_ sender: Any) {
-    }
 }
 
 //MARK: - Setup

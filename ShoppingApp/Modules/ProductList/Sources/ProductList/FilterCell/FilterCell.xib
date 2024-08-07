@@ -26,25 +26,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5DN-QF-fzH">
-                                <rect key="frame" x="0.0" y="0.0" width="146" height="50"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
-                                <connections>
-                                    <action selector="cellClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Bch-wJ-RR6"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="5DN-QF-fzH" secondAttribute="trailing" id="1zK-Cu-T0E"/>
-                            <constraint firstItem="5DN-QF-fzH" firstAttribute="top" secondItem="gZv-sh-Zu6" secondAttribute="top" id="9mA-Gz-jse"/>
                             <constraint firstItem="2wI-HB-w1f" firstAttribute="leading" secondItem="gZv-sh-Zu6" secondAttribute="leading" constant="8" id="Emk-Xk-KvG"/>
                             <constraint firstItem="2wI-HB-w1f" firstAttribute="top" secondItem="gZv-sh-Zu6" secondAttribute="top" constant="4" id="FfY-vw-Q6M"/>
                             <constraint firstAttribute="trailing" secondItem="2wI-HB-w1f" secondAttribute="trailing" constant="8" id="avl-J6-rzX"/>
                             <constraint firstAttribute="bottom" secondItem="2wI-HB-w1f" secondAttribute="bottom" constant="4" id="mbi-bE-ON1"/>
-                            <constraint firstItem="5DN-QF-fzH" firstAttribute="leading" secondItem="gZv-sh-Zu6" secondAttribute="leading" id="sdg-dT-z2v"/>
-                            <constraint firstAttribute="bottom" secondItem="5DN-QF-fzH" secondAttribute="bottom" id="zoF-OM-YUe"/>
                         </constraints>
                     </view>
                 </subviews>

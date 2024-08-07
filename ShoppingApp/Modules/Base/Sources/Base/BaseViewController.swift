@@ -24,12 +24,20 @@ open class BaseViewController: UIViewController, LoadingShowable {
         super.viewDidLoad()
     }
     
-    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", completion: (() -> Void)?) {
+    //TODO: localizable
+    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", showCancelButton: Bool = false, completion: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
             completion?()
         }
         alert.addAction(okAction)
+        
+        //TODO: localizable
+        if showCancelButton {
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+        }
+        
         self.present(alert, animated: true, completion: nil)
     }
     

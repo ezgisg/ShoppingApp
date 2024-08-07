@@ -168,6 +168,10 @@ private extension ProductListViewController {
         let sortingTapGesture = UITapGestureRecognizer(target: self, action: #selector(sortingTapped))
         sortingTopView.addGestureRecognizer(sortingTapGesture)
         sortingTopView.isUserInteractionEnabled = true
+        
+        let filterTapGesture = UITapGestureRecognizer(target: self, action: #selector(filterTapped))
+        filterTopView.addGestureRecognizer(filterTapGesture)
+        filterTopView.isUserInteractionEnabled = true
     }
     
     @objc final func bigLayoutTapped() {
@@ -201,6 +205,14 @@ private extension ProductListViewController {
             sortingOption = selectedOption
         }
         present(bottomSheetVC, animated: true, completion: nil)
+    }
+    
+    //TODO: Düzenlenecek
+    @objc private func filterTapped() {
+        let filterVC = FilterViewController()
+        filterVC.modalPresentationStyle = .overFullScreen
+        filterVC.modalTransitionStyle = .crossDissolve
+        navigationController?.pushViewController(filterVC, animated: true)
     }
     
 

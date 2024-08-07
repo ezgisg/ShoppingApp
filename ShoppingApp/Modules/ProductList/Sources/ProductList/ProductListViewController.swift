@@ -46,6 +46,7 @@ public class ProductListViewController: UIViewController {
     // MARK: - Variables
     var category = String()
     var categories = [CategoryResponseElement]()
+    var sortingOption : SortingOption = .none
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
@@ -183,12 +184,13 @@ private extension ProductListViewController {
     
 
     @objc private func sortingTapped() {
-        let bottomSheetVC = BottomSheetViewController()
+        let bottomSheetVC = BottomSheetViewController(selectedOption: sortingOption)
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.modalTransitionStyle = .crossDissolve
         bottomSheetVC.applySorting = { [weak self] selectedOption in
             guard let self else { return }
             applySorting(option: selectedOption)
+            sortingOption = selectedOption
         }
         present(bottomSheetVC, animated: true, completion: nil)
     }

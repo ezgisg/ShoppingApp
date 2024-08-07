@@ -7,7 +7,7 @@
 import Foundation
 import UIKit
 
-extension UITableView {
+public extension UITableView {
     func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type) -> T {
         guard let cell = dequeueReusableCell(withIdentifier: String(describing: name)) as? T else {
             fatalError(

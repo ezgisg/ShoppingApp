@@ -8,6 +8,7 @@
 
 //TODO: localizable
 //TODO: Custom tableview cell
+import AppResources
 import Base
 import UIKit
 
@@ -44,7 +45,7 @@ class BottomSheetViewController: BaseViewController {
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     //MARK: - Variables
-    var selectedOption: SortingOption = .none
+    var selectedOption: SortingOption
     var applySorting: ((SortingOption) -> Void)?
     
     //MARK: - Life Cycles
@@ -56,7 +57,8 @@ class BottomSheetViewController: BaseViewController {
     }
     
     // MARK: - Module init
-    public init() {
+    public init(selectedOption: SortingOption) {
+        self.selectedOption = selectedOption
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -118,20 +120,25 @@ private extension BottomSheetViewController {
         applyButton.setTitle("Uygula", for: .normal)
         cancelButton.setTitle("İptal", for: .normal)
         
+        applyButton.setTitleColor(.tabbarBackgroundColor, for: .normal)
+        cancelButton.setTitleColor(.tabbarBackgroundColor, for: .normal)
+        
         mainView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissView)))
+        
+        tableView.separatorStyle = .none
     }
     
     final func otherSetups() {
         tableView.clipsToBounds = true
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         selectDefaultOption()
     }
 
     //TODO: en son seçilen tutulacak ve ona göre seçim yapılacak
     private func selectDefaultOption() {
-        let indexPath = IndexPath(row: SortingOption.none.rawValue, section: 0)
+        let indexPath = IndexPath(row: selectedOption.rawValue, section: 0)
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
     }
@@ -141,6 +148,15 @@ extension BottomSheetViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let option = SortingOption(rawValue: indexPath.row) else { return }
         selectedOption = option
+        
+        tableView.visibleCells.forEach { cell in
+            if let selectionCell = cell as? SelectionCell {
+                let indexPath = tableView.indexPath(for: selectionCell)
+                let isSelected = indexPath?.row == selectedOption.rawValue
+                selectionCell.updateSelectionState(isSelected)
+            }
+        }
+        
     }
 }
 
@@ -151,9 +167,9 @@ extension BottomSheetViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell") ?? UITableViewCell(style: .default, reuseIdentifier: "UITableViewCell")
+        let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
         if let option = SortingOption(rawValue: indexPath.row) {
-            cell.textLabel?.text = option.stringValue
+            cell.configureWith(text: option.stringValue ?? "")
         }
         return cell
     }

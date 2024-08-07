@@ -43,7 +43,7 @@ public class ProductListViewController: UIViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
-    private var itemCount: Double?
+    private var itemCount: Double = 2
     
     // MARK: - Module Components
     private var viewModel = ProductListViewModel()
@@ -57,9 +57,9 @@ public class ProductListViewController: UIViewController {
         viewModel.fetchCategories(categoryName: category)
     }
     
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.layoutIfNeeded()
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        applySnapshot()
     }
     
     // MARK: - Module init
@@ -147,7 +147,7 @@ private extension ProductListViewController {
     final func updateProductsSectionLayout() {
         let layout = createCompositionalLayout()
         collectionView.setCollectionViewLayout(layout, animated: true)
-//        applySnapshot()
+        applySnapshot()
     }
     
     final func setups() {
@@ -181,13 +181,12 @@ private extension ProductListViewController {
     final func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<ProductListScreenSectionType, AnyHashable>()
         for section in ProductListScreenSectionType.allCases {
-            snapshot.appendSections([section]) }
+            snapshot.appendSections([section])
+        }
         snapshot.appendItems(categories, toSection: .filter)
         snapshot.appendItems(viewModel.filteredProducts, toSection: .products)
-        if itemCount != nil {
-            snapshot.reloadSections([.products])
-        }
-        dataSource?.apply(snapshot, animatingDifferences: false)
+        
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
     
 }
@@ -208,21 +207,23 @@ private extension ProductListViewController {
     }
     
     final func createFilterSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(120), heightDimension: .estimated(32))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(149.67), heightDimension: .absolute(32))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .estimated(32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(10),  heightDimension: .absolute(32))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
         section.orthogonalScrollingBehavior = .continuous
+        
+        
         return section
     }
     
     final func createProductSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/(itemCount ?? 2)), heightDimension: .estimated(300))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/(itemCount)), heightDimension: .estimated(300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(300))
@@ -241,4 +242,5 @@ extension ProductListViewController: ProductListViewModelDelegate {
     func reloadCollectionView() {
         applySnapshot()
     }
+
 }

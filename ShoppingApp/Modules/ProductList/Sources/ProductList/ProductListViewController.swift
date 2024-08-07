@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 6.08.2024.
 //
 
+//TODO: Data çekilen her yere loading koyalım
 import AppResources
 import UIKit
 
@@ -28,14 +29,19 @@ public class ProductListViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var filterImage: UIImageView!
+    @IBOutlet weak var selectedFilterImage: UIImageView!
     @IBOutlet private weak var filterLabel: UILabel!
-    @IBOutlet private weak var orderingImage: UIImageView!
-    @IBOutlet private weak var orderingLabel: UILabel!
+    @IBOutlet private weak var sortingImage: UIImageView!
+    @IBOutlet private weak var sortingLabel: UILabel!
+    @IBOutlet weak var selectedSortingImage: UIImageView!
     @IBOutlet private weak var bigLayoutImage: UIImageView!
     @IBOutlet private weak var smallLayoutImage: UIImageView!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var filterAreaStackView: UIStackView!
+    
+    @IBOutlet weak var filterTopView: UIView!
+    @IBOutlet weak var sortingTopView: UIView!
     
     // MARK: - Variables
     var category = String()
@@ -56,6 +62,7 @@ public class ProductListViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 viewModel.fetchProductsWithSelectedCategories(categories: selectedCategories)
+                controlFilterStatus()
             }
         }
     }
@@ -94,17 +101,26 @@ private extension ProductListViewController {
         filterAreaStackView.layer.borderColor = UIColor.opaqueSeparator.cgColor
         filterAreaStackView.layer.borderWidth = 1
         
-        orderingImage.image = .sorting
+        navigationController?.navigationBar.tintColor = .tabbarSelectedColor
+        selectedFilterImage.tintColor = .lightButtonColor?.withAlphaComponent(1)
+        selectedSortingImage.tintColor = .lightButtonColor?.withAlphaComponent(1)
+        
+        sortingImage.image = .sorting
         smallLayoutImage.image = .smallLayout
         bigLayoutImage.image = .bigLayout
         filterImage.image = .filter
+        selectedFilterImage.image = .systemCircleImage
+        selectedSortingImage.image = .systemCircleImage
         
+        selectedFilterImage.isHidden = true
+        selectedSortingImage.isHidden = true
+
         filterLabel.text = L10nGeneric.filter.localized()
         filterLabel.textColor = .darkGray
-        orderingLabel.text = L10nGeneric.sorting.localized()
-        orderingLabel.textColor = .darkGray
+        sortingLabel.text = L10nGeneric.sorting.localized()
+        sortingLabel.textColor = .darkGray
         
-        navigationController?.navigationBar.tintColor = .tabbarSelectedColor
+        bigLayoutImage.layer.opacity = 0.3
     }
     
     final func applyGradientToFilterArea() {
@@ -132,29 +148,62 @@ private extension ProductListViewController {
     }
     
     final func setupGestures() {
-          let bigLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(bigLayoutTapped))
-          bigLayoutImage.addGestureRecognizer(bigLayoutTapGesture)
-          bigLayoutImage.isUserInteractionEnabled = true
-          
-          let smallLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(smallLayoutTapped))
-          smallLayoutImage.addGestureRecognizer(smallLayoutTapGesture)
-          smallLayoutImage.isUserInteractionEnabled = true
-      }
+        let bigLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(bigLayoutTapped))
+        bigLayoutImage.addGestureRecognizer(bigLayoutTapGesture)
+        bigLayoutImage.isUserInteractionEnabled = true
+        
+        let smallLayoutTapGesture = UITapGestureRecognizer(target: self, action: #selector(smallLayoutTapped))
+        smallLayoutImage.addGestureRecognizer(smallLayoutTapGesture)
+        smallLayoutImage.isUserInteractionEnabled = true
+        
+        let sortingTapGesture = UITapGestureRecognizer(target: self, action: #selector(sortingTapped))
+        sortingTopView.addGestureRecognizer(sortingTapGesture)
+        sortingTopView.isUserInteractionEnabled = true
+    }
     
     @objc final func bigLayoutTapped() {
         guard itemCount != 1 else { return }
         itemCount = 1
+        bigLayoutImage.layer.opacity = 1
+        smallLayoutImage.layer.opacity = 0.3
     }
     
     @objc final func smallLayoutTapped() {
         guard itemCount != 2 else { return }
         itemCount = 2
+        bigLayoutImage.layer.opacity = 0.3
+        smallLayoutImage.layer.opacity = 1
     }
     
     final func setups() {
         setupUI()
         setupCollectionView()
         setupGestures()
+    }
+    
+
+    @objc private func sortingTapped() {
+        let bottomSheetVC = BottomSheetViewController()
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        bottomSheetVC.modalTransitionStyle = .crossDissolve
+        bottomSheetVC.applySorting = { [weak self] selectedOption in
+            guard let self else { return }
+            applySorting(option: selectedOption)
+        }
+        present(bottomSheetVC, animated: true, completion: nil)
+    }
+    
+
+    private func applySorting(option: SortingOption) {
+        switch option {
+        case .highestPrice:
+            viewModel.filteredProducts.sort { $0.price ?? 0 > $1.price ?? 0 }
+        case .lowestPrice:
+            viewModel.filteredProducts.sort { $0.price ?? 0 < $1.price ?? 0}
+        case .none:
+            viewModel.filteredProducts.sort { $0.id ?? 0 < $1.id ?? 0}
+        }
+        applySnapshot()
     }
 }
 
@@ -242,18 +291,11 @@ private extension ProductListViewController {
 
 }
 
-//MARK: - ProductListViewModelDelegate
-extension ProductListViewController: ProductListViewModelDelegate {
-    func reloadCollectionView() {
-        applySnapshot()
-    }
-}
-
+//MARK: - UICollectionViewDelegate
 extension ProductListViewController: UICollectionViewDelegate {
  
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let sectionType = ProductListScreenSectionType(rawValue: indexPath.section) else { return }
-        
         switch sectionType {
         case .filter:
             let selectedCategory = categories[indexPath.row]
@@ -271,3 +313,24 @@ extension ProductListViewController: UICollectionViewDelegate {
     }
     
 }
+
+//MARK: - Helpers
+private extension ProductListViewController {
+    final func controlFilterStatus() {
+        let isFiltering = selectedCategories.count != 0
+        selectedFilterImage.isHidden = !isFiltering
+        if isFiltering {
+            filterLabel.text = "\(L10nGeneric.filter.localized()) (\(selectedCategories.count))"
+        } else {
+            filterLabel.text = L10nGeneric.filter.localized()
+        }
+    }
+}
+
+//MARK: - ProductListViewModelDelegate
+extension ProductListViewController: ProductListViewModelDelegate {
+    func reloadCollectionView() {
+        applySnapshot()
+    }
+}
+

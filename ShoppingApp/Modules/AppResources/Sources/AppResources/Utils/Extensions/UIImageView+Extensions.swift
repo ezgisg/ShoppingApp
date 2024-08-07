@@ -22,8 +22,7 @@ public extension UIImageView {
                 image = data.image
             case .failure(let error):
                 debugPrint("Görüntü yüklenirken hata oluştu: \(error.localizedDescription)")
-                //TODO: image değiştirilecek
-                image = .systemCircleImage
+                image = .noImage
             }
         }
     }

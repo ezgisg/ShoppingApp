@@ -62,8 +62,9 @@ extension ProductCell {
         categoryNameLabel.text = categoryName ?? ""
         productNameLabel.text = productName ?? ""
         priceLabel.text = price != nil ? "\(String(price!)) $" : "N/A"
-        //TODO: url yoksa "no image" image basalım
-        guard let urlString = imagePath, let url = URL(string: urlString) else { return }
+
+        guard let urlString = imagePath, let url = URL(string: urlString)
+        else { return productImage.image = .noImage }
         productImage.loadImage(with: url, contentMode: .scaleAspectFit)
     }
 }

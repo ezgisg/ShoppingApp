@@ -35,7 +35,7 @@ private extension FilterCell {
         containerView.layer.borderColor = UIColor.opaqueSeparator.cgColor
         containerView.layer.borderWidth = 1
         containerView.layer.cornerRadius = 4
-        label.textColor = .textColor
+        label.textColor = .black
     }
 }
 

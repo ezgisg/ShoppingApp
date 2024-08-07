@@ -81,4 +81,8 @@ public extension UIImage {
         return UIImage(named: "sorting", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var noImage: UIImage {
+        return UIImage(named: "noImage", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
 }

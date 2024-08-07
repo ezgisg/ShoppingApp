@@ -53,8 +53,7 @@ public class ProductListViewController: UIViewController {
     }
     private var selectedCategories = Set<CategoryResponseElement>() {
         didSet {
-            
-            applySnapshot()
+            viewModel.fetchProductsWithSelectedCategories(categories: selectedCategories)
         }
     }
     
@@ -67,12 +66,6 @@ public class ProductListViewController: UIViewController {
         setups()
         viewModel.delegate = self
         viewModel.fetchProducts(categoryName: category)
-        viewModel.fetchCategories(categoryName: category)
-    }
-    
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        applySnapshot()
     }
     
     // MARK: - Module init
@@ -177,8 +170,9 @@ private extension ProductListViewController {
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCell.self, for: indexPath)
-                let data = viewModel.filteredProducts[indexPath.row]
-                cell.configure(withRating: data.rating?.rate , ratingCount: data.rating?.count, categoryName: data.category, productName: data.title, price: data.price, imagePath: data.image)
+                if let data = viewModel.filteredProducts[safe: indexPath.row] {
+                    cell.configure(withRating: data.rating?.rate , ratingCount: data.rating?.count, categoryName: data.category, productName: data.title, price: data.price, imagePath: data.image)
+                }
                 return cell
             }
         })
@@ -190,6 +184,7 @@ private extension ProductListViewController {
         for section in ProductListScreenSectionType.allCases {
             snapshot.appendSections([section])
         }
+    
         snapshot.appendItems(categories, toSection: .filter)
         snapshot.appendItems(viewModel.filteredProducts, toSection: .products)
         
@@ -249,7 +244,7 @@ extension ProductListViewController: ProductListViewModelDelegate {
     func reloadCollectionView() {
         applySnapshot()
     }
-
+    
 }
 
 extension ProductListViewController: UICollectionViewDelegate {
@@ -267,8 +262,7 @@ extension ProductListViewController: UICollectionViewDelegate {
             }
             
             collectionView.reloadData()
-            applySnapshot()
-            
+
         case .products:
             break
         }

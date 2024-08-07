@@ -46,7 +46,15 @@ public class ProductListViewController: UIViewController {
     // MARK: - Variables
     var category = String()
     var categories = [CategoryResponseElement]()
-    var sortingOption : SortingOption = .none
+    var sortingOption: SortingOption = .none {
+        didSet {
+            if sortingOption == .none {
+                selectedSortingImage.isHidden = true
+            } else {
+                selectedSortingImage.isHidden = false
+            }
+        }
+    }
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?

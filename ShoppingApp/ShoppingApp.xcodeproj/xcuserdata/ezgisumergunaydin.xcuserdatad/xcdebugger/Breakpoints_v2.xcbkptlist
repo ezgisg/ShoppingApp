@@ -14,8 +14,8 @@
             filePath = "Modules/ProductList/Sources/ProductList/ProductListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "sortingTapped()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Modules/ProductList/Sources/ProductList/ProductListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "sortingTapped()"
             landmarkType = "7">
          </BreakpointContent>

@@ -71,13 +71,10 @@ class StarRatingView: UIView {
         if filledRatio > 0 {
             let fillLayer = CALayer()
             fillLayer.frame = CGRect(x: 0, y: 0, width: star.bounds.width * CGFloat(filledRatio), height: star.bounds.height)
-            fillLayer.backgroundColor = UIColor.yellow.cgColor
+            fillLayer.backgroundColor = UIColor.systemYellow.cgColor
             star.layer.addSublayer(fillLayer)
         }
         
-        
-//        star.translatesAutoresizingMaskIntoConstraints = false
-//        star.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
 
     func setRating(_ rating: Double) {

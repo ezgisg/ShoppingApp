@@ -20,6 +20,7 @@ protocol ProductListViewModelProtocol: AnyObject {
 // MARK: - ProductListViewModelDelegate
 protocol ProductListViewModelDelegate: AnyObject {
     func reloadCollectionView()
+
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -76,6 +77,5 @@ extension ProductListViewModel: ProductListViewModelProtocol {
             }
         }
         delegate?.reloadCollectionView()
-
     }
 }

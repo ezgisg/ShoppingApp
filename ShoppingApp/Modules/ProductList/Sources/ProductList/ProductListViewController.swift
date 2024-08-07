@@ -53,7 +53,10 @@ public class ProductListViewController: UIViewController {
     }
     private var selectedCategories = Set<CategoryResponseElement>() {
         didSet {
-            viewModel.fetchProductsWithSelectedCategories(categories: selectedCategories)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                viewModel.fetchProductsWithSelectedCategories(categories: selectedCategories)
+            }
         }
     }
     
@@ -244,7 +247,6 @@ extension ProductListViewController: ProductListViewModelDelegate {
     func reloadCollectionView() {
         applySnapshot()
     }
-    
 }
 
 extension ProductListViewController: UICollectionViewDelegate {

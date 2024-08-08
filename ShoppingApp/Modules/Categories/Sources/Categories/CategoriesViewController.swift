@@ -45,6 +45,7 @@ public class CategoriesViewController: BaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
+        showLoadingView()
         viewModel.fetchCategories()
         setups()
     }
@@ -243,6 +244,7 @@ extension CategoriesViewController: UISearchResultsUpdating {
 //MARK: CategoriesViewModelDelegate
 extension CategoriesViewController: CategoriesViewModelDelegate {
     func reloadCollectionView() {
+        hideLoadingView()
         applySnapshot()
     }
 }

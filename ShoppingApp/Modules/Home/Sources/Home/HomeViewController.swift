@@ -87,6 +87,7 @@ extension HomeViewController: HomeViewModelDelegate {
     }
     func getCategories(categories: [String]) {
         self.categories = categories
+        hideLoadingView()
         collectionView.reloadData()
     }
 }
@@ -337,6 +338,7 @@ extension HomeViewController {
         viewModel.delegate = self
         searchBar.delegate = self
         
+        showLoadingView()
         fetchInitialData()
         setupUI()
         setupCollectionView()

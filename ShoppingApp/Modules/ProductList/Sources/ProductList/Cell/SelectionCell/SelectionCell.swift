@@ -11,6 +11,7 @@ import UIKit
 class SelectionCell: UITableViewCell {
 
 
+    @IBOutlet weak var topImageView: UIView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet weak var containerImage: UIImageView!
     @IBOutlet private weak var outerImage: UIImageView!
@@ -29,7 +30,7 @@ class SelectionCell: UITableViewCell {
      }
     
     private func setupUI() {
-        containerView.backgroundColor = .white
+        topImageView.backgroundColor = .white
         
         containerImage.image = .systemCircleImage
         containerImage.tintColor = .tabbarBackgroundColor
@@ -51,7 +52,9 @@ class SelectionCell: UITableViewCell {
           }
       }
     
-    final func configureWith(text: String) {
+    final func configureWith(text: String, isSelectionImageHidden: Bool = false, containerViewBackgroundColor: UIColor = .white) {
         label.text = text
+        topImageView.isHidden = isSelectionImageHidden
+        containerView.backgroundColor = containerViewBackgroundColor
     }
 }

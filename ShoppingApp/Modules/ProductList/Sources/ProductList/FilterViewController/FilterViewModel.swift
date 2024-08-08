@@ -66,9 +66,9 @@ enum CategoryOption: String, CaseIterable {
 
 //MARK: - FilterOption
 enum FilterOption: Int, CaseIterable {
-    case rating
-    case price
-    case category
+    case rating = 0
+    case price = 1
+    case category = 2
     
     var stringValue: String {
         switch self {

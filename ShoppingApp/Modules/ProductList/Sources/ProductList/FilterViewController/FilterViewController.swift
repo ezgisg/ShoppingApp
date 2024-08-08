@@ -28,6 +28,7 @@ class FilterViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupTableView()
         print(FilterOption.allCases.map { $0.stringValue })
   
     }
@@ -97,4 +98,23 @@ private extension FilterViewController {
         setupCustomBackButton()
         setupCustomRightButton()
     }
+    
+    final func setupTableView() {
+        tableView.dataSource = self
+        tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
+    }
+}
+
+extension FilterViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        FilterOption.allCases.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
+        let option = FilterOption.allCases[indexPath.row]
+        cell.configureWith(text: option.stringValue, isSelectionImageHidden: true, containerViewBackgroundColor: .clear)
+        return cell
+    }
+    
 }

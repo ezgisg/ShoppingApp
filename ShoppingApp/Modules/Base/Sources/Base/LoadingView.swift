@@ -20,13 +20,13 @@ class LoadingView {
     }
     
     func configure() {
-        blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blurView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
         blurView.translatesAutoresizingMaskIntoConstraints = false
         blurView.frame = UIWindow(frame: UIScreen.main.bounds).frame
         activityIndicator.center = blurView.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
-        activityIndicator.color = .white
+        activityIndicator.color = .gray
         blurView.contentView.addSubview(activityIndicator)
     }
     

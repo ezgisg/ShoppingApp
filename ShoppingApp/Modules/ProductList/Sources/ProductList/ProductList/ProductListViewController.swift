@@ -7,6 +7,7 @@
 
 //TODO: Data çekilen her yere loading koyalım
 import AppResources
+import Base
 import UIKit
 
 // MARK: - Enums
@@ -25,7 +26,7 @@ enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
 }
 
 // MARK: - ProductListViewController
-public class ProductListViewController: UIViewController {
+public class ProductListViewController: BaseViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var filterImage: UIImageView!
@@ -84,6 +85,7 @@ public class ProductListViewController: UIViewController {
         super.viewDidLoad()
         setups()
         viewModel.delegate = self
+        showLoadingView()
         viewModel.fetchProducts(categoryName: category)
     }
     
@@ -292,7 +294,7 @@ private extension ProductListViewController {
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(8)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 0, trailing: 12)
         section.orthogonalScrollingBehavior = .continuous
         
         
@@ -308,7 +310,7 @@ private extension ProductListViewController {
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 12, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
         return section
     }
 
@@ -353,6 +355,7 @@ private extension ProductListViewController {
 //MARK: - ProductListViewModelDelegate
 extension ProductListViewController: ProductListViewModelDelegate {
     func reloadCollectionView() {
+        hideLoadingView()
         applySnapshot()
     }
 }

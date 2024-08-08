@@ -338,7 +338,7 @@ extension HomeViewController {
         viewModel.delegate = self
         searchBar.delegate = self
         
-        showLoadingView()
+//        showLoadingView()
         fetchInitialData()
         setupUI()
         setupCollectionView()

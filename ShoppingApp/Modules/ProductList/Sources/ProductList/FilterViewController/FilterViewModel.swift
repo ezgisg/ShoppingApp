@@ -73,11 +73,11 @@ enum FilterOption: Int, CaseIterable {
     var stringValue: String {
         switch self {
         case .rating:
-            return "rating"
+            return "Rating"
         case .price:
-            return "price"
+            return "Price"
         case .category:
-            return "category"
+            return "Category"
         }
     }
     

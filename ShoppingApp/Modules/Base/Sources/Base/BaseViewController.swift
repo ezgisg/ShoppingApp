@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - BaseViewControllerProtocol
 public protocol BaseViewControllerProtocol: AnyObject {
-    func showLoadingView()
+//    func showLoadingView()
     func hideLoadingView()
 }
 

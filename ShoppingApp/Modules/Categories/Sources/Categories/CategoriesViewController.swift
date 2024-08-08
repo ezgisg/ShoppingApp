@@ -45,7 +45,7 @@ public class CategoriesViewController: BaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        showLoadingView()
+//        showLoadingView()
         viewModel.fetchCategories()
         setups()
     }

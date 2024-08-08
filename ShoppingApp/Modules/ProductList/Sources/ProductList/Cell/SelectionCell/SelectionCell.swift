@@ -11,6 +11,8 @@ import UIKit
 class SelectionCell: UITableViewCell {
 
 
+    @IBOutlet weak var subTitleView: UIView!
+    @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var topImageView: UIView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet weak var containerImage: UIImageView!
@@ -30,6 +32,11 @@ class SelectionCell: UITableViewCell {
      }
     
     private func setupUI() {
+        //To remove background view which occurs when cell selected
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor.clear
+        self.selectedBackgroundView = bgColorView
+    
         topImageView.backgroundColor = .white
         
         containerImage.image = .systemCircleImage
@@ -41,20 +48,27 @@ class SelectionCell: UITableViewCell {
         innerImage.image = .systemCircleImage
         innerImage.tintColor = .white
         
-        label.textColor = .black
+        label.textColor = .gray
+        seperatorView.backgroundColor = .lightTextColor
+        
+        subTitle.textColor = .lightButtonColor
     }
     
     public func updateSelectionState(_ selected: Bool) {
           if selected {
               innerImage.tintColor = .tabbarBackgroundColor
+              label.textColor = .black
           } else {
               innerImage.tintColor = .white
+              label.textColor = .gray
           }
       }
     
-    final func configureWith(text: String, isSelectionImageHidden: Bool = false, containerViewBackgroundColor: UIColor = .white) {
+    final func configureWith(text: String, isSelectionImageHidden: Bool = false, containerViewBackgroundColor: UIColor = .white, isThereSubtitle: Bool = false, subtitleText: String = "") {
         label.text = text
         topImageView.isHidden = isSelectionImageHidden
         containerView.backgroundColor = containerViewBackgroundColor
+        subTitleView.isHidden = !isThereSubtitle
+        subTitle.text = subtitleText
     }
 }

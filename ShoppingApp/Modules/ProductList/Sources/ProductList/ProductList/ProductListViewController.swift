@@ -85,7 +85,7 @@ public class ProductListViewController: BaseViewController {
         super.viewDidLoad()
         setups()
         viewModel.delegate = self
-        showLoadingView()
+//        showLoadingView()
         viewModel.fetchProducts(categoryName: category)
     }
     
@@ -212,9 +212,15 @@ private extension ProductListViewController {
     //TODO: Düzenlenecek
     @objc private func filterTapped() {
         let filterVC = FilterViewController()
-        filterVC.modalPresentationStyle = .fullScreen
-        filterVC.modalTransitionStyle = .crossDissolve
+        filterVC.categories = self.categories
+        filterVC.selectedCategories = self.selectedCategories
         filterVC.hidesBottomBarWhenPushed = true
+        
+        filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
+            guard let self else { return }
+            self.selectedCategories = selectedCategories
+        }
+        
         navigationController?.pushViewController(filterVC, animated: true)
     }
     

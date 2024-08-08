@@ -23,6 +23,10 @@ class FilterViewController: BaseViewController {
     // MARK: - Module Components
     private var viewModel = FilterViewModel()
     
+    var categories: [CategoryResponseElement] = []
+    var selectedCategories: Set<CategoryResponseElement> = []
+    
+    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
     
        // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -83,10 +87,16 @@ class FilterViewController: BaseViewController {
 private extension FilterViewController {
     final func setupUI() {
         self.title = "Filtreleme"
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.tabbarSelectedColor
-        ]
-        containerView.backgroundColor = .tabbarBackgroundColor.withAlphaComponent(1)
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.tabbarBackgroundColor
+        standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.tabbarSelectedColor]
+        
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = standardAppearance
+        
+        containerView.backgroundColor = .tabbarBackgroundColor
         buttonContainerView.backgroundColor = .white
         button.layer.cornerRadius = 12
         button.backgroundColor = .tabbarBackgroundColor
@@ -102,6 +112,7 @@ private extension FilterViewController {
     final func setupTableView() {
         tableView.dataSource = self
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
 }
 
@@ -113,7 +124,23 @@ extension FilterViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
         let option = FilterOption.allCases[indexPath.row]
-        cell.configureWith(text: option.stringValue, isSelectionImageHidden: true, containerViewBackgroundColor: .clear)
+        switch option {
+        case .rating:
+            cell.configureWith(text: option.stringValue, isSelectionImageHidden: true, containerViewBackgroundColor: .clear)
+        case .price:
+            cell.configureWith(text: option.stringValue, isSelectionImageHidden: true, containerViewBackgroundColor: .clear)
+        case .category:
+            var isThereSubtitle = false
+            var subtitleText = ""
+            var text = option.stringValue
+            if selectedCategories.count != 0 {
+                let categoryValuesString = selectedCategories.map { $0.value ?? "N/A" }.joined(separator: ", ")
+                isThereSubtitle = true
+                subtitleText = categoryValuesString
+                text = "\(option.stringValue) (\(selectedCategories.count))"
+            }
+            cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
+        }
         return cell
     }
     

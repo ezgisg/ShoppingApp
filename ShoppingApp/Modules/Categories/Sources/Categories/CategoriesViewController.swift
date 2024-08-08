@@ -94,7 +94,7 @@ private extension CategoriesViewController {
 extension CategoriesViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let category = viewModel.filteredCategories[indexPath.row].value else { return }
-        let productListViewController = ProductListViewController(category: category, categories: [viewModel.filteredCategories[indexPath.row]])
+        let productListViewController = ProductListViewController(category: category, categories: [])
         navigationController?.pushViewController(productListViewController, animated: false)
     }
 }

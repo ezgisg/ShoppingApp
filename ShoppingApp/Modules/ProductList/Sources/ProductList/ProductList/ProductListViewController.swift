@@ -210,8 +210,9 @@ private extension ProductListViewController {
     //TODO: Düzenlenecek
     @objc private func filterTapped() {
         let filterVC = FilterViewController()
-        filterVC.modalPresentationStyle = .overFullScreen
+        filterVC.modalPresentationStyle = .fullScreen
         filterVC.modalTransitionStyle = .crossDissolve
+        filterVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(filterVC, animated: true)
     }
     

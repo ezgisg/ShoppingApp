@@ -25,16 +25,15 @@ open class BaseViewController: UIViewController, LoadingShowable {
     }
     
     //TODO: localizable
-    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", showCancelButton: Bool = false, completion: (() -> Void)?) {
+    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", showCancelButton: Bool = false, cancelButtonTitle: String = "Cancel", completion: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
             completion?()
         }
         alert.addAction(okAction)
         
-        //TODO: localizable
         if showCancelButton {
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel, handler: nil)
             alert.addAction(cancelAction)
         }
         

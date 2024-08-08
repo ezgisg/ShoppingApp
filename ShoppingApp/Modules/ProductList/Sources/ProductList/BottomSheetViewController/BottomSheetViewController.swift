@@ -7,7 +7,7 @@
 
 
 //TODO: localizable
-//TODO: Custom tableview cell
+
 import AppResources
 import Base
 import UIKit
@@ -53,6 +53,10 @@ class BottomSheetViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         otherSetups()
+    }
+    
+
+    override func viewDidLayoutSubviews() {
         updateTableViewHeight()
     }
     
@@ -84,16 +88,24 @@ private extension BottomSheetViewController {
 //MARK: - Helpers
 private extension BottomSheetViewController {
     final func updateTableViewHeight() {
-        tableView.layoutIfNeeded()
-        let contentHeight = tableView.contentSize.height
-        let topPartHeight = tableViewTopSpaceConstraint.constant
-        let maxHeight: CGFloat = view.bounds.height * 0.7 - topPartHeight
-        let newHeight = min(contentHeight, maxHeight)
-        tableViewHeightConstraint.constant = newHeight
-        if contentHeight < maxHeight {
-            tableView.isScrollEnabled = false
-        } else {
-            tableView.isScrollEnabled = true
+        DispatchQueue.main.async {  [weak self] in
+            guard let self,
+            let tableView else { return }
+            tableView.clipsToBounds = true
+            tableView.layoutIfNeeded()
+            
+            let contentHeight = tableView.contentSize.height
+            let topPartHeight: CGFloat = 50
+//            tableViewTopSpaceConstraint.constant
+            let maxHeight: CGFloat = view.bounds.height * 0.7 - topPartHeight
+            let newHeight = min(contentHeight, maxHeight)
+            tableViewHeightConstraint.constant = newHeight
+            if contentHeight < maxHeight {
+                tableView.isScrollEnabled = false
+            } else {
+                tableView.isScrollEnabled = true
+            }
+       
         }
     }
     
@@ -129,14 +141,13 @@ private extension BottomSheetViewController {
     }
     
     final func otherSetups() {
-        tableView.clipsToBounds = true
+       
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         selectDefaultOption()
     }
 
-    //TODO: en son seçilen tutulacak ve ona göre seçim yapılacak
     private func selectDefaultOption() {
         let indexPath = IndexPath(row: selectedOption.rawValue, section: 0)
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
@@ -148,15 +159,6 @@ extension BottomSheetViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let option = SortingOption(rawValue: indexPath.row) else { return }
         selectedOption = option
-        
-        tableView.visibleCells.forEach { cell in
-            if let selectionCell = cell as? SelectionCell {
-                let indexPath = tableView.indexPath(for: selectionCell)
-                let isSelected = indexPath?.row == selectedOption.rawValue
-                selectionCell.updateSelectionState(isSelected)
-            }
-        }
-        
     }
 }
 
@@ -173,4 +175,5 @@ extension BottomSheetViewController: UITableViewDataSource {
         }
         return cell
     }
+    
 }

@@ -10,6 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FilterViewController" customModule="ProductList">
             <connections>
+                <outlet property="button" destination="RTD-Pg-brA" id="Rat-ZP-UYO"/>
+                <outlet property="buttonContainerView" destination="ls4-mq-Ojz" id="vvm-XD-Sp6"/>
+                <outlet property="containerView" destination="9bT-BL-nGj" id="Czi-pM-zo6"/>
+                <outlet property="tableView" destination="9Kh-VK-H0a" id="30S-IL-bHu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,14 +21,62 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9bT-BL-nGj">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Kh-VK-H0a">
+                            <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                            <color key="backgroundColor" red="0.93002288510101006" green="0.93002288510101006" blue="0.93002288510101006" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </tableView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls4-mq-Ojz">
+                            <rect key="frame" x="0.0" y="738" width="393" height="80"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RTD-Pg-brA">
+                                    <rect key="frame" x="36" y="12" width="321" height="56"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Button"/>
+                                    <connections>
+                                        <action selector="buttonTapped:" destination="-1" eventType="touchUpInside" id="Vi9-bV-6d1"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="RTD-Pg-brA" firstAttribute="leading" secondItem="ls4-mq-Ojz" secondAttribute="leading" constant="36" id="BzU-HY-afa"/>
+                                <constraint firstAttribute="bottom" secondItem="RTD-Pg-brA" secondAttribute="bottom" constant="12" id="JoS-or-Y13"/>
+                                <constraint firstAttribute="trailing" secondItem="RTD-Pg-brA" secondAttribute="trailing" constant="36" id="Mx8-fM-c6O"/>
+                                <constraint firstAttribute="height" constant="80" id="aqw-VN-fNC"/>
+                                <constraint firstItem="RTD-Pg-brA" firstAttribute="top" secondItem="ls4-mq-Ojz" secondAttribute="top" constant="12" id="wQO-Re-cUn"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="ls4-mq-Ojz" secondAttribute="trailing" id="8Il-l5-neo"/>
+                        <constraint firstItem="9Kh-VK-H0a" firstAttribute="leading" secondItem="9bT-BL-nGj" secondAttribute="leading" id="IVk-t7-MbH"/>
+                        <constraint firstAttribute="trailing" secondItem="9Kh-VK-H0a" secondAttribute="trailing" id="Np3-Mb-fx4"/>
+                        <constraint firstAttribute="bottom" secondItem="9Kh-VK-H0a" secondAttribute="bottom" id="a4E-ok-Nrn"/>
+                        <constraint firstItem="ls4-mq-Ojz" firstAttribute="leading" secondItem="9bT-BL-nGj" secondAttribute="leading" id="ogI-Cj-CVR"/>
+                    </constraints>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemPinkColor"/>
-            <point key="canvasLocation" x="-85" y="-12"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9bT-BL-nGj" secondAttribute="trailing" id="3zr-30-b0k"/>
+                <constraint firstAttribute="bottom" secondItem="9bT-BL-nGj" secondAttribute="bottom" id="B89-Bc-eXB"/>
+                <constraint firstItem="ls4-mq-Ojz" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="Uwg-XM-3Og"/>
+                <constraint firstItem="9bT-BL-nGj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bA5-H2-8ug"/>
+                <constraint firstItem="9bT-BL-nGj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="j5v-ds-iD8"/>
+                <constraint firstItem="9Kh-VK-H0a" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="nb7-9C-H7Y"/>
+            </constraints>
+            <point key="canvasLocation" x="-86.25954198473282" y="-12.67605633802817"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

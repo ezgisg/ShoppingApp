@@ -8,6 +8,7 @@
 import AppResources
 import Base
 import UIKit
+import ProductList
 
 // MARK: - Enums
 enum HomeScreenSectionType: Int, CaseIterable {
@@ -57,6 +58,10 @@ public class HomeViewController: BaseViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
      // MARK: - Module init
@@ -281,7 +286,18 @@ extension HomeViewController {
 
 //TODO: Kategori ürün sayfaları oluşturulduğunda doldurulacak 1-Kategorilerden ürünlere gidiş 2-kampanyalardan kampanya sayfalarına veya ürünlere gidiş
 extension HomeViewController: UICollectionViewDelegate {
- 
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return }
+        switch sectionType {
+        case .campaign:
+            break
+        case .banner:
+            break
+        case .categoryBanner:
+            let productVC = ProductListViewController(category: categories[indexPath.row], categories: [])
+            navigationController?.pushViewController(productVC, animated: false)
+        }
+    }
 }
 
 //TODO: Kategori ürün sayfaları oluşturulduğunda arama ile ürünler aranacak

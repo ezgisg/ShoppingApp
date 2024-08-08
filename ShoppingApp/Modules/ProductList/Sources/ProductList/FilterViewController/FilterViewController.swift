@@ -36,6 +36,10 @@ class FilterViewController: BaseViewController {
   
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     // MARK: - Module init
     public init() {
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
@@ -47,6 +51,13 @@ class FilterViewController: BaseViewController {
     
 
     @IBAction func buttonTapped(_ sender: Any) {
+        guard let onCategoriesSelected else { return }
+        onCategoriesSelected(selectedCategories)
+        dismissView()
+    }
+    
+    @objc final func dismissView() {
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -150,6 +161,12 @@ extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let option = FilterOption.allCases[indexPath.row]
         let detailVC = FilterDetailViewController(filterOptionType: option)
+        detailVC.categories = categories
+        detailVC.selectedCategories = selectedCategories
+        detailVC.onCategoriesSelected = { [weak self]  selectedCategories in
+            guard let self else { return }
+            self.selectedCategories = selectedCategories
+        }
         navigationController?.pushViewController(detailVC, animated: false)
     }
 }

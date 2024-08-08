@@ -141,7 +141,6 @@ private extension BottomSheetViewController {
     }
     
     final func otherSetups() {
-       
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)

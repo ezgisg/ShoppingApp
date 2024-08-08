@@ -89,6 +89,10 @@ public class ProductListViewController: BaseViewController {
         viewModel.fetchProducts(categoryName: category)
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        collectionView.reloadData()
+    }
+    
     // MARK: - Module init
     public init(category: String, categories: [CategoryResponseElement] = [CategoryResponseElement]()) {
         self.category = category

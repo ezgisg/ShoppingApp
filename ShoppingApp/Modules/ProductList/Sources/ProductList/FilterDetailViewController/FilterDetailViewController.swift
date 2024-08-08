@@ -5,6 +5,9 @@
 //  Created by Ezgi Sümer Günaydın on 8.08.2024.
 //
 
+//TODO: tek kategorililerde taşımyıoruz, taşıyıp homeda da düzeltme gerek
+//TODO: tek viewmodel ile de denenecek
+//TODO: geri butonu localizable ve categories harici seçimler vs eksik..
 import AppResources
 import Base
 import UIKit
@@ -22,10 +25,13 @@ class FilterDetailViewController: BaseViewController {
     var categories: [CategoryResponseElement] = []
     var selectedCategories: Set<CategoryResponseElement> = []
     
+    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        indexesOfSelectedCategories()
 
     }
     
@@ -41,7 +47,16 @@ class FilterDetailViewController: BaseViewController {
     
 
     @IBAction func buttonTapped(_ sender: Any) {
+        print("here")
+        guard let onCategoriesSelected else { return }
+        onCategoriesSelected(selectedCategories)
+        dismissView()
     }
+    
+    @objc final func dismissView() {
+        navigationController?.popViewController(animated: true)
+    }
+
     
 }
 
@@ -72,6 +87,7 @@ private extension FilterDetailViewController {
     
     final func setupTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
@@ -105,8 +121,24 @@ private extension FilterDetailViewController {
     @objc private func didTapRightButton() {
      print("Filtreleme temizlendi")
     }
-}
+    
+    func indexesOfSelectedCategories() {
+        var indexes: [IndexPath] = []
+        for selectedCategory in selectedCategories {
+            if let index = categories.firstIndex(of: selectedCategory) {
+                let indexPath = IndexPath(row: index, section: 0)
+                indexes.append(indexPath)
+            }
+        }
 
+        for indexPath in indexes {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+        }
+
+    }
+    
+}
 
 extension FilterDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,10 +159,39 @@ extension FilterDetailViewController: UITableViewDataSource {
         case .price:
             cell.configureWith(text: PriceOption.allCases[indexPath.row].stringValue)
         case .category:
-            cell.configureWith(text: "")
+            cell.configureWith(text: categories[indexPath.row].value ?? "")
         }
         
         return cell
+    }
+    
+}
+
+extension FilterDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch filterOptionType {
+        case .rating:
+            break
+        case .price:
+            break
+        case .category:
+            let selectedCategory = categories[indexPath.row]
+            selectedCategories.insert(selectedCategory)
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        switch filterOptionType {
+        case .rating:
+            break
+        case .price:
+            break
+        case .category:
+            let selectedCategory = categories[indexPath.row]
+            selectedCategories.remove(selectedCategory)
+            
+        }
     }
     
 }

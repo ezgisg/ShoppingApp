@@ -13,7 +13,6 @@ import UIKit
 
 // MARK: - FilterViewController
 class FilterViewController: BaseViewController {
-
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -111,6 +110,7 @@ private extension FilterViewController {
     
     final func setupTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
@@ -144,4 +144,12 @@ extension FilterViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension FilterViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let option = FilterOption.allCases[indexPath.row]
+        let detailVC = FilterDetailViewController(filterOptionType: option)
+        navigationController?.pushViewController(detailVC, animated: false)
+    }
 }

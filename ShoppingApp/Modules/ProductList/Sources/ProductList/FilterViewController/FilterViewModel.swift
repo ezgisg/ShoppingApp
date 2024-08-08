@@ -5,7 +5,9 @@
 //  Created by Ezgi Sümer Günaydın on 7.08.2024.
 //
 
+import AppResources
 import Foundation
+
 
 //MARK: - Enums
 enum RatingOption: Int, CaseIterable {
@@ -43,26 +45,26 @@ enum PriceOption: Int, CaseIterable {
     }
 }
 
-//MARK: - Category Options
-enum CategoryOption: String, CaseIterable {
-    case men
-    case women
-    case jewelery
-    case electronics
-    
-    var stringValue: String {
-        switch self {
-        case .men:
-            return "men"
-        case .women:
-            return "women"
-        case .jewelery:
-            return "jewelery"
-        case .electronics:
-            return "electronics"
-        }
-    }
-}
+////MARK: - Category Options
+//enum CategoryOption: String, CaseIterable {
+//    case men
+//    case women
+//    case jewelery
+//    case electronics
+//    
+//    var stringValue: String {
+//        switch self {
+//        case .men:
+//            return "men"
+//        case .women:
+//            return "women"
+//        case .jewelery:
+//            return "jewelery"
+//        case .electronics:
+//            return "electronics"
+//        }
+//    }
+//}
 
 //MARK: - FilterOption
 enum FilterOption: Int, CaseIterable {
@@ -88,7 +90,7 @@ enum FilterOption: Int, CaseIterable {
         case .price:
             return PriceOption.allCases
         case .category:
-            return CategoryOption.allCases
+            return [CategoryResponseElement].self
         }
     }
 }

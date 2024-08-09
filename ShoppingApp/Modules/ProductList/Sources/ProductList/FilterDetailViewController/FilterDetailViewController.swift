@@ -29,12 +29,19 @@ final class FilterDetailViewController: BaseViewController {
     var categories: [CategoryResponseElement] = []
     var selectedCategories: Set<CategoryResponseElement> = []
     
+    //TODO: ratings de multiple selection engellenecek ya da caseleri değiştirelim 2-3 3-4 4-5 gibi ..
     var selectedRatings: Set<RatingOption> = []
     var selectedPrices: Set<PriceOption> = []
+    
+    var initialSelectedCategories: Set<CategoryResponseElement> = []
+    var initialSelectedRatings: Set<RatingOption> = []
+    var initialSelectedPrices: Set<PriceOption> = []
     
     var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
     var onRatingsSelected: ((Set<RatingOption>)->Void)?
     var onPricesSelected: ((Set<PriceOption>)->Void)?
+    
+    var isRightButtonForClear: Bool = true
     
     // MARK: - Life Cycles
     override func viewDidLoad() {
@@ -89,23 +96,26 @@ private extension FilterDetailViewController {
     
     final func setupCustomRightButton() {
         let rightButton = UIButton(type: .system)
-        rightButton.setTitle("Temizle", for: .normal)
         rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
         let rightButtonItem = UIBarButtonItem(customView: rightButton)
         navigationItem.rightBarButtonItem = rightButtonItem
+        controlButtonStatus()
     }
       
     //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
     @objc final func didTapBackButton() {
-        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {
-            self.navigationController?.popViewController(animated: true)
-            self.navigationController?.navigationBar.backgroundColor = .clear
+        guard selectedPrices != initialSelectedPrices ||
+                selectedRatings != initialSelectedRatings ||
+                selectedCategories != initialSelectedCategories else { return dismissView()  }
+        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
+            guard let self else { return }
+            dismissView()
         }
     }
     
     //TODO: filtreleme yoksa button pasif olacak
     @objc final func didTapRightButton() {
-        print("Filtreleme temizlendi")
+        clearAllFilter()
     }
 }
 
@@ -174,7 +184,7 @@ private extension FilterDetailViewController {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
         }
-
+        
     }
     
 }
@@ -192,14 +202,13 @@ extension FilterDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
- 
         switch filterOptionType {
         case .rating:
-            cell.configureWith(text: RatingOption.allCases[indexPath.row].stringValue)
+            cell.configureWith(text: RatingOption.allCases[indexPath.row].stringValue, containerViewBackgroundColor: .clear)
         case .price:
-            cell.configureWith(text: PriceOption.allCases[indexPath.row].stringValue)
+            cell.configureWith(text: PriceOption.allCases[indexPath.row].stringValue, containerViewBackgroundColor: .clear)
         case .category:
-            cell.configureWith(text: categories[indexPath.row].value ?? "")
+            cell.configureWith(text: categories[indexPath.row].value ?? "", containerViewBackgroundColor: .clear)
         }
         
         return cell
@@ -221,8 +230,8 @@ extension FilterDetailViewController: UITableViewDelegate {
         case .category:
             let selectedCategory = categories[indexPath.row]
             selectedCategories.insert(selectedCategory)
-            
         }
+        controlButtonStatus()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -238,6 +247,44 @@ extension FilterDetailViewController: UITableViewDelegate {
             selectedCategories.remove(selectedCategory)
             
         }
+        controlButtonStatus()
     }
     
+}
+
+
+//MARK: - Helpers
+private extension FilterDetailViewController {
+    final func controlButtonStatus() {
+        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        isRightButtonForClear = count > 0 ? true : false
+        let newTitle = isRightButtonForClear ? "Temizle" : "Hepsini Seç"
+        guard let rightButton = navigationItem.rightBarButtonItem?.customView as? UIButton else { return }
+        
+        rightButton.setTitle(newTitle, for: .normal)
+        rightButton.sizeToFit()
+    }
+    final func clearAllFilter() {
+        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        if count > 0,
+            isRightButtonForClear {
+            selectedPrices = []
+            selectedRatings = []
+            selectedCategories = []
+            tableView.reloadData()
+        } else {
+            switch filterOptionType {
+            case .rating:
+                selectedRatings = Set(RatingOption.allCases)
+            case .price:
+                selectedPrices = Set(PriceOption.allCases)
+            case .category:
+                selectedCategories = Set(categories)
+            }
+            setupInitialSelections()
+    
+            
+        }
+        controlButtonStatus()
+    }
 }

@@ -14,7 +14,7 @@ protocol ProductListViewModelProtocol: AnyObject {
     var products: ProductListResponse { get }
     var filteredProducts: ProductListResponse { get }
     func fetchProducts(categoryName: String)
-    func fetchProductsWithSelectedCategories(categories: Set<CategoryResponseElement>)
+    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>)
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -67,13 +67,43 @@ extension ProductListViewModel: ProductListViewModelProtocol {
         }
     }
     
-    func fetchProductsWithSelectedCategories(categories: Set<CategoryResponseElement>) {
-        if categories.isEmpty {
+    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>) {
+        if categories.isEmpty && selectedRatings.isEmpty && selectedPrices.isEmpty {
             filteredProducts = products
         } else {
             filteredProducts = products.filter { product in
-                guard let productCategory = product.category else { return false }
-                return categories.contains { $0.value == productCategory }
+                var matchesCategory = true
+                var matchesRating = true
+                var matchesPrice = true
+                
+            
+                if !categories.isEmpty {
+                    guard let productCategory = product.category else { return false }
+                    matchesCategory = categories.contains { $0.value == productCategory }
+                }
+                
+         
+                if !selectedRatings.isEmpty {
+                    guard let productRating = product.rating?.rate else { return false }
+                    matchesRating = selectedRatings.contains { $0.rawValue <= productRating }
+                }
+                
+         
+                if !selectedPrices.isEmpty {
+                    guard let productPrice = product.price else { return false }
+                    matchesPrice = selectedPrices.contains {
+                        switch $0 {
+                        case .oneToTen:
+                            return 1...10 ~= productPrice
+                        case .tenToHundred:
+                            return 10...100 ~= productPrice
+                        case .hundredPlus:
+                            return productPrice >= 100
+                        }
+                    }
+                }
+                
+                return matchesCategory && matchesRating && matchesPrice
             }
         }
         delegate?.reloadCollectionView()

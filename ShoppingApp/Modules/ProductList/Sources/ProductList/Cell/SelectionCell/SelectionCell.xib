@@ -20,13 +20,14 @@
                         <rect key="frame" x="12" y="4" width="601" height="90"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jhi-iP-FVV">
-                                <rect key="frame" x="0.0" y="0.0" width="598.66666666666663" height="81"/>
+                                <rect key="frame" x="0.0" y="0.0" width="601" height="81"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtn-S9-B5U">
                                         <rect key="frame" x="0.0" y="0.0" width="26" height="81"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XKE-tv-OhO">
                                                 <rect key="frame" x="0.0" y="27.666666666666671" width="26" height="26"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="XKE-tv-OhO" secondAttribute="height" multiplier="1:1" id="5cT-qD-u1U"/>
                                                 </constraints>
@@ -66,15 +67,15 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="DWK-9m-jhj">
-                                        <rect key="frame" x="34" y="0.0" width="564.66666666666663" height="81"/>
+                                        <rect key="frame" x="34" y="0.0" width="567" height="81"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hym-wy-JcI">
-                                                <rect key="frame" x="0.0" y="0.0" width="564.66666666666663" height="39.666666666666664"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="567" height="39.666666666666664"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="abel label label label label label label label label label label label label label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lSg-YR-pPX">
-                                                        <rect key="frame" x="0.0" y="9.6666666666666661" width="564.66666666666663" height="20.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="9.6666666666666661" width="567" height="20.333333333333336"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -88,12 +89,12 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6I-U9-VZU">
-                                                <rect key="frame" x="0.0" y="41.666666666666657" width="564.66666666666663" height="39.333333333333343"/>
+                                                <rect key="frame" x="0.0" y="41.666666666666657" width="567" height="39.333333333333343"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" label label label label label label label label label label label label label label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBz-At-USw">
-                                                        <rect key="frame" x="0.0" y="12" width="564.66666666666663" height="15.666666666666664"/>
+                                                        <rect key="frame" x="0.0" y="12" width="567" height="15.666666666666664"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -107,6 +108,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="b6I-U9-VZU" firstAttribute="leading" secondItem="Hym-wy-JcI" secondAttribute="leading" id="sZ5-j4-Lke"/>
                                         </constraints>
@@ -122,12 +124,14 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="x40-Ab-DS2" secondAttribute="trailing" id="IQq-Nr-9nP"/>
                             <constraint firstItem="x40-Ab-DS2" firstAttribute="leading" secondItem="TRT-Os-5Vx" secondAttribute="leading" id="tcO-0V-7AX"/>
                         </constraints>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="TRT-Os-5Vx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="0kW-3r-b9M"/>
                     <constraint firstAttribute="bottom" secondItem="TRT-Os-5Vx" secondAttribute="bottom" constant="4" id="A3i-qI-ERb"/>

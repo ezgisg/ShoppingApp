@@ -37,7 +37,7 @@ class SelectionCell: UITableViewCell {
         bgColorView.backgroundColor = UIColor.clear
         self.selectedBackgroundView = bgColorView
     
-        topImageView.backgroundColor = .white
+        topImageView.backgroundColor = .clear
         
         containerImage.image = .systemCircleImage
         containerImage.tintColor = .tabbarBackgroundColor

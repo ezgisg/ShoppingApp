@@ -14,40 +14,26 @@
             filePath = "Modules/ProductList/Sources/ProductList/FilterDetailViewController/FilterDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DE0D4319-698D-4E60-B06F-233B4A812822 - 5da3b9a5567d7d31"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductList.FilterDetailViewController.tableView(_: __C.UITableView, didDeselectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/FilterDetailViewController/FilterDetailViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "224"
-                  endingLineNumber = "224">
-               </Location>
-               <Location
-                  uuid = "DE0D4319-698D-4E60-B06F-233B4A812822 - aa5a4bb7cb8b987f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductList.FilterDetailViewController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/FilterDetailViewController/FilterDetailViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "223"
-                  endingLineNumber = "223">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65E67A05-A578-4860-93E2-0F0A1ECF005F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Modules/ProductList/Sources/ProductList/FilterDetailViewController/FilterDetailViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "setupInitialSelections()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

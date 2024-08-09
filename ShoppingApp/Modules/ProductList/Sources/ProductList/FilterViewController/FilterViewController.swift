@@ -29,6 +29,10 @@ final class FilterViewController: BaseViewController {
     var selectedRatings: Set<RatingOption> = []
     var selectedPrices: Set<PriceOption> = []
     
+    var initialSelectedCategories: Set<CategoryResponseElement> = []
+    var initialSelectedRatings: Set<RatingOption> = []
+    var initialSelectedPrices: Set<PriceOption> = []
+    
     var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
     var onRatingsSelected: ((Set<RatingOption>)->Void)?
     var onPricesSelected: ((Set<PriceOption>)->Void)?
@@ -39,6 +43,7 @@ final class FilterViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        controlButtonStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,15 +122,18 @@ private extension FilterViewController {
     
     //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
     @objc final func didTapBackButton() {
-        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {
-            self.navigationController?.popViewController(animated: true)
-            self.navigationController?.navigationBar.backgroundColor = .clear
+        guard selectedPrices != initialSelectedPrices ||
+                selectedRatings != initialSelectedRatings ||
+                selectedCategories != initialSelectedCategories else { return dismissView()  }
+        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
+            guard let self else { return }
+            dismissView()
         }
     }
     
-    //TODO: filtreleme yoksa button pasif olacak
     @objc final func didTapRightButton() {
-        print("Filtreleme temizlendi")
+        clearAllFilter()
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     @IBAction final func buttonTapped(_ sender: Any) {
@@ -195,18 +203,42 @@ extension FilterViewController: UITableViewDelegate {
         detailVC.selectedCategories = selectedCategories
         detailVC.selectedPrices = selectedPrices
         detailVC.selectedRatings = selectedRatings
+        detailVC.initialSelectedCategories = selectedCategories
+        detailVC.initialSelectedPrices = selectedPrices
+        detailVC.initialSelectedRatings = selectedRatings
         detailVC.onCategoriesSelected = { [weak self]  selectedCategories in
             guard let self else { return }
             self.selectedCategories = selectedCategories
+            controlButtonStatus()
         }
         detailVC.onPricesSelected = { [weak self]  selectedPrices in
             guard let self else { return }
             self.selectedPrices = selectedPrices
+            controlButtonStatus()
         }
         detailVC.onRatingsSelected = { [weak self]  selectedRatings in
             guard let self else { return }
             self.selectedRatings = selectedRatings
+            controlButtonStatus()
         }
         navigationController?.pushViewController(detailVC, animated: false)
+    }
+}
+
+//MARK: - Helpers
+private extension FilterViewController {
+    final func controlButtonStatus() {
+        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        navigationItem.rightBarButtonItem?.isEnabled = count > 0 ? true : false
+    }
+    final func clearAllFilter() {
+        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        if count > 0 {
+            selectedPrices = []
+            selectedRatings = []
+            selectedCategories = []
+            tableView.reloadData()
+        }
+        controlButtonStatus()
     }
 }

@@ -10,19 +10,19 @@ import Foundation
 
 
 //MARK: - Enums
-enum RatingOption: Int, CaseIterable {
-    case twoPlus = 2
-    case threePlus = 3
-    case fourPlus = 4
+enum RatingOption: Double, CaseIterable {
+    case twoPlus = 2.0
+    case threePlus = 3.0
+    case fourPlus = 4.0
     
     var stringValue: String {
         switch self {
         case .twoPlus:
-            return "2+"
+            return "2 Puan ve Üzeri"
         case .threePlus:
-            return "3+"
+            return "3 Puan ve Üzeri"
         case .fourPlus:
-            return "4+"
+            return "4 Puan ve Üzeri"
         }
     }
 }
@@ -36,11 +36,11 @@ enum PriceOption: Int, CaseIterable {
     var stringValue: String {
         switch self {
         case .oneToTen:
-            return "1-10"
+            return "1 - 10 $"
         case .tenToHundred:
-            return "10-100"
+            return "10 - 100 $"
         case .hundredPlus:
-            return "100+"
+            return "100+ $"
         }
     }
 }

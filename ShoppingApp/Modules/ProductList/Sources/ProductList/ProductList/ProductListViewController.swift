@@ -10,44 +10,30 @@ import AppResources
 import Base
 import UIKit
 
-// MARK: - Enums
-enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
-    case filter = 0
-    case products = 1
-    
-    var stringValue: String? {
-         switch self {
-         case .filter:
-             return "filter"
-         case .products:
-             return "products"
-         }
-     }
-}
-
 // MARK: - ProductListViewController
 public class ProductListViewController: BaseViewController {
 
     // MARK: - Outlets
-    @IBOutlet private weak var filterImage: UIImageView!
-    @IBOutlet weak var selectedFilterImage: UIImageView!
     @IBOutlet private weak var filterLabel: UILabel!
-    @IBOutlet private weak var sortingImage: UIImageView!
+    @IBOutlet private weak var filterImage: UIImageView!
+    @IBOutlet private weak var selectedFilterImage: UIImageView!
+    @IBOutlet private weak var filterAreaStackView: UIStackView!
+    @IBOutlet private weak var filterTopView: UIView!
+    
     @IBOutlet private weak var sortingLabel: UILabel!
-    @IBOutlet weak var selectedSortingImage: UIImageView!
+    @IBOutlet private weak var sortingImage: UIImageView!
+    @IBOutlet private weak var selectedSortingImage: UIImageView!
+    @IBOutlet private weak var sortingTopView: UIView!
+    
     @IBOutlet private weak var bigLayoutImage: UIImageView!
     @IBOutlet private weak var smallLayoutImage: UIImageView!
+    
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var containerView: UIView!
-    @IBOutlet private weak var filterAreaStackView: UIStackView!
-    
-    @IBOutlet weak var filterTopView: UIView!
-    @IBOutlet weak var sortingTopView: UIView!
+
     
     // MARK: - Variables
-    var category = String()
-    var categories = [CategoryResponseElement]()
-    //TODO: filtrelemede diğer seçimlerde de resim çıkıp-kaybolacak
+
     var sortingOption: SortingOption = .none {
         didSet {
             if sortingOption == .none {
@@ -59,7 +45,6 @@ public class ProductListViewController: BaseViewController {
     }
     
 
-    
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
     private var itemCount: Double = 2 {
@@ -72,7 +57,6 @@ public class ProductListViewController: BaseViewController {
     }
     
     
-    ///Unfortunately all filter options defined statically because there is no backend to keep user selections
     private var selectedCategories = Set<CategoryResponseElement>() {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -95,7 +79,7 @@ public class ProductListViewController: BaseViewController {
     
     
     // MARK: - Module Components
-    private var viewModel = ProductListViewModel()
+    public var viewModel: ProductListViewModelProtocol
  
     // MARK: - Life Cycles
     public override func viewDidLoad() {
@@ -103,7 +87,7 @@ public class ProductListViewController: BaseViewController {
         setups()
         viewModel.delegate = self
 //        showLoadingView()
-        viewModel.fetchProducts(categoryName: category)
+        viewModel.fetchProducts()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -116,9 +100,9 @@ public class ProductListViewController: BaseViewController {
     }
     
     // MARK: - Module init
-    public init(category: String, categories: [CategoryResponseElement] = [CategoryResponseElement]()) {
-        self.category = category
-        self.categories = categories
+    public init(
+        viewModel: ProductListViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
@@ -239,7 +223,7 @@ private extension ProductListViewController {
     @objc private func filterTapped() {
         let filterVC = FilterViewController()
         filterVC.hidesBottomBarWhenPushed = true
-        filterVC.categories = categories
+        filterVC.categories = viewModel.categories
         filterVC.selectedCategories = selectedCategories
         filterVC.selectedPrices = selectedPrices
         filterVC.selectedRatings = selectedRatings
@@ -290,7 +274,7 @@ private extension ProductListViewController {
             switch sectionType {
             case .filter:
                 let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
-                let category = categories[indexPath.row]
+                let category = viewModel.categories[indexPath.row]
                 cell.configureWith(text: category.value ?? "")
                 cell.isSelectedCell = selectedCategories.contains(category)
                 return cell
@@ -311,7 +295,7 @@ private extension ProductListViewController {
             snapshot.appendSections([section])
         }
     
-        snapshot.appendItems(categories, toSection: .filter)
+        snapshot.appendItems(viewModel.categories, toSection: .filter)
         snapshot.appendItems(viewModel.filteredProducts, toSection: .products)
         
         dataSource?.apply(snapshot, animatingDifferences: true)
@@ -372,7 +356,7 @@ extension ProductListViewController: UICollectionViewDelegate {
         guard let sectionType = ProductListScreenSectionType(rawValue: indexPath.section) else { return }
         switch sectionType {
         case .filter:
-            let selectedCategory = categories[indexPath.row]
+            let selectedCategory = viewModel.categories[indexPath.row]
             if selectedCategories.contains(selectedCategory) {
                 selectedCategories.remove(selectedCategory)
             } else {
@@ -404,7 +388,7 @@ private extension ProductListViewController {
 
 //MARK: - ProductListViewModelDelegate
 extension ProductListViewController: ProductListViewModelDelegate {
-    func reloadCollectionView() {
+    public func reloadCollectionView() {
         hideLoadingView()
         applySnapshot()
         applySorting(option: sortingOption)

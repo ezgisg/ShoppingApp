@@ -295,7 +295,8 @@ extension HomeViewController: UICollectionViewDelegate {
         case .banner:
             break
         case .categoryBanner:
-            let productVC = ProductListViewController(category: categories[indexPath.row], categories: [])
+            let viewModel = ProductListViewModel(category: categories[indexPath.row], categories: [])
+            let productVC = ProductListViewController(viewModel: viewModel)
             navigationController?.pushViewController(productVC, animated: false)
         }
     }
@@ -345,7 +346,6 @@ extension HomeViewController {
         setupKeyboardObservers()
         startTextRotation()
     }
-    
     
     ///Changing topLabel text in every 5 seconds with animate
     func startTextRotation() {

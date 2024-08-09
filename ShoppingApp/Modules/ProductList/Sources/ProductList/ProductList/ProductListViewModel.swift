@@ -9,39 +9,143 @@ import AppResources
 import Foundation
 import Network
 
-// MARK: - ProductListViewModelProtocol
-protocol ProductListViewModelProtocol: AnyObject {
-    var products: ProductListResponse { get }
-    var filteredProducts: ProductListResponse { get }
-    func fetchProducts(categoryName: String)
-    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>)
-}
-
-// MARK: - ProductListViewModelDelegate
-protocol ProductListViewModelDelegate: AnyObject {
-    func reloadCollectionView()
-
-}
-
-// MARK: - ProductListViewModelDelegate
-final class ProductListViewModel {
-    var products: ProductListResponse = []
-    var filteredProducts: ProductListResponse = []
+//TODO: Localizable for texts
+///Unfortunately all filter options defined statically on screens because there is no backend to fetch data and to keep user selections
+///Using enums to conveniently manage localizable
+//MARK: - Enums
+//MARK: - FilterOption
+enum FilterOption: Int, CaseIterable {
+    case rating = 0
+    case price = 1
+    case category = 2
     
-    var delegate: ProductListViewModelDelegate?
-    private var service: ShoppingServiceProtocol
+    var stringValue: String {
+        switch self {
+        case .rating:
+            return "Rating"
+        case .price:
+            return "Price"
+        case .category:
+            return "Category"
+        }
+    }
     
-    init(service: ShoppingServiceProtocol = ShoppingService()) {
-        self.service = service
+    //TODO: burası kullanılmadı, kullanılamazsa silinecek
+    var options: Any {
+        switch self {
+        case .rating:
+            return RatingOption.allCases
+        case .price:
+            return PriceOption.allCases
+        case .category:
+            return [CategoryResponseElement].self
+        }
     }
 }
 
+//MARK: - RatingOption
+public enum RatingOption: Double, CaseIterable {
+    case zeroPlus = 0.0
+    case onePlus = 1.0
+    case twoPlus = 2.0
+    case threePlus = 3.0
+    case fourPlus = 4.0
 
-extension ProductListViewModel: ProductListViewModelProtocol {
+    var stringValue: String {
+        switch self {
+        case .zeroPlus:
+            return "0 - 1 Puan Arası"
+        case .onePlus:
+            return "1 - 2 Puan Arası"
+        case .twoPlus:
+            return "2 - 3 Puan Arası"
+        case .threePlus:
+            return "3 - 4 Puan Arası"
+        case .fourPlus:
+            return "4 - 5 Puan Arası"
+        }
+    }
+}
 
-    func fetchProducts(categoryName: String) {
-        if categoryName != "" {
-            service.fetchProductsFromCategory(categoryName: categoryName) { [weak self] result in
+enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
+    case filter = 0
+    case products = 1
+    
+    var stringValue: String? {
+         switch self {
+         case .filter:
+             return "Filter"
+         case .products:
+             return "Products"
+         }
+     }
+}
+
+//MARK: - Price Options
+public enum PriceOption: Int, CaseIterable {
+    case oneToTen = 1
+    case tenToHundred = 10
+    case hundredPlus = 100
+    
+    var stringValue: String {
+        switch self {
+        case .oneToTen:
+            return "1 - 10 $"
+        case .tenToHundred:
+            return "10 - 100 $"
+        case .hundredPlus:
+            return "100+ $"
+        }
+    }
+}
+
+// MARK: - ProductListViewModelProtocol
+public protocol ProductListViewModelProtocol: AnyObject {
+    var products: ProductListResponse { get set }
+    var filteredProducts: ProductListResponse { get set }
+    func fetchProducts()
+    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>)
+    
+    var delegate: ProductListViewModelDelegate? { get set }
+    var category: String { get }
+    var categories: [CategoryResponseElement] { get }
+    
+
+}
+
+// MARK: - ProductListViewModelDelegate
+public protocol ProductListViewModelDelegate: AnyObject {
+    func reloadCollectionView()
+}
+
+// MARK: - ProductListViewModelDelegate
+public final class ProductListViewModel: ProductListViewModelProtocol {
+    public var products: ProductListResponse = []
+    public var filteredProducts: ProductListResponse = []
+    
+    public var delegate: ProductListViewModelDelegate?
+    private var service: ShoppingServiceProtocol
+    
+    public var category: String = ""
+    public var categories: [CategoryResponseElement] = []
+    
+    public init(
+        service: ShoppingServiceProtocol = ShoppingService(),
+        category: String,
+        categories: [CategoryResponseElement]
+    ) {
+        self.service = service
+        self.category = category
+        self.categories = categories
+    }
+    
+}
+
+
+public extension ProductListViewModel {
+    func fetchProducts() {
+        if category != "" {
+            service.fetchProductsFromCategory(categoryName: category) { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(let products):
@@ -85,7 +189,9 @@ extension ProductListViewModel: ProductListViewModelProtocol {
          
                 if !selectedRatings.isEmpty {
                     guard let productRating = product.rating?.rate else { return false }
-                    matchesRating = selectedRatings.contains { $0.rawValue <= productRating }
+                    matchesRating = selectedRatings.contains {
+                        return $0.rawValue...($0.rawValue + 1.0) ~= productRating
+                    }
                 }
                 
          

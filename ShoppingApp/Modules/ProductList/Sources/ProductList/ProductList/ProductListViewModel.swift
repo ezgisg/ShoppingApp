@@ -107,7 +107,7 @@ public protocol ProductListViewModelProtocol: AnyObject {
     func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>)
     
     var delegate: ProductListViewModelDelegate? { get set }
-    var category: String { get }
+//    var category: String { get }
     var categories: [CategoryResponseElement] { get }
     
 
@@ -120,22 +120,19 @@ public protocol ProductListViewModelDelegate: AnyObject {
 
 // MARK: - ProductListViewModelDelegate
 public final class ProductListViewModel: ProductListViewModelProtocol {
+    
+    public var delegate: ProductListViewModelDelegate?
+    private var service: ShoppingService = ShoppingService()
+    
+    public var categories: [CategoryResponseElement] = []
     public var products: ProductListResponse = []
     public var filteredProducts: ProductListResponse = []
     
-    public var delegate: ProductListViewModelDelegate?
-    private var service: ShoppingServiceProtocol
+
     
-    public var category: String = ""
-    public var categories: [CategoryResponseElement] = []
+
     
-    public init(
-        service: ShoppingServiceProtocol = ShoppingService(),
-        category: String,
-        categories: [CategoryResponseElement]
-    ) {
-        self.service = service
-        self.category = category
+    public init(categories: [CategoryResponseElement]) {
         self.categories = categories
     }
     
@@ -144,7 +141,8 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
 
 public extension ProductListViewModel {
     func fetchProducts() {
-        if category != "" {
+        if categories.count == 1, 
+            let category = categories.first?.value {
             service.fetchProductsFromCategory(categoryName: category) { [weak self] result in
                 guard let self else { return }
                 switch result {

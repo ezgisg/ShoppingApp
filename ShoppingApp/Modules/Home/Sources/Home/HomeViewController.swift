@@ -295,7 +295,8 @@ extension HomeViewController: UICollectionViewDelegate {
         case .banner:
             break
         case .categoryBanner:
-            let viewModel = ProductListViewModel(category: categories[indexPath.row], categories: [])
+            let category = CategoryResponseElement(value: categories[indexPath.row], imagePath: "")
+            let viewModel = ProductListViewModel(categories: [category])
             let productVC = ProductListViewController(viewModel: viewModel)
             navigationController?.pushViewController(productVC, animated: false)
         }

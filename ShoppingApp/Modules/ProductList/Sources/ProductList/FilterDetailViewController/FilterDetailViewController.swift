@@ -8,31 +8,43 @@
 //TODO: tek kategorililerde taşımyıoruz, taşıyıp homeda da düzeltme gerek
 //TODO: tek viewmodel ile de denenecek
 //TODO: geri butonu localizable ve categories harici seçimler vs eksik..
+
 import AppResources
 import Base
 import UIKit
 
-class FilterDetailViewController: BaseViewController {
 
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var buttonContainerView: UIView!
-    @IBOutlet weak var button: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
+// MARK: - FilterDetailViewController
+final class FilterDetailViewController: BaseViewController {
+
+    // MARK: - Outlets
+    @IBOutlet private weak var containerView: UIView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var buttonContainerView: UIView!
+    @IBOutlet private weak var button: UIButton!
+    @IBOutlet private weak var searchBar: UISearchBar!
     
-    
+    //MARK: - Variables
     var filterOptionType: FilterOption
     var categories: [CategoryResponseElement] = []
     var selectedCategories: Set<CategoryResponseElement> = []
     
-    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
+    var selectedRatings: Set<RatingOption> = []
+    var selectedPrices: Set<PriceOption> = []
     
+    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
+    var onRatingsSelected: ((Set<RatingOption>)->Void)?
+    var onPricesSelected: ((Set<PriceOption>)->Void)?
+    
+    // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        indexesOfSelectedCategories()
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupInitialSelections()
     }
     
     // MARK: - Module init
@@ -44,22 +56,60 @@ class FilterDetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+ 
+}
 
+//MARK: - Actions
+private extension FilterDetailViewController {
     @IBAction func buttonTapped(_ sender: Any) {
-        print("here")
-        guard let onCategoriesSelected else { return }
-        onCategoriesSelected(selectedCategories)
+        if let onCategoriesSelected {
+            onCategoriesSelected(selectedCategories)
+        }
+        if let onRatingsSelected {
+            onRatingsSelected(selectedRatings)
+        }
+        if let onPricesSelected {
+            onPricesSelected(selectedPrices)
+        }
         dismissView()
     }
     
     @objc final func dismissView() {
         navigationController?.popViewController(animated: true)
     }
-
     
+    final func setupCustomBackButton() {
+        let backButton = UIButton(type: .system)
+        backButton.setTitle(nil, for: .normal)
+        backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        let backBarButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = backBarButtonItem
+    }
+    
+    final func setupCustomRightButton() {
+        let rightButton = UIButton(type: .system)
+        rightButton.setTitle("Temizle", for: .normal)
+        rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
+        let rightButtonItem = UIBarButtonItem(customView: rightButton)
+        navigationItem.rightBarButtonItem = rightButtonItem
+    }
+      
+    //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
+    @objc final func didTapBackButton() {
+        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {
+            self.navigationController?.popViewController(animated: true)
+            self.navigationController?.navigationBar.backgroundColor = .clear
+        }
+    }
+    
+    //TODO: filtreleme yoksa button pasif olacak
+    @objc final func didTapRightButton() {
+        print("Filtreleme temizlendi")
+    }
 }
 
+//MARK: - Setups
 private extension FilterDetailViewController {
     final func setupUI() {
         self.title = "Filtreleme detay"
@@ -83,6 +133,7 @@ private extension FilterDetailViewController {
         
         setupCustomBackButton()
         setupCustomRightButton()
+        setupInitialSelections()
     }
     
     final func setupTableView() {
@@ -91,43 +142,31 @@ private extension FilterDetailViewController {
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
-    
-    private func setupCustomBackButton() {
-        let backButton = UIButton(type: .system)
-        backButton.setTitle(nil, for: .normal)
-        backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        let backBarButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.leftBarButtonItem = backBarButtonItem
-    }
-    
-    private func setupCustomRightButton() {
-        let rightButton = UIButton(type: .system)
-        rightButton.setTitle("Temizle", for: .normal)
-        rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
-        let rightButtonItem = UIBarButtonItem(customView: rightButton)
-        navigationItem.rightBarButtonItem = rightButtonItem
-    }
-      
-    //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
-      @objc private func didTapBackButton() {
-          showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {
-              self.navigationController?.popViewController(animated: true)
-              self.navigationController?.navigationBar.backgroundColor = .clear
-          }
 
-      }
-    //TODO: filtreleme yoksa button pasif olacak
-    @objc private func didTapRightButton() {
-     print("Filtreleme temizlendi")
-    }
     
-    func indexesOfSelectedCategories() {
+    func setupInitialSelections() {
         var indexes: [IndexPath] = []
-        for selectedCategory in selectedCategories {
-            if let index = categories.firstIndex(of: selectedCategory) {
-                let indexPath = IndexPath(row: index, section: 0)
-                indexes.append(indexPath)
+        switch filterOptionType {
+        case .rating:
+            for rating in selectedRatings {
+                if let index = RatingOption.allCases.firstIndex(of: rating) {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    indexes.append(indexPath)
+                }
+            }
+        case .price:
+            for price in selectedPrices {
+                if let index = PriceOption.allCases.firstIndex(of: price) {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    indexes.append(indexPath)
+                }
+            }
+        case .category:
+            for selectedCategory in selectedCategories {
+                if let index = categories.firstIndex(of: selectedCategory) {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    indexes.append(indexPath)
+                }
             }
         }
 
@@ -140,6 +179,7 @@ private extension FilterDetailViewController {
     
 }
 
+//MARK: - UITableViewDataSource
 extension FilterDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch filterOptionType {
@@ -167,13 +207,17 @@ extension FilterDetailViewController: UITableViewDataSource {
     
 }
 
+//MARK: - UITableViewDelegate
 extension FilterDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch filterOptionType {
         case .rating:
-            break
+            print(indexPath)
+            let selectedRating = RatingOption.allCases[indexPath.row]
+            selectedRatings.insert(selectedRating)
         case .price:
-            break
+            let selectedPrice = PriceOption.allCases[indexPath.row]
+            selectedPrices.insert(selectedPrice)
         case .category:
             let selectedCategory = categories[indexPath.row]
             selectedCategories.insert(selectedCategory)
@@ -184,9 +228,11 @@ extension FilterDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         switch filterOptionType {
         case .rating:
-            break
+            let selectedRating = RatingOption.allCases[indexPath.row]
+            selectedRatings.remove(selectedRating)
         case .price:
-            break
+            let selectedPrice = PriceOption.allCases[indexPath.row]
+            selectedPrices.remove(selectedPrice)
         case .category:
             let selectedCategory = categories[indexPath.row]
             selectedCategories.remove(selectedCategory)

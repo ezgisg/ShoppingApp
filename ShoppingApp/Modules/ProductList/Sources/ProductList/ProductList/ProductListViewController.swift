@@ -47,6 +47,7 @@ public class ProductListViewController: BaseViewController {
     // MARK: - Variables
     var category = String()
     var categories = [CategoryResponseElement]()
+    //TODO: filtrelemede diğer seçimlerde de resim çıkıp-kaybolacak
     var sortingOption: SortingOption = .none {
         didSet {
             if sortingOption == .none {
@@ -56,6 +57,10 @@ public class ProductListViewController: BaseViewController {
             }
         }
     }
+    
+    var selectedRatings: Set<RatingOption> = []
+    var selectedPrices: Set<PriceOption> = []
+    
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
@@ -216,13 +221,25 @@ private extension ProductListViewController {
     //TODO: Düzenlenecek
     @objc private func filterTapped() {
         let filterVC = FilterViewController()
+        filterVC.hidesBottomBarWhenPushed = true
         filterVC.categories = self.categories
         filterVC.selectedCategories = self.selectedCategories
-        filterVC.hidesBottomBarWhenPushed = true
-        
+        filterVC.selectedPrices = selectedPrices
+        filterVC.selectedRatings = selectedRatings
         filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
             guard let self else { return }
             self.selectedCategories = selectedCategories
+        }
+        filterVC.onPricesSelected = { [weak self]  selectedPrices in
+            guard let self else { return }
+            self.selectedPrices = selectedPrices
+            print("***** selectedPrices:", selectedPrices)
+        }
+        
+        filterVC.onRatingsSelected = { [weak self]  selectedRatings in
+            guard let self else { return }
+            self.selectedRatings = selectedRatings
+            print("***** selectedRatings:", selectedRatings)
         }
         
         navigationController?.pushViewController(filterVC, animated: true)

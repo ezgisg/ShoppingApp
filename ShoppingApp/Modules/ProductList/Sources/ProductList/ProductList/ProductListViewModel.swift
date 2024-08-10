@@ -102,6 +102,7 @@ public enum PriceOption: Int, CaseIterable {
 // MARK: - ProductListViewModelProtocol
 public protocol ProductListViewModelProtocol: AnyObject {
     var delegate: ProductListViewModelDelegate? { get set }
+    var filterDelegate: FilterDelegate? { get set }
     var categories: [CategoryResponseElement] { get }
     var filteredProducts: ProductListResponse { get set }
     var selectedSortingOption: SortingOption { get set }
@@ -109,9 +110,18 @@ public protocol ProductListViewModelProtocol: AnyObject {
     var selectedRatings: Set<RatingOption> { get set }
     var selectedPrices: Set<PriceOption> { get set }
     
+    var filterInitialSelectedCategories: Set<CategoryResponseElement> { get set }
+    var filterInitialSelectedRatings: Set<RatingOption> { get set }
+    var filterInitialSelectedPrices: Set<PriceOption> { get set }
+
+    var isDifferentFromInitialsOnFilter: Bool { get }
+    
     func fetchProducts()
     func sortProducts()
     func filterProductsWithSelections()
+    
+    func clearAllFilters()
+    
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -120,9 +130,17 @@ public protocol ProductListViewModelDelegate: AnyObject {
     func manageSortingStatus(isSortingActive: Bool)
 }
 
-// MARK: - ProductListViewModelDelegate
+// MARK: - FilterDelegate
+public protocol FilterDelegate: AnyObject {
+    func controlAllButtonStatus(filterCount: Int)
+    func reloadTableView()
+}
+
+
+
+// MARK: - ProductListViewModelProtocol
 public final class ProductListViewModel: ProductListViewModelProtocol {
- 
+   
     // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
     private var products: ProductListResponse = []
@@ -132,6 +150,7 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
     
     // MARK: - Variables
     public var delegate: ProductListViewModelDelegate?
+    public var filterDelegate: FilterDelegate?
     public var categories: [CategoryResponseElement] = []
     public var filteredProducts: ProductListResponse = []
     public var selectedSortingOption: SortingOption = .none {
@@ -144,13 +163,18 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
             ///Added main.async otherwise collection view animation dont work
             DispatchQueue.main.async {  [weak self] in
                 guard let self else { return }
-                ///Calling this method just here is enough because categories always set screen to screen
                 filterProductsWithSelections()
             }
         }
     }
     public var selectedRatings: Set<RatingOption> = []
     public var selectedPrices: Set<PriceOption> = []
+    
+    
+    public var filterInitialSelectedCategories: Set<CategoryResponseElement> = []
+    public var filterInitialSelectedRatings: Set<RatingOption> = []
+    public var filterInitialSelectedPrices: Set<PriceOption> = []
+
     
     // MARK: - Init
     public init(categories: [CategoryResponseElement]) {
@@ -191,7 +215,10 @@ public extension ProductListViewModel {
     }
     
     func filterProductsWithSelections() {
-        guard filterCount != 0 else { return filteredProducts = products }
+        guard filterCount != 0
+        else {
+            delegate?.manageFilterStatus(filterCount: filterCount)
+            return filteredProducts = products }
         filteredProducts = products.filter { product in
             var matchesCategory = true
             var matchesRating = true
@@ -239,5 +266,21 @@ public extension ProductListViewModel {
         delegate?.manageSortingStatus(isSortingActive: isSortingActive)
     }
     
+    var isDifferentFromInitialsOnFilter: Bool {
+        return filterInitialSelectedPrices != selectedPrices ||
+               filterInitialSelectedRatings != selectedRatings ||
+               filterInitialSelectedCategories != selectedCategories
+    }
+    
+    func clearAllFilters() {
+        guard filterCount > 0 else {
+            filterDelegate?.controlAllButtonStatus(filterCount: filterCount)
+            return }
+        selectedPrices = []
+        selectedRatings = []
+        selectedCategories = []
+        filterDelegate?.reloadTableView()
+        filterDelegate?.controlAllButtonStatus(filterCount: filterCount)
+    }
+    
 }
-

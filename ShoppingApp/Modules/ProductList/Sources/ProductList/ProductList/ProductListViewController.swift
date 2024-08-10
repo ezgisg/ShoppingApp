@@ -55,6 +55,12 @@ public class ProductListViewController: BaseViewController {
 //        showLoadingView()
         viewModel.fetchProducts()
     }
+    
+    ///There is common viewmodel and selection datas
+    public override func viewWillAppear(_ animated: Bool) {
+        viewModel.filterProductsWithSelections()
+        collectionView.reloadData()
+    }
         
     // MARK: - Module init
     public init(
@@ -179,29 +185,29 @@ private extension ProductListViewController {
     }
     
     @objc private func filterTapped() {
-        let filterVC = FilterViewController()
+        let filterVC = FilterViewController(viewModel: viewModel)
         filterVC.hidesBottomBarWhenPushed = true
-        filterVC.categories = viewModel.categories
-        filterVC.selectedCategories = viewModel.selectedCategories
-        filterVC.selectedPrices = viewModel.selectedPrices
-        filterVC.selectedRatings = viewModel.selectedRatings
-        
-        filterVC.initialSelectedCategories = viewModel.selectedCategories
-        filterVC.initialSelectedPrices = viewModel.selectedPrices
-        filterVC.initialSelectedRatings = viewModel.selectedRatings
-        
-        filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
-            guard let self else { return }
-            viewModel.selectedCategories = selectedCategories
-        }
-        filterVC.onPricesSelected = { [weak self]  selectedPrices in
-            guard let self else { return }
-            viewModel.selectedPrices = selectedPrices
-        }
-        filterVC.onRatingsSelected = { [weak self]  selectedRatings in
-            guard let self else { return }
-            viewModel.selectedRatings = selectedRatings
-        }
+//        filterVC.viewModel.categories = viewModel.categories
+//        filterVC.selectedCategories = viewModel.selectedCategories
+//        filterVC.selectedPrices = viewModel.selectedPrices
+//        filterVC.selectedRatings = viewModel.selectedRatings
+//        
+//        filterVC.initialSelectedCategories = viewModel.selectedCategories
+//        filterVC.initialSelectedPrices = viewModel.selectedPrices
+//        filterVC.initialSelectedRatings = viewModel.selectedRatings
+//        
+//        filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
+//            guard let self else { return }
+//            viewModel.selectedCategories = selectedCategories
+//        }
+//        filterVC.onPricesSelected = { [weak self]  selectedPrices in
+//            guard let self else { return }
+//            viewModel.selectedPrices = selectedPrices
+//        }
+//        filterVC.onRatingsSelected = { [weak self]  selectedRatings in
+//            guard let self else { return }
+//            viewModel.selectedRatings = selectedRatings
+//        }
         navigationController?.pushViewController(filterVC, animated: true)
     }
 }

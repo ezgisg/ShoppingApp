@@ -10,7 +10,6 @@ import Base
 import UIKit
 
 //TODO:localizable
-
 // MARK: - FilterViewController
 final class FilterViewController: BaseViewController {
     
@@ -21,26 +20,13 @@ final class FilterViewController: BaseViewController {
     @IBOutlet private weak var button: UIButton!
     
     // MARK: - Module Components
-    private var viewModel = FilterViewModel()
-    
-    // MARK: - Variables
-    var categories: [CategoryResponseElement] = []
-    var selectedCategories: Set<CategoryResponseElement> = []
-    var selectedRatings: Set<RatingOption> = []
-    var selectedPrices: Set<PriceOption> = []
-    
-    var initialSelectedCategories: Set<CategoryResponseElement> = []
-    var initialSelectedRatings: Set<RatingOption> = []
-    var initialSelectedPrices: Set<PriceOption> = []
-    
-    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
-    var onRatingsSelected: ((Set<RatingOption>)->Void)?
-    var onPricesSelected: ((Set<PriceOption>)->Void)?
-    
-    
+    public var viewModel: ProductListViewModelProtocol
+
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.filterDelegate = self
+        keepInitials()
         setupUI()
         setupTableView()
         controlButtonStatus()
@@ -51,7 +37,8 @@ final class FilterViewController: BaseViewController {
     }
     
     // MARK: - Module init
-    public init() {
+    public init(viewModel: ProductListViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -120,32 +107,22 @@ private extension FilterViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
     @objc final func didTapBackButton() {
-        guard selectedPrices != initialSelectedPrices ||
-                selectedRatings != initialSelectedRatings ||
-                selectedCategories != initialSelectedCategories else { return dismissView()  }
+        let isDifferentFromInitials = viewModel.isDifferentFromInitialsOnFilter
+        guard isDifferentFromInitials else { return dismissView()  }
         showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
             guard let self else { return }
+            returnToInitials()
             dismissView()
         }
     }
     
     @objc final func didTapRightButton() {
-        clearAllFilter()
+        viewModel.clearAllFilters()
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     @IBAction final func buttonTapped(_ sender: Any) {
-        if let onCategoriesSelected {
-            onCategoriesSelected(selectedCategories)
-        }
-        if let onRatingsSelected {
-            onRatingsSelected(selectedRatings)
-        }
-        if let onPricesSelected {
-            onPricesSelected(selectedPrices)
-        }
         dismissView()
     }
 }
@@ -166,27 +143,27 @@ extension FilterViewController: UITableViewDataSource {
         
         switch option {
         case .rating:
-            if selectedRatings.count != 0 {
-                let ratingsValuesString = selectedRatings.map { $0.stringValue }.joined(separator: ", ")
+            if viewModel.selectedRatings.count != 0 {
+                let ratingsValuesString = viewModel.selectedRatings.map { $0.stringValue }.joined(separator: ", ")
                 isThereSubtitle = true
                 subtitleText = ratingsValuesString
-                text = "\(option.stringValue) (\(selectedRatings.count))"
+                text = "\(option.stringValue) (\(viewModel.selectedRatings.count))"
             }
             cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
         case .price:
-            if selectedPrices.count != 0 {
-                let ratingsValuesString = selectedPrices.map { $0.stringValue }.joined(separator: ", ")
+            if viewModel.selectedPrices.count != 0 {
+                let ratingsValuesString = viewModel.selectedPrices.map { $0.stringValue }.joined(separator: ", ")
                 isThereSubtitle = true
                 subtitleText = ratingsValuesString
-                text = "\(option.stringValue) (\(selectedPrices.count))"
+                text = "\(option.stringValue) (\(viewModel.selectedPrices.count))"
             }
             cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
         case .category:
-            if selectedCategories.count != 0 {
-                let categoryValuesString = selectedCategories.map { $0.value ?? "N/A" }.joined(separator: ", ")
+            if viewModel.selectedCategories.count != 0 {
+                let categoryValuesString = viewModel.selectedCategories.map { $0.value ?? "N/A" }.joined(separator: ", ")
                 isThereSubtitle = true
                 subtitleText = categoryValuesString
-                text = "\(option.stringValue) (\(selectedCategories.count))"
+                text = "\(option.stringValue) (\(viewModel.selectedCategories.count))"
             }
             cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
         }
@@ -199,26 +176,26 @@ extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let option = FilterOption.allCases[indexPath.row]
         let detailVC = FilterDetailViewController(filterOptionType: option)
-        detailVC.categories = categories
-        detailVC.selectedCategories = selectedCategories
-        detailVC.selectedPrices = selectedPrices
-        detailVC.selectedRatings = selectedRatings
-        detailVC.initialSelectedCategories = selectedCategories
-        detailVC.initialSelectedPrices = selectedPrices
-        detailVC.initialSelectedRatings = selectedRatings
+        detailVC.categories = viewModel.categories
+        detailVC.selectedCategories = viewModel.selectedCategories
+        detailVC.selectedPrices = viewModel.selectedPrices
+        detailVC.selectedRatings = viewModel.selectedRatings
+        detailVC.initialSelectedCategories = viewModel.selectedCategories
+        detailVC.initialSelectedPrices = viewModel.selectedPrices
+        detailVC.initialSelectedRatings = viewModel.selectedRatings
         detailVC.onCategoriesSelected = { [weak self]  selectedCategories in
             guard let self else { return }
-            self.selectedCategories = selectedCategories
+            viewModel.selectedCategories = selectedCategories
             controlButtonStatus()
         }
         detailVC.onPricesSelected = { [weak self]  selectedPrices in
             guard let self else { return }
-            self.selectedPrices = selectedPrices
+            viewModel.selectedPrices = selectedPrices
             controlButtonStatus()
         }
         detailVC.onRatingsSelected = { [weak self]  selectedRatings in
             guard let self else { return }
-            self.selectedRatings = selectedRatings
+            viewModel.selectedRatings = selectedRatings
             controlButtonStatus()
         }
         navigationController?.pushViewController(detailVC, animated: false)
@@ -228,17 +205,30 @@ extension FilterViewController: UITableViewDelegate {
 //MARK: - Helpers
 private extension FilterViewController {
     final func controlButtonStatus() {
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        let count = viewModel.selectedPrices.count + viewModel.selectedRatings.count + viewModel.selectedCategories.count
         navigationItem.rightBarButtonItem?.isEnabled = count > 0 ? true : false
     }
-    final func clearAllFilter() {
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
-        if count > 0 {
-            selectedPrices = []
-            selectedRatings = []
-            selectedCategories = []
-            tableView.reloadData()
-        }
+    
+    final func keepInitials() {
+        viewModel.filterInitialSelectedPrices = viewModel.selectedPrices
+        viewModel.filterInitialSelectedRatings = viewModel.selectedRatings
+        viewModel.filterInitialSelectedCategories = viewModel.selectedCategories
+    }
+    
+    final func returnToInitials() {
+        viewModel.selectedPrices = viewModel.filterInitialSelectedPrices
+        viewModel.selectedRatings = viewModel.filterInitialSelectedRatings
+        viewModel.selectedCategories = viewModel.filterInitialSelectedCategories
+    }
+}
+
+
+extension FilterViewController: FilterDelegate {
+    func controlAllButtonStatus(filterCount: Int) {
         controlButtonStatus()
+    }
+    
+    func reloadTableView() {
+        tableView.reloadData()
     }
 }

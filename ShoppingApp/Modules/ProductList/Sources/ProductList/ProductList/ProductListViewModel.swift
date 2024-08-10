@@ -101,44 +101,65 @@ public enum PriceOption: Int, CaseIterable {
 
 // MARK: - ProductListViewModelProtocol
 public protocol ProductListViewModelProtocol: AnyObject {
-    var products: ProductListResponse { get set }
-    var filteredProducts: ProductListResponse { get set }
-    func fetchProducts()
-    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>)
-    
     var delegate: ProductListViewModelDelegate? { get set }
-//    var category: String { get }
     var categories: [CategoryResponseElement] { get }
+    var filteredProducts: ProductListResponse { get set }
+    var selectedSortingOption: SortingOption { get set }
+    var selectedCategories: Set<CategoryResponseElement> { get set }
+    var selectedRatings: Set<RatingOption> { get set }
+    var selectedPrices: Set<PriceOption> { get set }
     
-
+    func fetchProducts()
+    func sortProducts()
+    func filterProductsWithSelections()
 }
 
 // MARK: - ProductListViewModelDelegate
 public protocol ProductListViewModelDelegate: AnyObject {
-    func reloadCollectionView()
+    func manageFilterStatus(filterCount: Int)
+    func manageSortingStatus(isSortingActive: Bool)
 }
 
 // MARK: - ProductListViewModelDelegate
 public final class ProductListViewModel: ProductListViewModelProtocol {
-    
-    public var delegate: ProductListViewModelDelegate?
+ 
+    // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
+    private var products: ProductListResponse = []
+    private var filterCount: Int {
+        return selectedPrices.count + selectedRatings.count + selectedCategories.count
+    }
     
+    // MARK: - Variables
+    public var delegate: ProductListViewModelDelegate?
     public var categories: [CategoryResponseElement] = []
-    public var products: ProductListResponse = []
     public var filteredProducts: ProductListResponse = []
+    public var selectedSortingOption: SortingOption = .none {
+        didSet {
+            sortProducts()
+        }
+    }
+    public var selectedCategories =  Set<CategoryResponseElement>() {
+        didSet {
+            ///Added main.async otherwise collection view animation dont work
+            DispatchQueue.main.async {  [weak self] in
+                guard let self else { return }
+                ///Calling this method just here is enough because categories always set screen to screen
+                filterProductsWithSelections()
+            }
+        }
+    }
+    public var selectedRatings: Set<RatingOption> = []
+    public var selectedPrices: Set<PriceOption> = []
     
-
-    
-
-    
+    // MARK: - Init
     public init(categories: [CategoryResponseElement]) {
         self.categories = categories
     }
     
 }
 
-
+// MARK: - ProductListViewModel
 public extension ProductListViewModel {
     func fetchProducts() {
         if categories.count == 1, 
@@ -149,7 +170,7 @@ public extension ProductListViewModel {
                 case .success(let products):
                     self.products = products
                     filteredProducts = products
-                    delegate?.reloadCollectionView()
+                    delegate?.manageFilterStatus(filterCount: filterCount)
                 case .failure(_):
                     debugPrint("Ürünler yüklenemedi")
                 }
@@ -161,7 +182,7 @@ public extension ProductListViewModel {
                 case .success(let products):
                     self.products = products
                     filteredProducts = products
-                    delegate?.reloadCollectionView()
+                    delegate?.manageFilterStatus(filterCount: filterCount)
                 case .failure(_):
                     debugPrint("Ürünler yüklenemedi")
                 }
@@ -169,47 +190,54 @@ public extension ProductListViewModel {
         }
     }
     
-    func fetchProductsWithSelections(categories: Set<CategoryResponseElement>, selectedRatings: Set<RatingOption>, selectedPrices: Set<PriceOption>) {
-        if categories.isEmpty && selectedRatings.isEmpty && selectedPrices.isEmpty {
-            filteredProducts = products
-        } else {
-            filteredProducts = products.filter { product in
-                var matchesCategory = true
-                var matchesRating = true
-                var matchesPrice = true
-                
+    func filterProductsWithSelections() {
+        guard filterCount != 0 else { return filteredProducts = products }
+        filteredProducts = products.filter { product in
+            var matchesCategory = true
+            var matchesRating = true
+            var matchesPrice = true
             
-                if !categories.isEmpty {
-                    guard let productCategory = product.category else { return false }
-                    matchesCategory = categories.contains { $0.value == productCategory }
-                }
-                
-         
-                if !selectedRatings.isEmpty {
-                    guard let productRating = product.rating?.rate else { return false }
-                    matchesRating = selectedRatings.contains {
-                        return $0.rawValue...($0.rawValue + 1.0) ~= productRating
-                    }
-                }
-                
-         
-                if !selectedPrices.isEmpty {
-                    guard let productPrice = product.price else { return false }
-                    matchesPrice = selectedPrices.contains {
-                        switch $0 {
-                        case .oneToTen:
-                            return 1...10 ~= productPrice
-                        case .tenToHundred:
-                            return 10...100 ~= productPrice
-                        case .hundredPlus:
-                            return productPrice >= 100
-                        }
-                    }
-                }
-                
-                return matchesCategory && matchesRating && matchesPrice
+            if !selectedCategories.isEmpty {
+                guard let productCategory = product.category else { return false }
+                matchesCategory = selectedCategories.contains { $0.value == productCategory }
             }
+            if !selectedRatings.isEmpty {
+                guard let productRating = product.rating?.rate else { return false }
+                matchesRating = selectedRatings.contains {
+                    return $0.rawValue...($0.rawValue + 1.0) ~= productRating
+                }
+            }
+            if !selectedPrices.isEmpty {
+                guard let productPrice = product.price else { return false }
+                matchesPrice = selectedPrices.contains {
+                    switch $0 {
+                    case .oneToTen:
+                        return 1...10 ~= productPrice
+                    case .tenToHundred:
+                        return 10...100 ~= productPrice
+                    case .hundredPlus:
+                        return productPrice >= 100
+                    }
+                }
+            }
+            return matchesCategory && matchesRating && matchesPrice
         }
-        delegate?.reloadCollectionView()
+        delegate?.manageFilterStatus(filterCount: filterCount)
     }
+    
+    func sortProducts() {
+        var isSortingActive = true
+        switch selectedSortingOption {
+        case .highestPrice:
+            filteredProducts.sort { $0.price ?? 0 > $1.price ?? 0 }
+        case .lowestPrice:
+            filteredProducts.sort { $0.price ?? 0 < $1.price ?? 0}
+        case .none:
+            filteredProducts.sort { $0.id ?? 0 < $1.id ?? 0}
+            isSortingActive = false
+        }
+        delegate?.manageSortingStatus(isSortingActive: isSortingActive)
+    }
+    
 }
+

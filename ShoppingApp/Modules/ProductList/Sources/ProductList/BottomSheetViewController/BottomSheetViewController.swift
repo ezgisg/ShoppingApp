@@ -13,7 +13,7 @@ import Base
 import UIKit
 
 //MARK: - Enums
-enum SortingOption:  Int, CaseIterable {
+public enum SortingOption:  Int, CaseIterable {
     case none = 0
     case highestPrice = 1
     case lowestPrice = 2

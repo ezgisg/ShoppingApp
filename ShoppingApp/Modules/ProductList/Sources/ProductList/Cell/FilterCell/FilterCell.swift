@@ -41,7 +41,7 @@ private extension FilterCell {
 
 //MARK: - Configure
 extension FilterCell {
-    func configureWith(text: String) {
+    func configureWith(text: String? = "") {
         label.text = text
     }
 }

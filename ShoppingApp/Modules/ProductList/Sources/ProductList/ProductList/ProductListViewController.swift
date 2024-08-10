@@ -32,21 +32,9 @@ public class ProductListViewController: BaseViewController {
     @IBOutlet private weak var containerView: UIView!
 
     
-    // MARK: - Variables
-
-    var sortingOption: SortingOption = .none {
-        didSet {
-            if sortingOption == .none {
-                selectedSortingImage.isHidden = true
-            } else {
-                selectedSortingImage.isHidden = false
-            }
-        }
-    }
-    
-
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
+    ///Item count in a collectionview row to manage different layouts
     private var itemCount: Double = 2 {
         didSet {
             let layout = createCompositionalLayout()
@@ -55,28 +43,6 @@ public class ProductListViewController: BaseViewController {
             applySnapshot()
         }
     }
-    
-    
-    private var selectedCategories = Set<CategoryResponseElement>() {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                viewModel.fetchProductsWithSelections(categories: selectedCategories, selectedRatings: selectedRatings, selectedPrices: selectedPrices)
-                controlFilterStatus()
-            }
-        }
-    }
-    private var selectedRatings: Set<RatingOption> = [] {
-        didSet {
-            
-        }
-    }
-    private var selectedPrices: Set<PriceOption> = [] {
-        didSet {
-            
-        }
-    }
-    
     
     // MARK: - Module Components
     public var viewModel: ProductListViewModelProtocol
@@ -89,16 +55,7 @@ public class ProductListViewController: BaseViewController {
 //        showLoadingView()
         viewModel.fetchProducts()
     }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        collectionView.reloadData()
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
-        if count > 0 {
-            viewModel.fetchProductsWithSelections(categories: selectedCategories, selectedRatings: selectedRatings, selectedPrices: selectedPrices)
-        }
-
-    }
-    
+        
     // MARK: - Module init
     public init(
         viewModel: ProductListViewModelProtocol) {
@@ -185,7 +142,10 @@ private extension ProductListViewController {
         filterTopView.addGestureRecognizer(filterTapGesture)
         filterTopView.isUserInteractionEnabled = true
     }
-    
+}
+
+//MARK: Actions
+private extension ProductListViewController {
     @objc final func bigLayoutTapped() {
         guard itemCount != 1 else { return }
         itemCount = 1
@@ -208,60 +168,41 @@ private extension ProductListViewController {
     
 
     @objc private func sortingTapped() {
-        let bottomSheetVC = BottomSheetViewController(selectedOption: sortingOption)
+        let bottomSheetVC = BottomSheetViewController(selectedOption: viewModel.selectedSortingOption)
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         bottomSheetVC.modalTransitionStyle = .crossDissolve
         bottomSheetVC.applySorting = { [weak self] selectedOption in
             guard let self else { return }
-            applySorting(option: selectedOption)
-            sortingOption = selectedOption
+            viewModel.selectedSortingOption = selectedOption
         }
         present(bottomSheetVC, animated: true, completion: nil)
     }
     
-    //TODO: Düzenlenecek
     @objc private func filterTapped() {
         let filterVC = FilterViewController()
         filterVC.hidesBottomBarWhenPushed = true
         filterVC.categories = viewModel.categories
-        filterVC.selectedCategories = selectedCategories
-        filterVC.selectedPrices = selectedPrices
-        filterVC.selectedRatings = selectedRatings
+        filterVC.selectedCategories = viewModel.selectedCategories
+        filterVC.selectedPrices = viewModel.selectedPrices
+        filterVC.selectedRatings = viewModel.selectedRatings
         
-        filterVC.initialSelectedCategories = selectedCategories
-        filterVC.initialSelectedPrices = selectedPrices
-        filterVC.initialSelectedRatings = selectedRatings
+        filterVC.initialSelectedCategories = viewModel.selectedCategories
+        filterVC.initialSelectedPrices = viewModel.selectedPrices
+        filterVC.initialSelectedRatings = viewModel.selectedRatings
         
         filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
             guard let self else { return }
-            self.selectedCategories = selectedCategories
+            viewModel.selectedCategories = selectedCategories
         }
         filterVC.onPricesSelected = { [weak self]  selectedPrices in
             guard let self else { return }
-            self.selectedPrices = selectedPrices
-            print("***** selectedPrices:", selectedPrices)
+            viewModel.selectedPrices = selectedPrices
         }
-        
         filterVC.onRatingsSelected = { [weak self]  selectedRatings in
             guard let self else { return }
-            self.selectedRatings = selectedRatings
-            print("***** selectedRatings:", selectedRatings)
+            viewModel.selectedRatings = selectedRatings
         }
-        
         navigationController?.pushViewController(filterVC, animated: true)
-    }
-    
-
-    private func applySorting(option: SortingOption) {
-        switch option {
-        case .highestPrice:
-            viewModel.filteredProducts.sort { $0.price ?? 0 > $1.price ?? 0 }
-        case .lowestPrice:
-            viewModel.filteredProducts.sort { $0.price ?? 0 < $1.price ?? 0}
-        case .none:
-            viewModel.filteredProducts.sort { $0.id ?? 0 < $1.id ?? 0}
-        }
-        applySnapshot()
     }
 }
 
@@ -275,8 +216,8 @@ private extension ProductListViewController {
             case .filter:
                 let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
                 let category = viewModel.categories[indexPath.row]
-                cell.configureWith(text: category.value ?? "")
-                cell.isSelectedCell = selectedCategories.contains(category)
+                cell.configureWith(text: category.value)
+                cell.isSelectedCell = viewModel.selectedCategories.contains(category)
                 return cell
             case .products:
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCell.self, for: indexPath)
@@ -300,7 +241,6 @@ private extension ProductListViewController {
         
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
-    
 }
 
 // MARK: - Compositional Layout
@@ -351,47 +291,36 @@ private extension ProductListViewController {
 
 //MARK: - UICollectionViewDelegate
 extension ProductListViewController: UICollectionViewDelegate {
- 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let sectionType = ProductListScreenSectionType(rawValue: indexPath.section) else { return }
         switch sectionType {
         case .filter:
             let selectedCategory = viewModel.categories[indexPath.row]
-            if selectedCategories.contains(selectedCategory) {
-                selectedCategories.remove(selectedCategory)
+            if viewModel.selectedCategories.contains(selectedCategory) {
+                viewModel.selectedCategories.remove(selectedCategory)
             } else {
-                selectedCategories.insert(selectedCategory)
+                viewModel.selectedCategories.insert(selectedCategory)
             }
-            
             collectionView.reloadData()
-
         case .products:
             break
-        }
-    }
-    
-}
-
-//MARK: - Helpers
-private extension ProductListViewController {
-    final func controlFilterStatus() {
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
-        let isFiltering = count != 0
-        selectedFilterImage.isHidden = !isFiltering
-        if isFiltering {
-            filterLabel.text = "\(L10nGeneric.filter.localized()) (\(count))"
-        } else {
-            filterLabel.text = L10nGeneric.filter.localized()
         }
     }
 }
 
 //MARK: - ProductListViewModelDelegate
 extension ProductListViewController: ProductListViewModelDelegate {
-    public func reloadCollectionView() {
+    public func manageFilterStatus(filterCount: Int) {
         hideLoadingView()
+        let isFiltering = filterCount != 0
+        selectedFilterImage.isHidden = !isFiltering
+        filterLabel.text = isFiltering ? "\(L10nGeneric.filter.localized()) (\(filterCount))" : L10nGeneric.filter.localized()
+        viewModel.sortProducts()
+    }
+    
+    public func manageSortingStatus(isSortingActive: Bool) {
+        selectedSortingImage.isHidden = !isSortingActive
         applySnapshot()
-        applySorting(option: sortingOption)
     }
 }
 

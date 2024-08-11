@@ -25,15 +25,14 @@ final class FilterViewController: BaseViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.filterDelegate = self
         keepInitials()
         setupUI()
         setupTableView()
-        controlButtonStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        viewModel.filterDelegate = self
+        controlButtonStatus()
     }
     
     // MARK: - Module init
@@ -72,6 +71,7 @@ private extension FilterViewController {
         
         setupCustomBackButton()
         setupCustomRightButton()
+        controlButtonStatus()
     }
     
     final func setupTableView() {
@@ -80,12 +80,7 @@ private extension FilterViewController {
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
-}
-
-
-//TODO: image ları asset olarak ekle
-//MARK: - Actions
-private extension FilterViewController {
+    
     final func setupCustomBackButton() {
         let backButton = UIButton(type: .system)
         backButton.setTitle(nil, for: .normal)
@@ -102,6 +97,12 @@ private extension FilterViewController {
         let rightButtonItem = UIBarButtonItem(customView: rightButton)
         navigationItem.rightBarButtonItem = rightButtonItem
     }
+}
+
+//TODO: image ları asset olarak ekle
+//MARK: - Actions
+private extension FilterViewController {
+
     
     @objc final func dismissView() {
         navigationController?.popViewController(animated: true)
@@ -109,7 +110,7 @@ private extension FilterViewController {
     
     @objc final func didTapBackButton() {
         let isDifferentFromInitials = viewModel.isDifferentFromInitialsOnFilter
-        guard isDifferentFromInitials else { return dismissView()  }
+        guard isDifferentFromInitials else { return dismissView() }
         showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
             guard let self else { return }
             returnToInitials()
@@ -137,35 +138,24 @@ extension FilterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
         let option = FilterOption.allCases[indexPath.row]
         
-        var isThereSubtitle = false
-        var subtitleText = ""
-        var text = option.stringValue
+        func configureCell(for option: FilterOption, selectedItems: [String], text: String) {
+            ///To manage show the selections on subtitle and show selection count
+            let isThereSubtitle = !selectedItems.isEmpty
+            let subtitleText = selectedItems.joined(separator: ", ")
+            let finalText = isThereSubtitle ? "\(text) (\(selectedItems.count))" : text
+            cell.configureWith(text: finalText, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
+        }
         
         switch option {
         case .rating:
-            if viewModel.selectedRatings.count != 0 {
-                let ratingsValuesString = viewModel.selectedRatings.map { $0.stringValue }.joined(separator: ", ")
-                isThereSubtitle = true
-                subtitleText = ratingsValuesString
-                text = "\(option.stringValue) (\(viewModel.selectedRatings.count))"
-            }
-            cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
+            let selectedRatings = viewModel.selectedRatings.map { $0.stringValue }
+            configureCell(for: option, selectedItems: selectedRatings, text: option.stringValue)
         case .price:
-            if viewModel.selectedPrices.count != 0 {
-                let ratingsValuesString = viewModel.selectedPrices.map { $0.stringValue }.joined(separator: ", ")
-                isThereSubtitle = true
-                subtitleText = ratingsValuesString
-                text = "\(option.stringValue) (\(viewModel.selectedPrices.count))"
-            }
-            cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
+            let selectedPrices = viewModel.selectedPrices.map { $0.stringValue }
+            configureCell(for: option, selectedItems: selectedPrices, text: option.stringValue)
         case .category:
-            if viewModel.selectedCategories.count != 0 {
-                let categoryValuesString = viewModel.selectedCategories.map { $0.value ?? "N/A" }.joined(separator: ", ")
-                isThereSubtitle = true
-                subtitleText = categoryValuesString
-                text = "\(option.stringValue) (\(viewModel.selectedCategories.count))"
-            }
-            cell.configureWith(text: text, isSelectionImageHidden: true, containerViewBackgroundColor: .clear, isThereSubtitle: isThereSubtitle, subtitleText: subtitleText)
+            let selectedCategories = viewModel.selectedCategories.map { $0.value ?? "N/A" }
+            configureCell(for: option, selectedItems: selectedCategories, text: option.stringValue)
         }
         return cell
     }
@@ -175,29 +165,7 @@ extension FilterViewController: UITableViewDataSource {
 extension FilterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let option = FilterOption.allCases[indexPath.row]
-        let detailVC = FilterDetailViewController(filterOptionType: option)
-        detailVC.categories = viewModel.categories
-        detailVC.selectedCategories = viewModel.selectedCategories
-        detailVC.selectedPrices = viewModel.selectedPrices
-        detailVC.selectedRatings = viewModel.selectedRatings
-        detailVC.initialSelectedCategories = viewModel.selectedCategories
-        detailVC.initialSelectedPrices = viewModel.selectedPrices
-        detailVC.initialSelectedRatings = viewModel.selectedRatings
-        detailVC.onCategoriesSelected = { [weak self]  selectedCategories in
-            guard let self else { return }
-            viewModel.selectedCategories = selectedCategories
-            controlButtonStatus()
-        }
-        detailVC.onPricesSelected = { [weak self]  selectedPrices in
-            guard let self else { return }
-            viewModel.selectedPrices = selectedPrices
-            controlButtonStatus()
-        }
-        detailVC.onRatingsSelected = { [weak self]  selectedRatings in
-            guard let self else { return }
-            viewModel.selectedRatings = selectedRatings
-            controlButtonStatus()
-        }
+        let detailVC = FilterDetailViewController(filterOptionType: option, viewModel: viewModel)
         navigationController?.pushViewController(detailVC, animated: false)
     }
 }
@@ -205,8 +173,9 @@ extension FilterViewController: UITableViewDelegate {
 //MARK: - Helpers
 private extension FilterViewController {
     final func controlButtonStatus() {
-        let count = viewModel.selectedPrices.count + viewModel.selectedRatings.count + viewModel.selectedCategories.count
+        let count = viewModel.filterCount
         navigationItem.rightBarButtonItem?.isEnabled = count > 0 ? true : false
+        tableView.reloadData()
     }
     
     final func keepInitials() {
@@ -223,8 +192,9 @@ private extension FilterViewController {
 }
 
 
+//MARK: - FilterDelegate
 extension FilterViewController: FilterDelegate {
-    func controlAllButtonStatus(filterCount: Int) {
+    func controlAllButtonStatus() {
         controlButtonStatus()
     }
     

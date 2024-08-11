@@ -187,27 +187,6 @@ private extension ProductListViewController {
     @objc private func filterTapped() {
         let filterVC = FilterViewController(viewModel: viewModel)
         filterVC.hidesBottomBarWhenPushed = true
-//        filterVC.viewModel.categories = viewModel.categories
-//        filterVC.selectedCategories = viewModel.selectedCategories
-//        filterVC.selectedPrices = viewModel.selectedPrices
-//        filterVC.selectedRatings = viewModel.selectedRatings
-//        
-//        filterVC.initialSelectedCategories = viewModel.selectedCategories
-//        filterVC.initialSelectedPrices = viewModel.selectedPrices
-//        filterVC.initialSelectedRatings = viewModel.selectedRatings
-//        
-//        filterVC.onCategoriesSelected = { [weak self]  selectedCategories in
-//            guard let self else { return }
-//            viewModel.selectedCategories = selectedCategories
-//        }
-//        filterVC.onPricesSelected = { [weak self]  selectedPrices in
-//            guard let self else { return }
-//            viewModel.selectedPrices = selectedPrices
-//        }
-//        filterVC.onRatingsSelected = { [weak self]  selectedRatings in
-//            guard let self else { return }
-//            viewModel.selectedRatings = selectedRatings
-//        }
         navigationController?.pushViewController(filterVC, animated: true)
     }
 }

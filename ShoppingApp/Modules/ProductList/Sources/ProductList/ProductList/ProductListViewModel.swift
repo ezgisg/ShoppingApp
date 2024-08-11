@@ -14,7 +14,7 @@ import Network
 ///Using enums to conveniently manage localizable
 //MARK: - Enums
 //MARK: - FilterOption
-enum FilterOption: Int, CaseIterable {
+public enum FilterOption: Int, CaseIterable {
     case rating = 0
     case price = 1
     case category = 2
@@ -27,18 +27,6 @@ enum FilterOption: Int, CaseIterable {
             return "Price"
         case .category:
             return "Category"
-        }
-    }
-    
-    //TODO: burası kullanılmadı, kullanılamazsa silinecek
-    var options: Any {
-        switch self {
-        case .rating:
-            return RatingOption.allCases
-        case .price:
-            return PriceOption.allCases
-        case .category:
-            return [CategoryResponseElement].self
         }
     }
 }
@@ -103,8 +91,10 @@ public enum PriceOption: Int, CaseIterable {
 public protocol ProductListViewModelProtocol: AnyObject {
     var delegate: ProductListViewModelDelegate? { get set }
     var filterDelegate: FilterDelegate? { get set }
+    
     var categories: [CategoryResponseElement] { get }
     var filteredProducts: ProductListResponse { get set }
+    var filterCount: Int { get }
     var selectedSortingOption: SortingOption { get set }
     var selectedCategories: Set<CategoryResponseElement> { get set }
     var selectedRatings: Set<RatingOption> { get set }
@@ -113,15 +103,85 @@ public protocol ProductListViewModelProtocol: AnyObject {
     var filterInitialSelectedCategories: Set<CategoryResponseElement> { get set }
     var filterInitialSelectedRatings: Set<RatingOption> { get set }
     var filterInitialSelectedPrices: Set<PriceOption> { get set }
+    
+    var filterDetailInitialSelectedCategories: Set<CategoryResponseElement> { get set }
+    var filterDetailInitialSelectedRatings: Set<RatingOption> { get set }
+    var filterDetailInitialSelectedPrices: Set<PriceOption> { get set }
 
     var isDifferentFromInitialsOnFilter: Bool { get }
+    var isDifferentFromInitialsOnFilterDetail: Bool { get }
     
     func fetchProducts()
     func sortProducts()
     func filterProductsWithSelections()
     
-    func clearAllFilters()
+    func getIndexOfSelection(for filterOption: FilterOption) -> [IndexPath]
     
+    func clearAllFilters()
+    func clearOrSelectAllFilters(filterOptionType: FilterOption)
+}
+
+//MARK: - ProductListViewModelProtocol
+public extension ProductListViewModelProtocol {
+    
+    func clearAllFilters() {
+        guard filterCount > 0 else {
+            filterDelegate?.controlAllButtonStatus()
+            return
+        }
+        clearSelections()
+        filterDelegate?.controlAllButtonStatus()
+    }
+
+    func clearOrSelectAllFilters(filterOptionType: FilterOption) {
+        let count: Int = {
+            switch filterOptionType {
+            case .category:
+                return selectedCategories.count
+            case .price:
+                return selectedPrices.count
+            case .rating:
+                return selectedRatings.count
+            }
+        }()
+        
+        if count > 0 {
+            clearSelections(for: filterOptionType)
+            filterDelegate?.controlAllButtonStatus()
+            filterDelegate?.reloadTableView()
+        } else {
+            selectAllFilters(for: filterOptionType)
+            filterDelegate?.controlAllButtonStatus()
+        }
+    }
+    
+    func clearSelections(for filterOptionType: FilterOption? = nil) {
+        if let filterOptionType {
+            switch filterOptionType {
+            case .rating:
+                selectedRatings = []
+            case .price:
+                selectedPrices = []
+            case .category:
+                selectedCategories = []
+            }
+        } else {
+            selectedPrices = []
+            selectedRatings = []
+            selectedCategories = []
+        }
+    }
+
+    func selectAllFilters(for filterOptionType: FilterOption) {
+        switch filterOptionType {
+        case .rating:
+            selectedRatings = Set(RatingOption.allCases)
+        case .price:
+            selectedPrices = Set(PriceOption.allCases)
+        case .category:
+            selectedCategories = Set(categories)
+        }
+    }
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -132,27 +192,30 @@ public protocol ProductListViewModelDelegate: AnyObject {
 
 // MARK: - FilterDelegate
 public protocol FilterDelegate: AnyObject {
-    func controlAllButtonStatus(filterCount: Int)
+    func controlAllButtonStatus()
     func reloadTableView()
+    func setupSelections()
 }
 
-
+public extension FilterDelegate {
+    func setupSelections() { }
+}
 
 // MARK: - ProductListViewModelProtocol
 public final class ProductListViewModel: ProductListViewModelProtocol {
-   
     // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
     private var products: ProductListResponse = []
-    private var filterCount: Int {
-        return selectedPrices.count + selectedRatings.count + selectedCategories.count
-    }
-    
+
     // MARK: - Variables
-    public var delegate: ProductListViewModelDelegate?
-    public var filterDelegate: FilterDelegate?
+    public weak var delegate: ProductListViewModelDelegate?
+    public weak var filterDelegate: FilterDelegate?
+    
     public var categories: [CategoryResponseElement] = []
     public var filteredProducts: ProductListResponse = []
+    public var filterCount: Int {
+        return selectedPrices.count + selectedRatings.count + selectedCategories.count
+    }
     public var selectedSortingOption: SortingOption = .none {
         didSet {
             sortProducts()
@@ -164,16 +227,22 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
             DispatchQueue.main.async {  [weak self] in
                 guard let self else { return }
                 filterProductsWithSelections()
+                filterDelegate?.controlAllButtonStatus()
             }
         }
     }
     public var selectedRatings: Set<RatingOption> = []
     public var selectedPrices: Set<PriceOption> = []
     
-    
+    ///To keep the initial values ​​of  filterViewControl. It is required for control at the exit from the filtering screen.
     public var filterInitialSelectedCategories: Set<CategoryResponseElement> = []
     public var filterInitialSelectedRatings: Set<RatingOption> = []
     public var filterInitialSelectedPrices: Set<PriceOption> = []
+    
+    ///To keep the initial values ​​of  filterDetailViewControl. It is required for control at the exit from the filtering screen.
+    public var filterDetailInitialSelectedCategories: Set<CategoryResponseElement> = []
+    public var filterDetailInitialSelectedRatings: Set<RatingOption> = []
+    public var filterDetailInitialSelectedPrices: Set<PriceOption> = []
 
     
     // MARK: - Init
@@ -272,15 +341,33 @@ public extension ProductListViewModel {
                filterInitialSelectedCategories != selectedCategories
     }
     
-    func clearAllFilters() {
-        guard filterCount > 0 else {
-            filterDelegate?.controlAllButtonStatus(filterCount: filterCount)
-            return }
-        selectedPrices = []
-        selectedRatings = []
-        selectedCategories = []
-        filterDelegate?.reloadTableView()
-        filterDelegate?.controlAllButtonStatus(filterCount: filterCount)
+    var isDifferentFromInitialsOnFilterDetail: Bool {
+        return filterDetailInitialSelectedPrices != selectedPrices ||
+               filterDetailInitialSelectedRatings != selectedRatings ||
+               filterDetailInitialSelectedCategories != selectedCategories
     }
     
+    func getIndexOfSelection(for filterOption: FilterOption) -> [IndexPath] {
+        func appendIndexes<T>(from items: [T], in allCases: [T]) -> [IndexPath] where T: Equatable {
+            var indexes: [IndexPath] = []
+            
+            for item in items {
+                if let index = allCases.firstIndex(of: item) {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    indexes.append(indexPath)
+                }
+            }
+            return indexes
+        }
+        
+        switch filterOption {
+        case .rating:
+            return appendIndexes(from: Array(selectedRatings), in: RatingOption.allCases)
+        case .price:
+            return appendIndexes(from: Array(selectedPrices), in: PriceOption.allCases)
+        case .category:
+            return appendIndexes(from: Array(selectedCategories), in: categories)
+        }
+    }
 }
+

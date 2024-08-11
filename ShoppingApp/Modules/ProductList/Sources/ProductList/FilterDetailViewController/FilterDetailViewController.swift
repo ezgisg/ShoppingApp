@@ -17,6 +17,7 @@ import UIKit
 // MARK: - FilterDetailViewController
 final class FilterDetailViewController: BaseViewController {
 
+
     // MARK: - Outlets
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var tableView: UITableView!
@@ -24,22 +25,11 @@ final class FilterDetailViewController: BaseViewController {
     @IBOutlet private weak var button: UIButton!
     @IBOutlet private weak var searchBar: UISearchBar!
     
+    // MARK: - Module Components
+    public var viewModel: ProductListViewModelProtocol
+    
     //MARK: - Variables
     var filterOptionType: FilterOption
-    var categories: [CategoryResponseElement] = []
-    var selectedCategories: Set<CategoryResponseElement> = []
-    
-    //TODO: ratings de multiple selection engellenecek ya da caseleri değiştirelim 2-3 3-4 4-5 gibi ..
-    var selectedRatings: Set<RatingOption> = []
-    var selectedPrices: Set<PriceOption> = []
-    
-    var initialSelectedCategories: Set<CategoryResponseElement> = []
-    var initialSelectedRatings: Set<RatingOption> = []
-    var initialSelectedPrices: Set<PriceOption> = []
-    
-    var onCategoriesSelected: ((Set<CategoryResponseElement>) -> Void)?
-    var onRatingsSelected: ((Set<RatingOption>)->Void)?
-    var onPricesSelected: ((Set<PriceOption>)->Void)?
     
     var isRightButtonForClear: Bool = true
     
@@ -48,14 +38,17 @@ final class FilterDetailViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        keepInitials()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        viewModel.filterDelegate = self
         setupInitialSelections()
     }
     
     // MARK: - Module init
-    public init(filterOptionType: FilterOption) {
+    public init(filterOptionType: FilterOption, viewModel: ProductListViewModelProtocol) {
+        self.viewModel = viewModel
         self.filterOptionType = filterOptionType
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
@@ -64,59 +57,6 @@ final class FilterDetailViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
  
-}
-
-//MARK: - Actions
-private extension FilterDetailViewController {
-    @IBAction func buttonTapped(_ sender: Any) {
-        if let onCategoriesSelected {
-            onCategoriesSelected(selectedCategories)
-        }
-        if let onRatingsSelected {
-            onRatingsSelected(selectedRatings)
-        }
-        if let onPricesSelected {
-            onPricesSelected(selectedPrices)
-        }
-        dismissView()
-    }
-    
-    @objc final func dismissView() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    final func setupCustomBackButton() {
-        let backButton = UIButton(type: .system)
-        backButton.setTitle(nil, for: .normal)
-        backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        let backBarButtonItem = UIBarButtonItem(customView: backButton)
-        navigationItem.leftBarButtonItem = backBarButtonItem
-    }
-    
-    final func setupCustomRightButton() {
-        let rightButton = UIButton(type: .system)
-        rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
-        let rightButtonItem = UIBarButtonItem(customView: rightButton)
-        navigationItem.rightBarButtonItem = rightButtonItem
-        controlButtonStatus()
-    }
-      
-    //TODO: Filtreleme yoksa alert göstermeden doğrudan geriye dönecek
-    @objc final func didTapBackButton() {
-        guard selectedPrices != initialSelectedPrices ||
-                selectedRatings != initialSelectedRatings ||
-                selectedCategories != initialSelectedCategories else { return dismissView()  }
-        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
-            guard let self else { return }
-            dismissView()
-        }
-    }
-    
-    //TODO: filtreleme yoksa button pasif olacak
-    @objc final func didTapRightButton() {
-        clearAllFilter()
-    }
 }
 
 //MARK: - Setups
@@ -152,51 +92,67 @@ private extension FilterDetailViewController {
         tableView.register(nibWithCellClass: SelectionCell.self, at: Bundle.module)
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
-
     
-    func setupInitialSelections() {
-        var indexes: [IndexPath] = []
-        switch filterOptionType {
-        case .rating:
-            for rating in selectedRatings {
-                if let index = RatingOption.allCases.firstIndex(of: rating) {
-                    let indexPath = IndexPath(row: index, section: 0)
-                    indexes.append(indexPath)
-                }
-            }
-        case .price:
-            for price in selectedPrices {
-                if let index = PriceOption.allCases.firstIndex(of: price) {
-                    let indexPath = IndexPath(row: index, section: 0)
-                    indexes.append(indexPath)
-                }
-            }
-        case .category:
-            for selectedCategory in selectedCategories {
-                if let index = categories.firstIndex(of: selectedCategory) {
-                    let indexPath = IndexPath(row: index, section: 0)
-                    indexes.append(indexPath)
-                }
-            }
-        }
-
+    final func setupInitialSelections() {
+        let indexes = viewModel.getIndexOfSelection(for: filterOptionType)
         for indexPath in indexes {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
         }
-        
     }
     
+    final func setupCustomBackButton() {
+        let backButton = UIButton(type: .system)
+        backButton.setTitle(nil, for: .normal)
+        backButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        let backBarButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = backBarButtonItem
+    }
+    
+    final func setupCustomRightButton() {
+        let rightButton = UIButton(type: .system)
+        rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
+        let rightButtonItem = UIBarButtonItem(customView: rightButton)
+        navigationItem.rightBarButtonItem = rightButtonItem
+        controlButtonStatus()
+    }
+}
+
+//MARK: - Actions
+private extension FilterDetailViewController {
+    @objc final func didTapBackButton() {
+        let isDifferentFromInitials = viewModel.isDifferentFromInitialsOnFilterDetail
+        guard isDifferentFromInitials else { return dismissView() }
+        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
+            guard let self else { return }
+            returnToInitials()
+            dismissView()
+        }
+    }
+    
+    @objc final func didTapRightButton() {
+        viewModel.clearOrSelectAllFilters(filterOptionType: filterOptionType)
+    }
+    
+    @IBAction func buttonTapped(_ sender: Any) {
+        dismissView()
+    }
+    
+    @objc final func dismissView() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 //MARK: - UITableViewDataSource
 extension FilterDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch filterOptionType {
-        case .rating, .price:
-            (filterOptionType.options as AnyObject).count ?? 0
+        case .rating:
+            return RatingOption.allCases.count
+        case .price:
+            return PriceOption.allCases.count
         case .category:
-            categories.count
+            return viewModel.categories.count
         }
     }
     
@@ -208,12 +164,10 @@ extension FilterDetailViewController: UITableViewDataSource {
         case .price:
             cell.configureWith(text: PriceOption.allCases[indexPath.row].stringValue, containerViewBackgroundColor: .clear)
         case .category:
-            cell.configureWith(text: categories[indexPath.row].value ?? "", containerViewBackgroundColor: .clear)
+            cell.configureWith(text: viewModel.categories[indexPath.row].value ?? "", containerViewBackgroundColor: .clear)
         }
-        
         return cell
     }
-    
 }
 
 //MARK: - UITableViewDelegate
@@ -221,15 +175,14 @@ extension FilterDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch filterOptionType {
         case .rating:
-            print(indexPath)
             let selectedRating = RatingOption.allCases[indexPath.row]
-            selectedRatings.insert(selectedRating)
+            viewModel.selectedRatings.insert(selectedRating)
         case .price:
             let selectedPrice = PriceOption.allCases[indexPath.row]
-            selectedPrices.insert(selectedPrice)
+            viewModel.selectedPrices.insert(selectedPrice)
         case .category:
-            let selectedCategory = categories[indexPath.row]
-            selectedCategories.insert(selectedCategory)
+            let selectedCategory = viewModel.categories[indexPath.row]
+            viewModel.selectedCategories.insert(selectedCategory)
         }
         controlButtonStatus()
     }
@@ -238,53 +191,63 @@ extension FilterDetailViewController: UITableViewDelegate {
         switch filterOptionType {
         case .rating:
             let selectedRating = RatingOption.allCases[indexPath.row]
-            selectedRatings.remove(selectedRating)
+            viewModel.selectedRatings.remove(selectedRating)
         case .price:
             let selectedPrice = PriceOption.allCases[indexPath.row]
-            selectedPrices.remove(selectedPrice)
+            viewModel.selectedPrices.remove(selectedPrice)
         case .category:
-            let selectedCategory = categories[indexPath.row]
-            selectedCategories.remove(selectedCategory)
-            
+            let selectedCategory = viewModel.categories[indexPath.row]
+            viewModel.selectedCategories.remove(selectedCategory)
         }
         controlButtonStatus()
     }
-    
 }
 
 
 //MARK: - Helpers
 private extension FilterDetailViewController {
     final func controlButtonStatus() {
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
+        var count: Int {
+            switch filterOptionType {
+            case .rating:
+                viewModel.selectedRatings.count
+            case .price:
+                viewModel.selectedPrices.count
+            case .category:
+                viewModel.selectedCategories.count
+            }
+        }
         isRightButtonForClear = count > 0 ? true : false
         let newTitle = isRightButtonForClear ? "Temizle" : "Hepsini Seç"
         guard let rightButton = navigationItem.rightBarButtonItem?.customView as? UIButton else { return }
-        
         rightButton.setTitle(newTitle, for: .normal)
         rightButton.sizeToFit()
+        setupInitialSelections()
     }
-    final func clearAllFilter() {
-        let count = selectedPrices.count + selectedRatings.count + selectedCategories.count
-        if count > 0,
-            isRightButtonForClear {
-            selectedPrices = []
-            selectedRatings = []
-            selectedCategories = []
-            tableView.reloadData()
-        } else {
-            switch filterOptionType {
-            case .rating:
-                selectedRatings = Set(RatingOption.allCases)
-            case .price:
-                selectedPrices = Set(PriceOption.allCases)
-            case .category:
-                selectedCategories = Set(categories)
-            }
-            setupInitialSelections()
+
+    final func keepInitials() {
+        viewModel.filterDetailInitialSelectedPrices = viewModel.selectedPrices
+        viewModel.filterDetailInitialSelectedRatings = viewModel.selectedRatings
+        viewModel.filterDetailInitialSelectedCategories = viewModel.selectedCategories
+    }
     
-            
-        }
+    final func returnToInitials() {
+        viewModel.selectedPrices = viewModel.filterDetailInitialSelectedPrices
+        viewModel.selectedRatings = viewModel.filterDetailInitialSelectedRatings
+        viewModel.selectedCategories = viewModel.filterDetailInitialSelectedCategories
+    }
+}
+
+extension FilterDetailViewController: FilterDelegate {
+    func controlAllButtonStatus() {
         controlButtonStatus()
+    }
+    
+    func reloadTableView() {
+        tableView.reloadData()
+    }
+    
+    func setupSelections() {
+        setupInitialSelections()
     }
 }

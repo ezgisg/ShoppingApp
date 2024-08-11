@@ -35,6 +35,9 @@ final class FilterDetailViewController: BaseViewController {
         setupUI()
         setupTableView()
         viewModel.keepInitials(isDetailScreen: true)
+        viewModel.setOptions()
+        setupKeyboardObservers()
+        searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,9 +94,12 @@ private extension FilterDetailViewController {
     }
     
     final func setupInitialSelections() {
-        let indexes = viewModel.getIndexOfSelection(for: filterOptionType)
-        for indexPath in indexes {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        DispatchQueue.main.async {  [weak self] in
+            guard let self else { return }
+            let indexes = viewModel.getIndexOfSelection(for: filterOptionType)
+            for indexPath in indexes {
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            }
         }
     }
     
@@ -145,11 +151,11 @@ extension FilterDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch filterOptionType {
         case .rating:
-            return RatingOption.allCases.count
+            return viewModel.filteredRatings.count
         case .price:
-            return PriceOption.allCases.count
+            return viewModel.filteredPrices.count
         case .category:
-            return viewModel.categories.count
+            return viewModel.filteredCategories.count
         }
     }
     
@@ -157,11 +163,20 @@ extension FilterDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withClass: SelectionCell.self, for: indexPath)
         switch filterOptionType {
         case .rating:
-            cell.configureWith(text: RatingOption.allCases[indexPath.row].stringValue, containerViewBackgroundColor: .clear)
+            cell.configureWith(
+                text: viewModel.filteredRatings[indexPath.row].stringValue,
+                containerViewBackgroundColor: .clear
+            )
         case .price:
-            cell.configureWith(text: PriceOption.allCases[indexPath.row].stringValue, containerViewBackgroundColor: .clear)
+            cell.configureWith(
+                text: viewModel.filteredPrices[indexPath.row].stringValue,
+                containerViewBackgroundColor: .clear
+            )
         case .category:
-            cell.configureWith(text: viewModel.categories[indexPath.row].value ?? "", containerViewBackgroundColor: .clear)
+            cell.configureWith(
+                text: viewModel.filteredCategories[indexPath.row].value ?? "",
+                containerViewBackgroundColor: .clear
+            )
         }
         return cell
     }
@@ -172,13 +187,13 @@ extension FilterDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch filterOptionType {
         case .rating:
-            let selectedRating = RatingOption.allCases[indexPath.row]
+            let selectedRating = viewModel.filteredRatings[indexPath.row]
             viewModel.selectedRatings.insert(selectedRating)
         case .price:
-            let selectedPrice = PriceOption.allCases[indexPath.row]
+            let selectedPrice = viewModel.filteredPrices[indexPath.row]
             viewModel.selectedPrices.insert(selectedPrice)
         case .category:
-            let selectedCategory = viewModel.categories[indexPath.row]
+            let selectedCategory = viewModel.filteredCategories[indexPath.row]
             viewModel.selectedCategories.insert(selectedCategory)
         }
         controlButtonStatus()
@@ -187,13 +202,13 @@ extension FilterDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         switch filterOptionType {
         case .rating:
-            let selectedRating = RatingOption.allCases[indexPath.row]
+            let selectedRating = viewModel.filteredRatings[indexPath.row]
             viewModel.selectedRatings.remove(selectedRating)
         case .price:
-            let selectedPrice = PriceOption.allCases[indexPath.row]
+            let selectedPrice = viewModel.filteredPrices[indexPath.row]
             viewModel.selectedPrices.remove(selectedPrice)
         case .category:
-            let selectedCategory = viewModel.categories[indexPath.row]
+            let selectedCategory = viewModel.filteredCategories[indexPath.row]
             viewModel.selectedCategories.remove(selectedCategory)
         }
         controlButtonStatus()
@@ -219,6 +234,12 @@ private extension FilterDetailViewController {
         rightButton.setTitle(newTitle, for: .normal)
         rightButton.sizeToFit()
         setupInitialSelections()
+    }
+}
+
+extension FilterDetailViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchWithTextInSelections(text: searchText, filterOption: filterOptionType)
     }
 }
 

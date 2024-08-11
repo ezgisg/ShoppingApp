@@ -150,7 +150,6 @@ private extension BottomSheetViewController {
     private func selectDefaultOption() {
         let indexPath = IndexPath(row: selectedOption.rawValue, section: 0)
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
     }
 }
 

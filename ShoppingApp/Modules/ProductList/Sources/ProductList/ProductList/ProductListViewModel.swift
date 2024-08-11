@@ -5,6 +5,8 @@
 //  Created by Ezgi Sümer Günaydın on 6.08.2024.
 //
 
+//TODO: filter sonucunda ürün yoksa empty view koyulacak
+//TODO: kaç ürün var filtrede göster
 import AppResources
 import Foundation
 import Network
@@ -34,6 +36,9 @@ public protocol ProductListViewModelProtocol: AnyObject {
     var filterDetailInitialSelectedRatings: Set<RatingOption> { get set }
     var filterDetailInitialSelectedPrices: Set<PriceOption> { get set }
     var isDifferentFromInitialsOnFilterDetail: Bool { get }
+    var filteredRatings: [RatingOption] { get set }
+    var filteredPrices: [PriceOption] { get set }
+    var filteredCategories: [CategoryResponseElement] { get set }
     
     ///Functions for productList
     func fetchProducts()
@@ -46,6 +51,8 @@ public protocol ProductListViewModelProtocol: AnyObject {
     ///Functions for filterDetailVC
     func clearOrSelectAllFilters(filterOptionType: FilterOption)
     func getIndexOfSelection(for filterOption: FilterOption) -> [IndexPath]
+    func searchWithTextInSelections(text: String, filterOption: FilterOption)
+    func setOptions()
     
     ///Common Functions for filter screens
     func keepInitials(isDetailScreen: Bool)
@@ -71,6 +78,7 @@ public extension FilterDelegate {
 
 // MARK: - ProductListViewModelProtocol
 public final class ProductListViewModel: ProductListViewModelProtocol {
+    
     // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
     private var products: ProductListResponse = []
@@ -113,6 +121,9 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
     public var filterDetailInitialSelectedCategories: Set<CategoryResponseElement> = []
     public var filterDetailInitialSelectedRatings: Set<RatingOption> = []
     public var filterDetailInitialSelectedPrices: Set<PriceOption> = []
+    public var filteredRatings: [RatingOption] = []
+    public var filteredPrices: [PriceOption] = []
+    public var filteredCategories: [CategoryResponseElement] = []
     
     // MARK: - Init
     public init(categories: [CategoryResponseElement]) {
@@ -227,16 +238,14 @@ public extension ProductListViewModel {
     }
     
     func clearOrSelectAllFilters(filterOptionType: FilterOption) {
-        let count: Int = {
-            switch filterOptionType {
-            case .category:
-                return selectedCategories.count
-            case .price:
-                return selectedPrices.count
-            case .rating:
-                return selectedRatings.count
-            }
-        }()
+        let count: Int = switch filterOptionType {
+        case .category:
+            selectedCategories.count
+        case .price:
+            selectedPrices.count
+        case .rating:
+            selectedRatings.count
+        }
         
         if count > 0 {
             clearSelections(for: filterOptionType)
@@ -263,13 +272,41 @@ public extension ProductListViewModel {
         
         switch filterOption {
         case .rating:
-            return appendIndexes(from: Array(selectedRatings), in: RatingOption.allCases)
+            return appendIndexes(from: Array(selectedRatings), in: filteredRatings)
         case .price:
-            return appendIndexes(from: Array(selectedPrices), in: PriceOption.allCases)
+            return appendIndexes(from: Array(selectedPrices), in: filteredPrices)
         case .category:
-            return appendIndexes(from: Array(selectedCategories), in: categories)
+            return appendIndexes(from: Array(selectedCategories), in: filteredCategories)
         }
     }
+    
+    func searchWithTextInSelections(text: String, filterOption: FilterOption) {
+        guard text != ""
+        else {
+            setOptions()
+            filterDelegate?.setupSelections()
+            filterDelegate?.reloadTableView()
+            return
+        }
+        switch filterOption {
+        case .rating:
+            filteredRatings = RatingOption.allCases.filter { $0.stringValue.lowercased().contains(text.lowercased()) }
+        case .price:
+            filteredPrices = PriceOption.allCases.filter { $0.stringValue.lowercased().contains(text.lowercased()) }
+        case .category:
+            filteredCategories = categories.filter {
+                return $0.value?.lowercased().contains(text.lowercased()) == true }
+        }
+        filterDelegate?.setupSelections()
+        filterDelegate?.reloadTableView()
+    }
+    
+    func setOptions() {
+        filteredPrices = PriceOption.allCases
+        filteredRatings = RatingOption.allCases
+        filteredCategories = categories
+    }
+    
     func keepInitials(isDetailScreen: Bool) {
         if isDetailScreen {
             filterDetailInitialSelectedPrices = selectedPrices

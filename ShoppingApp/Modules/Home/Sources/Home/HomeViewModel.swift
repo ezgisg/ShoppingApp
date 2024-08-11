@@ -26,7 +26,7 @@ protocol HomeViewModelDelegate: AnyObject {
 
 // MARK: - HomeViewModel
 final class HomeViewModel {
-    var delegate: HomeViewModelDelegate?
+    weak var delegate: HomeViewModelDelegate?
     private var service: ShoppingServiceProtocol
     
     init(service: ShoppingServiceProtocol = ShoppingService()) {

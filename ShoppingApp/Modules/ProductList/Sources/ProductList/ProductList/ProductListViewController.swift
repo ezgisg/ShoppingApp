@@ -56,8 +56,9 @@ public class ProductListViewController: BaseViewController {
         viewModel.fetchProducts()
     }
     
-    ///There is common viewmodel and selection datas
+    ///There is a common viewmodel and selection datas
     public override func viewWillAppear(_ animated: Bool) {
+        ///To get new result when back from filterPage with new filters
         viewModel.filterProductsWithSelections()
         collectionView.reloadData()
     }

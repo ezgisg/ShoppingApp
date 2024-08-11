@@ -25,7 +25,7 @@ protocol CategoriesViewModelDelegate: AnyObject {
 
 // MARK: - CategoriesViewModel
 final class CategoriesViewModel {
-    var delegate: CategoriesViewModelDelegate?
+    weak var delegate: CategoriesViewModelDelegate?
     private var service: ShoppingServiceProtocol
     
     var filteredCategories: [CategoryResponseElement] = []

@@ -13,10 +13,8 @@ import AppResources
 import Base
 import UIKit
 
-
 // MARK: - FilterDetailViewController
 final class FilterDetailViewController: BaseViewController {
-
 
     // MARK: - Outlets
     @IBOutlet private weak var containerView: UIView!
@@ -31,8 +29,6 @@ final class FilterDetailViewController: BaseViewController {
     //MARK: - Variables
     var filterOptionType: FilterOption
     
-    var isRightButtonForClear: Bool = true
-    
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +38,7 @@ final class FilterDetailViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        ///viewModel.filterDelegate = self added here because filterVC and filterDetailVC uses same delegate
         viewModel.filterDelegate = self
         setupInitialSelections()
     }
@@ -203,7 +200,6 @@ extension FilterDetailViewController: UITableViewDelegate {
     }
 }
 
-
 //MARK: - Helpers
 private extension FilterDetailViewController {
     final func controlButtonStatus() {
@@ -217,7 +213,7 @@ private extension FilterDetailViewController {
                 viewModel.selectedCategories.count
             }
         }
-        isRightButtonForClear = count > 0 ? true : false
+        let isRightButtonForClear = count > 0 ? true : false
         let newTitle = isRightButtonForClear ? "Temizle" : "Hepsini Seç"
         guard let rightButton = navigationItem.rightBarButtonItem?.customView as? UIButton else { return }
         rightButton.setTitle(newTitle, for: .normal)
@@ -238,6 +234,7 @@ private extension FilterDetailViewController {
     }
 }
 
+//MARK: - FilterDetailViewController
 extension FilterDetailViewController: FilterDelegate {
     func controlAllButtonStatus() {
         controlButtonStatus()

@@ -25,12 +25,13 @@ final class FilterViewController: BaseViewController {
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        keepInitials()
         setupUI()
         setupTableView()
+        keepInitials()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        ///viewModel.filterDelegate = self added here because filterVC and filterDetailVC uses same delegate
         viewModel.filterDelegate = self
         controlButtonStatus()
     }
@@ -102,8 +103,6 @@ private extension FilterViewController {
 //TODO: image ları asset olarak ekle
 //MARK: - Actions
 private extension FilterViewController {
-
-    
     @objc final func dismissView() {
         navigationController?.popViewController(animated: true)
     }

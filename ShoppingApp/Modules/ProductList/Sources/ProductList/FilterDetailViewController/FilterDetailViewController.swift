@@ -34,7 +34,7 @@ final class FilterDetailViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        keepInitials()
+        viewModel.keepInitials(isDetailScreen: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,15 +59,15 @@ final class FilterDetailViewController: BaseViewController {
 //MARK: - Setups
 private extension FilterDetailViewController {
     final func setupUI() {
-        self.title = "Filtreleme detay"
+        title = "Filtreleme detay"
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.configureWithOpaqueBackground()
         standardAppearance.backgroundColor = UIColor.tabbarBackgroundColor
         standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.tabbarSelectedColor]
         
-        self.navigationController?.navigationBar.standardAppearance = standardAppearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = standardAppearance
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = standardAppearance
         
         containerView.backgroundColor = .tabbarBackgroundColor
         buttonContainerView.backgroundColor = .white
@@ -122,7 +122,7 @@ private extension FilterDetailViewController {
         guard isDifferentFromInitials else { return dismissView() }
         showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
             guard let self else { return }
-            returnToInitials()
+            viewModel.returnToInitials(isDetailScreen: true)
             dismissView()
         }
     }
@@ -219,18 +219,6 @@ private extension FilterDetailViewController {
         rightButton.setTitle(newTitle, for: .normal)
         rightButton.sizeToFit()
         setupInitialSelections()
-    }
-
-    final func keepInitials() {
-        viewModel.filterDetailInitialSelectedPrices = viewModel.selectedPrices
-        viewModel.filterDetailInitialSelectedRatings = viewModel.selectedRatings
-        viewModel.filterDetailInitialSelectedCategories = viewModel.selectedCategories
-    }
-    
-    final func returnToInitials() {
-        viewModel.selectedPrices = viewModel.filterDetailInitialSelectedPrices
-        viewModel.selectedRatings = viewModel.filterDetailInitialSelectedRatings
-        viewModel.selectedCategories = viewModel.filterDetailInitialSelectedCategories
     }
 }
 

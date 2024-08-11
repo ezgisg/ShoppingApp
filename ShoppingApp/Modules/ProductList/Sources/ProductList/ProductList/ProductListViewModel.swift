@@ -46,6 +46,10 @@ public protocol ProductListViewModelProtocol: AnyObject {
     ///Functions for filterDetailVC
     func clearOrSelectAllFilters(filterOptionType: FilterOption)
     func getIndexOfSelection(for filterOption: FilterOption) -> [IndexPath]
+    
+    ///Common Functions for filter screens
+    func keepInitials(isDetailScreen: Bool)
+    func returnToInitials(isDetailScreen: Bool)
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -160,10 +164,12 @@ public extension ProductListViewModel {
     }
     
     func filterProductsWithSelections() {
-        guard filterCount != 0
+        guard 
+            filterCount != 0
         else {
             delegate?.manageFilterStatus(filterCount: filterCount)
-            return filteredProducts = products }
+            return filteredProducts = products
+        }
         filteredProducts = products.filter { product in
             var matchesCategory = true
             var matchesRating = true
@@ -262,6 +268,29 @@ public extension ProductListViewModel {
             return appendIndexes(from: Array(selectedPrices), in: PriceOption.allCases)
         case .category:
             return appendIndexes(from: Array(selectedCategories), in: categories)
+        }
+    }
+    func keepInitials(isDetailScreen: Bool) {
+        if isDetailScreen {
+            filterDetailInitialSelectedPrices = selectedPrices
+            filterDetailInitialSelectedRatings = selectedRatings
+            filterDetailInitialSelectedCategories = selectedCategories
+        } else {
+            filterInitialSelectedPrices = selectedPrices
+            filterInitialSelectedRatings = selectedRatings
+            filterInitialSelectedCategories = selectedCategories
+        }
+    }
+    
+    func returnToInitials(isDetailScreen: Bool) {
+        if isDetailScreen {
+            selectedPrices = filterDetailInitialSelectedPrices
+            selectedRatings = filterDetailInitialSelectedRatings
+            selectedCategories = filterDetailInitialSelectedCategories
+        } else {
+            selectedPrices = filterInitialSelectedPrices
+            selectedRatings = filterInitialSelectedRatings
+            selectedCategories = filterInitialSelectedCategories
         }
     }
 }

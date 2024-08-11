@@ -27,7 +27,7 @@ final class FilterViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        keepInitials()
+        viewModel.keepInitials(isDetailScreen: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,7 +112,7 @@ private extension FilterViewController {
         guard isDifferentFromInitials else { return dismissView() }
         showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
             guard let self else { return }
-            returnToInitials()
+            viewModel.returnToInitials(isDetailScreen: false)
             dismissView()
         }
     }
@@ -176,20 +176,7 @@ private extension FilterViewController {
         navigationItem.rightBarButtonItem?.isEnabled = count > 0 ? true : false
         tableView.reloadData()
     }
-    
-    final func keepInitials() {
-        viewModel.filterInitialSelectedPrices = viewModel.selectedPrices
-        viewModel.filterInitialSelectedRatings = viewModel.selectedRatings
-        viewModel.filterInitialSelectedCategories = viewModel.selectedCategories
-    }
-    
-    final func returnToInitials() {
-        viewModel.selectedPrices = viewModel.filterInitialSelectedPrices
-        viewModel.selectedRatings = viewModel.filterInitialSelectedRatings
-        viewModel.selectedCategories = viewModel.filterInitialSelectedCategories
-    }
 }
-
 
 //MARK: - FilterDelegate
 extension FilterViewController: FilterDelegate {

@@ -178,8 +178,9 @@ public extension ProductListViewModel {
         guard 
             filterCount != 0
         else {
+            filteredProducts = products
             delegate?.manageFilterStatus(filterCount: filterCount)
-            return filteredProducts = products
+            return
         }
         filteredProducts = products.filter { product in
             var matchesCategory = true

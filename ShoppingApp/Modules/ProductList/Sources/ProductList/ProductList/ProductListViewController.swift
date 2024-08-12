@@ -30,7 +30,8 @@ public class ProductListViewController: BaseViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var containerView: UIView!
-
+    @IBOutlet weak var emptyView: EmptyView!
+    @IBOutlet weak var emptyViewTopConstraint: NSLayoutConstraint!
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<ProductListScreenSectionType, AnyHashable>?
@@ -41,6 +42,11 @@ public class ProductListViewController: BaseViewController {
             collectionView.setCollectionViewLayout(layout, animated: true)
             ///using only set CollectionViewLayout animates causes animation in filter section unnecessarily. With applysnapshot it affects only changed section
             applySnapshot()
+        }
+    }
+    private var cachedFilterSectionHeight: CGFloat? {
+        didSet {
+            emptyViewTopConstraint.constant = cachedFilterSectionHeight ?? 0
         }
     }
     
@@ -56,13 +62,17 @@ public class ProductListViewController: BaseViewController {
         viewModel.fetchProducts()
     }
     
+    public override func viewDidLayoutSubviews() {
+        updateEmptyViewTopConstraint()
+    }
+    
     ///There is a common viewmodel and selection datas
     public override func viewWillAppear(_ animated: Bool) {
         ///To get new result when back from filterPage with new filters
         viewModel.filterProductsWithSelections()
         collectionView.reloadData()
     }
-        
+
     // MARK: - Module init
     public init(
         viewModel: ProductListViewModelProtocol) {
@@ -106,6 +116,14 @@ private extension ProductListViewController {
         sortingLabel.textColor = .darkGray
         
         bigLayoutImage.layer.opacity = 0.3
+        setupEmptyView()
+    }
+    
+    //TODO: Localizable
+    final func setupEmptyView() {
+        emptyView.configure(with: "No Result", titleColor: .tabbarBackgroundColor)
+        emptyView.backgroundColor = .white
+        emptyView.isHidden = true
     }
     
     final func applyGradientToFilterArea() {
@@ -172,7 +190,6 @@ private extension ProductListViewController {
         setupCollectionView()
         setupGestures()
     }
-    
 
     @objc private func sortingTapped() {
         let bottomSheetVC = BottomSheetViewController(selectedOption: viewModel.selectedSortingOption)
@@ -294,6 +311,18 @@ extension ProductListViewController: UICollectionViewDelegate {
     }
 }
 
+//MARK: - Helpers
+extension ProductListViewController {
+    private func updateEmptyViewTopConstraint() {
+        guard cachedFilterSectionHeight == nil else { return }
+        let section1StartIndexPath = IndexPath(item: 0, section: 1)
+        let section1Attributes = collectionView.layoutAttributesForItem(at: section1StartIndexPath)
+        
+        guard let section1Frame = section1Attributes?.frame else { return }
+        cachedFilterSectionHeight = section1Frame.origin.y - collectionView.contentOffset.y
+    }
+}
+
 //MARK: - ProductListViewModelDelegate
 extension ProductListViewController: ProductListViewModelDelegate {
     public func manageFilterStatus(filterCount: Int) {
@@ -301,6 +330,7 @@ extension ProductListViewController: ProductListViewModelDelegate {
         let isFiltering = filterCount != 0
         selectedFilterImage.isHidden = !isFiltering
         filterLabel.text = isFiltering ? "\(L10nGeneric.filter.localized()) (\(filterCount))" : L10nGeneric.filter.localized()
+        emptyView.isHidden = viewModel.filteredProducts.count > 0
         viewModel.sortProducts()
     }
     

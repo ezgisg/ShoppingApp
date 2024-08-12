@@ -13,6 +13,8 @@
                 <outlet property="bigLayoutImage" destination="Nij-hb-B0s" id="Tuk-0U-8zN"/>
                 <outlet property="collectionView" destination="Tie-Zo-ggu" id="atx-xc-uWJ"/>
                 <outlet property="containerView" destination="EO0-9P-RZU" id="NRo-9h-JXX"/>
+                <outlet property="emptyView" destination="5gQ-hz-PBk" id="Hcz-Qq-TSk"/>
+                <outlet property="emptyViewTopConstraint" destination="LBZ-ZV-x6C" id="p76-5G-rg3"/>
                 <outlet property="filterAreaStackView" destination="upf-2j-WwL" id="D3v-7E-1FW"/>
                 <outlet property="filterImage" destination="pqr-nQ-hzV" id="mjp-Mu-BnI"/>
                 <outlet property="filterLabel" destination="uDZ-lb-g3C" id="SUT-Ef-qPr"/>
@@ -223,17 +225,24 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5gQ-hz-PBk" customClass="EmptyView" customModule="Base">
+                            <rect key="frame" x="0.0" y="114" width="375" height="664"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Tie-Zo-ggu" secondAttribute="bottom" id="8gk-mR-9Md"/>
+                        <constraint firstItem="5gQ-hz-PBk" firstAttribute="trailing" secondItem="Tie-Zo-ggu" secondAttribute="trailing" id="AN1-DE-eTT"/>
                         <constraint firstItem="upf-2j-WwL" firstAttribute="leading" secondItem="EO0-9P-RZU" secondAttribute="leading" id="FPq-O3-y7E"/>
                         <constraint firstAttribute="trailing" secondItem="Tie-Zo-ggu" secondAttribute="trailing" id="G0k-VZ-D0Y"/>
+                        <constraint firstItem="5gQ-hz-PBk" firstAttribute="top" secondItem="Tie-Zo-ggu" secondAttribute="top" id="LBZ-ZV-x6C"/>
                         <constraint firstAttribute="trailing" secondItem="upf-2j-WwL" secondAttribute="trailing" id="OBi-iY-Mf5"/>
                         <constraint firstItem="uHx-fR-NfH" firstAttribute="bottom" secondItem="8kg-1K-JWg" secondAttribute="bottom" id="QdF-LK-OMB"/>
                         <constraint firstItem="uHx-fR-NfH" firstAttribute="top" secondItem="8kg-1K-JWg" secondAttribute="top" id="Z4W-RK-4En"/>
                         <constraint firstItem="uHx-fR-NfH" firstAttribute="trailing" secondItem="8kg-1K-JWg" secondAttribute="trailing" id="dcB-qc-ldW"/>
                         <constraint firstItem="cod-Y3-pG9" firstAttribute="trailing" secondItem="WCR-J5-11C" secondAttribute="trailing" id="gnF-EV-Sf9"/>
+                        <constraint firstItem="5gQ-hz-PBk" firstAttribute="leading" secondItem="Tie-Zo-ggu" secondAttribute="leading" id="pH7-XC-3zx"/>
                         <constraint firstItem="Tie-Zo-ggu" firstAttribute="leading" secondItem="EO0-9P-RZU" secondAttribute="leading" id="pwh-ut-fpI"/>
                         <constraint firstItem="cod-Y3-pG9" firstAttribute="top" secondItem="upf-2j-WwL" secondAttribute="top" id="rMB-F8-WaJ"/>
                         <constraint firstItem="Tie-Zo-ggu" firstAttribute="top" secondItem="upf-2j-WwL" secondAttribute="bottom" id="vW4-Wy-a95"/>
@@ -264,6 +273,7 @@
                 <constraint firstItem="EO0-9P-RZU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="OsZ-QW-NV3"/>
                 <constraint firstItem="eHj-V4-KyF" firstAttribute="leading" secondItem="hbN-Jk-1ge" secondAttribute="trailing" constant="-8" id="YzM-28-2Xl"/>
                 <constraint firstItem="eHj-V4-KyF" firstAttribute="bottom" secondItem="hbN-Jk-1ge" secondAttribute="top" constant="8" id="cWf-NB-Llc"/>
+                <constraint firstItem="5gQ-hz-PBk" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="cmJ-n7-hFN"/>
                 <constraint firstItem="EO0-9P-RZU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="eV8-Vl-ngm"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="EO0-9P-RZU" secondAttribute="trailing" id="kKd-Lm-JBB"/>
                 <constraint firstItem="y5k-HE-Xb1" firstAttribute="bottom" secondItem="pqr-nQ-hzV" secondAttribute="top" constant="8" id="ou6-ik-gg1"/>

@@ -21,13 +21,12 @@ public class EmptyView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    
+        setupViews()
     }
     
     private func setupViews() {
         addSubview(label)
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
@@ -37,10 +36,11 @@ public class EmptyView: UIView {
         ])
     }
 
-    public func configure(with title: String) {
+    public func configure(with title: String, titleColor: UIColor = .black, font: UIFont = .boldSystemFont(ofSize: 24)) {
         label.text = title
+        label.textColor = titleColor
+        label.font = font
     }
-    
 }
 
 

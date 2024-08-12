@@ -225,7 +225,16 @@ private extension ProductListViewController {
             case .products:
                 let cell = collectionView.dequeueReusableCell(withClass: ProductCell.self, for: indexPath)
                 if let data = viewModel.filteredProducts[safe: indexPath.row] {
-                    cell.configure(withRating: data.rating?.rate , ratingCount: data.rating?.count, categoryName: data.category, productName: data.title, price: data.price, imagePath: data.image)
+                    cell.configure(withId: data.id, withRating: data.rating?.rate , ratingCount: data.rating?.count, categoryName: data.category, productName: data.title, price: data.price, imagePath: data.image)
+                    cell.onCartTapped = {  [weak self] in
+                        guard let self else { return }
+                        print(data)
+                        handleCartTap(for: data)
+                    }
+                    cell.onFavoriteTapped = { [weak self] in
+                        guard let self else { return }
+                        handleFavoriteTap(for: data)
+                    }
                 }
                 return cell
             }
@@ -321,6 +330,19 @@ extension ProductListViewController {
         guard let section1Frame = section1Attributes?.frame else { return }
         cachedFilterSectionHeight = section1Frame.origin.y - collectionView.contentOffset.y
     }
+    
+     private func handleFavoriteTap(for product: ProductResponseElement?) {
+         //TODO: Favorilere eklenme yapılacak
+        print(product)
+     }
+
+    private func handleCartTap(for product: ProductResponseElement?) {
+         guard let product else { return }
+         let detailBottomVC = DetailBottomViewController(product: product)
+         detailBottomVC.modalPresentationStyle = .overFullScreen
+         detailBottomVC.modalTransitionStyle = .crossDissolve
+         present(detailBottomVC, animated: true, completion: nil)
+     }
 }
 
 //MARK: - ProductListViewModelDelegate

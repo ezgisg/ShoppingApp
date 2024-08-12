@@ -50,36 +50,6 @@
             endingLineNumber = "213"
             landmarkName = "filterProductsWithSelections()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3BB33310-CD3B-4B8F-96AF-7A589C07954A - d624ad8fd8d072fe"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (AppResources.ProductResponseElement) -&gt; Swift.Bool in ProductList.ProductListViewModel.filterProductsWithSelections() -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/ProductList/ProductListViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "212"
-                  endingLineNumber = "212">
-               </Location>
-               <Location
-                  uuid = "3BB33310-CD3B-4B8F-96AF-7A589C07954A - d624ad8fd8d072dd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (AppResources.ProductResponseElement) -&gt; Swift.Bool in ProductList.ProductListViewModel.filterProductsWithSelections() -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/ProductList/ProductListViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "213"
-                  endingLineNumber = "213">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

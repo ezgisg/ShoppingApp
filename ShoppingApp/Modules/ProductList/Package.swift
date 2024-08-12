@@ -26,6 +26,9 @@ let package = Package(
                 "AppResources",
                 "Base",
                 "Network",
+            ],
+            resources: [
+                .process("Resources")
             ]
         ),
         .testTarget(

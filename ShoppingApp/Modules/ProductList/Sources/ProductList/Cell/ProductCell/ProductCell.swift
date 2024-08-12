@@ -23,10 +23,15 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    // MARK: - Properties
+    var onFavoriteTapped: (() -> Void)?
+    var onCartTapped: (() -> Void)?
+    
     //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        setupGestureRecognizers()
     }
     
     override func prepareForReuse() {
@@ -52,11 +57,12 @@ class ProductCell: UICollectionViewCell {
         addFavoriteImage.tintColor = .lightGray
         addCartImage.tintColor = .lightGray
     }
+    
 }
 
 //MARK: - ProductCell Configure
 extension ProductCell {
-    func configure(withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
+    func configure(withId id: Int?, withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
         ratingView.setRating(rating ?? 0)
         ratingCountLabel.text = "(\(String(ratingCount ?? 0)))"
         categoryNameLabel.text = categoryName ?? ""
@@ -67,4 +73,25 @@ extension ProductCell {
         else { return productImage.image = .noImage }
         productImage.loadImage(with: url, contentMode: .scaleAspectFit)
     }
+}
+
+//MARK: ProductCell
+private extension ProductCell {
+    func setupGestureRecognizers() {
+        let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFavorite))
+        addFavoriteImage.isUserInteractionEnabled = true
+        addFavoriteImage.addGestureRecognizer(favoriteTapGesture)
+        
+        let cartTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCart))
+        addCartImage.isUserInteractionEnabled = true
+        addCartImage.addGestureRecognizer(cartTapGesture)
+    }
+    
+    @objc private func didTapFavorite() {
+           onFavoriteTapped?()
+       }
+       
+       @objc private func didTapCart() {
+           onCartTapped?()
+       }
 }

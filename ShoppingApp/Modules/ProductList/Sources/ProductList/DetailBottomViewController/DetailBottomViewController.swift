@@ -80,12 +80,21 @@ private extension DetailBottomViewController {
         CartManager.shared.printCart()
         
         ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
-        UIView.animate(withDuration: 0.1, delay: 1, options: [], animations: {
-            self.warningForAddingCartView.isHidden = false
-            self.warningForAddingCartView.alpha = 0.5
-        }, completion: { _ in
-            self.warningForAddingCartView.isHidden = true
-            self.warningForAddingCartView.alpha = 1
+        warningForAddingCartView.alpha = 0
+        warningForAddingCartView.isHidden = false
+        UIView.animate(withDuration: 0.1, animations: {  [weak self] in
+            guard let self else { return }
+            warningForAddingCartView.alpha = 1
+        }, completion: { [weak self] _ in
+            guard let self else { return }
+            UIView.animate(withDuration: 0.3, delay: 1, options: [], animations: {  [weak self] in
+                guard let self else { return }
+                warningForAddingCartView.alpha = 0
+            }, completion: {  [weak self] _ in
+                guard let self else { return }
+                warningForAddingCartView.isHidden = true
+                warningForAddingCartView.alpha = 1 // Alpha değerini tekrar normal haline getir
+            })
         })
         
     }
@@ -128,7 +137,7 @@ private extension DetailBottomViewController {
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOffset = CGSize(width: 0, height: -2)
         containerView.layer.shadowOpacity = 0.5
-        warningForAddingCartView.backgroundColor = .tabbarBackgroundColor
+        warningForAddingCartView.backgroundColor = .systemYellow
         warningForAddingCartView.layer.cornerRadius = 8
     }
     
@@ -142,7 +151,7 @@ private extension DetailBottomViewController {
         priceLabel.textColor = .black
         sizeLabel.textColor = .darkGray
         goToDetailLabel.textColor = .black
-        warningForAddingCartLabel.textColor = .tabbarSelectedColor
+        warningForAddingCartLabel.textColor = .black
     }
     
     final func setupInitialStatus() {

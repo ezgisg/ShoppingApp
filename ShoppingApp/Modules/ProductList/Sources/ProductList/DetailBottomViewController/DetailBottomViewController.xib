@@ -135,6 +135,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="esE-A8-Y4H"/>
                             </constraints>
+                            <color key="tintColor" red="0.94821261459999995" green="0.94821261459999995" blue="0.94821261459999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" title="Button"/>
                             <connections>
@@ -142,10 +143,10 @@
                             </connections>
                         </button>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ruh-Js-bDA">
-                            <rect key="frame" x="6" y="318" width="381" height="42"/>
+                            <rect key="frame" x="8" y="318" width="377" height="42"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zAp-oe-BtU">
-                                    <rect key="frame" x="0.0" y="-2" width="381" height="46"/>
+                                    <rect key="frame" x="0.0" y="10.999999999999998" width="377" height="20.333333333333329"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -153,7 +154,6 @@
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="zAp-oe-BtU" firstAttribute="height" secondItem="Ruh-Js-bDA" secondAttribute="height" constant="4" id="a9h-Ih-zkG"/>
                                 <constraint firstItem="zAp-oe-BtU" firstAttribute="centerY" secondItem="Ruh-Js-bDA" secondAttribute="centerY" id="aao-1c-nFF"/>
                                 <constraint firstItem="zAp-oe-BtU" firstAttribute="centerX" secondItem="Ruh-Js-bDA" secondAttribute="centerX" id="wty-tV-7W1"/>
                                 <constraint firstItem="zAp-oe-BtU" firstAttribute="width" secondItem="Ruh-Js-bDA" secondAttribute="width" id="xYR-tz-RbU"/>
@@ -181,7 +181,7 @@
                         <constraint firstItem="bNx-rG-x3J" firstAttribute="leading" secondItem="qvM-52-zaM" secondAttribute="leading" id="ge3-Zc-QRB"/>
                         <constraint firstItem="hxn-N2-nQ7" firstAttribute="top" secondItem="qvM-52-zaM" secondAttribute="top" id="h2e-q7-sXf"/>
                         <constraint firstAttribute="trailing" secondItem="P0g-06-oE3" secondAttribute="trailing" id="h61-1m-R7d"/>
-                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="width" secondItem="r3d-xh-2Wn" secondAttribute="width" constant="4" id="mCs-mX-zUT"/>
+                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="width" secondItem="r3d-xh-2Wn" secondAttribute="width" id="mCs-mX-zUT"/>
                         <constraint firstItem="r3d-xh-2Wn" firstAttribute="leading" secondItem="WpS-4S-qDd" secondAttribute="leading" constant="8" id="nst-rU-FVi"/>
                         <constraint firstItem="r3d-xh-2Wn" firstAttribute="top" secondItem="Puz-oR-gQf" secondAttribute="bottom" constant="12" id="pRl-kt-pKV"/>
                         <constraint firstItem="Ruh-Js-bDA" firstAttribute="centerY" secondItem="r3d-xh-2Wn" secondAttribute="centerY" id="pfW-da-01E"/>

@@ -15,6 +15,7 @@
                 <outlet property="buttonBackgroundView" destination="4c1-jz-QNB" id="Fbl-mj-ioD"/>
                 <outlet property="cargoFeeCountLabel" destination="bhh-Dq-88T" id="6Ib-Fz-ipt"/>
                 <outlet property="cargoFeeLabel" destination="wqk-Cp-42S" id="gd3-NR-Tio"/>
+                <outlet property="collectionView" destination="BwJ-OO-8k7" id="iVQ-9h-uxI"/>
                 <outlet property="detailImageOfDetailStack" destination="vBa-zQ-Vtl" id="WKb-mo-HPf"/>
                 <outlet property="detailImageOfMiniDetailStack" destination="26u-vD-rds" id="a3z-Lc-JQh"/>
                 <outlet property="detailStack" destination="ilO-pG-iGL" id="Q2b-Cb-s8Z"/>
@@ -38,6 +39,7 @@
                 <outlet property="sumLabelofSumStackWithDiscount" destination="PPC-Y4-c6k" id="NW5-u9-PmZ"/>
                 <outlet property="sumStack" destination="NjR-jD-ify" id="dWp-bF-Uc0"/>
                 <outlet property="sumStackWithDiscount" destination="JjT-vb-oOs" id="fhg-c9-ofx"/>
+                <outlet property="topBackgroundView" destination="2uh-et-pn2" id="LyT-qb-Zo1"/>
                 <outlet property="totalDiscountCountLabel" destination="rLx-wr-gFk" id="VTd-XS-bHC"/>
                 <outlet property="totalDiscountLabel" destination="70Y-xu-mWV" id="jez-CS-iVD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -317,14 +319,36 @@
                         <constraint firstItem="9df-HV-nMQ" firstAttribute="top" secondItem="24d-P4-ZXV" secondAttribute="top" constant="16" id="wzz-m2-TcC"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uh-et-pn2">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="421.66666666666669"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-OO-8k7">
+                    <rect key="frame" x="0.0" y="59" width="393" height="362.66666666666669"/>
+                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="H8m-H1-qKt">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemYellowColor"/>
             <constraints>
+                <constraint firstItem="BwJ-OO-8k7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="1SR-G6-UTp"/>
+                <constraint firstItem="BwJ-OO-8k7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="CtF-id-dlq"/>
+                <constraint firstItem="BwJ-OO-8k7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ODn-t3-5PP"/>
+                <constraint firstItem="2uh-et-pn2" firstAttribute="leading" secondItem="BwJ-OO-8k7" secondAttribute="leading" id="RSf-kb-A8F"/>
+                <constraint firstItem="2uh-et-pn2" firstAttribute="bottom" secondItem="BwJ-OO-8k7" secondAttribute="bottom" id="Wzb-Ps-hp8"/>
+                <constraint firstItem="BwJ-OO-8k7" firstAttribute="bottom" secondItem="24d-P4-ZXV" secondAttribute="top" id="YIS-it-bYO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4c1-jz-QNB" secondAttribute="trailing" id="eys-43-s6V"/>
+                <constraint firstItem="2uh-et-pn2" firstAttribute="trailing" secondItem="BwJ-OO-8k7" secondAttribute="trailing" id="foV-je-RBB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Vtu-2p-ff7" secondAttribute="bottom" constant="24" id="geh-AH-AG3"/>
                 <constraint firstItem="24d-P4-ZXV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gnR-wv-lLJ"/>
                 <constraint firstItem="4c1-jz-QNB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="jQX-at-FWo"/>
+                <constraint firstItem="2uh-et-pn2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="nQi-wl-ILr"/>
                 <constraint firstAttribute="bottom" secondItem="24d-P4-ZXV" secondAttribute="bottom" id="oWl-NI-rDS"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="24d-P4-ZXV" secondAttribute="trailing" id="y8m-52-93F"/>
             </constraints>
@@ -337,6 +361,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

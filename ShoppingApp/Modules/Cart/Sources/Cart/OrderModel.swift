@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderModel: Decodable {
+public struct OrderModel: Decodable {
     let id: Int?
     let userId: Int?
     let date: String?
@@ -23,7 +23,7 @@ struct OrderModel: Decodable {
     }
 }
 
-struct Cart: Decodable {
+public struct Cart: Decodable {
     let productId: Int?
     let size: String?
     var quantity: Int?

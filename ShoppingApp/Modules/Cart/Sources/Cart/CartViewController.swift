@@ -20,7 +20,6 @@ public class CartViewController: UIViewController {
     @IBOutlet weak var detailStack: UIStackView!
     @IBOutlet weak var orderSummaryLabelOfDetailStack: UILabel!
     @IBOutlet weak var detailImageOfDetailStack: UIImageView!
-    
     @IBOutlet weak var sumLabelOfDetailStack: UILabel!
     @IBOutlet weak var sumCountLabelOfDetailStack: UILabel!
     @IBOutlet weak var discountLabel: UILabel!
@@ -48,9 +47,20 @@ public class CartViewController: UIViewController {
     @IBOutlet weak var sumLabelofSumStackWithDiscount: UILabel!
     @IBOutlet weak var sumLabelCountofSumStackWithDiscount: UILabel!
     
+    @IBOutlet weak var topBackgroundView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    // MARK: - Module Components
+    public var viewModel = CartViewModel()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         setups()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        viewModel.getCartDatas()
     }
 
     // MARK: - Module init
@@ -70,6 +80,8 @@ private extension CartViewController {
         setupTexts()
         setupTextsColorFont()
         setupBackgrounds()
+        setupInitialHiddenStatus()
+        setupGestures()
     }
     
     final func setupTexts() {
@@ -99,7 +111,7 @@ private extension CartViewController {
         cargoFeeCountLabel.textColor = .lightGray
         cargoFeeCountLabel.font = .systemFont(ofSize: 16)
         infoLabel.textColor =  .lightGray
-        infoLabel.font = .systemFont(ofSize: 14)
+        infoLabel.font = .italicSystemFont(ofSize: 14)
 
         orderSummaryLabelOfMiniDetailStack.font = .boldSystemFont(ofSize: 22)
         orderSummaryLabelOfMiniDetailStack.textColor = .tabbarBackgroundColor
@@ -126,10 +138,44 @@ private extension CartViewController {
         mainView.layer.shadowOpacity = 0.5
     
         buttonBackgroundView.backgroundColor = .white
+        topBackgroundView.backgroundColor = .white
+        collectionView.backgroundColor = .white
         paymentButton.backgroundColor = .tabbarBackgroundColor
         paymentButton.layer.cornerRadius = 8
         discountStackBackView.backgroundColor = .lightButtonColor
         discountStackBackView.layer.cornerRadius = 4
+        
+        detailImageOfDetailStack.image = .detailCategory
+        detailImageOfMiniDetailStack.image = .detailCategory
     }
     
+    final func setupInitialHiddenStatus() {
+        detailStack.isHidden = true
+        sumStackWithDiscount.isHidden = true
+    }
+    
+    final func setupGestures() {
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(toggleStacks))
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(toggleStacks))
+
+        detailImageOfDetailStack.isUserInteractionEnabled = true
+        detailImageOfDetailStack.addGestureRecognizer(tapGesture1)
+
+        detailImageOfMiniDetailStack.isUserInteractionEnabled = true
+        detailImageOfMiniDetailStack.addGestureRecognizer(tapGesture2)
+
+    }
+
+    @objc func toggleStacks() {
+        let shouldShowDetailStackWithDiscount = detailStack.isHidden
+        detailStack.isHidden = !shouldShowDetailStackWithDiscount
+        miniDetailStack.isHidden = shouldShowDetailStackWithDiscount
+    }
+    
+}
+
+extension CartViewController: CartViewModelDelegate {
+    func reloadData(cart: [Cart]) {
+        print(cart)
+    }
 }

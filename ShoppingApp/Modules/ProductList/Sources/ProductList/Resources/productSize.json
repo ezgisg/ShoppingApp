@@ -3,7 +3,7 @@
         {
             "id": 1,
             "sizes": [
-                { "size": "STD", "stock": 25 }
+                { "size": "STD", "stock": 0 }
             ]
         },
         {

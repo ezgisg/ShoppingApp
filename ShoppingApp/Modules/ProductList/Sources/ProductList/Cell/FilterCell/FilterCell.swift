@@ -19,6 +19,13 @@ class FilterCell: UICollectionViewCell {
             containerView.backgroundColor = isSelectedCell ? .lightGray : .white
         }
     }
+    
+    var isEnabled: Bool = true {
+        didSet {
+        
+            label.textColor = isEnabled ? .black : .lightGray
+        }
+    }
 
     //MARK: - Life Cycles
     override func awakeFromNib() {

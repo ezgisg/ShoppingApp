@@ -30,7 +30,15 @@ class DetailBottomViewController: UIViewController {
     
     var product: ProductResponseElement
     var productSizeData: ProductStockModel?
-    var selectedSize: String? = nil
+    var selectedSize: String? = nil {
+        didSet {
+            if let selectedSize {
+                choseSizeButton.isEnabled = true
+            } else {
+                choseSizeButton.isEnabled = false
+            }
+        }
+    }
     
     // MARK: - Module Components
     public var viewModel = DetailBottomViewModel()
@@ -49,6 +57,7 @@ class DetailBottomViewController: UIViewController {
                sizes.count == 1 {
             selectedSize = sizes[0].size
         }
+        choseSizeButton.isEnabled = false
     }
     
     
@@ -160,7 +169,14 @@ extension DetailBottomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
         let size = productSizeData?.sizes[indexPath.row].size
-        cell.isSelectedCell = selectedSize == size
+        let stockCount = productSizeData?.sizes[indexPath.row].stock
+        cell.isEnabled = stockCount ?? 0 > 0
+        cell.isUserInteractionEnabled = stockCount ?? 0 > 0
+        if stockCount ?? 0 > 0 {
+            cell.isSelectedCell = selectedSize == size
+        } else {
+            cell.isSelectedCell = false
+        }
         cell.configureWith(text: size, textFont: .systemFont(ofSize: 20))
         return cell
     }

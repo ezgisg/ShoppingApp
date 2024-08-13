@@ -5,14 +5,14 @@
 //  Created by Ezgi Sümer Günaydın on 12.08.2024.
 //
 
-
 //TODO: localizable
 import UIKit
 import AppResources
 
+// MARK: - DetailBottomViewController
 class DetailBottomViewController: UIViewController {
-
     
+    // MARK: - Outlets
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var cancelButton: UIButton!
     @IBOutlet private weak var imageView: UIImageView!
@@ -26,40 +26,27 @@ class DetailBottomViewController: UIViewController {
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private var mainView: UIView!
     @IBOutlet private weak var headerView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
+    // MARK: - Variables
     var product: ProductResponseElement
-    var productSizeData: ProductStockModel?
-    var selectedSize: String? = nil {
-        didSet {
-            if let selectedSize {
-                choseSizeButton.isEnabled = true
-            } else {
-                choseSizeButton.isEnabled = false
-            }
-        }
-    }
-    
+
     // MARK: - Module Components
     public var viewModel = DetailBottomViewModel()
     
+    // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         //TODO: datanın doğru gelmeme durumu ele alınacak
         viewModel.delegate = self
-        guard let productId = product.id else {
+        guard let productId = product.id
+        else {
             dismiss(animated: false, completion: nil)
-            return }
+            return
+        }
         viewModel.loadStockData(for: productId)
         setups()
-        
-        if let sizes = productSizeData?.sizes,
-               sizes.count == 1 {
-            selectedSize = sizes[0].size
-        }
-        choseSizeButton.isEnabled = false
     }
-    
     
     // MARK: - Module init
     public init(product: ProductResponseElement) {
@@ -70,59 +57,57 @@ class DetailBottomViewController: UIViewController {
    required init?(coder: NSCoder) {
        fatalError("init(coder:) has not been implemented")
    }
-    
-    @IBAction func tappedCancelButton(_ sender: Any) {
+}
+
+//MARK: Actions
+private extension DetailBottomViewController {
+    @IBAction final func tappedCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func tappedChoseSizeButton(_ sender: Any) {
-    }
-    
-}
-
-extension DetailBottomViewController: DetailBottomViewModelDelegate {
-    func getProductData(data: ProductStockModel) {
-        productSizeData = data
-        collectionView.reloadData()
+    //TODO: sepete ekleme aksiyonu eklenecek-stock bilgisi kontrolü ile
+    @IBAction final func tappedChoseSizeButton(_ sender: Any) {
     }
 }
-
 
 //MARK: - Setups
-extension DetailBottomViewController {
-    func setups() {
+private extension DetailBottomViewController {
+    final func setups() {
         setupTexts()
-        setupBackgroundColors()
+        setupBackgrounds()
         setupTextColors()
-        setupUI()
+        setupInitialStatus()
         setupImage()
         setupCollectionView()
     }
     
-    func setupTexts() {
+    final func setupTexts() {
         titleLabel.text = "Sepete Hızlı Ekle"
         categoryLabel.text = product.category
         productLabel.text = product.title
         sizeLabel.text = "Beden"
-//        goToDetailLabel.text = "Ürün Detay Sayfasına Git"
-        choseSizeButton.setTitle("Beden Seç", for: .normal)
+        choseSizeButton.setTitle("Sepete ekle", for: .normal)
         cancelButton.setTitle("İptal", for: .normal)
         if let price = product.price {
             priceLabel.text = "\(String(price)) $"
         }
+        let attributedString = NSMutableAttributedString(string: "Ürün Detay Sayfasına Git")
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
+        goToDetailLabel.attributedText = attributedString
     }
     
-    func setupBackgroundColors() {
+    final func setupBackgrounds() {
         mainView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         headerView.backgroundColor = .tabbarBackgroundColor
         choseSizeButton.backgroundColor = .tabbarBackgroundColor
+        choseSizeButton.layer.cornerRadius = 8
         containerView.backgroundColor = .white
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOffset = CGSize(width: 0, height: -2)
         containerView.layer.shadowOpacity = 0.5
     }
     
-    func setupTextColors() {
+    final func setupTextColors() {
         titleLabel.textColor = .buttonTextColor
         cancelButton.setTitleColor(.buttonTextColor, for: .normal)
         choseSizeButton.setTitleColor(.buttonTextColor, for: .normal)
@@ -133,22 +118,21 @@ extension DetailBottomViewController {
         goToDetailLabel.textColor = .black
     }
     
-    func setupUI() {
-        choseSizeButton.layer.cornerRadius = 8
-        let attributedString = NSMutableAttributedString(string: "Ürün Detay Sayfasına Git")
-        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
-        goToDetailLabel.attributedText = attributedString
+    final func setupInitialStatus() {
+        ///It is disabled at first because it change by (as it below) selected size changes
+        choseSizeButton.isEnabled = false
+        if let sizes = viewModel.productSizeData?.sizes,
+               sizes.count == 1 {
+            viewModel.selectedSize = sizes[0].size
+        }
     }
     
-    func setupImage() {
+    final func setupImage() {
         guard let urlString = product.image, let url = URL(string: urlString)
         else { return imageView.image = .noImage }
         imageView.loadImage(with: url, contentMode: .scaleAspectFit)
     }
-}
-
-//MARK: - CollectionView Setups
-extension DetailBottomViewController {
+    
     final func setupCollectionView() {
         collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
         collectionView.dataSource = self
@@ -156,28 +140,22 @@ extension DetailBottomViewController {
         collectionView.collectionViewLayout = createCompositionalLayout()
         collectionView.isScrollEnabled = false
         collectionView.allowsMultipleSelection = false
-        collectionView.allowsSelection = true
     }
 }
 
 //MARK: - UICollectionViewDataSource
 extension DetailBottomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productSizeData?.sizes.count ?? 0
+        return viewModel.productSizeData?.sizes.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
-        let size = productSizeData?.sizes[indexPath.row].size
-        let stockCount = productSizeData?.sizes[indexPath.row].stock
-        cell.isEnabled = stockCount ?? 0 > 0
-        cell.isUserInteractionEnabled = stockCount ?? 0 > 0
-        if stockCount ?? 0 > 0 {
-            cell.isSelectedCell = selectedSize == size
-        } else {
-            cell.isSelectedCell = false
-        }
-        cell.configureWith(text: size, textFont: .systemFont(ofSize: 20))
+        guard let sizeData = viewModel.productSizeData?.sizes[indexPath.row] else { return cell }
+        let isInStock = sizeData.stock > 0
+        cell.isEnabled = isInStock
+        cell.isSelectedCell = isInStock && viewModel.selectedSize == sizeData.size
+        cell.configureWith(text: sizeData.size, textFont: .systemFont(ofSize: 20))
         return cell
     }
 }
@@ -185,18 +163,14 @@ extension DetailBottomViewController: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension DetailBottomViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if selectedSize == productSizeData?.sizes[indexPath.row].size {
-            selectedSize = nil
-        } else {
-            selectedSize = productSizeData?.sizes[indexPath.row].size
-        }
+        guard let newSize = viewModel.productSizeData?.sizes[indexPath.row].size else { return }
+        viewModel.selectedSize = viewModel.selectedSize == newSize ? nil : newSize
         collectionView.reloadData()
-        print("seçildi")
     }
-    
 }
 
-extension DetailBottomViewController {
+//MARK: - Compositional Layout
+private extension DetailBottomViewController {
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             guard let self else { return nil }
@@ -218,3 +192,13 @@ extension DetailBottomViewController {
     }
 }
 
+//MARK: DetailBottomViewModelDelegate
+extension DetailBottomViewController: DetailBottomViewModelDelegate {
+    func reloadData() {
+        collectionView.reloadData()
+    }
+    
+    func controlAddToCartButtonStatus(isEnabled: Bool) {
+        choseSizeButton.isEnabled = isEnabled
+    }
+}

@@ -7,109 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3EEEA9A9-9F23-4FCC-9BF9-6028FAE8388F"
+            uuid = "D61A8D45-6DE6-40DF-883A-90204C9198BC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "loadStockData(for:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3EEEA9A9-9F23-4FCC-9BF9-6028FAE8388F - 7caacb20b64f1515"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductList.DetailBottomViewModel.loadStockData(for: Swift.Int) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-               <Location
-                  uuid = "3EEEA9A9-9F23-4FCC-9BF9-6028FAE8388F - 7caacb20b64f1515"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductList.DetailBottomViewModel.loadStockData(for: Swift.Int) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-               <Location
-                  uuid = "3EEEA9A9-9F23-4FCC-9BF9-6028FAE8388F - 465aa190da7d6247"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (ProductList.ProductStockModel) -&gt; Swift.Bool in ProductList.DetailBottomViewModel.loadStockData(for: Swift.Int) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "32"
-                  endingLineNumber = "32">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2996C8FA-44A2-4D09-ADBA-65E3DB17F3E3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "loadStockData(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9D64EDAD-CB19-42C0-9300-4B7CE6463570"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7416472D-FC3E-4536-AA3F-0D94C7875971"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
-            landmarkType = "7">
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "selectedSize"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

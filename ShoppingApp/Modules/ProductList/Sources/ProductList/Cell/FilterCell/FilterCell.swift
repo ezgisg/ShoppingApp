@@ -22,7 +22,7 @@ class FilterCell: UICollectionViewCell {
     
     var isEnabled: Bool = true {
         didSet {
-        
+            isUserInteractionEnabled = isEnabled
             label.textColor = isEnabled ? .black : .lightGray
         }
     }

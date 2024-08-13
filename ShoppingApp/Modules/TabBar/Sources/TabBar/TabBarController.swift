@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import Cart
 import Categories
 import Foundation
 import Home
@@ -22,6 +23,7 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         self.selectedIndex = 1
         setupTabbar()
+        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -147,6 +149,22 @@ extension TabBarController {
             NSAttributedString.Key.foregroundColor: titleColor
         ]
         return navigationController
+    }
+    
+    private func updateBasketBadge() {
+        let basketIndex = 3
+        let basketTabBarItem = tabBar.items?[basketIndex]
+        
+        let cartItemCount = CartManager.shared.totalItemsInCart
+        if cartItemCount > 0 {
+            basketTabBarItem?.badgeValue = "\(cartItemCount)"
+        } else {
+            basketTabBarItem?.badgeValue = nil
+        }
+    }
+    
+    @objc private func cartUpdated() {
+        updateBasketBadge()
     }
     
 }

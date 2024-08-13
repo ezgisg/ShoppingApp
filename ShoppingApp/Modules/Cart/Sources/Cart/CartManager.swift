@@ -51,6 +51,6 @@ public class CartManager {
     }
 }
 
-extension Notification.Name {
+public extension Notification.Name {
     static let cartUpdated = Notification.Name("cartUpdated")
 }

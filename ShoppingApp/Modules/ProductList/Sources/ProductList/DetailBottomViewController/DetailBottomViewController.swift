@@ -71,10 +71,11 @@ private extension DetailBottomViewController {
     @IBAction final func tappedChoseSizeButton(_ sender: Any) {
         let size = viewModel.selectedSize
         let productId = product.id
-        //TODO: else de sepee eklenemedi hatası verebiliriz
+        //TODO: eklendiğinde eklendi uyarısı else de sepee eklenemedi hatası verebiliriz
         guard let productId, let size else { return }
         CartManager.shared.addToCart(productId: productId, size: size)
         CartManager.shared.printCart()
+        
     }
 }
 

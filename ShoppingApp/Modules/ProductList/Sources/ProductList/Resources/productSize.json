@@ -13,7 +13,7 @@
                 { "size": "S", "stock": 20 },
                 { "size": "M", "stock": 0 },
                 { "size": "L", "stock": 0 },
-                { "size": "XL", "stock": 8 }
+                { "size": "XL", "stock": 1 }
             ]
         },
         {
@@ -33,7 +33,12 @@
                 { "size": "S", "stock": 18 },
                 { "size": "M", "stock": 15 },
                 { "size": "L", "stock": 12 },
-                { "size": "XL", "stock": 10 }
+                { "size": "XL", "stock": 10 },
+                { "size": "XXL", "stock": 10 },
+                { "size": "3XL", "stock": 10 },
+                { "size": "4XL", "stock": 10 },
+                { "size": "5XL", "stock": 10 },
+                { "size": "6XL", "stock": 10 }
             ]
         },
         {
@@ -87,20 +92,13 @@
         {
             "id": 11,
             "sizes": [
-                { "size": "S", "stock": 18 },
-                { "size": "M", "stock": 22 },
-                { "size": "L", "stock": 15 },
-                { "size": "XL", "stock": 10 }
+                { "size": "STD", "stock": 40 }
             ]
         },
         {
             "id": 12,
             "sizes": [
-                { "size": "XS", "stock": 14 },
-                { "size": "S", "stock": 12 },
-                { "size": "M", "stock": 20 },
-                { "size": "L", "stock": 16 },
-                { "size": "XL", "stock": 8 }
+                { "size": "STD", "stock": 5 }
             ]
         },
         {
@@ -115,11 +113,7 @@
         {
             "id": 14,
             "sizes": [
-                { "size": "XS", "stock": 11 },
-                { "size": "S", "stock": 9 },
-                { "size": "M", "stock": 13 },
-                { "size": "L", "stock": 15 },
-                { "size": "XL", "stock": 10 }
+                { "size": "STD", "stock": 40 }
             ]
         },
         {
@@ -134,7 +128,10 @@
         {
             "id": 16,
             "sizes": [
-                { "size": "STD", "stock": 50 }
+                { "size": "S", "stock": 25 },
+                { "size": "M", "stock": 20 },
+                { "size": "L", "stock": 18 },
+                { "size": "XL", "stock": 15 }
             ]
         },
         {
@@ -150,24 +147,21 @@
         {
             "id": 18,
             "sizes": [
-                { "size": "8", "stock": 7 },
-                { "size": "10", "stock": 9 },
-                { "size": "12", "stock": 5 },
-                { "size": "14", "stock": 3 },
-                { "size": "8", "stock": 7 },
-                { "size": "10", "stock": 9 },
-                { "size": "12", "stock": 5 },
-                { "size": "14", "stock": 3 },
-                { "size": "8", "stock": 7 },
-                { "size": "10", "stock": 9 },
-                { "size": "12", "stock": 5 },
-                { "size": "14", "stock": 3 }
+                { "size": "XS", "stock": 17 },
+                { "size": "S", "stock": 13 },
+                { "size": "M", "stock": 19 },
+                { "size": "L", "stock": 14 },
+                { "size": "XL", "stock": 10 }
             ]
         },
         {
             "id": 19,
             "sizes": [
-                { "size": "STD", "stock": 45 }
+                { "size": "XS", "stock": 17 },
+                { "size": "S", "stock": 13 },
+                { "size": "M", "stock": 19 },
+                { "size": "L", "stock": 14 },
+                { "size": "XL", "stock": 10 }
             ]
         },
         {

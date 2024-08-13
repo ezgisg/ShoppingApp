@@ -8,9 +8,11 @@
 //TODO: localizable
 import UIKit
 import AppResources
+import Base
+import Cart
 
 // MARK: - DetailBottomViewController
-class DetailBottomViewController: UIViewController {
+class DetailBottomViewController: BaseViewController {
     
     // MARK: - Outlets
     @IBOutlet private weak var titleLabel: UILabel!
@@ -65,8 +67,14 @@ private extension DetailBottomViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    //TODO: sepete ekleme aksiyonu eklenecek-stock bilgisi kontrolü ile
+    //TODO: sepete ekleme aksiyonu eklenecek-stock bilgisi kontrolü ile (sepete ekli üründe sepet görseli seçili olacak, tabbarda sepetteki ürün sayısı güncellenecek vs..)
     @IBAction final func tappedChoseSizeButton(_ sender: Any) {
+        let size = viewModel.selectedSize
+        let productId = product.id
+        //TODO: else de sepee eklenemedi hatası verebiliriz
+        guard let productId, let size else { return }
+        CartManager.shared.addToCart(productId: productId, size: size)
+        CartManager.shared.printCart()
     }
 }
 
@@ -93,6 +101,7 @@ private extension DetailBottomViewController {
         }
         let attributedString = NSMutableAttributedString(string: "Ürün Detay Sayfasına Git")
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
+        //TODO: tapgesture eklenip detay sayfasına gidilecek hazır olduğunda
         goToDetailLabel.attributedText = attributedString
     }
     
@@ -111,6 +120,7 @@ private extension DetailBottomViewController {
         titleLabel.textColor = .buttonTextColor
         cancelButton.setTitleColor(.buttonTextColor, for: .normal)
         choseSizeButton.setTitleColor(.buttonTextColor, for: .normal)
+        choseSizeButton.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .disabled)
         categoryLabel.textColor = .black
         productLabel.textColor = .black
         priceLabel.textColor = .black
@@ -202,3 +212,4 @@ extension DetailBottomViewController: DetailBottomViewModelDelegate {
         choseSizeButton.isEnabled = isEnabled
     }
 }
+

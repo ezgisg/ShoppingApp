@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(path: "../AppResources"),
         .package(path: "../Base"),
+        .package(path: "../Cart"),
         .package(path: "../Network"),
     ],
     targets: [
@@ -25,6 +26,7 @@ let package = Package(
             dependencies: [
                 "AppResources",
                 "Base",
+                "Cart",
                 "Network",
             ],
             resources: [

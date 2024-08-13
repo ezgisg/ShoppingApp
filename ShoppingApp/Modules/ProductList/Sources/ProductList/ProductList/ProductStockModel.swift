@@ -13,6 +13,10 @@ struct ProductsResponse: Decodable {
 
 struct ProductStockModel: Decodable {
     let id: Int
-    let sizes: [String: Int]
+    let sizes: [Size]
 }
 
+struct Size: Decodable {
+    let size: String
+    let stock: Int
+}

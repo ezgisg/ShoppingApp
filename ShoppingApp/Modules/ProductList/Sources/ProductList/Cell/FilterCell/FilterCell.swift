@@ -41,7 +41,8 @@ private extension FilterCell {
 
 //MARK: - Configure
 extension FilterCell {
-    func configureWith(text: String? = "") {
+    func configureWith(text: String? = "", textFont: UIFont? = .systemFont(ofSize: 17)) {
         label.text = text
+        label.font = textFont
     }
 }

@@ -187,7 +187,7 @@ private extension RegisterViewController {
         else { return }
         
         view.endEditing(true)
-//        showLoadingView()
+        showLoadingView()
         
         ///Creating user with firebase
         Auth.auth().createUser(withEmail: email, password: password) {

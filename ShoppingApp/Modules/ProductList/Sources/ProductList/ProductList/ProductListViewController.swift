@@ -56,9 +56,9 @@ public class ProductListViewController: BaseViewController {
     // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
+        showLoadingView()
         setups()
         viewModel.delegate = self
-//        showLoadingView()
         viewModel.fetchProducts()
     }
     
@@ -348,11 +348,13 @@ extension ProductListViewController {
 //MARK: - ProductListViewModelDelegate
 extension ProductListViewController: ProductListViewModelDelegate {
     public func manageFilterStatus(filterCount: Int) {
-        hideLoadingView()
         let isFiltering = filterCount != 0
         selectedFilterImage.isHidden = !isFiltering
         filterLabel.text = isFiltering ? "\(L10nGeneric.filter.localized()) (\(filterCount))" : L10nGeneric.filter.localized()
         emptyView.isHidden = viewModel.filteredProducts.count > 0
+        if viewModel.filteredProducts.count > 0 {
+            hideLoadingView()
+        }
         viewModel.sortProducts()
     }
     

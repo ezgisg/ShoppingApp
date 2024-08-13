@@ -54,7 +54,7 @@ private extension TabBarController {
         let middleNavigationController = getStyledNavigationController(with: middleVC, title: "", image: nil)
 
         let basketTitle = L10nGeneric.basket.localized(in: AppResources.bundle)
-        let basketVC = MiddleViewController()
+        let basketVC = CartViewController()
         let basketNavigationController = getStyledNavigationController(with: basketVC, title: basketTitle, image: .systemCartImage)
 
         let favoritesTitle = L10nGeneric.favorites.localized(in: AppResources.bundle)

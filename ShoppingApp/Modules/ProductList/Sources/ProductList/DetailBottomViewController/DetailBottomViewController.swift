@@ -30,6 +30,9 @@ class DetailBottomViewController: BaseViewController {
     @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    @IBOutlet private weak var warningForAddingCartView: UIView!
+    @IBOutlet private weak var warningForAddingCartLabel: UILabel!
+    
     // MARK: - Variables
     var product: ProductResponseElement
 
@@ -76,6 +79,15 @@ private extension DetailBottomViewController {
         CartManager.shared.addToCart(productId: productId, size: size)
         CartManager.shared.printCart()
         
+        ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
+        UIView.animate(withDuration: 0.1, delay: 1, options: [], animations: {
+            self.warningForAddingCartView.isHidden = false
+            self.warningForAddingCartView.alpha = 0.5
+        }, completion: { _ in
+            self.warningForAddingCartView.isHidden = true
+            self.warningForAddingCartView.alpha = 1
+        })
+        
     }
 }
 
@@ -104,6 +116,7 @@ private extension DetailBottomViewController {
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
         //TODO: tapgesture eklenip detay sayfasına gidilecek hazır olduğunda
         goToDetailLabel.attributedText = attributedString
+        warningForAddingCartLabel.text = "Sepete Eklendi"
     }
     
     final func setupBackgrounds() {
@@ -115,6 +128,8 @@ private extension DetailBottomViewController {
         containerView.layer.shadowColor = UIColor.black.cgColor
         containerView.layer.shadowOffset = CGSize(width: 0, height: -2)
         containerView.layer.shadowOpacity = 0.5
+        warningForAddingCartView.backgroundColor = .tabbarBackgroundColor
+        warningForAddingCartView.layer.cornerRadius = 8
     }
     
     final func setupTextColors() {
@@ -127,6 +142,7 @@ private extension DetailBottomViewController {
         priceLabel.textColor = .black
         sizeLabel.textColor = .darkGray
         goToDetailLabel.textColor = .black
+        warningForAddingCartLabel.textColor = .tabbarSelectedColor
     }
     
     final func setupInitialStatus() {

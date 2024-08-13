@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,6 +25,8 @@
                 <outlet property="sizeLabel" destination="bNx-rG-x3J" id="2BW-tg-4eH"/>
                 <outlet property="titleLabel" destination="yL8-NG-II0" id="ZW3-cg-ylI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="warningForAddingCartLabel" destination="zAp-oe-BtU" id="GKr-Ll-4aI"/>
+                <outlet property="warningForAddingCartView" destination="Ruh-Js-bDA" id="YE6-Ue-LlW"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -138,14 +141,34 @@
                                 <action selector="tappedChoseSizeButton:" destination="-1" eventType="touchUpInside" id="JYZ-Z0-SUf"/>
                             </connections>
                         </button>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ruh-Js-bDA">
+                            <rect key="frame" x="6" y="318" width="381" height="42"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zAp-oe-BtU">
+                                    <rect key="frame" x="0.0" y="-2" width="381" height="46"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="zAp-oe-BtU" firstAttribute="height" secondItem="Ruh-Js-bDA" secondAttribute="height" constant="4" id="a9h-Ih-zkG"/>
+                                <constraint firstItem="zAp-oe-BtU" firstAttribute="centerY" secondItem="Ruh-Js-bDA" secondAttribute="centerY" id="aao-1c-nFF"/>
+                                <constraint firstItem="zAp-oe-BtU" firstAttribute="centerX" secondItem="Ruh-Js-bDA" secondAttribute="centerX" id="wty-tV-7W1"/>
+                                <constraint firstItem="zAp-oe-BtU" firstAttribute="width" secondItem="Ruh-Js-bDA" secondAttribute="width" id="xYR-tz-RbU"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="P0g-06-oE3" firstAttribute="leading" secondItem="WpS-4S-qDd" secondAttribute="leading" constant="8" id="0Sx-gf-LGc"/>
                         <constraint firstAttribute="trailing" secondItem="hxn-N2-nQ7" secondAttribute="trailing" constant="8" id="4wJ-02-XCz"/>
+                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="centerX" secondItem="r3d-xh-2Wn" secondAttribute="centerX" id="9fn-BZ-n69"/>
                         <constraint firstAttribute="trailing" secondItem="r3d-xh-2Wn" secondAttribute="trailing" constant="8" id="BcU-Is-ZH9"/>
                         <constraint firstItem="bNx-rG-x3J" firstAttribute="top" secondItem="qvM-52-zaM" secondAttribute="bottom" constant="20" id="Cuj-YZ-alX"/>
                         <constraint firstItem="Puz-oR-gQf" firstAttribute="top" secondItem="P0g-06-oE3" secondAttribute="bottom" constant="20" id="DcK-xW-1hr"/>
+                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="height" secondItem="r3d-xh-2Wn" secondAttribute="height" id="F2N-Yq-WWm"/>
                         <constraint firstItem="Fno-MI-zoB" firstAttribute="top" secondItem="WpS-4S-qDd" secondAttribute="top" id="J2c-6C-A3c"/>
                         <constraint firstItem="Puz-oR-gQf" firstAttribute="centerX" secondItem="WpS-4S-qDd" secondAttribute="centerX" id="JEk-XS-oO4"/>
                         <constraint firstItem="Fno-MI-zoB" firstAttribute="leading" secondItem="WpS-4S-qDd" secondAttribute="leading" id="Kd8-eX-50h"/>
@@ -158,8 +181,10 @@
                         <constraint firstItem="bNx-rG-x3J" firstAttribute="leading" secondItem="qvM-52-zaM" secondAttribute="leading" id="ge3-Zc-QRB"/>
                         <constraint firstItem="hxn-N2-nQ7" firstAttribute="top" secondItem="qvM-52-zaM" secondAttribute="top" id="h2e-q7-sXf"/>
                         <constraint firstAttribute="trailing" secondItem="P0g-06-oE3" secondAttribute="trailing" id="h61-1m-R7d"/>
+                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="width" secondItem="r3d-xh-2Wn" secondAttribute="width" constant="4" id="mCs-mX-zUT"/>
                         <constraint firstItem="r3d-xh-2Wn" firstAttribute="leading" secondItem="WpS-4S-qDd" secondAttribute="leading" constant="8" id="nst-rU-FVi"/>
                         <constraint firstItem="r3d-xh-2Wn" firstAttribute="top" secondItem="Puz-oR-gQf" secondAttribute="bottom" constant="12" id="pRl-kt-pKV"/>
+                        <constraint firstItem="Ruh-Js-bDA" firstAttribute="centerY" secondItem="r3d-xh-2Wn" secondAttribute="centerY" id="pfW-da-01E"/>
                         <constraint firstItem="qvM-52-zaM" firstAttribute="leading" secondItem="WpS-4S-qDd" secondAttribute="leading" constant="8" id="yil-Uj-6lY"/>
                         <constraint firstAttribute="trailing" secondItem="Fno-MI-zoB" secondAttribute="trailing" id="zjx-8Q-yyq"/>
                     </constraints>
@@ -176,4 +201,9 @@
             <point key="canvasLocation" x="17.557251908396946" y="-12.67605633802817"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

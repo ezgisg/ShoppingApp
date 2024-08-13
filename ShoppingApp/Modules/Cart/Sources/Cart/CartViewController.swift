@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 12.08.2024.
 //
 
+import AppResources
 import UIKit
 
 public class CartViewController: UIViewController {
@@ -18,7 +19,8 @@ public class CartViewController: UIViewController {
     
     @IBOutlet weak var detailStack: UIStackView!
     @IBOutlet weak var orderSummaryLabelOfDetailStack: UILabel!
-    @IBOutlet weak var detailLabelOfDetailStack: UILabel!
+    @IBOutlet weak var detailImageOfDetailStack: UIImageView!
+    
     @IBOutlet weak var sumLabelOfDetailStack: UILabel!
     @IBOutlet weak var sumCountLabelOfDetailStack: UILabel!
     @IBOutlet weak var discountLabel: UILabel!
@@ -31,13 +33,16 @@ public class CartViewController: UIViewController {
     
     @IBOutlet weak var miniDetailStack: UIStackView!
     @IBOutlet weak var orderSummaryLabelOfMiniDetailStack: UILabel!
-    @IBOutlet weak var detailLabelOfMiniDetailStack: UILabel!
+    @IBOutlet weak var detailImageOfMiniDetailStack: UIImageView!
     
     @IBOutlet weak var sumStack: UIStackView!
     @IBOutlet weak var sumLabelofSumStack: UILabel!
     @IBOutlet weak var sumLabelCountofSumStack: UILabel!
     
     @IBOutlet weak var sumStackWithDiscount: UIStackView!
+    
+    @IBOutlet weak var InnerTotalDiscountStack: UIStackView!
+    @IBOutlet weak var discountStackBackView: UIView!
     @IBOutlet weak var totalDiscountLabel: UILabel!
     @IBOutlet weak var totalDiscountCountLabel: UILabel!
     @IBOutlet weak var sumLabelofSumStackWithDiscount: UILabel!
@@ -45,7 +50,7 @@ public class CartViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        setups()
     }
 
     // MARK: - Module init
@@ -57,4 +62,74 @@ public class CartViewController: UIViewController {
        fatalError("init(coder:) has not been implemented")
    }
 
+}
+
+//MARK: -  Setups
+private extension CartViewController {
+    final func setups() {
+        setupTexts()
+        setupTextsColorFont()
+        setupBackgrounds()
+    }
+    
+    final func setupTexts() {
+        
+    }
+    
+    final func setupTextsColorFont() {
+
+        paymentButton.titleLabel?.textColor = .buttonTextColor
+        orderSummaryLabelOfDetailStack.font = .boldSystemFont(ofSize: 22)
+        orderSummaryLabelOfDetailStack.textColor = .tabbarBackgroundColor
+
+        sumLabelOfDetailStack.textColor = .darkGray
+        sumLabelOfDetailStack.font = .boldSystemFont(ofSize: 16)
+        sumCountLabelOfDetailStack.textColor = .lightGray
+        sumCountLabelOfDetailStack.font = .systemFont(ofSize: 16)
+        discountLabel.textColor = .darkGray
+        discountLabel.font = .boldSystemFont(ofSize: 16)
+        discountCountLabel.textColor = .lightGray
+        discountCountLabel.font = .systemFont(ofSize: 16)
+        subTotalLabel.textColor = .darkGray
+        subTotalLabel.font = .boldSystemFont(ofSize: 16)
+        subTotalCountLabel.textColor = .lightGray
+        subTotalCountLabel.font = .systemFont(ofSize: 16)
+        cargoFeeLabel.textColor = .darkGray
+        cargoFeeLabel.font = .boldSystemFont(ofSize: 16)
+        cargoFeeCountLabel.textColor = .lightGray
+        cargoFeeCountLabel.font = .systemFont(ofSize: 16)
+        infoLabel.textColor =  .lightGray
+        infoLabel.font = .systemFont(ofSize: 14)
+
+        orderSummaryLabelOfMiniDetailStack.font = .boldSystemFont(ofSize: 22)
+        orderSummaryLabelOfMiniDetailStack.textColor = .tabbarBackgroundColor
+
+        sumLabelofSumStack.textColor = .darkGray
+        sumLabelofSumStack.font = .boldSystemFont(ofSize: 22)
+        sumLabelCountofSumStack.textColor = .tabbarBackgroundColor
+        sumLabelCountofSumStack.font = .boldSystemFont(ofSize: 22)
+        
+        totalDiscountLabel.textColor = .darkGray
+        totalDiscountLabel.font = .boldSystemFont(ofSize: 18)
+        totalDiscountCountLabel.textColor = .middleButtonColor
+        totalDiscountCountLabel.font = .boldSystemFont(ofSize: 20)
+        sumLabelofSumStackWithDiscount.textColor = .darkGray
+        sumLabelofSumStackWithDiscount.font = .boldSystemFont(ofSize: 18)
+        sumLabelCountofSumStackWithDiscount.textColor = .tabbarBackgroundColor
+        sumLabelCountofSumStackWithDiscount.font = .boldSystemFont(ofSize: 18)
+        
+    }
+    
+    final func setupBackgrounds() {
+        mainView.layer.shadowOffset = CGSize(width: 0, height: -2)
+        mainView.layer.shadowColor = UIColor.black.cgColor
+        mainView.layer.shadowOpacity = 0.5
+    
+        buttonBackgroundView.backgroundColor = .white
+        paymentButton.backgroundColor = .tabbarBackgroundColor
+        paymentButton.layer.cornerRadius = 8
+        discountStackBackView.backgroundColor = .lightButtonColor
+        discountStackBackView.layer.cornerRadius = 4
+    }
+    
 }

@@ -57,5 +57,9 @@ public extension UIColor {
     static var lightBackgroundColor: UIColor {
         UIColor(named: "lightBackgroundColor", in: Bundle.module, compatibleWith: .current) ?? .black
     }
+    
+    static var lightDividerColor: UIColor {
+        UIColor(named: "lightDividerColor", in: Bundle.module, compatibleWith: .current) ?? .black
+    }
 }
 

@@ -264,7 +264,7 @@ extension CartViewController {
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
                 let cartItem = viewModel.products[indexPath.row]
-                cell.configureWith(product: cartItem)
+                cell.configureWith(product: cartItem, discountedPrice: 100)
                 return cell
             case .coupon:
                 return UICollectionViewCell()

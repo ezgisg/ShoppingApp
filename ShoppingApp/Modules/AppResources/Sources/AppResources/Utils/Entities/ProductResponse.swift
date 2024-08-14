@@ -33,17 +33,13 @@ public struct ProductResponseElement: Decodable, Hashable {
         self.isSelected = isSelected
     }
     
-    public static func == (lhs: ProductResponseElement, rhs: ProductResponseElement) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine("\(id ?? 0)\(size ?? "-")")
     }
     
 }
 
-public struct Rating: Decodable {
+public struct Rating: Equatable, Decodable {
     public let rate: Double?
     public let count: Int?
 }

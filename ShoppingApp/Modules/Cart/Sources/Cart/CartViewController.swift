@@ -79,12 +79,14 @@ public class CartViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
+        viewModel.getCartDatas()
         setups()
     }
     
+    //TODO: her sepet değişikliğinde çağırmak lazım bunları ancak selectedları bir yerde tutmak da gerek aynı zamanda
     public override func viewWillAppear(_ animated: Bool) {
-        viewModel.getCartDatas()
-        applySnapshot()
+//        viewModel.getCartDatas()
+//        applySnapshot()
     }
 
     // MARK: - Module init
@@ -239,10 +241,10 @@ extension CartViewController {
     }
     
     final func cartSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(144))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(136))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(144))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(136))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
@@ -263,8 +265,12 @@ extension CartViewController {
                 return UICollectionViewCell()
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
-                let cartItem = viewModel.products[indexPath.row]
-                cell.configureWith(product: cartItem, discountedPrice: 100)
+                var cartItem = viewModel.products[indexPath.row]
+                cell.configureWith(product: cartItem, discountedPrice: nil)
+                cell.onSelectionTapped = {
+                    cartItem.isSelected = !(cartItem.isSelected ?? false)
+                    self.viewModel.products[indexPath.row] = cartItem
+                }
                 return cell
             case .coupon:
                 return UICollectionViewCell()

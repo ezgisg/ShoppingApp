@@ -60,6 +60,7 @@ extension CartViewModel: CartViewModelProtocol {
                 if var product = fetchedProducts.first(where: { $0.id == item.productId }) {
                     product.quantity = item.quantity
                     product.size = item.size
+                    product.isSelected = true
                     updatedProducts.append(product)
                 }
             }

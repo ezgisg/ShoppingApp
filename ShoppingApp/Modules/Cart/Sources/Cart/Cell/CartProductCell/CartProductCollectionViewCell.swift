@@ -10,8 +10,11 @@ import UIKit
 
 class CartProductCollectionViewCell: UICollectionViewCell {
     
-    
-    @IBOutlet weak var selectionImage: UIImageView!
+    @IBOutlet weak var topImageView: UIView!
+    @IBOutlet weak var containerImage: UIImageView!
+    @IBOutlet weak var outerImage: UIImageView!
+    @IBOutlet weak var innerImage: UIImageView!
+
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productCategory: UILabel!
@@ -25,6 +28,7 @@ class CartProductCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setup()
         // Initialization code
     }
 
@@ -39,9 +43,17 @@ extension CartProductCollectionViewCell {
         } else {
             priceLabel.text = "N/A"
         }
-
         productSize.text = product.size
-        selectionImage.image = .tabbarCircleSelected
+    
+        guard let urlString = product.image, let url = URL(string: urlString)
+        else { return productImage.image = .noImage }
+        productImage.loadImage(with: url, contentMode: .scaleAspectFit)
+    }
+}
+
+//MARK: - Setups
+extension CartProductCollectionViewCell {
+    final func setup() {
         minusButtonImage.image = .minusImage
         plusButtonImage.image = .plusImage
         minusButtonImage.tintColor = .tabbarBackgroundColor
@@ -52,8 +64,15 @@ extension CartProductCollectionViewCell {
         productCountBackgroundView.backgroundColor = .tabbarBackgroundColor.withAlphaComponent(0.5)
         productCountBackgroundView.layer.cornerRadius = productCountBackgroundView.frame.width / 2
         
-        guard let urlString = product.image, let url = URL(string: urlString)
-        else { return productImage.image = .noImage }
-        productImage.loadImage(with: url, contentMode: .scaleAspectFit)
+        topImageView.backgroundColor = .clear
+        
+        containerImage.image = .systemCircleImage
+        containerImage.tintColor = .tabbarBackgroundColor
+        
+        outerImage.image = .systemCircleImage
+        outerImage.tintColor = .white
+
+        innerImage.image = .systemCircleImage
+        innerImage.tintColor = .tabbarBackgroundColor
     }
 }

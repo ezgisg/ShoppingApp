@@ -19,8 +19,10 @@ class CartProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var minusButtonImage: UIImageView!
     @IBOutlet weak var productCountLabel: UILabel!
-    
+    @IBOutlet weak var productCountBackgroundView: UIView!
     @IBOutlet weak var plusButtonImage: UIImageView!
+    @IBOutlet weak var minusPlusBackView: UIStackView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -40,8 +42,15 @@ extension CartProductCollectionViewCell {
 
         productSize.text = product.size
         selectionImage.image = .tabbarCircleSelected
-        minusButtonImage.image = .profile
-        plusButtonImage.image = .profile
+        minusButtonImage.image = .minusImage
+        plusButtonImage.image = .plusImage
+        minusButtonImage.tintColor = .tabbarBackgroundColor
+        plusButtonImage.tintColor = .tabbarBackgroundColor
+        minusPlusBackView.layer.cornerRadius = 8
+        minusPlusBackView.layer.borderColor = UIColor.tabbarBackgroundColor.cgColor
+        minusPlusBackView.layer.borderWidth = 1
+        productCountBackgroundView.backgroundColor = .tabbarBackgroundColor.withAlphaComponent(0.5)
+        productCountBackgroundView.layer.cornerRadius = productCountBackgroundView.frame.width / 2
         
         guard let urlString = product.image, let url = URL(string: urlString)
         else { return productImage.image = .noImage }

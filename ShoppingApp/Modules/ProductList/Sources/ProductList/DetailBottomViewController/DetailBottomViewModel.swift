@@ -26,8 +26,13 @@ final class DetailBottomViewModel {
     var productSizeData: ProductStockModel? = nil
     var selectedSize: String? = nil {
         didSet {
-            let totalStock = productSizeData?.sizes.reduce(0) { $0 + $1.stock }
-            let isEnabled = (selectedSize != nil && totalStock != 0)
+            ///To control if there is a stock or not for one size product. If there is only one size and there is stock for this size, the size is selected automatically, otherwise is not
+            var isThereStock = true
+            if productSizeData?.sizes.count == 1,
+               productSizeData?.sizes.first?.stock == 0 {
+                isThereStock = false
+            }
+            let isEnabled = (selectedSize != nil && isThereStock)
             delegate?.controlAddToCartButtonStatus(isEnabled: isEnabled)
         }
     }

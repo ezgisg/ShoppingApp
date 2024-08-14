@@ -209,6 +209,8 @@ private extension CartViewController {
 
 extension CartViewController: CartViewModelDelegate {
     func reloadData(cart: [ProductResponseElement]) {
+        applySnapshot()
+//        collectionView.reloadData()
         print(cart)
     }
 }

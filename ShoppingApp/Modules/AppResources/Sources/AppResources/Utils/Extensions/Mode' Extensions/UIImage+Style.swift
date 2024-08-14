@@ -89,4 +89,12 @@ public extension UIImage {
         return UIImage(named: "detailCategory", in: Bundle.module, compatibleWith: .current) ?? UIImage()
     }
     
+    static var minusImage: UIImage? {
+        return UIImage(systemName: "minus")?.withRenderingMode(.alwaysTemplate)
+    }
+    
+    static var plusImage: UIImage? {
+        return UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
+    }
+    
 }

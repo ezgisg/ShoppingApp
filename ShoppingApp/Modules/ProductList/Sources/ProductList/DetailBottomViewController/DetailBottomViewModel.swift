@@ -26,7 +26,8 @@ final class DetailBottomViewModel {
     var productSizeData: ProductStockModel? = nil
     var selectedSize: String? = nil {
         didSet {
-            let isEnabled = (selectedSize != nil && productSizeData?.sizes.first?.stock != 0)
+            let totalStock = productSizeData?.sizes.reduce(0) { $0 + $1.stock }
+            let isEnabled = (selectedSize != nil && totalStock != 0)
             delegate?.controlAddToCartButtonStatus(isEnabled: isEnabled)
         }
     }

@@ -16,6 +16,22 @@ public struct ProductResponseElement: Decodable, Hashable {
     public let category: String?
     public let image: String?
     public let rating: Rating?
+    public var quantity: Int?
+    public var size: String?
+    public var isSelected: Bool?
+    
+    init(id: Int?, title: String?, price: Double?, description: String?, category: String?, image: String?, rating: Rating?, quantity: Int? = nil, size: String? = nil, isSelected: Bool? = true) {
+        self.id = id
+        self.title = title
+        self.price = price
+        self.description = description
+        self.category = category
+        self.image = image
+        self.rating = rating
+        self.quantity = quantity
+        self.size = size
+        self.isSelected = isSelected
+    }
     
     public static func == (lhs: ProductResponseElement, rhs: ProductResponseElement) -> Bool {
         return lhs.id == rhs.id

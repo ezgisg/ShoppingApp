@@ -23,8 +23,16 @@ public struct OrderModel: Decodable {
     }
 }
 
-public struct Cart: Decodable {
+public struct Cart: Decodable, Hashable {
     let productId: Int?
     let size: String?
     var quantity: Int?
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(productId)
+    }
+
+    public static func == (lhs: Cart, rhs: Cart) -> Bool {
+        return lhs.productId == rhs.productId
+    }
 }

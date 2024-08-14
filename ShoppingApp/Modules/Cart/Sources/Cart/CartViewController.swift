@@ -8,8 +8,28 @@
 import AppResources
 import UIKit
 
-public class CartViewController: UIViewController {
+// MARK: - Enums
+enum CartScreenSectionType: Int, CaseIterable {
+    case top = 0
+    case cart = 1
+    case coupon = 2
+    case similarProducts = 3
     
+    var stringValue: String? {
+        switch self {
+        case .top:
+            "top"
+        case .cart:
+            "cart"
+        case .coupon:
+            "coupon"
+        case .similarProducts:
+            "similarProducts"
+        }
+     }
+}
+
+public class CartViewController: UIViewController {
     
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var buttonBackgroundView: UIView!
@@ -50,6 +70,9 @@ public class CartViewController: UIViewController {
     @IBOutlet weak var topBackgroundView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    // MARK: - Private Variables
+    private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
+    
     // MARK: - Module Components
     public var viewModel = CartViewModel()
     
@@ -61,6 +84,7 @@ public class CartViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         viewModel.getCartDatas()
+        applySnapshot()
     }
 
     // MARK: - Module init
@@ -82,6 +106,7 @@ private extension CartViewController {
         setupBackgrounds()
         setupInitialHiddenStatus()
         setupGestures()
+        setupCollectionView()
     }
     
     final func setupTexts() {
@@ -172,10 +197,89 @@ private extension CartViewController {
         miniDetailStack.isHidden = shouldShowDetailStackWithDiscount
     }
     
+    final func setupCollectionView() {
+        collectionView.delegate = self
+        configureDatasource()
+        collectionView.register(nibWithCellClass: CartProductCollectionViewCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Bundle.module)
+        collectionView.collectionViewLayout = createCompositionalLayout()
+    }
+    
 }
 
 extension CartViewController: CartViewModelDelegate {
-    func reloadData(cart: [Cart]) {
+    func reloadData(cart: [ProductResponseElement]) {
         print(cart)
+    }
+}
+
+extension CartViewController: UICollectionViewDelegate {
+    
+}
+
+// MARK: - Compositional Layout
+extension CartViewController {
+    final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let self,
+                  let sectionType = CartScreenSectionType(rawValue: sectionIndex) else { return nil }
+            switch sectionType {
+            case .top:
+                return cartSection()
+            case .cart:
+                return cartSection()
+            case .coupon:
+                return cartSection()
+            case .similarProducts:
+                return cartSection()
+            }
+        }
+    }
+    
+    final func cartSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(144))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(144))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        return section
+    }
+}
+
+//MARK: - Diffable Data Source
+extension CartViewController {
+    final func configureDatasource() {
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { [weak self] collectionView, indexPath, itemIdentifier in
+            guard let self,
+                  let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell()}
+            switch sectionType {
+            case .top:
+                return UICollectionViewCell()
+            case .cart:
+                let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
+                let cartItem = viewModel.products[indexPath.row]
+                cell.configureWith(product: cartItem)
+                return cell
+            case .coupon:
+                return UICollectionViewCell()
+            case .similarProducts:
+                return UICollectionViewCell()
+            }
+        })
+        applySnapshot()
+    }
+    
+    final func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<CartScreenSectionType, AnyHashable>()
+        for section in CartScreenSectionType.allCases {
+            snapshot.appendSections([section])
+        }
+    
+        snapshot.appendItems(viewModel.products, toSection: .cart)
+        dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }

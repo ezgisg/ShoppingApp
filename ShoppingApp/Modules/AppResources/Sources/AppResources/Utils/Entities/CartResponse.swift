@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 1.08.2024.
 //
 
+//TODO: geçmiş siparişlerim için ama diğer cart modeli ile birleştirilebilir
 import Foundation
 
 public struct CartResponseElement: Decodable {

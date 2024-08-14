@@ -7,7 +7,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E65EB9CC-4FDE-4894-BE47-80E394A3B08C"
+            uuid = "61BE99E4-6913-4097-84F9-EB040D2CDB88"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -17,22 +17,6 @@
             startingLineNumber = "238"
             endingLineNumber = "238"
             landmarkName = "controlAddToCartButtonStatus(isEnabled:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B296BAB5-526B-4292-8445-6EB17EFD9670"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Sources/ProductList/DetailBottomViewController/DetailBottomViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "setupInitialStatus()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

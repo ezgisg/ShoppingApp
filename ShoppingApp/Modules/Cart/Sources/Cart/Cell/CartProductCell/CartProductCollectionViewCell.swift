@@ -40,7 +40,6 @@ class CartProductCollectionViewCell: UICollectionViewCell {
         setup()
         addTapGesture()
         NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
-        // Initialization code
     }
 
 }
@@ -74,7 +73,8 @@ extension CartProductCollectionViewCell {
         
         if let price = product.price,
            let quantity = product.quantity {
-            priceLabel.text = String(price * Double(quantity))
+            let totalPrice = String(format: "%.2f", price * Double(quantity))
+            priceLabel.text = totalPrice
         } else {
             priceLabel.text = "N/A"
         }
@@ -129,7 +129,7 @@ extension CartProductCollectionViewCell {
      @objc private func handleTap() {
          onSelectionTapped?()
      }
-    
+//    
     @objc private func selectionUpdated() {
         guard let id = product?.id, let size = product?.size else { return }
         let selections = CartManager.shared.selectionOfProducts

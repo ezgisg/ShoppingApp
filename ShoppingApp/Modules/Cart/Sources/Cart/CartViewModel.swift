@@ -13,6 +13,7 @@ protocol CartViewModelProtocol: AnyObject {
     func getCartDatas()
     var cartItems: [Cart] { get }
     var products: [ProductResponseElement] { get }
+    ///selection keeps separately from products because when something add-remove from cart, products array will renew completely
     var selectionOfProducts: [ProductResponseElement] { get }
 }
 
@@ -39,7 +40,6 @@ extension CartViewModel: CartViewModelProtocol {
     ///In this scenario, actually adding/removing new products is sufficient, but normally when the data is received from the backend, it may be necessary to request the cart again for stock or other changes.
     public func getCartDatas() {
         cartItems = CartManager.shared.cartItems
-        let selectionOfProducts = CartManager.shared.selectionOfProducts
         var fetchedProducts = [ProductResponseElement]()
         let dispatchGroup = DispatchGroup()
         

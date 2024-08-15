@@ -78,16 +78,11 @@ public class CartViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        ///not fetching data here because when something change in cart observer listen changes to reload collectionView
         viewModel.delegate = self
         setups()
-    
     }
     
-
-//    public override func viewWillAppear(_ animated: Bool) {
-//        viewModel.getCartDatas()
-//    }
-
     // MARK: - Module init
     public init() {
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
@@ -186,7 +181,7 @@ private extension CartViewController {
 
         detailImageOfDetailStack.isUserInteractionEnabled = true
         detailImageOfDetailStack.addGestureRecognizer(tapGesture1)
-
+        
         detailImageOfMiniDetailStack.isUserInteractionEnabled = true
         detailImageOfMiniDetailStack.addGestureRecognizer(tapGesture2)
 
@@ -264,14 +259,13 @@ extension CartViewController {
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
                 let cartItem = viewModel.products[indexPath.row]
-                var isSelected = true
-                if let isSelectedIndex = viewModel.selectionOfProducts.firstIndex(where: { $0.id == cartItem.id && $0.size == cartItem.size }) {
-                    isSelected = viewModel.selectionOfProducts[ isSelectedIndex].isSelected ?? true
-                }
-                
+                guard let id = cartItem.id, let size = cartItem.size else { return cell }
+                let isSelected = viewModel.selectionOfProducts
+                    .first(where: { $0.id == id && $0.size == size })?
+                    .isSelected
+                //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
                 cell.configureWith(product: cartItem, discountedPrice: nil, isSelected: isSelected)
                 cell.onSelectionTapped = {
-                    guard let id = cartItem.id, let size = cartItem.size else { return }
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
                 return cell

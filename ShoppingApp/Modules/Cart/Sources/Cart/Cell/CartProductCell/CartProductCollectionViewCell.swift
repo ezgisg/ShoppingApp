@@ -8,95 +8,74 @@
 import AppResources
 import UIKit
 
+//MARK: - CartProductCollectionViewCell
 class CartProductCollectionViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var topImageView: UIView!
-    @IBOutlet weak var containerImage: UIImageView!
-    @IBOutlet weak var outerImage: UIImageView!
-    @IBOutlet weak var innerImage: UIImageView!
 
-    @IBOutlet weak var backgroundOfImageView: UIView!
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productCategory: UILabel!
-    @IBOutlet weak var productSize: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    
-    @IBOutlet weak var discountedPriceLabel: UILabel!
+    //MARK: - Outlets
+    @IBOutlet private weak var topImageView: UIView!
+    @IBOutlet private weak var containerImage: UIImageView!
+    @IBOutlet private weak var outerImage: UIImageView!
+    @IBOutlet private weak var innerImage: UIImageView!
 
-    @IBOutlet weak var minusButtonImage: UIImageView!
-    @IBOutlet weak var productCountLabel: UILabel!
-    @IBOutlet weak var productCountBackgroundView: UIView!
-    @IBOutlet weak var plusButtonImage: UIImageView!
-    @IBOutlet weak var minusPlusBackView: UIView!
+    @IBOutlet private weak var backgroundOfImageView: UIView!
+    @IBOutlet private weak var productImage: UIImageView!
+    @IBOutlet private weak var productName: UILabel!
+    @IBOutlet private weak var productCategory: UILabel!
+    @IBOutlet private weak var productSize: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    
+    @IBOutlet private weak var discountedPriceLabel: UILabel!
+
+    @IBOutlet private weak var minusButtonImage: UIImageView!
+    @IBOutlet private weak var productCountLabel: UILabel!
+    @IBOutlet private weak var productCountBackgroundView: UIView!
+    @IBOutlet private weak var plusButtonImage: UIImageView!
+    @IBOutlet private weak var minusPlusBackView: UIView!
     
     // MARK: - Properties
     var onSelectionTapped: (() -> Void)?
-    
-    var product: ProductResponseElement?
-    
+
+    // MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
-        setup()
-        addTapGesture()
-//        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
+        setups()
     }
-
 }
 
 //MARK: - Configure
 extension CartProductCollectionViewCell {
     func configureWith(product: ProductResponseElement, discountedPrice: Int?, isSelected: Bool? = true) {
-        self.product = product
-        if let discountedPrice {
-            discountedPriceLabel.text = String(discountedPrice)
-            discountedPriceLabel.isHidden = false
-            priceLabel.font = .systemFont(ofSize: 18)
-            priceLabel.textColor = .gray
-            let attributedText = NSAttributedString(string: priceLabel.text ?? "", attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
-            priceLabel.attributedText = attributedText
-        } else {
-            discountedPriceLabel.isHidden = true
-            priceLabel.font = .boldSystemFont(ofSize: 24)
-            priceLabel.textColor = .black
-            priceLabel.attributedText = NSAttributedString(string: priceLabel.text ?? "")
-        }
-        
+        innerImage.tintColor = (isSelected ?? true) ? .tabbarBackgroundColor : .clear
+        loadProductImage(from: product.image)
         productName.text = product.title
         productCategory.text = product.category
-        if let quantity = product.quantity {
-            productCountLabel.text = String(quantity)
-        } else {
-            productCountLabel.text = "N/A"
-        }
-
-        
-        if let price = product.price,
-           let quantity = product.quantity {
-            let totalPrice = String(format: "%.2f", price * Double(quantity))
-            priceLabel.text = totalPrice
-        } else {
-            priceLabel.text = "N/A"
-        }
         productSize.text = product.size
-     
-        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .clear
-        guard let urlString = product.image, let url = URL(string: urlString)
-        else { return productImage.image = .noImage }
-        productImage.loadImage(with: url, cornerRadius: 8, contentMode: .scaleAspectFit)
+        updatePriceLabel(price: product.price, quantity: product.quantity)
+        changePriceLabels(discountedPrice: discountedPrice)
+        updateQuantityLabel(quantity: product.quantity)
     }
 }
 
 //MARK: - Setups
-extension CartProductCollectionViewCell {
-    final func setup() {
-        minusButtonImage.image = .minusImage
-        minusButtonImage.tintColor = .tabbarBackgroundColor
-        plusButtonImage.image = .plusImage
-        plusButtonImage.tintColor = .tabbarBackgroundColor
-        
+private extension CartProductCollectionViewCell {
+    final func setups() {
+        setupTexts()
+        setupBackgrounds()
+        setupButtonsUI()
+        addTapGesture()
+    }
+    
+    final func setupTexts() {
         productCountLabel.adjustsFontSizeToFitWidth = true
         productCountLabel.textColor = .white
+    }
+    
+    final func setupBackgrounds() {
+        backgroundOfImageView.backgroundColor = .clear
+        backgroundOfImageView.layer.borderWidth = 1
+        backgroundOfImageView.layer.borderColor = UIColor.lightDividerColor.cgColor
+        backgroundOfImageView.layer.cornerRadius = 8
+        
         
         productCountBackgroundView.backgroundColor = .tabbarBackgroundColor.withAlphaComponent(0.5)
         productCountBackgroundView.layer.cornerRadius = productCountBackgroundView.frame.width / 2
@@ -104,6 +83,13 @@ extension CartProductCollectionViewCell {
         minusPlusBackView.layer.cornerRadius = 8
         minusPlusBackView.layer.borderColor = UIColor.tabbarBackgroundColor.cgColor
         minusPlusBackView.layer.borderWidth = 1
+    }
+    
+    final func setupButtonsUI() {
+        minusButtonImage.image = .minusImage
+        minusButtonImage.tintColor = .tabbarBackgroundColor
+        plusButtonImage.image = .plusImage
+        plusButtonImage.tintColor = .tabbarBackgroundColor
         
         //TODO: bu buton hem sortda var hem burada var view ortaklaştırılacak
         topImageView.backgroundColor = .clear
@@ -112,29 +98,62 @@ extension CartProductCollectionViewCell {
         outerImage.image = .systemCircleImage
         outerImage.tintColor = .white
         innerImage.image = .systemCircleImage
-  
-        
-        backgroundOfImageView.backgroundColor = .clear
-        backgroundOfImageView.layer.borderWidth = 1
-        backgroundOfImageView.layer.borderColor = UIColor.lightDividerColor.cgColor
-        backgroundOfImageView.layer.cornerRadius = 8
     }
     
-    private func addTapGesture() {
-         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-         topImageView.addGestureRecognizer(tapGesture)
+    final func addTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        topImageView.addGestureRecognizer(tapGesture)
         topImageView.isUserInteractionEnabled = true
-     }
+    }
      
-     @objc private func handleTap() {
-         onSelectionTapped?()
-     }
-//    
-//    @objc private func selectionUpdated() {
-//        guard let id = product?.id, let size = product?.size else { return }
-//        let selections = CartManager.shared.selectionOfProducts
-//        guard let index = selections.firstIndex(where: { $0.id == id && $0.size == size }) else { return }
-//        let isSelected = selections[index].isSelected
-//        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .white
-//    }
+}
+
+//MARK: - Helpers
+private extension CartProductCollectionViewCell {
+    final func changePriceLabels(discountedPrice: Int?) {
+        guard let discountedPrice else {
+            discountedPriceLabel.isHidden = true
+            priceLabel.font = .boldSystemFont(ofSize: 24)
+            priceLabel.textColor = .black
+            guard let text = priceLabel.text else { return }
+            priceLabel.attributedText = NSAttributedString(string: text)
+            return
+        }
+        
+        discountedPriceLabel.isHidden = false
+        priceLabel.font = .systemFont(ofSize: 18)
+        priceLabel.textColor = .gray
+        discountedPriceLabel.text = String(discountedPrice)
+        guard let text = priceLabel.text else { return }
+        let attributedText = NSAttributedString(string: text, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
+        priceLabel.attributedText = attributedText
+    }
+    
+    final func updatePriceLabel(price: Double?, quantity: Int?) {
+        guard let price,
+              let quantity
+        else {
+            return priceLabel.text = "N/A"
+        }
+        let totalPrice = String(format: "%.2f", price * Double(quantity))
+        priceLabel.text = totalPrice
+    }
+    
+    final func loadProductImage(from urlString: String?) {
+        guard let urlString,
+              let url = URL(string: urlString)
+        else {
+            return productImage.image = .noImage
+        }
+        productImage.loadImage(with: url, cornerRadius: 8, contentMode: .scaleAspectFit)
+    }
+    
+    final func updateQuantityLabel(quantity: Int?) {
+        guard let quantity else { return productCountLabel.text = "N/A" }
+        productCountLabel.text = String(quantity)
+    }
+    
+    @objc final func handleTap() {
+        onSelectionTapped?()
+    }
 }

@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "49CD7CA5-B61E-417C-939C-D39220D69F3D"
+            uuid = "F4D0CF59-E9FF-40E1-AE72-D2F335DACAE4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
+            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "selectionUpdated()"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "reloadData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

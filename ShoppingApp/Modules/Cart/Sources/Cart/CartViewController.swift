@@ -80,12 +80,13 @@ public class CartViewController: UIViewController {
         super.viewDidLoad()
         viewModel.delegate = self
         setups()
+    
     }
     
 
-    public override func viewWillAppear(_ animated: Bool) {
-        viewModel.getCartDatas()
-    }
+//    public override func viewWillAppear(_ animated: Bool) {
+//        viewModel.getCartDatas()
+//    }
 
     // MARK: - Module init
     public init() {
@@ -208,7 +209,7 @@ private extension CartViewController {
 }
 
 extension CartViewController: CartViewModelDelegate {
-    func reloadData(cart: [ProductResponseElement]) {
+    func reloadData() {
         applySnapshot()
         collectionView.reloadData()
     }
@@ -262,8 +263,13 @@ extension CartViewController {
                 return UICollectionViewCell()
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
-                var cartItem = viewModel.products[indexPath.row]
-                cell.configureWith(product: cartItem, discountedPrice: nil)
+                let cartItem = viewModel.products[indexPath.row]
+                var isSelected = true
+                if let isSelectedIndex = viewModel.selectionOfProducts.firstIndex(where: { $0.id == cartItem.id && $0.size == cartItem.size }) {
+                    isSelected = viewModel.selectionOfProducts[ isSelectedIndex].isSelected ?? true
+                }
+                
+                cell.configureWith(product: cartItem, discountedPrice: nil, isSelected: isSelected)
                 cell.onSelectionTapped = {
                     guard let id = cartItem.id, let size = cartItem.size else { return }
                     CartManager.shared.updateProductSelection(productId: id, size: size)

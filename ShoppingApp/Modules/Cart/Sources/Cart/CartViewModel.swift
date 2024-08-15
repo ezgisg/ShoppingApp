@@ -13,20 +13,25 @@ protocol CartViewModelProtocol: AnyObject {
     func getCartDatas()
     var cartItems: [Cart] { get }
     var products: [ProductResponseElement] { get }
+    var selectionOfProducts: [ProductResponseElement] { get }
 }
 
 protocol CartViewModelDelegate: AnyObject {
-    func reloadData(cart: [ProductResponseElement])
+    func reloadData()
 }
 
 public final class CartViewModel {
     weak var delegate: CartViewModelDelegate?
     public var cartItems: [Cart] = []
     public var products: [ProductResponseElement] = []
+    var selectionOfProducts: [ProductResponseElement] = []
     private var service: ShoppingServiceProtocol
+    
     
     init(service: ShoppingServiceProtocol = ShoppingService()) {
         self.service = service
+        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
 }
 
@@ -66,7 +71,19 @@ extension CartViewModel: CartViewModelProtocol {
             }
         
             products = updatedProducts
-            self.delegate?.reloadData(cart: updatedProducts)
+            self.delegate?.reloadData()
         }
+    }
+}
+
+extension CartViewModel {
+    @objc private func selectionUpdated() {
+        let selections = CartManager.shared.selectionOfProducts
+        selectionOfProducts = selections
+        delegate?.reloadData()
+    }
+    
+    @objc private func cartUpdated() {
+        getCartDatas()
     }
 }

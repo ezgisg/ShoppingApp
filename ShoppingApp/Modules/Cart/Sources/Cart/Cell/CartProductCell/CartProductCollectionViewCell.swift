@@ -39,14 +39,14 @@ class CartProductCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         setup()
         addTapGesture()
-        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
     }
 
 }
 
 //MARK: - Configure
 extension CartProductCollectionViewCell {
-    func configureWith(product: ProductResponseElement, discountedPrice: Int?) {
+    func configureWith(product: ProductResponseElement, discountedPrice: Int?, isSelected: Bool? = true) {
         self.product = product
         if let discountedPrice {
             discountedPriceLabel.text = String(discountedPrice)
@@ -80,8 +80,7 @@ extension CartProductCollectionViewCell {
         }
         productSize.text = product.size
      
-        selectionUpdated()
-        
+        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .clear
         guard let urlString = product.image, let url = URL(string: urlString)
         else { return productImage.image = .noImage }
         productImage.loadImage(with: url, cornerRadius: 8, contentMode: .scaleAspectFit)
@@ -113,6 +112,7 @@ extension CartProductCollectionViewCell {
         outerImage.image = .systemCircleImage
         outerImage.tintColor = .white
         innerImage.image = .systemCircleImage
+  
         
         backgroundOfImageView.backgroundColor = .clear
         backgroundOfImageView.layer.borderWidth = 1
@@ -130,11 +130,11 @@ extension CartProductCollectionViewCell {
          onSelectionTapped?()
      }
 //    
-    @objc private func selectionUpdated() {
-        guard let id = product?.id, let size = product?.size else { return }
-        let selections = CartManager.shared.selectionOfProducts
-        guard let index = selections.firstIndex(where: { $0.id == id && $0.size == size }) else { return }
-        let isSelected = selections[index].isSelected
-        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .white
-    }
+//    @objc private func selectionUpdated() {
+//        guard let id = product?.id, let size = product?.size else { return }
+//        let selections = CartManager.shared.selectionOfProducts
+//        guard let index = selections.firstIndex(where: { $0.id == id && $0.size == size }) else { return }
+//        let isSelected = selections[index].isSelected
+//        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .white
+//    }
 }

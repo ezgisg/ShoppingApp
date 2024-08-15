@@ -97,4 +97,9 @@ public extension UIImage {
         return UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
     }
     
+    static var trashImage: UIImage? {
+        return UIImage(systemName: "trash")?.withRenderingMode(.alwaysTemplate)
+    }
+    
+    
 }

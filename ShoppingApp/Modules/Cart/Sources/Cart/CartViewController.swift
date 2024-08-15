@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import Base
 import UIKit
 
 // MARK: - Enums
@@ -29,7 +30,7 @@ enum CartScreenSectionType: Int, CaseIterable {
      }
 }
 
-public class CartViewController: UIViewController {
+public class CartViewController: BaseViewController {
     
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var buttonBackgroundView: UIView!
@@ -105,12 +106,12 @@ private extension CartViewController {
         setupCollectionView()
     }
     
+    //TODO: Localizable ile başlıklar vs doldurulacak
     final func setupTexts() {
-        
+        setTotalPrice()
     }
     
     final func setupTextsColorFont() {
-
         paymentButton.titleLabel?.textColor = .buttonTextColor
         orderSummaryLabelOfDetailStack.font = .boldSystemFont(ofSize: 22)
         orderSummaryLabelOfDetailStack.textColor = .tabbarBackgroundColor
@@ -208,6 +209,16 @@ extension CartViewController: CartViewModelDelegate {
         applySnapshot()
         collectionView.reloadData()
     }
+    
+    func hideLoading() {
+        hideLoadingView()
+    }
+    
+    func setTotalPrice() {
+        let totalPrice = String(format: "%.2f",  viewModel.totalPrice ?? 0)
+        sumLabelCountofSumStack.text = "\(totalPrice) $"
+        sumCountLabelOfDetailStack.text = "\(totalPrice) $"
+    }
 }
 
 extension CartViewController: UICollectionViewDelegate {
@@ -228,7 +239,7 @@ extension CartViewController {
             case .coupon:
                 return cartSection()
             case .similarProducts:
-                return cartSection()
+                return similarSection()
             }
         }
     }
@@ -243,6 +254,20 @@ extension CartViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        return section
+    }
+    
+    final func similarSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(152), heightDimension: .uniformAcrossSiblings(estimate: 264))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(152), heightDimension: .uniformAcrossSiblings(estimate: 264))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        section.orthogonalScrollingBehavior = .continuous
         return section
     }
 }
@@ -265,14 +290,30 @@ extension CartViewController {
                     .isSelected
                 //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
                 cell.configureWith(product: cartItem, discountedPrice: nil, isSelected: isSelected)
-                cell.onSelectionTapped = {
+                cell.onSelectionTapped = {  [weak self] in
+                    guard let self else { return }
+                    showLoadingView()
                     CartManager.shared.updateProductSelection(productId: id, size: size)
+                }
+                cell.onMinusTapped = {  [weak self] in
+                    guard let self else { return }
+                    showLoadingView()
+                    CartManager.shared.removeFromCart(productId: id, size: size)
+                
+                }
+                cell.onPlusTapped = {  [weak self] in
+                    guard let self else { return }
+                    showLoadingView()
+                    CartManager.shared.addToCart(productId: id, size: size)
                 }
                 return cell
             case .coupon:
                 return UICollectionViewCell()
             case .similarProducts:
-                return UICollectionViewCell()
+                let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
+                let item = viewModel.similarProducts[indexPath.row]
+                cell.configureWith(product: item)
+                return cell
             }
         })
         applySnapshot()
@@ -285,6 +326,7 @@ extension CartViewController {
         }
     
         snapshot.appendItems(viewModel.products, toSection: .cart)
+        snapshot.appendItems(viewModel.similarProducts, toSection: .similarProducts)
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 }

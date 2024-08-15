@@ -34,6 +34,8 @@ class CartProductCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     var onSelectionTapped: (() -> Void)?
+    var onMinusTapped: (() -> Void)?
+    var onPlusTapped: (() -> Void)?
 
     // MARK: - Life Cycles
     override func awakeFromNib() {
@@ -53,6 +55,7 @@ extension CartProductCollectionViewCell {
         updatePriceLabel(price: product.price, quantity: product.quantity)
         changePriceLabels(discountedPrice: discountedPrice)
         updateQuantityLabel(quantity: product.quantity)
+        updateMinusImage(quantity: product.quantity)
     }
 }
 
@@ -86,7 +89,6 @@ private extension CartProductCollectionViewCell {
     }
     
     final func setupButtonsUI() {
-        minusButtonImage.image = .minusImage
         minusButtonImage.tintColor = .tabbarBackgroundColor
         plusButtonImage.image = .plusImage
         plusButtonImage.tintColor = .tabbarBackgroundColor
@@ -101,9 +103,17 @@ private extension CartProductCollectionViewCell {
     }
     
     final func addTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        topImageView.addGestureRecognizer(tapGesture)
+        let selectionGesture = UITapGestureRecognizer(target: self, action: #selector(tappedSelection))
+        topImageView.addGestureRecognizer(selectionGesture)
         topImageView.isUserInteractionEnabled = true
+        
+        let minusGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMinus))
+        minusButtonImage.addGestureRecognizer(minusGesture)
+        minusButtonImage.isUserInteractionEnabled = true
+        
+        let plusGesture = UITapGestureRecognizer(target: self, action: #selector(tappedPlus))
+        plusButtonImage.addGestureRecognizer(plusGesture)
+        plusButtonImage.isUserInteractionEnabled = true
     }
      
 }
@@ -118,8 +128,8 @@ private extension CartProductCollectionViewCell {
             guard let text = priceLabel.text else { return }
             priceLabel.attributedText = NSAttributedString(string: text)
             return
+            
         }
-        
         discountedPriceLabel.isHidden = false
         priceLabel.font = .systemFont(ofSize: 18)
         priceLabel.textColor = .gray
@@ -136,7 +146,7 @@ private extension CartProductCollectionViewCell {
             return priceLabel.text = "N/A"
         }
         let totalPrice = String(format: "%.2f", price * Double(quantity))
-        priceLabel.text = totalPrice
+        priceLabel.text = "\(totalPrice) $"
     }
     
     final func loadProductImage(from urlString: String?) {
@@ -153,7 +163,24 @@ private extension CartProductCollectionViewCell {
         productCountLabel.text = String(quantity)
     }
     
-    @objc final func handleTap() {
+    final func updateMinusImage(quantity: Int?) {
+        guard let quantity else { return minusButtonImage.image = .minusImage }
+        minusButtonImage.image = quantity > 1 ? .minusImage : .trashImage
+    }
+}
+
+
+//MARK: - Actions
+private extension CartProductCollectionViewCell {
+    @objc final func tappedSelection() {
         onSelectionTapped?()
+    }
+    
+    @objc final func tappedMinus() {
+        onMinusTapped?()
+    }
+    
+    @objc final func tappedPlus() {
+        onPlusTapped?()
     }
 }

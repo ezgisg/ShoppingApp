@@ -27,7 +27,6 @@ public class CartManager {
             selectionOfProducts.append(newProduct)
             notifySelectionUpdate()
         }
-        
         notifyCartUpdate()
     }
 

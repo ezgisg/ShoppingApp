@@ -39,6 +39,7 @@ class CartProductCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         setup()
         addTapGesture()
+        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
         // Initialization code
     }
 
@@ -49,16 +50,15 @@ extension CartProductCollectionViewCell {
     func configureWith(product: ProductResponseElement, discountedPrice: Int?) {
         self.product = product
         if let discountedPrice {
-        
             discountedPriceLabel.text = String(discountedPrice)
             discountedPriceLabel.isHidden = false
-            priceLabel.font = .systemFont(ofSize: priceLabel.font.pointSize - 4)
+            priceLabel.font = .systemFont(ofSize: 18)
             priceLabel.textColor = .gray
             let attributedText = NSAttributedString(string: priceLabel.text ?? "", attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
             priceLabel.attributedText = attributedText
         } else {
             discountedPriceLabel.isHidden = true
-            priceLabel.font = .boldSystemFont(ofSize: priceLabel.font.pointSize + 4)
+            priceLabel.font = .boldSystemFont(ofSize: 24)
             priceLabel.textColor = .black
             priceLabel.attributedText = NSAttributedString(string: priceLabel.text ?? "")
         }
@@ -80,7 +80,8 @@ extension CartProductCollectionViewCell {
         }
         productSize.text = product.size
      
-    
+        selectionUpdated()
+        
         guard let urlString = product.image, let url = URL(string: urlString)
         else { return productImage.image = .noImage }
         productImage.loadImage(with: url, cornerRadius: 8, contentMode: .scaleAspectFit)
@@ -112,7 +113,6 @@ extension CartProductCollectionViewCell {
         outerImage.image = .systemCircleImage
         outerImage.tintColor = .white
         innerImage.image = .systemCircleImage
-        innerImage.tintColor = .tabbarBackgroundColor
         
         backgroundOfImageView.backgroundColor = .clear
         backgroundOfImageView.layer.borderWidth = 1
@@ -122,14 +122,19 @@ extension CartProductCollectionViewCell {
     
     private func addTapGesture() {
          let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-         innerImage.addGestureRecognizer(tapGesture)
-         innerImage.isUserInteractionEnabled = true
+         topImageView.addGestureRecognizer(tapGesture)
+        topImageView.isUserInteractionEnabled = true
      }
      
      @objc private func handleTap() {
-         product?.isSelected?.toggle()
-         print("*****", product?.isSelected)
-         innerImage.tintColor = product?.isSelected ?? true ? .tabbarBackgroundColor : .white
          onSelectionTapped?()
      }
+    
+    @objc private func selectionUpdated() {
+        guard let id = product?.id, let size = product?.size else { return }
+        let selections = CartManager.shared.selectionOfProducts
+        guard let index = selections.firstIndex(where: { $0.id == id && $0.size == size }) else { return }
+        let isSelected = selections[index].isSelected
+        innerImage.tintColor = isSelected ?? true ? .tabbarBackgroundColor : .white
+    }
 }

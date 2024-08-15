@@ -30,10 +30,11 @@ public final class CartViewModel {
     }
 }
 
-
 extension CartViewModel: CartViewModelProtocol {
+    ///In this scenario, actually adding/removing new products is sufficient, but normally when the data is received from the backend, it may be necessary to request the cart again for stock or other changes.
     public func getCartDatas() {
         cartItems = CartManager.shared.cartItems
+        let selectionOfProducts = CartManager.shared.selectionOfProducts
         var fetchedProducts = [ProductResponseElement]()
         let dispatchGroup = DispatchGroup()
         
@@ -60,11 +61,10 @@ extension CartViewModel: CartViewModelProtocol {
                 if var product = fetchedProducts.first(where: { $0.id == item.productId }) {
                     product.quantity = item.quantity
                     product.size = item.size
-                    product.isSelected = true
                     updatedProducts.append(product)
                 }
             }
-            
+        
             products = updatedProducts
             self.delegate?.reloadData(cart: updatedProducts)
         }

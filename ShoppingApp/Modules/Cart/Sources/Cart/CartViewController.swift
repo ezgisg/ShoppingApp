@@ -79,14 +79,12 @@ public class CartViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        viewModel.getCartDatas()
         setups()
     }
     
-    //TODO: her sepet değişikliğinde çağırmak lazım bunları ancak selectedları bir yerde tutmak da gerek aynı zamanda
+
     public override func viewWillAppear(_ animated: Bool) {
-//        viewModel.getCartDatas()
-//        applySnapshot()
+        viewModel.getCartDatas()
     }
 
     // MARK: - Module init
@@ -212,8 +210,7 @@ private extension CartViewController {
 extension CartViewController: CartViewModelDelegate {
     func reloadData(cart: [ProductResponseElement]) {
         applySnapshot()
-//        collectionView.reloadData()
-        print(cart)
+        collectionView.reloadData()
     }
 }
 
@@ -268,8 +265,8 @@ extension CartViewController {
                 var cartItem = viewModel.products[indexPath.row]
                 cell.configureWith(product: cartItem, discountedPrice: nil)
                 cell.onSelectionTapped = {
-                    cartItem.isSelected = !(cartItem.isSelected ?? false)
-                    self.viewModel.products[indexPath.row] = cartItem
+                    guard let id = cartItem.id, let size = cartItem.size else { return }
+                    CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
                 return cell
             case .coupon:

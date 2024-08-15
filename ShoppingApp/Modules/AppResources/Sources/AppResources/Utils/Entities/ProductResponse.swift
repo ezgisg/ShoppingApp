@@ -20,7 +20,7 @@ public struct ProductResponseElement: Decodable, Hashable {
     public var size: String?
     public var isSelected: Bool?
     
-    init(id: Int?, title: String?, price: Double?, description: String?, category: String?, image: String?, rating: Rating?, quantity: Int? = nil, size: String? = nil, isSelected: Bool? = true) {
+    public init(id: Int?, title: String? = nil, price: Double? = nil, description: String? = nil, category: String? = nil, image: String? = nil, rating: Rating? = nil, quantity: Int? = nil, size: String? = nil, isSelected: Bool? = true) {
         self.id = id
         self.title = title
         self.price = price
@@ -37,6 +37,9 @@ public struct ProductResponseElement: Decodable, Hashable {
         hasher.combine("\(id ?? 0)\(size ?? "-")")
     }
     
+    public static func ==(lhs: ProductResponseElement, rhs: ProductResponseElement) -> Bool {
+          return lhs.id == rhs.id && lhs.size == rhs.size
+      }
 }
 
 public struct Rating: Equatable, Decodable {

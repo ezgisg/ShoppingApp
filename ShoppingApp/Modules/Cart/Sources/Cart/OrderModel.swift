@@ -32,7 +32,4 @@ public struct Cart: Decodable, Hashable {
         hasher.combine(productId)
     }
 
-    public static func == (lhs: Cart, rhs: Cart) -> Bool {
-        return lhs.productId == rhs.productId
-    }
 }

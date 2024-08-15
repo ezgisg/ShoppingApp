@@ -93,7 +93,7 @@ private extension DetailBottomViewController {
             }, completion: {  [weak self] _ in
                 guard let self else { return }
                 warningForAddingCartView.isHidden = true
-                warningForAddingCartView.alpha = 1 // Alpha değerini tekrar normal haline getir
+                warningForAddingCartView.alpha = 1
             })
         })
         

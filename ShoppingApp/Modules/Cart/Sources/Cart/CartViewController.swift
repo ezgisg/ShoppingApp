@@ -84,6 +84,7 @@ public class CartViewController: BaseViewController {
         ///not fetching data here because when something change in cart observer listen changes to reload collectionView
         viewModel.delegate = self
         setups()
+        setupKeyboardObservers(scrollView: collectionView)
     }
     
     // MARK: - Module init
@@ -198,10 +199,12 @@ private extension CartViewController {
     
     final func setupCollectionView() {
         collectionView.delegate = self
+        collectionView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0)
         configureDatasource()
         collectionView.register(nibWithCellClass: CartControlCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartProductCollectionViewCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: CouponCell.self, at: Bundle.module)
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
@@ -245,7 +248,7 @@ extension CartViewController {
             case .cart:
                 return cartSection()
             case .coupon:
-                return cartSection()
+                return topSection()
             case .similarProducts:
                 return similarSection()
             }
@@ -274,7 +277,7 @@ extension CartViewController {
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 12, trailing: 8)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         return section
     }
     
@@ -355,7 +358,8 @@ extension CartViewController {
                 }
                 return cell
             case .coupon:
-                return UICollectionViewCell()
+                let cell = collectionView.dequeueReusableCell(withClass: CouponCell.self, for: indexPath)
+                return cell
             case .similarProducts:
                 let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
                 let product = viewModel.similarProducts[indexPath.row]
@@ -382,6 +386,7 @@ extension CartViewController {
     
         if viewModel.products.count > 0 {
             snapshot.appendItems(["topSection"], toSection: .top)
+            snapshot.appendItems(["couponSection"], toSection: .coupon)
         }
         snapshot.appendItems(viewModel.products, toSection: .cart)
         snapshot.appendItems(viewModel.similarProducts, toSection: .similarProducts)

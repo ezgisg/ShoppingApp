@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CouponCell" customModule="Cart">
+            <rect key="frame" x="0.0" y="0.0" width="425" height="65"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="425" height="65"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rY1-s5-3Uf">
+                        <rect key="frame" x="0.0" y="0.0" width="425" height="65"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="ya1-pl-2ct">
+                                <rect key="frame" x="8" y="12" width="409" height="41"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EHL-zf-emh">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="41"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="kampanya kodu" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sr9-9f-MKP">
+                                                <rect key="frame" x="1" y="1" width="333" height="39"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Sr9-9f-MKP" secondAttribute="trailing" constant="1" id="4WG-TF-Wyr"/>
+                                            <constraint firstItem="Sr9-9f-MKP" firstAttribute="leading" secondItem="EHL-zf-emh" secondAttribute="leading" constant="1" id="jkl-ZO-nwt"/>
+                                            <constraint firstItem="Sr9-9f-MKP" firstAttribute="top" secondItem="EHL-zf-emh" secondAttribute="top" constant="1" id="sY8-Z8-3St"/>
+                                            <constraint firstAttribute="bottom" secondItem="Sr9-9f-MKP" secondAttribute="bottom" constant="1" id="xJz-hs-PnI"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWl-fw-a0Q">
+                                        <rect key="frame" x="347" y="0.0" width="62" height="41"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kullan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QyZ-Bq-hhJ">
+                                                <rect key="frame" x="16" y="8" width="30" height="25"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <constraints>
+                                            <constraint firstItem="QyZ-Bq-hhJ" firstAttribute="centerY" secondItem="VWl-fw-a0Q" secondAttribute="centerY" id="3kU-d3-EzE"/>
+                                            <constraint firstItem="QyZ-Bq-hhJ" firstAttribute="centerX" secondItem="VWl-fw-a0Q" secondAttribute="centerX" id="BkQ-T0-s1d"/>
+                                            <constraint firstItem="QyZ-Bq-hhJ" firstAttribute="top" secondItem="VWl-fw-a0Q" secondAttribute="top" constant="8" id="HSA-av-P9Z"/>
+                                            <constraint firstAttribute="trailing" secondItem="QyZ-Bq-hhJ" secondAttribute="trailing" constant="16" id="JsP-xy-I9N"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="RnM-zD-KgD"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ya1-pl-2ct" firstAttribute="top" secondItem="rY1-s5-3Uf" secondAttribute="top" constant="12" id="Hkr-60-IKX"/>
+                            <constraint firstAttribute="trailing" secondItem="ya1-pl-2ct" secondAttribute="trailing" constant="8" id="SFe-dW-saM"/>
+                            <constraint firstAttribute="bottom" secondItem="ya1-pl-2ct" secondAttribute="bottom" constant="12" id="hOz-Rw-nhz"/>
+                            <constraint firstItem="ya1-pl-2ct" firstAttribute="leading" secondItem="rY1-s5-3Uf" secondAttribute="leading" constant="8" id="rNc-Pe-DLa"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="rY1-s5-3Uf" secondAttribute="bottom" id="7gZ-NU-r5D"/>
+                <constraint firstItem="rY1-s5-3Uf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="bED-BH-Yfa"/>
+                <constraint firstAttribute="trailing" secondItem="rY1-s5-3Uf" secondAttribute="trailing" id="t7G-nn-JZj"/>
+                <constraint firstItem="rY1-s5-3Uf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="us5-VX-l4E"/>
+            </constraints>
+            <size key="customSize" width="425" height="65"/>
+            <connections>
+                <outlet property="applyButtonLabel" destination="QyZ-Bq-hhJ" id="nTk-8E-uDa"/>
+                <outlet property="applyLabelBackView" destination="VWl-fw-a0Q" id="gLR-5C-37p"/>
+                <outlet property="couponTextField" destination="Sr9-9f-MKP" id="3wz-oc-6yx"/>
+                <outlet property="textFieldBackView" destination="EHL-zf-emh" id="C8c-1F-Ie2"/>
+            </connections>
+            <point key="canvasLocation" x="144.27480916030532" y="-5.9859154929577469"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

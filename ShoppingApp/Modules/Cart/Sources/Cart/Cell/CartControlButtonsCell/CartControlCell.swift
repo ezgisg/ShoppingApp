@@ -85,8 +85,6 @@ extension CartControlCell {
 private extension CartControlCell {
     @objc final func tappedSelect() {
         onSelectAllTapped?()
-//        isSelectAllActive.toggle()
-//        controlSelectionStatus()
     }
     
     @objc final func tappedDelete() {

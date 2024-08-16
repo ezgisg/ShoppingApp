@@ -315,8 +315,16 @@ extension CartViewController {
                 let cell = collectionView.dequeueReusableCell(withClass: CartControlCell.self, for: indexPath)
                 let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
                 let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
-                cell.onSelectAllTapped = {
+                cell.onSelectAllTapped = {  [weak self] in
+                    guard let self else { return }
+                    showLoadingView()
                     CartManager.shared.updateAllProductsSelection(to: !isSelectAllActive)
+                }
+                cell.onDeleteAllTapped = {  [weak self] in
+                    guard let self else { return }
+                    guard selectedItemCount > 0 else { return }
+                    showLoadingView()
+                    CartManager.shared.removeAllSelectedFromCart()
                 }
                 cell.configureWith(selectedItemCount: selectedItemCount, isSelectAllActive: isSelectAllActive)
                 return cell

@@ -44,11 +44,28 @@ public class CartManager {
         notifyCartUpdate()
     }
     
+    public func removeAllSelectedFromCart() {
+        let selectedProducts =       selectionOfProducts.filter { $0.isSelected == true }
+        for product in selectedProducts {
+            guard let productId = product.id,
+                  let size = product.size,
+                  let index = cartItems.firstIndex(where: { $0.productId == productId && $0.size == size }) else { return }
+            cartItems.remove(at: index)
+        }
+        removeAllSelectedProducts()
+        notifyCartUpdate()
+    }
+    
     private func removeFromSelection(productId: Int, size: String) {
         guard let index = selectionOfProducts.firstIndex(where: { $0.id == productId && $0.size == size }) else {
             return
         }
         selectionOfProducts.remove(at: index)
+        notifySelectionUpdate()
+    }
+    
+    public func removeAllSelectedProducts() {
+        selectionOfProducts.removeAll { $0.isSelected == true }
         notifySelectionUpdate()
     }
 

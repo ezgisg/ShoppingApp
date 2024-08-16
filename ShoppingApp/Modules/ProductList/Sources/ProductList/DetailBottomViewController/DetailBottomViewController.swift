@@ -115,7 +115,7 @@ private extension DetailBottomViewController {
         titleLabel.text = "Sepete Hızlı Ekle"
         categoryLabel.text = product.category
         productLabel.text = product.title
-        sizeLabel.text = "Beden"
+        sizeLabel.text = "Varyant"
         choseSizeButton.setTitle("Sepete ekle", for: .normal)
         cancelButton.setTitle("İptal", for: .normal)
         if let price = product.price {

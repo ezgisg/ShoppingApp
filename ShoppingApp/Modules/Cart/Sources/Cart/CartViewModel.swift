@@ -117,7 +117,6 @@ private extension CartViewModel {
         selectionOfProducts = selections
         totalPrice = calculateTotalPrice(from: products)
         delegate?.reloadData()
-//        delegate?.hideLoading()
     }
     
     @objc final func cartUpdated() {

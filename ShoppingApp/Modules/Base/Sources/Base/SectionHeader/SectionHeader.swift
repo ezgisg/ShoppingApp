@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class SectionHeader: UICollectionReusableView {
-    static let reuseIdentifier = "SectionHeader"
+public class SectionHeader: UICollectionReusableView {
+    public static let reuseIdentifier = "SectionHeader"
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -31,7 +31,7 @@ class SectionHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with title: String, color: UIColor) {
+    public func configure(with title: String, color: UIColor) {
         titleLabel.text = title
         titleLabel.textColor = color
     }

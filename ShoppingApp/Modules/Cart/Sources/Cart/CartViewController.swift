@@ -199,6 +199,7 @@ private extension CartViewController {
         configureDatasource()
         collectionView.register(nibWithCellClass: CartProductCollectionViewCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Bundle.module)
+        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
     
@@ -258,16 +259,30 @@ extension CartViewController {
     }
     
     final func similarSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(152), heightDimension: .uniformAcrossSiblings(estimate: 264))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .absolute(225))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(152), heightDimension: .uniformAcrossSiblings(estimate: 264))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .absolute(225))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
         section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(20)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+    
+        header.contentInsets =  NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 0)
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
 }
@@ -316,6 +331,7 @@ extension CartViewController {
                 return cell
             }
         })
+        configureSupplementaryViewsDataSource()
         applySnapshot()
     }
     
@@ -328,5 +344,27 @@ extension CartViewController {
         snapshot.appendItems(viewModel.products, toSection: .cart)
         snapshot.appendItems(viewModel.similarProducts, toSection: .similarProducts)
         dataSource?.apply(snapshot, animatingDifferences: true)
+    }
+    
+    final func configureSupplementaryViewsDataSource() {
+        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            guard let self,
+                  let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return UICollectionReusableView() }
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: SectionHeader.self, for: indexPath)
+            switch sectionType {
+            case .similarProducts:
+                headerView.configure(with: "Benzer Ürünler", color: .gray)
+                return headerView
+//                if viewModel.similarProducts.count > 0 {
+//                    headerView.configure(with: "Benzer Ürünler", color: .gray)
+//                    return headerView
+//                } else {
+//                    return UICollectionReusableView()
+//                }
+            default:
+                return UICollectionReusableView()
+            }
+        }
+        
     }
 }

@@ -25,6 +25,8 @@ class CartControlCell: UICollectionViewCell {
     var onSelectAllTapped: (() -> Void)?
     var onDeleteAllTapped: (() -> Void)?
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setups()

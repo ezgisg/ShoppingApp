@@ -46,13 +46,14 @@ class CartProductCollectionViewCell: UICollectionViewCell {
 
 //MARK: - Configure
 extension CartProductCollectionViewCell {
-    func configureWith(product: ProductResponseElement, discountedPrice: Int?, isSelected: Bool? = true) {
+    func configureWith(product: ProductResponseElement, discountRate: Double?, isSelected: Bool? = true) {
         innerImage.tintColor = (isSelected ?? true) ? .tabbarBackgroundColor : .clear
         loadProductImage(from: product.image)
         productName.text = product.title
         productCategory.text = product.category
         productSize.text = product.size
         updatePriceLabel(price: product.price, quantity: product.quantity)
+        let discountedPrice = calculateDiscountedPrice(normalPrice: product.price, discountRate: discountRate)
         changePriceLabels(discountedPrice: discountedPrice)
         updateQuantityLabel(quantity: product.quantity)
         updateMinusImage(quantity: product.quantity)
@@ -120,7 +121,7 @@ private extension CartProductCollectionViewCell {
 
 //MARK: - Helpers
 private extension CartProductCollectionViewCell {
-    final func changePriceLabels(discountedPrice: Int?) {
+    final func changePriceLabels(discountedPrice: Double?) {
         guard let discountedPrice else {
             discountedPriceLabel.isHidden = true
             priceLabel.font = .boldSystemFont(ofSize: 24)
@@ -134,7 +135,7 @@ private extension CartProductCollectionViewCell {
         discountedPriceLabel.isHidden = false
         priceLabel.font = .systemFont(ofSize: 18)
         priceLabel.textColor = .gray
-        discountedPriceLabel.text = String(discountedPrice)
+        discountedPriceLabel.text = String(format: "%.2f", discountedPrice)
         guard let text = priceLabel.text else { return }
         let attributedText = NSAttributedString(string: text, attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue])
         priceLabel.attributedText = attributedText
@@ -167,6 +168,13 @@ private extension CartProductCollectionViewCell {
     final func updateMinusImage(quantity: Int?) {
         guard let quantity else { return minusButtonImage.image = .minusImage }
         minusButtonImage.image = quantity > 1 ? .minusImage : .trashImage
+    }
+    
+    final func calculateDiscountedPrice(normalPrice: Double?, discountRate: Double?) -> Double? {
+        guard let normalPrice,
+              let discountRate else { return nil }
+        let discountedPrice = normalPrice * (1 - discountRate / 100)
+        return discountedPrice
     }
 }
 

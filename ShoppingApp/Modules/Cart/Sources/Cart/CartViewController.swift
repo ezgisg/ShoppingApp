@@ -75,6 +75,7 @@ public class CartViewController: BaseViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
+    var discountRate: Double?
     
     // MARK: - Module Components
     public var viewModel = CartViewModel()
@@ -320,8 +321,8 @@ extension CartViewController {
             switch sectionType {
             case .top:
                 let cell = collectionView.dequeueReusableCell(withClass: CartControlCell.self, for: indexPath)
-                let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
-                let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
+                let selectedItemCount = returnSelectedItemCount()
+                let isSelectAllActive = isSelectAllActive()
                 cell.onSelectAllTapped = {
                     CartManager.shared.updateAllProductsSelection(to: !isSelectAllActive)
                 }
@@ -337,21 +338,19 @@ extension CartViewController {
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
                 let cartItem = viewModel.products[indexPath.row]
                 guard let id = cartItem.id, let size = cartItem.size else { return cell }
-                let isSelected = viewModel.selectionOfProducts
-                    .first(where: { $0.id == id && $0.size == size })?
-                    .isSelected
+                let isSelected = isSelected(id: id, size: size)
                 //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
-                cell.configureWith(product: cartItem, discountedPrice: nil, isSelected: isSelected)
+                cell.configureWith(product: cartItem, discountRate: discountRate, isSelected: isSelected)
                 cell.onSelectionTapped = {
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
+                
                 cell.onMinusTapped = {  [weak self] in
                     guard let self else { return }
-                    showLoadingView()
-                    CartManager.shared.removeFromCart(productId: id, size: size)
-                
+                    cellOnMinusTapped(id: id, size: size)
                 }
-                cell.onPlusTapped = {  [weak self] in
+                
+                cell.onPlusTapped = { [weak self] in
                     guard let self else { return }
                     showLoadingView()
                     CartManager.shared.addToCart(productId: id, size: size)
@@ -359,6 +358,17 @@ extension CartViewController {
                 return cell
             case .coupon:
                 let cell = collectionView.dequeueReusableCell(withClass: CouponCell.self, for: indexPath)
+                cell.onApplyTapped = { [weak self] couponText in
+                    guard let self else { return }
+                    discountRate = viewModel.controlCoupon(couponText: couponText)
+                    if discountRate != nil {
+                        cell.isDiscountCouponValid?(true)
+                    } else {
+                        cell.isDiscountCouponValid?(false)
+                    }
+                    collectionView.reloadData()
+                    //TODO: kuponun uygulanıp-uygulanmama durumlarına göre hep özette bilgiler değişecek hem de price label ı değişip eski haline gelecek
+                 }
                 return cell
             case .similarProducts:
                 let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
@@ -366,10 +376,7 @@ extension CartViewController {
                 cell.configureWith(product: product)
                 cell.onAddToCartTapped = {  [weak self] in
                     guard let self else { return }
-                    let detailBottomVC = DetailBottomViewController(product: product)
-                    detailBottomVC.modalPresentationStyle = .overFullScreen
-                    detailBottomVC.modalTransitionStyle = .crossDissolve
-                    present(detailBottomVC, animated: true, completion: nil)
+                    cellOnAddToCartTapped(product: product)
                 }
                 return cell
             }
@@ -407,4 +414,37 @@ extension CartViewController {
         }
         
     }
+}
+
+private extension CartViewController {
+    final func cellOnMinusTapped(id: Int, size: String) {
+        showLoadingView()
+        CartManager.shared.removeFromCart(productId: id, size: size)
+    }
+    
+    final func isSelected(id: Int, size: String) -> Bool? {
+        let isSelected = viewModel.selectionOfProducts
+            .first(where: { $0.id == id && $0.size == size })?
+            .isSelected
+        return isSelected
+    }
+    
+    final func cellOnAddToCartTapped(product: ProductResponseElement) {
+        let detailBottomVC = DetailBottomViewController(product: product)
+        detailBottomVC.modalPresentationStyle = .overFullScreen
+        detailBottomVC.modalTransitionStyle = .crossDissolve
+        present(detailBottomVC, animated: true, completion: nil)
+    }
+    
+    final func isSelectAllActive() -> Bool {
+        let selectedItemCount = returnSelectedItemCount()
+        let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
+        return isSelectAllActive
+    }
+    
+    final func returnSelectedItemCount() -> Int {
+        let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
+        return selectedItemCount
+    }
+    
 }

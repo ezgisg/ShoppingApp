@@ -12,13 +12,18 @@ import UIKit
 class CouponCell: UICollectionViewCell {
 
     @IBOutlet weak var couponTextField: UITextField!
-    @IBOutlet weak var textFieldBackView: UIView!
     @IBOutlet weak var applyLabelBackView: UIView!
     @IBOutlet weak var applyButtonLabel: UILabel!
+    @IBOutlet weak var warningLabel: UILabel!
+    
+    // MARK: - Properties
+    var onApplyTapped: ((_ couponText: String) -> Void)?
+    var isDiscountCouponValid: ((Bool) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setups()
+        controlCoupon()
     }
 
 }
@@ -26,13 +31,22 @@ class CouponCell: UICollectionViewCell {
 //MARK: - Setups
 private extension CouponCell {
     final func setups() {
-        couponTextField.placeholder = "Kampanya Kodu"
+        couponTextField.layer.borderColor = UIColor.lightDividerColor.cgColor
+        couponTextField.layer.borderWidth = 1.0
+        couponTextField.layer.cornerRadius = 5.0
+        couponTextField.backgroundColor = .clear
+        couponTextField.textColor = .black
+        let placeholderColor = UIColor.lightGray
+        couponTextField.attributedPlaceholder = NSAttributedString(
+            string: "Kampanya Kodu",
+            attributes: [NSAttributedString.Key.foregroundColor: placeholderColor]
+        )
         applyButtonLabel.text = "Uygula"
-        textFieldBackView.backgroundColor = .lightDividerColor
+        applyButtonLabel.textColor = .black
         applyLabelBackView.backgroundColor = .clear
         applyLabelBackView.layer.borderColor = UIColor.lightDividerColor.cgColor
         applyLabelBackView.layer.borderWidth = 1
-
+        warningLabel.isHidden = true
         addTapGesture()
         
     }
@@ -47,6 +61,15 @@ private extension CouponCell {
 //MARK: - Actions
 private extension CouponCell {
     @objc final func tappedApply() {
-   
+        onApplyTapped?(couponTextField.text ?? "")
+    }
+
+    final func controlCoupon() {
+        isDiscountCouponValid = { [weak self] isValid in
+            guard let self else { return }
+            warningLabel.isHidden = false
+            warningLabel.text = isValid ? "Kupon Uygulandı" : "Kupon Geçerli Değil"
+            warningLabel.textColor = isValid ? .tabbarBackgroundColor : .red
+          }
     }
 }

@@ -12,6 +12,7 @@ import Network
 
 protocol CartViewModelProtocol: AnyObject {
     func getCartDatas()
+    func controlCoupon(couponText: String) -> Double?
     var cartItems: [Cart] { get }
     var products: [ProductResponseElement] { get }
     var similarProducts: [ProductResponseElement] { get }
@@ -108,6 +109,17 @@ extension CartViewModel: CartViewModelProtocol {
             delegate?.hideLoading()
         }
     }
+    
+    func controlCoupon(couponText: String) -> Double? {
+        if couponText == "DSC20" {
+            return 20.0
+        } else if couponText == "DSC10" {
+            return 10.0
+        } else {
+            return nil
+        }
+    }
+    
 }
 
 //MARK: Actions

@@ -13,8 +13,8 @@ public class CartManager {
     public static let shared = CartManager()
     private init() {}
 
-    private(set) var cartItems: [Cart] = []
-    private(set) var selectionOfProducts: [ProductResponseElement] = []
+    public var cartItems: [Cart] = []
+    public var selectionOfProducts: [ProductResponseElement] = []
 
     public func addToCart(productId: Int, size: String) {
         if let index = cartItems.firstIndex(where: { $0.productId == productId && $0.size == size }) {

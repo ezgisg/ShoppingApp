@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import AppManagers
 import Cart
 import Categories
 import Foundation

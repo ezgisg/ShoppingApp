@@ -4,37 +4,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "ProductList",
+    name: "AppManagers",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "ProductList",
-            targets: ["ProductList"]),
+            name: "AppManagers",
+            targets: ["AppManagers"]),
     ],
     dependencies: [
         .package(path: "../AppResources"),
-        .package(path: "../AppManagers"),
-        .package(path: "../Base"),
-        .package(path: "../Network"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "ProductList",
+            name: "AppManagers",
             dependencies: [
                 "AppResources",
-                "AppManagers",
-                "Base",
-                "Network",
-            ],
-            resources: [
-                .process("Resources")
             ]
         ),
         .testTarget(
-            name: "ProductListTests",
-            dependencies: ["ProductList"]),
+            name: "AppManagersTests",
+            dependencies: ["AppManagers"]),
     ]
 )

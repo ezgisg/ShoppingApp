@@ -24,9 +24,9 @@ public struct OrderModel: Decodable {
 }
 
 public struct Cart: Decodable, Hashable {
-    let productId: Int?
-    let size: String?
-    var quantity: Int?
+    public let productId: Int?
+    public let size: String?
+    public var quantity: Int?
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(productId)

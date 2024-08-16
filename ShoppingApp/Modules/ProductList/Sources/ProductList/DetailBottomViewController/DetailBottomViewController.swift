@@ -6,10 +6,10 @@
 //
 
 //TODO: localizable
-import UIKit
 import AppResources
+import AppManagers
 import Base
-import Cart
+import UIKit
 
 // MARK: - DetailBottomViewController
 class DetailBottomViewController: BaseViewController {

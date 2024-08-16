@@ -35,6 +35,7 @@
 		ABA33FAB2C5BBB6300C519FB /* Home in Resources */ = {isa = PBXBuildFile; fileRef = ABA33FAA2C5BBB6300C519FB /* Home */; };
 		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
 		ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = ABA5629C2C52348800C7B1A9 /* Splash */; };
+		ABB791212C6F3F70008DD8A1 /* AppManagers in Resources */ = {isa = PBXBuildFile; fileRef = ABB791202C6F3F70008DD8A1 /* AppManagers */; };
 		ABC3C3142C6A523D00348870 /* Cart in Resources */ = {isa = PBXBuildFile; fileRef = ABC3C3132C6A523D00348870 /* Cart */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
 		ABA33FAA2C5BBB6300C519FB /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		ABA5629A2C5229A700C7B1A9 /* Splash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Splash; sourceTree = "<group>"; };
+		ABB791202C6F3F70008DD8A1 /* AppManagers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppManagers; sourceTree = "<group>"; };
 		ABC3C3132C6A523D00348870 /* Cart */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Cart; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +176,7 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABB791202C6F3F70008DD8A1 /* AppManagers */,
 				ABC3C3132C6A523D00348870 /* Cart */,
 				AB7470E22C62082E002A69C3 /* ProductList */,
 				AB7399742C60B7C400D4B7E5 /* Categories */,
@@ -329,6 +332,7 @@
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,
 				ABC3C3142C6A523D00348870 /* Cart in Resources */,
 				AB4315BC2C4FB3EE00A7A855 /* Common in Resources */,
+				ABB791212C6F3F70008DD8A1 /* AppManagers in Resources */,
 				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,
 				AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */,
 				ABA33F9E2C5B644600C519FB /* Network in Resources */,

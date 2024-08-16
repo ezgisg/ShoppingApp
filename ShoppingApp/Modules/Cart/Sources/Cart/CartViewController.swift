@@ -6,8 +6,10 @@
 //
 
 import AppResources
+import AppManagers
 import Base
 import UIKit
+import ProductList
 
 // MARK: - Enums
 enum CartScreenSectionType: Int, CaseIterable {
@@ -284,7 +286,7 @@ extension CartViewController {
         if viewModel.similarProducts.count > 0 {
             section.boundarySupplementaryItems = [header]
         }
-
+        
         return section
     }
 }

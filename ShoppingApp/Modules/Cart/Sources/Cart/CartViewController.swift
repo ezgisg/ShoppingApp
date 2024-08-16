@@ -281,8 +281,10 @@ extension CartViewController {
         )
     
         header.contentInsets =  NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 0)
-        section.boundarySupplementaryItems = [header]
-        
+        if viewModel.similarProducts.count > 0 {
+            section.boundarySupplementaryItems = [header]
+        }
+
         return section
     }
 }
@@ -347,20 +349,13 @@ extension CartViewController {
     }
     
     final func configureSupplementaryViewsDataSource() {
-        dataSource?.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            guard let self,
-                  let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return UICollectionReusableView() }
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return UICollectionReusableView() }
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: SectionHeader.self, for: indexPath)
             switch sectionType {
             case .similarProducts:
                 headerView.configure(with: "Benzer Ürünler", color: .gray)
                 return headerView
-//                if viewModel.similarProducts.count > 0 {
-//                    headerView.configure(with: "Benzer Ürünler", color: .gray)
-//                    return headerView
-//                } else {
-//                    return UICollectionReusableView()
-//                }
             default:
                 return UICollectionReusableView()
             }

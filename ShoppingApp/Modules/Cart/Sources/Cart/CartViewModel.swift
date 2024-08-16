@@ -22,6 +22,7 @@ protocol CartViewModelProtocol: AnyObject {
 
 protocol CartViewModelDelegate: AnyObject {
     func reloadData()
+    func showLoadingView()
     func hideLoading()
     func setTotalPrice()
 }
@@ -116,10 +117,11 @@ private extension CartViewModel {
         selectionOfProducts = selections
         totalPrice = calculateTotalPrice(from: products)
         delegate?.reloadData()
-        delegate?.hideLoading()
+//        delegate?.hideLoading()
     }
     
     @objc final func cartUpdated() {
+        delegate?.showLoadingView()
         getCartDatas()
     }
 }

@@ -104,10 +104,10 @@
         {
             "id": 13,
             "sizes": [
-                { "size": "S", "stock": 10 },
-                { "size": "M", "stock": 18 },
-                { "size": "L", "stock": 14 },
-                { "size": "XL", "stock": 12 }
+                { "size": "8 GB RAM", "stock": 10 },
+                { "size": "16 GB RAM", "stock": 18 },
+                { "size": "32 GB RAM", "stock": 14 },
+                { "size": "64 GB RAM", "stock": 12 }
             ]
         },
         {

@@ -218,6 +218,10 @@ extension CartViewController: CartViewModelDelegate {
         hideLoadingView()
     }
     
+    func showLoading() {
+        showLoadingView()
+    }
+    
     func setTotalPrice() {
         let totalPrice = String(format: "%.2f",  viewModel.totalPrice ?? 0)
         sumLabelCountofSumStack.text = "\(totalPrice) $"
@@ -315,9 +319,7 @@ extension CartViewController {
                 let cell = collectionView.dequeueReusableCell(withClass: CartControlCell.self, for: indexPath)
                 let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
                 let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
-                cell.onSelectAllTapped = {  [weak self] in
-                    guard let self else { return }
-                    showLoadingView()
+                cell.onSelectAllTapped = {
                     CartManager.shared.updateAllProductsSelection(to: !isSelectAllActive)
                 }
                 cell.onDeleteAllTapped = {  [weak self] in
@@ -337,9 +339,7 @@ extension CartViewController {
                     .isSelected
                 //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
                 cell.configureWith(product: cartItem, discountedPrice: nil, isSelected: isSelected)
-                cell.onSelectionTapped = {  [weak self] in
-                    guard let self else { return }
-                    showLoadingView()
+                cell.onSelectionTapped = {
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
                 cell.onMinusTapped = {  [weak self] in

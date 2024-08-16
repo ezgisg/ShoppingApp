@@ -45,15 +45,19 @@ public class CartManager {
     }
     
     public func removeAllSelectedFromCart() {
-        let selectedProducts =       selectionOfProducts.filter { $0.isSelected == true }
+        let selectedProducts = selectionOfProducts.filter { $0.isSelected == true }
         for product in selectedProducts {
             guard let productId = product.id,
                   let size = product.size,
                   let index = cartItems.firstIndex(where: { $0.productId == productId && $0.size == size }) else { return }
             cartItems.remove(at: index)
         }
-        removeAllSelectedProducts()
         notifyCartUpdate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
+            guard let self else { return }
+            removeAllSelectedProducts()
+        }
+      
     }
     
     private func removeFromSelection(productId: Int, size: String) {

@@ -18,6 +18,9 @@ final class CartBottomProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var addToCartView: UIView!
     @IBOutlet weak var addToCartLabel: UILabel!
     
+    // MARK: - Properties
+    var onAddToCartTapped: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -66,5 +69,17 @@ private extension CartBottomProductCollectionViewCell {
         addToCartLabel.text = "Sepete Ekle"
         addToCartLabel.textColor = .white
         addToCartLabel.adjustsFontSizeToFitWidth = true
+        
+        addTapGesture()
+    }
+    
+    final func addTapGesture() {
+        let addToCartGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAddToCart))
+        addToCartView.addGestureRecognizer(addToCartGesture)
+        addToCartView.isUserInteractionEnabled = true
+    }
+    
+    @objc final func tappedAddToCart() {
+        onAddToCartTapped?()
     }
 }

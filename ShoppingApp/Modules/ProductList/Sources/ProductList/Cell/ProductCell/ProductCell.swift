@@ -81,7 +81,7 @@ private extension ProductCell {
         let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFavorite))
         addFavoriteImage.isUserInteractionEnabled = true
         addFavoriteImage.addGestureRecognizer(favoriteTapGesture)
-        
+
         let cartTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCart))
         addCartImage.isUserInteractionEnabled = true
         addCartImage.addGestureRecognizer(cartTapGesture)

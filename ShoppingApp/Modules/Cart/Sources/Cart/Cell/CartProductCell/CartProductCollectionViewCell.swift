@@ -125,11 +125,12 @@ private extension CartProductCollectionViewCell {
             discountedPriceLabel.isHidden = true
             priceLabel.font = .boldSystemFont(ofSize: 24)
             priceLabel.textColor = .black
-            guard let text = priceLabel.text else { return }
-            priceLabel.attributedText = NSAttributedString(string: text)
+            if let text = priceLabel.text {
+                priceLabel.attributedText = NSAttributedString(string: text)
+            }
             return
-            
         }
+        
         discountedPriceLabel.isHidden = false
         priceLabel.font = .systemFont(ofSize: 18)
         priceLabel.textColor = .gray

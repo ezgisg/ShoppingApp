@@ -163,7 +163,7 @@ private extension CartViewController {
     
         buttonBackgroundView.backgroundColor = .white
         topBackgroundView.backgroundColor = .white
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .lightDividerColor
         paymentButton.backgroundColor = .tabbarBackgroundColor
         paymentButton.layer.cornerRadius = 8
         discountStackBackView.backgroundColor = .lightButtonColor
@@ -199,6 +199,7 @@ private extension CartViewController {
     final func setupCollectionView() {
         collectionView.delegate = self
         configureDatasource()
+        collectionView.register(nibWithCellClass: CartControlCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartProductCollectionViewCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Bundle.module)
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
@@ -236,7 +237,7 @@ extension CartViewController {
                   let sectionType = CartScreenSectionType(rawValue: sectionIndex) else { return nil }
             switch sectionType {
             case .top:
-                return cartSection()
+                return topSection()
             case .cart:
                 return cartSection()
             case .coupon:
@@ -245,6 +246,19 @@ extension CartViewController {
                 return similarSection()
             }
         }
+    }
+    
+    final func topSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(136))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(136))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+        return section
     }
     
     final func cartSection() -> NSCollectionLayoutSection {
@@ -256,7 +270,7 @@ extension CartViewController {
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 4, bottom: 12, trailing: 4)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 12, trailing: 8)
         return section
     }
     
@@ -274,15 +288,14 @@ extension CartViewController {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(20)
+            heightDimension: .absolute(40)
         )
         let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
-    
-        header.contentInsets =  NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 0)
+
         if viewModel.similarProducts.count > 0 {
             section.boundarySupplementaryItems = [header]
         }
@@ -299,7 +312,14 @@ extension CartViewController {
                   let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return UICollectionViewCell()}
             switch sectionType {
             case .top:
-                return UICollectionViewCell()
+                let cell = collectionView.dequeueReusableCell(withClass: CartControlCell.self, for: indexPath)
+                let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
+                let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
+                cell.onSelectAllTapped = {
+                    CartManager.shared.updateAllProductsSelection(to: !isSelectAllActive)
+                }
+                cell.configureWith(selectedItemCount: selectedItemCount, isSelectAllActive: isSelectAllActive)
+                return cell
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
                 let cartItem = viewModel.products[indexPath.row]
@@ -330,8 +350,15 @@ extension CartViewController {
                 return UICollectionViewCell()
             case .similarProducts:
                 let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
-                let item = viewModel.similarProducts[indexPath.row]
-                cell.configureWith(product: item)
+                let product = viewModel.similarProducts[indexPath.row]
+                cell.configureWith(product: product)
+                cell.onAddToCartTapped = {  [weak self] in
+                    guard let self else { return }
+                    let detailBottomVC = DetailBottomViewController(product: product)
+                    detailBottomVC.modalPresentationStyle = .overFullScreen
+                    detailBottomVC.modalTransitionStyle = .crossDissolve
+                    present(detailBottomVC, animated: true, completion: nil)
+                }
                 return cell
             }
         })
@@ -345,6 +372,9 @@ extension CartViewController {
             snapshot.appendSections([section])
         }
     
+        if viewModel.products.count > 0 {
+            snapshot.appendItems(["topSection"], toSection: .top)
+        }
         snapshot.appendItems(viewModel.products, toSection: .cart)
         snapshot.appendItems(viewModel.similarProducts, toSection: .similarProducts)
         dataSource?.apply(snapshot, animatingDifferences: true)
@@ -356,7 +386,7 @@ extension CartViewController {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: SectionHeader.self, for: indexPath)
             switch sectionType {
             case .similarProducts:
-                headerView.configure(with: "Benzer Ürünler", color: .gray)
+                headerView.configure(with: "Benzer Ürünler", color: .gray, leading: 8)
                 return headerView
             default:
                 return UICollectionReusableView()

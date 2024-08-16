@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="136"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XfE-UD-dZg">
-                                <rect key="frame" x="0.0" y="135" width="375" height="1"/>
+                                <rect key="frame" x="8" y="135" width="359" height="1"/>
                                 <color key="backgroundColor" red="0.94117647058823528" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Lk3-NY-yVQ"/>
@@ -215,13 +215,15 @@
                             <constraint firstAttribute="bottom" secondItem="2EP-k7-HBe" secondAttribute="bottom" constant="12" id="DLR-A6-pTV"/>
                             <constraint firstAttribute="bottom" secondItem="XfE-UD-dZg" secondAttribute="bottom" id="FD6-u4-fg3"/>
                             <constraint firstItem="XfE-UD-dZg" firstAttribute="centerX" secondItem="Ra9-rm-QiS" secondAttribute="centerX" id="Lqm-gO-onV"/>
+                            <constraint firstItem="XfE-UD-dZg" firstAttribute="leading" secondItem="Ra9-rm-QiS" secondAttribute="leading" constant="8" id="Pua-jl-RZW"/>
+                            <constraint firstAttribute="trailing" secondItem="XfE-UD-dZg" secondAttribute="trailing" constant="8" id="RyW-6U-Pi7"/>
                             <constraint firstItem="2EP-k7-HBe" firstAttribute="top" secondItem="Ra9-rm-QiS" secondAttribute="top" constant="12" id="VFc-hD-L4l"/>
-                            <constraint firstItem="XfE-UD-dZg" firstAttribute="width" secondItem="Ra9-rm-QiS" secondAttribute="width" id="riJ-qp-caV"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" name="lightDividerColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Ra9-rm-QiS" secondAttribute="bottom" id="IDZ-qB-Lap"/>
                 <constraint firstItem="Ra9-rm-QiS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PMM-FA-hzc"/>
@@ -251,11 +253,14 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <namedColor name="lightDividerColor">
+            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="warningTextColor">
             <color red="0.6470588235294118" green="0.066666666666666666" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

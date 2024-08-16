@@ -64,6 +64,15 @@ public class CartManager {
         notifySelectionUpdate()
     }
     
+    public func updateAllProductsSelection(to isSelected: Bool) {
+        for index in selectionOfProducts.indices {
+            var product = selectionOfProducts[index]
+            product.isSelected = isSelected
+            selectionOfProducts[index] = product
+        }
+        notifySelectionUpdate()
+    }
+    
     public func isProductSelected(productId: Int, size: String) -> Bool {
         return selectionOfProducts.contains(where: { $0.id == productId && $0.size == size && ($0.isSelected ?? false) })
     }

@@ -11,6 +11,7 @@ import UIKit
 public class SectionHeader: UICollectionReusableView {
     public static let reuseIdentifier = "SectionHeader"
     
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,18 +22,20 @@ public class SectionHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(titleLabel)
-        NSLayoutConstraint.activate([
-//            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with title: String, color: UIColor) {
+    public func configure(with title: String, color: UIColor, backgroundColor: UIColor? = .white, leading: CGFloat? = 0) {
+        self.backgroundColor = backgroundColor
         titleLabel.text = title
         titleLabel.textColor = color
+        NSLayoutConstraint.activate([
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leading ?? 0)
+        ])
     }
 }

@@ -21,7 +21,7 @@ protocol DetailBottomViewModelDelegate: AnyObject {
 }
 
 // MARK: - DetailBottomViewModel
-final class DetailBottomViewModel {
+public final class DetailBottomViewModel {
     weak var delegate: DetailBottomViewModelDelegate?
     var productSizeData: ProductStockModel? = nil
     var selectedSize: String? = nil {

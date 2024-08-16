@@ -12,7 +12,7 @@ import Base
 import UIKit
 
 // MARK: - DetailBottomViewController
-class DetailBottomViewController: BaseViewController {
+public class DetailBottomViewController: BaseViewController {
     
     // MARK: - Outlets
     @IBOutlet private weak var titleLabel: UILabel!
@@ -40,7 +40,7 @@ class DetailBottomViewController: BaseViewController {
     public var viewModel = DetailBottomViewModel()
     
     // MARK: - Life Cycles
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         //TODO: datanın doğru gelmeme durumu ele alınacak
         viewModel.delegate = self
@@ -181,11 +181,11 @@ private extension DetailBottomViewController {
 
 //MARK: - UICollectionViewDataSource
 extension DetailBottomViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.productSizeData?.sizes.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
         guard let sizeData = viewModel.productSizeData?.sizes[indexPath.row] else { return cell }
         let isInStock = sizeData.stock > 0
@@ -198,7 +198,7 @@ extension DetailBottomViewController: UICollectionViewDataSource {
 
 //MARK: - UICollectionViewDelegate
 extension DetailBottomViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let newSize = viewModel.productSizeData?.sizes[indexPath.row].size else { return }
         viewModel.selectedSize = viewModel.selectedSize == newSize ? nil : newSize
         collectionView.reloadData()

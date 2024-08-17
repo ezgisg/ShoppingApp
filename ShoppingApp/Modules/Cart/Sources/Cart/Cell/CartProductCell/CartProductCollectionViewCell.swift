@@ -53,7 +53,7 @@ extension CartProductCollectionViewCell {
         productCategory.text = product.category
         productSize.text = product.size
         updatePriceLabel(price: product.price, quantity: product.quantity)
-        let discountedPrice = calculateDiscountedPrice(normalPrice: product.price, discountRate: discountRate)
+        let discountedPrice = calculateDiscountedPrice(normalPrice: product.price, discountRate: discountRate, quantity: product.quantity)
         changePriceLabels(discountedPrice: discountedPrice)
         updateQuantityLabel(quantity: product.quantity)
         updateMinusImage(quantity: product.quantity)
@@ -127,7 +127,7 @@ private extension CartProductCollectionViewCell {
             priceLabel.font = .boldSystemFont(ofSize: 24)
             priceLabel.textColor = .black
             if let text = priceLabel.text {
-                priceLabel.attributedText = NSAttributedString(string: text)
+                priceLabel.attributedText = NSAttributedString(string: text, attributes: [.strikethroughStyle: 0])
             }
             return
         }
@@ -170,10 +170,12 @@ private extension CartProductCollectionViewCell {
         minusButtonImage.image = quantity > 1 ? .minusImage : .trashImage
     }
     
-    final func calculateDiscountedPrice(normalPrice: Double?, discountRate: Double?) -> Double? {
+    final func calculateDiscountedPrice(normalPrice: Double?, discountRate: Double?, quantity: Int?) -> Double? {
         guard let normalPrice,
-              let discountRate else { return nil }
-        let discountedPrice = normalPrice * (1 - discountRate / 100)
+              let discountRate,
+              let quantity
+        else { return nil }
+        let discountedPrice = Double(quantity) * normalPrice * (1 - (discountRate / 100))
         return discountedPrice
     }
 }

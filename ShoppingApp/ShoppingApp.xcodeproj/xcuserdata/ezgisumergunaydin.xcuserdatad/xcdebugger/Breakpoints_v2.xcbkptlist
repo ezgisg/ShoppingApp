@@ -7,81 +7,111 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5339578D-E9AF-46D3-9854-A5B227384A80"
+            uuid = "64268350-9938-42A9-B007-954881A32337"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
+            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "getCartDatas()"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "changePriceLabels(discountedPrice:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DF325CD5-6FC2-479D-A98A-B728B32959DA"
+            uuid = "0C45AD6C-3B71-470A-BDD8-2696D8C686F3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
+            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "cartUpdated()"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "changePriceLabels(discountedPrice:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9704241D-0017-461D-9EFF-A1F6AE612D0C"
+            uuid = "18E535DD-9F1B-4E78-84D3-6AA977CFC5F9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
+            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
-            landmarkName = "configureDatasource()"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "updatePriceLabel(price:quantity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8807B68F-8A7E-4A7F-A584-7C6B90270982"
+            uuid = "6D6ABAF7-74A8-4D80-9DBB-FE29F0276193"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
+            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
-            landmarkName = "configureDatasource()"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "updatePriceLabel(price:quantity:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C6319A6-FC50-4A7F-81E0-3D7384F344B2"
+            uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
+            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
-            landmarkName = "configureDatasource()"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "changePriceLabels(discountedPrice:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6 - bda530db801d3b5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cart.CartProductCollectionViewCell.changePriceLabels(discountedPrice: Swift.Optional&lt;Swift.Double&gt;) -&gt; ()"
+                  moduleName = "ShoppingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125">
+               </Location>
+               <Location
+                  uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6 - bda530db801d3d6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Cart.CartProductCollectionViewCell.changePriceLabels(discountedPrice: Swift.Optional&lt;Swift.Double&gt;) -&gt; ()"
+                  moduleName = "ShoppingApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "126"
+                  endingLineNumber = "126">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

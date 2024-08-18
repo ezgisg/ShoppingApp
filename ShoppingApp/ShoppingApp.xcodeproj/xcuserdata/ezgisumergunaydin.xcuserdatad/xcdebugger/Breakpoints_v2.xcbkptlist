@@ -7,111 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "64268350-9938-42A9-B007-954881A32337"
+            uuid = "D0C1CFA8-2271-4ED4-9774-FB63BB4249CA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
+            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "changePriceLabels(discountedPrice:)"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "manageSumStackType(isThereDiscount:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0C45AD6C-3B71-470A-BDD8-2696D8C686F3"
+            uuid = "67A87EAD-4BE8-4B28-BE48-48CA2BAAA7C8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
+            filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "changePriceLabels(discountedPrice:)"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "manageSumStackType(isThereDiscount:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "18E535DD-9F1B-4E78-84D3-6AA977CFC5F9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "updatePriceLabel(price:quantity:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6D6ABAF7-74A8-4D80-9DBB-FE29F0276193"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "updatePriceLabel(price:quantity:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "changePriceLabels(discountedPrice:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6 - bda530db801d3b5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Cart.CartProductCollectionViewCell.changePriceLabels(discountedPrice: Swift.Optional&lt;Swift.Double&gt;) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125">
-               </Location>
-               <Location
-                  uuid = "CDF89D84-BD8C-406F-ADF9-CD088E53ACD6 - bda530db801d3d6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Cart.CartProductCollectionViewCell.changePriceLabels(discountedPrice: Swift.Optional&lt;Swift.Double&gt;) -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/Cell/CartProductCell/CartProductCollectionViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "126"
-                  endingLineNumber = "126">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

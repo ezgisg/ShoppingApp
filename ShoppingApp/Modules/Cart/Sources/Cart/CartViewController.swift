@@ -75,8 +75,9 @@ public class CartViewController: BaseViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
-    var discountRate: Double?
     
+    private var couponCell: CouponCell?
+
     // MARK: - Module Components
     public var viewModel = CartViewModel()
     
@@ -110,9 +111,11 @@ private extension CartViewController {
         setupCollectionView()
     }
     
-    //TODO: Localizable ile başlıklar vs doldurulacak
+
     final func setupTexts() {
         setTotalPrice()
+        paymentButton.setTitle("ÖDEME ADIMINA GEÇ", for: .normal)
+        //TODO: xib ler de localizable ile alınacak
     }
     
     final func setupTextsColorFont() {
@@ -227,9 +230,29 @@ extension CartViewController: CartViewModelDelegate {
     }
     
     func setTotalPrice() {
-        let totalPrice = String(format: "%.2f",  viewModel.totalPrice ?? 0)
-        sumLabelCountofSumStack.text = "\(totalPrice) $"
-        sumCountLabelOfDetailStack.text = "\(totalPrice) $"
+        func updatePriceLabel(label: UILabel, with totalPrice: Double?) {
+            let formattedPrice = String(format: "%.2f", totalPrice ?? 0)
+            label.text = "\(formattedPrice) $"
+        }
+        updatePriceLabel(label: totalDiscountCountLabel, with: viewModel.discount)
+        updatePriceLabel(label: discountCountLabel, with: viewModel.discount)
+        
+        updatePriceLabel(label: sumLabelCountofSumStack, with: viewModel.priceToPay)
+        updatePriceLabel(label: sumLabelCountofSumStackWithDiscount, with: viewModel.priceToPay)
+        
+        updatePriceLabel(label: sumCountLabelOfDetailStack, with: viewModel.totalPrice)
+        updatePriceLabel(label: discountCountLabel, with: viewModel.discount)
+        updatePriceLabel(label: subTotalCountLabel, with: viewModel.subTotal)
+        updatePriceLabel(label: cargoFeeCountLabel, with: viewModel.cargoFee)
+    }
+    
+    func deleteDiscountCoupon() {
+        couponCell?.deleteCoupon()
+    }
+    
+    func manageSumStackType(isThereDiscount: Bool) {
+        sumStackWithDiscount.isHidden = !isThereDiscount
+        sumStack.isHidden = isThereDiscount
     }
 }
 
@@ -340,7 +363,7 @@ extension CartViewController {
                 guard let id = cartItem.id, let size = cartItem.size else { return cell }
                 let isSelected = isSelected(id: id, size: size)
                 //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
-                cell.configureWith(product: cartItem, discountRate: discountRate, isSelected: isSelected)
+                cell.configureWith(product: cartItem, discountRate: viewModel.discountRate, isSelected: isSelected)
                 cell.onSelectionTapped = {
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
@@ -358,10 +381,11 @@ extension CartViewController {
                 return cell
             case .coupon:
                 let cell = collectionView.dequeueReusableCell(withClass: CouponCell.self, for: indexPath)
+                couponCell = cell
                 cell.onApplyTapped = { [weak self] couponText in
                     guard let self else { return }
-                    discountRate = viewModel.controlCoupon(couponText: couponText)
-                    if discountRate != nil {
+                    viewModel.controlCoupon(couponText: couponText)
+                    if viewModel.discountRate != nil {
                         cell.isDiscountCouponValid?(true)
                     } else {
                         cell.isDiscountCouponValid?(false)

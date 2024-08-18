@@ -19,11 +19,17 @@ class CouponCell: UICollectionViewCell {
     // MARK: - Properties
     var onApplyTapped: ((_ couponText: String) -> Void)?
     var isDiscountCouponValid: ((Bool) -> Void)?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setups()
         controlCoupon()
+    }
+    
+    func deleteCoupon() {
+        warningLabel.isHidden = true
+        couponTextField.text = ""
     }
 
 }

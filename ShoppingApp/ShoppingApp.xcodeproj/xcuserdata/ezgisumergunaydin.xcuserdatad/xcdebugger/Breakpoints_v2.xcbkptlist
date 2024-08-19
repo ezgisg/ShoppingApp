@@ -14,8 +14,8 @@
             filePath = "Modules/Cart/Sources/Cart/Cell/CouponCell/CouponCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "setCoupons(isClearButtonTapped:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Modules/Cart/Sources/Cart/Cell/CouponCell/CouponCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "setCoupons(isClearButtonTapped:)"
             landmarkType = "7">
          </BreakpointContent>

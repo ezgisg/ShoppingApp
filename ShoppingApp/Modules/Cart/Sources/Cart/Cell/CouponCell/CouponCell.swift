@@ -47,6 +47,7 @@ private extension CouponCell {
         applyLabelBackView.layer.borderWidth = 1
         warningLabel.isHidden = true
         
+        setupTextField()
         addTapGesture()
     }
     

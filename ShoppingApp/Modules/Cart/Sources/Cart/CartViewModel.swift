@@ -10,15 +10,17 @@ import AppManagers
 import Foundation
 import Network
 
+//TODO: view model - vc ve cellerde refactor (backendden gelecek türde hesaplamalar için)
+
+//MARK: - CartViewModelProtocol
 protocol CartViewModelProtocol: AnyObject {
-    func getCartDatas()
-    func controlCoupon(couponText: String)
     var cartItems: [Cart] { get }
     var products: [ProductResponseElement] { get }
     var similarProducts: [ProductResponseElement] { get }
     ///selection keeps separately from products because when something add-remove from cart, products array will renew completely
     var selectionOfProducts: [ProductResponseElement] { get }
-    
+    var selectedItemCount: Int { get }
+    var isSelectAllActive: Bool { get }
 
     var totalPrice: Double? { get }
     var discountRate: Double? { get }
@@ -26,10 +28,13 @@ protocol CartViewModelProtocol: AnyObject {
     var subTotal: Double? { get }
     var cargoFee: Double? { get }
     var priceToPay: Double? { get }
-
-
+    
+    func getCartDatas()
+    func controlCoupon(couponText: String)
+    func isSelectedProduct(id: Int, size: String) -> Bool?
 }
 
+//MARK: - CartViewModelDelegate
 protocol CartViewModelDelegate: AnyObject {
     func reloadData()
     func showLoadingView()
@@ -39,14 +44,16 @@ protocol CartViewModelDelegate: AnyObject {
     func manageSumStackType(isThereDiscount: Bool)
 }
 
+//MARK: - CartViewModel
 public final class CartViewModel {
     private var service: ShoppingServiceProtocol
     weak var delegate: CartViewModelDelegate?
     
     var cartItems: [Cart] = []
     var products: [ProductResponseElement] = [] {
+        ///To remove discount coupon when there is no product
         didSet {
-            if products.count == 0 {
+            if products.isEmpty {
                 discountRate = nil
                 delegate?.deleteDiscountCoupon()
             }
@@ -54,11 +61,7 @@ public final class CartViewModel {
     }
     var similarProducts: [ProductResponseElement] = []
     var selectionOfProducts: [ProductResponseElement] = []
-    var totalPrice: Double? = 0 {
-        didSet {
-            delegate?.setTotalPrice()
-        }
-    }
+    var totalPrice: Double? = 0
     var discountRate: Double? =  nil {
         didSet {
             calculatePrices()
@@ -78,21 +81,31 @@ public final class CartViewModel {
     var subTotal: Double? = 0
     var cargoFee: Double? = 0
     var priceToPay: Double? = 0
-
     
+    var selectedItemCount: Int {
+        return CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
+    }
+    var isSelectAllActive: Bool {
+        return selectedItemCount == CartManager.shared.selectionOfProducts.count
+    }
+    
+    //MARK: - Init
     init(service: ShoppingServiceProtocol = ShoppingService()) {
         self.service = service
         NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
+    
 }
 
+//MARK: - CartViewModelProtocol
 extension CartViewModel: CartViewModelProtocol {
     ///In this scenario, actually adding/removing new products is sufficient, but normally when the data is received from the backend, it may be necessary to request the cart again for stock or other changes.
-    public func getCartDatas() {
+     func getCartDatas() {
         cartItems = CartManager.shared.cartItems
         var fetchedProducts = [ProductResponseElement]()
         var similarFetchedProducts = [ProductResponseElement]()
+         
         let dispatchGroup = DispatchGroup()
         
         let uniqueProductIds = Set(cartItems.map { $0.productId })
@@ -143,20 +156,24 @@ extension CartViewModel: CartViewModelProtocol {
             products = updatedProducts
             similarProducts = similarFetchedProducts
             calculatePrices()
-            totalPrice = calculateTotalPrice(from: products)
-            self.delegate?.reloadData()
+            delegate?.reloadData()
             delegate?.hideLoading()
         }
     }
     
     func controlCoupon(couponText: String) {
-        if couponText == "DSC20" {
-            discountRate = 20.0
-        } else if couponText == "DSC10" {
-            discountRate = 10.0
-        } else {
-            discountRate = nil
-        }
+        let discountRates: [String: Double] = [
+            "DSC20": 20.0,
+            "DSC10": 10.0
+        ]
+        discountRate = discountRates[couponText]
+    }
+    
+    func isSelectedProduct(id: Int, size: String) -> Bool? {
+        let isSelected = selectionOfProducts
+            .first(where: { $0.id == id && $0.size == size })?
+            .isSelected
+        return isSelected
     }
     
 }
@@ -167,7 +184,6 @@ private extension CartViewModel {
         let selections = CartManager.shared.selectionOfProducts
         selectionOfProducts = selections
         calculatePrices()
-        totalPrice = calculateTotalPrice(from: products)
         delegate?.reloadData()
     }
     
@@ -179,30 +195,16 @@ private extension CartViewModel {
 
 //MARK: - Helpers
 private extension CartViewModel {
-    
     final func calculatePrices() {
-        
-        totalPrice = products.reduce(0.0) { total, product in
-            let isSelected = selectionOfProducts.contains { selectedProduct in
-                selectedProduct.id == product.id && selectedProduct.size == product.size && (selectedProduct.isSelected ?? false)
-            }
-            if isSelected {
-                let productTotal = (product.price ?? 0.0) * Double(product.quantity ?? 0)
-                return total + productTotal
-            }
-            return total
-        }
-        
+        totalPrice = calculateTotalPrice()
         discount = (totalPrice ?? 0) * ((discountRate ?? 0) / 100)
-        
         cargoFee = (totalPrice ?? 0) - (discount ?? 0) >= 300 ? 0.0 : 19.99
-        
         subTotal = (totalPrice ?? 0) - (discount ?? 0)
-        
         priceToPay = (subTotal ?? 0) + (cargoFee ?? 0)
+        delegate?.setTotalPrice()
     }
     
-    final func calculateTotalPrice(from products: [ProductResponseElement]) -> Double {
+    final func calculateTotalPrice() -> Double {
         return products.reduce(0.0) { total, product in
             let isSelected = selectionOfProducts.contains { selectedProduct in
                 selectedProduct.id == product.id && selectedProduct.size == product.size && (selectedProduct.isSelected ?? false)

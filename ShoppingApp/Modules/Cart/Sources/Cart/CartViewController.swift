@@ -32,55 +32,56 @@ enum CartScreenSectionType: Int, CaseIterable {
      }
 }
 
+// MARK: - CartViewController
 public class CartViewController: BaseViewController {
     
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var buttonBackgroundView: UIView!
-    @IBOutlet weak var paymentButton: UIButton!
-    
-    @IBOutlet weak var mainStack: UIStackView!
-    
-    @IBOutlet weak var detailStack: UIStackView!
-    @IBOutlet weak var orderSummaryLabelOfDetailStack: UILabel!
-    @IBOutlet weak var detailImageOfDetailStack: UIImageView!
-    @IBOutlet weak var sumLabelOfDetailStack: UILabel!
-    @IBOutlet weak var sumCountLabelOfDetailStack: UILabel!
-    @IBOutlet weak var discountLabel: UILabel!
-    @IBOutlet weak var discountCountLabel: UILabel!
-    @IBOutlet weak var subTotalLabel: UILabel!
-    @IBOutlet weak var subTotalCountLabel: UILabel!
-    @IBOutlet weak var cargoFeeLabel: UILabel!
-    @IBOutlet weak var cargoFeeCountLabel: UILabel!
-    @IBOutlet weak var infoLabel: UILabel!
-    
-    @IBOutlet weak var miniDetailStack: UIStackView!
-    @IBOutlet weak var orderSummaryLabelOfMiniDetailStack: UILabel!
-    @IBOutlet weak var detailImageOfMiniDetailStack: UIImageView!
-    
-    @IBOutlet weak var sumStack: UIStackView!
-    @IBOutlet weak var sumLabelofSumStack: UILabel!
-    @IBOutlet weak var sumLabelCountofSumStack: UILabel!
-    
-    @IBOutlet weak var sumStackWithDiscount: UIStackView!
-    
-    @IBOutlet weak var InnerTotalDiscountStack: UIStackView!
-    @IBOutlet weak var discountStackBackView: UIView!
-    @IBOutlet weak var totalDiscountLabel: UILabel!
-    @IBOutlet weak var totalDiscountCountLabel: UILabel!
-    @IBOutlet weak var sumLabelofSumStackWithDiscount: UILabel!
-    @IBOutlet weak var sumLabelCountofSumStackWithDiscount: UILabel!
-    
-    @IBOutlet weak var topBackgroundView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet private weak var mainView: UIView!
+    @IBOutlet private weak var buttonBackgroundView: UIView!
+    @IBOutlet private weak var paymentButton: UIButton!
+  
+    @IBOutlet private weak var mainStack: UIStackView!
+
+    @IBOutlet private weak var detailStack: UIStackView!
+    @IBOutlet private weak var orderSummaryLabelOfDetailStack: UILabel!
+    @IBOutlet private weak var detailImageOfDetailStack: UIImageView!
+    @IBOutlet private weak var sumLabelOfDetailStack: UILabel!
+    @IBOutlet private weak var sumCountLabelOfDetailStack: UILabel!
+    @IBOutlet private weak var discountLabel: UILabel!
+    @IBOutlet private weak var discountCountLabel: UILabel!
+    @IBOutlet private weak var subTotalLabel: UILabel!
+    @IBOutlet private weak var subTotalCountLabel: UILabel!
+    @IBOutlet private weak var cargoFeeLabel: UILabel!
+    @IBOutlet private weak var cargoFeeCountLabel: UILabel!
+    @IBOutlet private weak var infoLabel: UILabel!
+  
+    @IBOutlet private weak var miniDetailStack: UIStackView!
+    @IBOutlet private weak var orderSummaryLabelOfMiniDetailStack: UILabel!
+    @IBOutlet private weak var detailImageOfMiniDetailStack: UIImageView!
+
+    @IBOutlet private weak var sumStack: UIStackView!
+    @IBOutlet private weak var sumLabelofSumStack: UILabel!
+    @IBOutlet private weak var sumLabelCountofSumStack: UILabel!
+
+    @IBOutlet private weak var sumStackWithDiscount: UIStackView!
+
+    @IBOutlet private weak var InnerTotalDiscountStack: UIStackView!
+    @IBOutlet private weak var discountStackBackView: UIView!
+    @IBOutlet private weak var totalDiscountLabel: UILabel!
+    @IBOutlet private weak var totalDiscountCountLabel: UILabel!
+    @IBOutlet private weak var sumLabelofSumStackWithDiscount: UILabel!
+    @IBOutlet private weak var sumLabelCountofSumStackWithDiscount: UILabel!
+
+    @IBOutlet private weak var topBackgroundView: UIView!
+    @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
-    
     private var couponCell: CouponCell?
 
     // MARK: - Module Components
     public var viewModel = CartViewModel()
-    
+
+    // MARK: - Life Cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
         ///not fetching data here because when something change in cart observer listen changes to reload collectionView
@@ -158,7 +159,6 @@ private extension CartViewController {
         sumLabelofSumStackWithDiscount.font = .boldSystemFont(ofSize: 18)
         sumLabelCountofSumStackWithDiscount.textColor = .tabbarBackgroundColor
         sumLabelCountofSumStackWithDiscount.font = .boldSystemFont(ofSize: 18)
-        
     }
     
     final func setupBackgrounds() {
@@ -215,6 +215,7 @@ private extension CartViewController {
     
 }
 
+// MARK: - CartViewModelDelegate
 extension CartViewController: CartViewModelDelegate {
     func reloadData() {
         applySnapshot()
@@ -256,6 +257,7 @@ extension CartViewController: CartViewModelDelegate {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension CartViewController: UICollectionViewDelegate {
     
 }
@@ -344,25 +346,21 @@ extension CartViewController {
             switch sectionType {
             case .top:
                 let cell = collectionView.dequeueReusableCell(withClass: CartControlCell.self, for: indexPath)
-                let selectedItemCount = returnSelectedItemCount()
-                let isSelectAllActive = isSelectAllActive()
+                let isSelectAllActive = viewModel.isSelectAllActive
                 cell.onSelectAllTapped = {
                     CartManager.shared.updateAllProductsSelection(to: !isSelectAllActive)
                 }
                 cell.onDeleteAllTapped = {  [weak self] in
                     guard let self else { return }
-                    guard selectedItemCount > 0 else { return }
-                    showLoadingView()
-                    CartManager.shared.removeAllSelectedFromCart()
+                    cellOnDeleteTapped()
                 }
-                cell.configureWith(selectedItemCount: selectedItemCount, isSelectAllActive: isSelectAllActive)
+                cell.configureWith(selectedItemCount: viewModel.selectedItemCount, isSelectAllActive: isSelectAllActive)
                 return cell
             case .cart:
                 let cell = collectionView.dequeueReusableCell(withClass: CartProductCollectionViewCell.self, for: indexPath)
                 let cartItem = viewModel.products[indexPath.row]
                 guard let id = cartItem.id, let size = cartItem.size else { return cell }
-                let isSelected = isSelected(id: id, size: size)
-                //TODO: discount kupon section ı hazır olduğunda gönderilecek, discount oranına çevrilebilir
+                let isSelected = viewModel.isSelectedProduct(id: id, size: size)
                 cell.configureWith(product: cartItem, discountRate: viewModel.discountRate, isSelected: isSelected)
                 cell.onSelectionTapped = {
                     CartManager.shared.updateProductSelection(productId: id, size: size)
@@ -375,8 +373,7 @@ extension CartViewController {
                 
                 cell.onPlusTapped = { [weak self] in
                     guard let self else { return }
-                    showLoadingView()
-                    CartManager.shared.addToCart(productId: id, size: size)
+                    cellOnPlusTapped(id: id, size: size)
                 }
                 return cell
             case .coupon:
@@ -385,13 +382,9 @@ extension CartViewController {
                 cell.onApplyTapped = { [weak self] couponText in
                     guard let self else { return }
                     viewModel.controlCoupon(couponText: couponText)
-                    if viewModel.discountRate != nil {
-                        cell.isDiscountCouponValid?(true)
-                    } else {
-                        cell.isDiscountCouponValid?(false)
-                    }
+                    let isDiscountCouponValid = viewModel.discountRate == nil ? false : true
+                    cell.isDiscountCouponValid?(isDiscountCouponValid)
                     collectionView.reloadData()
-                    //TODO: kuponun uygulanıp-uygulanmama durumlarına göre hep özette bilgiler değişecek hem de price label ı değişip eski haline gelecek
                  }
                 return cell
             case .similarProducts:
@@ -440,35 +433,30 @@ extension CartViewController {
     }
 }
 
+//MARK: - Helpers
 private extension CartViewController {
     final func cellOnMinusTapped(id: Int, size: String) {
         showLoadingView()
         CartManager.shared.removeFromCart(productId: id, size: size)
     }
     
-    final func isSelected(id: Int, size: String) -> Bool? {
-        let isSelected = viewModel.selectionOfProducts
-            .first(where: { $0.id == id && $0.size == size })?
-            .isSelected
-        return isSelected
+    final func cellOnPlusTapped(id: Int, size: String) {
+        showLoadingView()
+        CartManager.shared.addToCart(productId: id, size: size)
     }
     
+    final func cellOnDeleteTapped() {
+        guard viewModel.selectedItemCount > 0 else { return }
+        showLoadingView()
+        CartManager.shared.removeAllSelectedFromCart()
+    }
+        
     final func cellOnAddToCartTapped(product: ProductResponseElement) {
         let detailBottomVC = DetailBottomViewController(product: product)
         detailBottomVC.modalPresentationStyle = .overFullScreen
         detailBottomVC.modalTransitionStyle = .crossDissolve
         present(detailBottomVC, animated: true, completion: nil)
     }
-    
-    final func isSelectAllActive() -> Bool {
-        let selectedItemCount = returnSelectedItemCount()
-        let isSelectAllActive = selectedItemCount == CartManager.shared.selectionOfProducts.count
-        return isSelectAllActive
-    }
-    
-    final func returnSelectedItemCount() -> Int {
-        let selectedItemCount = CartManager.shared.selectionOfProducts.filter { $0.isSelected == true }.count
-        return selectedItemCount
-    }
+
     
 }

@@ -56,13 +56,12 @@ extension HomeViewModel: HomeViewModelProtocol {
     }
     
     func loadBannerData(for language: String) {
-        guard let url = Bundle.module.url(forResource: "Banner", withExtension: "json") else { return }
+        guard let url = AppResources.bundle.url(forResource: "Banner", withExtension: "json") else { return }
         
         do {
             let data = try Data(contentsOf: url)
             let bannerDataList = try JSONDecoder().decode([BannerData].self, from: data)
             if let bannerData = bannerDataList.first(where: { $0.language == language }) {
-                print(bannerData)
                 delegate?.getBannerData(bannerData: bannerData)
             }
         } catch {

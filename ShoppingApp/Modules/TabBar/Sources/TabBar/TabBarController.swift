@@ -9,6 +9,7 @@ import AppResources
 import AppManagers
 import Cart
 import Categories
+import Campaigns
 import Foundation
 import Home
 import UIKit
@@ -51,7 +52,7 @@ private extension TabBarController {
         categoriesVC.title = categoriesTitle
         let categoriesNavigationController = getStyledNavigationController(with: categoriesVC, title: categoriesTitle, image: .systemListImage)
 
-        let middleVC = MiddleViewController()
+        let middleVC = CampaignsViewController()
         let middleNavigationController = getStyledNavigationController(with: middleVC, title: "", image: nil)
 
         let basketTitle = L10nGeneric.basket.localized(in: AppResources.bundle)

@@ -74,6 +74,8 @@ public class CartViewController: BaseViewController {
     @IBOutlet private weak var topBackgroundView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    @IBOutlet private weak var emptyView: EmptyView!
+    
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
     private var couponCell: CouponCell?
@@ -88,6 +90,16 @@ public class CartViewController: BaseViewController {
         viewModel.delegate = self
         setups()
         setupKeyboardObservers(scrollView: collectionView)
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        controlEmptyViewHiddenStatus()
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: - Module init
@@ -167,7 +179,7 @@ private extension CartViewController {
         mainView.layer.shadowOpacity = 0.5
     
         buttonBackgroundView.backgroundColor = .white
-        topBackgroundView.backgroundColor = .white
+        topBackgroundView.backgroundColor = .tabbarBackgroundColor
         collectionView.backgroundColor = .lightDividerColor
         paymentButton.backgroundColor = .tabbarBackgroundColor
         paymentButton.layer.cornerRadius = 8
@@ -176,6 +188,9 @@ private extension CartViewController {
         
         detailImageOfDetailStack.image = .detailCategory
         detailImageOfMiniDetailStack.image = .detailCategory
+        
+        emptyView.backgroundColor = .white
+        emptyView.configure(with: "Sepetinde Ürün Yok")
     }
     
     final func setupInitialHiddenStatus() {
@@ -220,6 +235,7 @@ extension CartViewController: CartViewModelDelegate {
     func reloadData() {
         applySnapshot()
         collectionView.reloadData()
+        controlEmptyViewHiddenStatus()
     }
     
     func hideLoading() {
@@ -458,5 +474,8 @@ private extension CartViewController {
         present(detailBottomVC, animated: true, completion: nil)
     }
 
+    final func controlEmptyViewHiddenStatus() {
+        emptyView.isHidden = viewModel.products.isEmpty ? false : true
+    }
     
 }

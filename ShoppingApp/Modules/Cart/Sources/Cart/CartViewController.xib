@@ -22,6 +22,7 @@
                 <outlet property="discountCountLabel" destination="w1l-Ft-EcW" id="MCd-Sa-BA6"/>
                 <outlet property="discountLabel" destination="Xge-Dp-kUm" id="7Xw-gi-yS8"/>
                 <outlet property="discountStackBackView" destination="oR2-Do-Gs2" id="YKW-iw-dVu"/>
+                <outlet property="emptyView" destination="ImK-UU-l7X" id="Cdf-ag-VyB"/>
                 <outlet property="infoLabel" destination="LGH-QA-q34" id="0it-iw-nzX"/>
                 <outlet property="mainStack" destination="9df-HV-nMQ" id="wZh-Ni-H6c"/>
                 <outlet property="mainView" destination="24d-P4-ZXV" id="IbT-BD-9cI"/>
@@ -52,7 +53,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uh-et-pn2">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="421.66666666666669"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" name="tabbarBackgroundColor"/>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-OO-8k7">
                     <rect key="frame" x="0.0" y="59" width="393" height="362.66666666666669"/>
@@ -333,14 +334,22 @@
                         <constraint firstItem="9df-HV-nMQ" firstAttribute="top" secondItem="24d-P4-ZXV" secondAttribute="top" constant="16" id="wzz-m2-TcC"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ImK-UU-l7X" customClass="EmptyView" customModule="Base">
+                    <rect key="frame" x="0.0" y="59" width="393" height="793"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemYellowColor"/>
             <constraints>
                 <constraint firstItem="BwJ-OO-8k7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="1SR-G6-UTp"/>
+                <constraint firstItem="ImK-UU-l7X" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="1jY-bb-p3g"/>
                 <constraint firstItem="BwJ-OO-8k7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="CtF-id-dlq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ImK-UU-l7X" secondAttribute="trailing" id="DlT-Wi-ZGt"/>
                 <constraint firstItem="BwJ-OO-8k7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ODn-t3-5PP"/>
+                <constraint firstAttribute="bottom" secondItem="ImK-UU-l7X" secondAttribute="bottom" id="POG-KC-Q3Q"/>
                 <constraint firstItem="2uh-et-pn2" firstAttribute="leading" secondItem="BwJ-OO-8k7" secondAttribute="leading" id="RSf-kb-A8F"/>
+                <constraint firstItem="ImK-UU-l7X" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="WZP-wd-Han"/>
                 <constraint firstItem="2uh-et-pn2" firstAttribute="bottom" secondItem="BwJ-OO-8k7" secondAttribute="bottom" id="Wzb-Ps-hp8"/>
                 <constraint firstItem="BwJ-OO-8k7" firstAttribute="bottom" secondItem="24d-P4-ZXV" secondAttribute="top" id="YIS-it-bYO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4c1-jz-QNB" secondAttribute="trailing" id="eys-43-s6V"/>

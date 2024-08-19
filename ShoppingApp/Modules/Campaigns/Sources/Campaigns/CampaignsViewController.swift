@@ -111,7 +111,7 @@ private extension CampaignsViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 12, bottom: 0, trailing: 12)
         return section
     }
     

@@ -62,7 +62,7 @@ final class FilterDetailViewController: BaseViewController {
 //MARK: - Setups
 private extension FilterDetailViewController {
     final func setupUI() {
-        title = "Filtreleme detay"
+        title = "\(filterOptionType.stringValue)"
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.configureWithOpaqueBackground()

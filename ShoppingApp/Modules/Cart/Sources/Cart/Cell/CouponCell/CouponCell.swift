@@ -40,11 +40,22 @@ extension CouponCell {
 //MARK: - Setups
 private extension CouponCell {
     final func setups() {
+        applyButtonLabel.text = "Uygula"
+        applyButtonLabel.textColor = .black
+        applyLabelBackView.backgroundColor = .clear
+        applyLabelBackView.layer.borderColor = UIColor.lightDividerColor.cgColor
+        applyLabelBackView.layer.borderWidth = 1
+        warningLabel.isHidden = true
+        
+        addTapGesture()
+    }
+    
+    final func setupTextField() {
         couponTextField.delegate = self
         couponTextField.layer.borderColor = UIColor.lightDividerColor.cgColor
         couponTextField.layer.borderWidth = 1.0
         couponTextField.layer.cornerRadius = 5.0
-        couponTextField.backgroundColor = .clear
+        couponTextField.backgroundColor = .white
         couponTextField.textColor = .black
         
         let placeholderColor = UIColor.lightGray
@@ -53,16 +64,25 @@ private extension CouponCell {
             attributes: [NSAttributedString.Key.foregroundColor: placeholderColor]
         )
         
-        couponTextField.clearButtonMode = .always
+        let customClearButton = UIButton(type: .custom)
+        customClearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        customClearButton.tintColor = .tabbarBackgroundColor
+        customClearButton.addTarget(self, action: #selector(clearTextField), for: .touchUpInside)
+
+        let containerViewofButton = UIView(frame: CGRect(x: 0, y: 0, width: customClearButton.frame.width, height: couponTextField.frame.height - 4))
+        containerViewofButton.backgroundColor = .clear
         
-        applyButtonLabel.text = "Uygula"
-        applyButtonLabel.textColor = .black
-        applyLabelBackView.backgroundColor = .clear
-        applyLabelBackView.layer.borderColor = UIColor.lightDividerColor.cgColor
-        applyLabelBackView.layer.borderWidth = 1
-        warningLabel.isHidden = true
-        addTapGesture()
+        customClearButton.translatesAutoresizingMaskIntoConstraints = false
+        containerViewofButton.addSubview(customClearButton)
+
+        NSLayoutConstraint.activate([
+            customClearButton.heightAnchor.constraint(equalTo: containerViewofButton.heightAnchor),
+            customClearButton.trailingAnchor.constraint(equalTo: containerViewofButton.trailingAnchor, constant: -4),
+            customClearButton.leadingAnchor.constraint(equalTo: containerViewofButton.leadingAnchor),
+        ])
         
+        couponTextField.rightView = containerViewofButton
+        couponTextField.rightViewMode = .whileEditing
     }
     
     final func addTapGesture() {
@@ -88,6 +108,13 @@ private extension CouponCell {
             warningLabel.textColor = isValid ? .tabbarBackgroundColor : .red
           }
     }
+    
+    @objc final func clearTextField() {
+        couponTextField.text = ""
+        setCoupons(isClearButtonTapped: true)
+        onApplyTapped?("")
+    }
+    
 }
 
 //MARK: - UITextFieldDelegate
@@ -97,11 +124,5 @@ extension CouponCell: UITextFieldDelegate {
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         return updatedText.count <= 10
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        setCoupons(isClearButtonTapped: true)
-        onApplyTapped?("")
-        return true
     }
 }

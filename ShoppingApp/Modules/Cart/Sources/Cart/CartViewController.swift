@@ -189,8 +189,20 @@ private extension CartViewController {
         detailImageOfDetailStack.image = .detailCategory
         detailImageOfMiniDetailStack.image = .detailCategory
         
-        emptyView.backgroundColor = .white
-        emptyView.configure(with: "Sepetinde Ürün Yok")
+        emptyView.configure(
+            with: .detailed(image: .browseImage,
+                            title: "Sepetinde Ürün Yok",
+                            subtitle: "Henüz sepetine ürün eklemedin. Ürünlerimizi keşfetmek ister misin? Başlamak için hemen tıkla!",
+                            buttonTitle: "Alışverişe Devam Et",
+                            buttonColor: .tabbarBackgroundColor,
+                            buttonAction: { [weak self] in
+                                guard let self,
+                                      let tabBarController = self.tabBarController
+                                else { return }
+                                tabBarController.selectedIndex = 1
+                                
+                            })
+        )
     }
     
     final func setupInitialHiddenStatus() {

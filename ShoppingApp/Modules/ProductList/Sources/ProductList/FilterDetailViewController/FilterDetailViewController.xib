@@ -31,6 +31,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="Rgl-sM-uLa"/>
                             </constraints>
+                            <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="EbQ-eb-Hyb"/>
@@ -69,6 +70,7 @@
                         <constraint firstItem="big-cl-bsA" firstAttribute="leading" secondItem="ITE-Ym-vlH" secondAttribute="leading" id="L2O-p7-vYf"/>
                         <constraint firstItem="roJ-k6-M01" firstAttribute="leading" secondItem="ITE-Ym-vlH" secondAttribute="leading" id="Piv-pt-vdX"/>
                         <constraint firstAttribute="trailing" secondItem="roJ-k6-M01" secondAttribute="trailing" id="ZjU-gH-n4X"/>
+                        <constraint firstAttribute="bottom" secondItem="roJ-k6-M01" secondAttribute="bottom" id="ZtB-tc-fe3"/>
                         <constraint firstItem="big-cl-bsA" firstAttribute="top" secondItem="hIH-F7-c56" secondAttribute="bottom" id="sbW-yO-MP3"/>
                         <constraint firstAttribute="trailing" secondItem="big-cl-bsA" secondAttribute="trailing" id="sgR-Qw-FkA"/>
                         <constraint firstItem="roJ-k6-M01" firstAttribute="top" secondItem="big-cl-bsA" secondAttribute="bottom" id="v2C-A8-gly"/>
@@ -82,7 +84,6 @@
                 <constraint firstAttribute="bottom" secondItem="ITE-Ym-vlH" secondAttribute="bottom" id="4FG-C8-Er3"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ITE-Ym-vlH" secondAttribute="trailing" id="5nB-Sr-JLB"/>
                 <constraint firstItem="ITE-Ym-vlH" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="E4h-Kw-6uw"/>
-                <constraint firstItem="ITE-Ym-vlH" firstAttribute="bottom" secondItem="roJ-k6-M01" secondAttribute="bottom" id="ZtB-tc-fe3"/>
                 <constraint firstItem="ITE-Ym-vlH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dHz-fJ-aia"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="vPo-4C-PZz" secondAttribute="bottom" constant="12" id="gbT-UJ-ExP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="hIH-F7-c56" secondAttribute="top" constant="-4" id="jll-eN-dpo"/>

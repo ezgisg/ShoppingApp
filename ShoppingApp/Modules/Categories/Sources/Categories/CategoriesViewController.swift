@@ -180,9 +180,13 @@ private extension CategoriesViewController {
     }
     
     final func createBannerSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
+       
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(200)
+        )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),  heightDimension: .estimated(300))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),  heightDimension: .estimated(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
@@ -229,15 +233,21 @@ extension CategoriesViewController: UISearchControllerDelegate {
         searchController = UISearchController(searchResultsController: nil)
         guard let searchController else { return }
         
+        
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = L10nGeneric.searchCategories.localized()
         searchController.searchBar.tintColor = .tabbarSelectedColor
   
-        
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.searchTextField.tintColor = .black
-        searchController.searchBar.searchTextField.textColor = .black
+        searchController.searchBar.barStyle = .black
+        
+        
+        let searchTextField = searchController.searchBar.searchTextField
+        searchTextField.attributedPlaceholder = NSAttributedString(string: L10nGeneric.searchCategories.localized(), attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        
         navigationItem.searchController = searchController
         definesPresentationContext = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

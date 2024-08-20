@@ -17,6 +17,7 @@ let package = Package(
         .package(path: "../AppManagers"),
         .package(path: "../Base"),
         .package(path: "../Components"),
+        .package(path: "../ProductList"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
                 "AppResources",
                 "AppManagers",
                 "Base",
-                "Components"
+                "Components",
+                "ProductList"
             ]
         ),
         .testTarget(

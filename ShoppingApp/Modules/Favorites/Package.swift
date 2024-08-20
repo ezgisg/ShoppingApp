@@ -4,39 +4,34 @@
 import PackageDescription
 
 let package = Package(
-    name: "TabBar",
+    name: "Favorites",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "TabBar",
-            targets: ["TabBar"]),
+            name: "Favorites",
+            targets: ["Favorites"]),
     ],
     dependencies: [
         .package(path: "../AppResources"),
         .package(path: "../AppManagers"),
-        .package(path: "../Cart"),
-        .package(path: "../Categories"),
-        .package(path: "../Campaigns"),
-        .package(path: "../Home"),
-        .package(path: "../Favorites"),
+        .package(path: "../Base"),
+        .package(path: "../Components"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "TabBar", 
+            name: "Favorites",
             dependencies: [
                 "AppResources",
                 "AppManagers",
-                "Cart",
-                "Categories",
-                "Campaigns",
-                "Home",
-                "Favorites"
-            ]),
+                "Base",
+                "Components"
+            ]
+        ),
         .testTarget(
-            name: "TabBarTests",
-            dependencies: ["TabBar"]),
+            name: "FavoritesTests",
+            dependencies: ["Favorites"]),
     ]
 )

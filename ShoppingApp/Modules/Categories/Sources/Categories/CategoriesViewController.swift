@@ -70,6 +70,13 @@ private extension CategoriesViewController {
     final func setupUI() {
         collectionView.backgroundColor = .white
         containerView.backgroundColor = .tabbarBackgroundColor
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.tabbarBackgroundColor
+        standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.tabbarSelectedColor]
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = standardAppearance
     }
     
     final func setupCollectionView() {
@@ -211,6 +218,7 @@ extension CategoriesViewController: UISearchControllerDelegate {
     private func setupSearchButton() {
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem = searchButton
+        navigationItem.rightBarButtonItem?.tintColor = .tabbarSelectedColor
     }
     
     @objc private func searchButtonTapped() {
@@ -224,9 +232,12 @@ extension CategoriesViewController: UISearchControllerDelegate {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = L10nGeneric.searchCategories.localized()
-        searchController.searchBar.tintColor = .white
+        searchController.searchBar.tintColor = .tabbarSelectedColor
+  
+        
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.searchTextField.tintColor = .black
+        searchController.searchBar.searchTextField.textColor = .black
         navigationItem.searchController = searchController
         definesPresentationContext = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

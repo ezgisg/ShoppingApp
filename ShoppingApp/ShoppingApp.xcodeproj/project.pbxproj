@@ -35,6 +35,8 @@
 		ABA33FAB2C5BBB6300C519FB /* Home in Resources */ = {isa = PBXBuildFile; fileRef = ABA33FAA2C5BBB6300C519FB /* Home */; };
 		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
 		ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = ABA5629C2C52348800C7B1A9 /* Splash */; };
+		ABA9896C2C74BCBC00F496D9 /* Components in Resources */ = {isa = PBXBuildFile; fileRef = ABA9896B2C74BCBC00F496D9 /* Components */; };
+		ABA9896E2C74C43600F496D9 /* Favorites in Resources */ = {isa = PBXBuildFile; fileRef = ABA9896D2C74C43600F496D9 /* Favorites */; };
 		ABAB518F2C73C6850087E60D /* Campaigns in Resources */ = {isa = PBXBuildFile; fileRef = ABAB518E2C73C6850087E60D /* Campaigns */; };
 		ABB791212C6F3F70008DD8A1 /* AppManagers in Resources */ = {isa = PBXBuildFile; fileRef = ABB791202C6F3F70008DD8A1 /* AppManagers */; };
 		ABC3C3142C6A523D00348870 /* Cart in Resources */ = {isa = PBXBuildFile; fileRef = ABC3C3132C6A523D00348870 /* Cart */; };
@@ -85,6 +87,8 @@
 		ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
 		ABA33FAA2C5BBB6300C519FB /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		ABA5629A2C5229A700C7B1A9 /* Splash */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Splash; sourceTree = "<group>"; };
+		ABA9896B2C74BCBC00F496D9 /* Components */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Components; sourceTree = "<group>"; };
+		ABA9896D2C74C43600F496D9 /* Favorites */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Favorites; sourceTree = "<group>"; };
 		ABAB518E2C73C6850087E60D /* Campaigns */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Campaigns; sourceTree = "<group>"; };
 		ABB791202C6F3F70008DD8A1 /* AppManagers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = AppManagers; sourceTree = "<group>"; };
 		ABC3C3132C6A523D00348870 /* Cart */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Cart; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		AB2873ED2C4EA15F00BA9BCE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				ABA9896D2C74C43600F496D9 /* Favorites */,
+				ABA9896B2C74BCBC00F496D9 /* Components */,
 				ABAB518E2C73C6850087E60D /* Campaigns */,
 				ABB791202C6F3F70008DD8A1 /* AppManagers */,
 				ABC3C3132C6A523D00348870 /* Cart */,
@@ -327,6 +333,7 @@
 			files = (
 				AB7399752C60B7C400D4B7E5 /* Categories in Resources */,
 				AB4315BA2C4FB3E300A7A855 /* Base in Resources */,
+				ABA9896C2C74BCBC00F496D9 /* Components in Resources */,
 				ABA5629B2C5229A700C7B1A9 /* Splash in Resources */,
 				AB7470E32C62082E002A69C3 /* ProductList in Resources */,
 				AB4D114C2C52728C0074CFCC /* Onboarding in Resources */,
@@ -334,6 +341,7 @@
 				AB950A222C50DAA00045EEDC /* TabBar in Resources */,
 				AB28739C2C4E94DA00BA9BCE /* Base in Resources */,
 				ABC3C3142C6A523D00348870 /* Cart in Resources */,
+				ABA9896E2C74C43600F496D9 /* Favorites in Resources */,
 				AB4315BC2C4FB3EE00A7A855 /* Common in Resources */,
 				ABB791212C6F3F70008DD8A1 /* AppManagers in Resources */,
 				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,

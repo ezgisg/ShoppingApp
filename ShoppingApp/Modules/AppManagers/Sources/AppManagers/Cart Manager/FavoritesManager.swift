@@ -31,7 +31,7 @@ public class FavoritesManager {
         return favorites.contains(where: { $0.id == product.id })
     }
 
-    private func getFavorites() -> [ProductResponseElement] {
+    public func getFavorites() -> [ProductResponseElement] {
         guard let data = UserDefaults.standard.data(forKey: favoritesKey),
               let products = try? JSONDecoder().decode([ProductResponseElement].self, from: data) else {
             return []

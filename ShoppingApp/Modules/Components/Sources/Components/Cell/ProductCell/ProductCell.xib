@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -10,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProductCell" customModule="ProductList">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProductCell" customModule="Components">
             <rect key="frame" x="0.0" y="0.0" width="383" height="533"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -76,7 +77,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="beP-Zk-15Q">
                                         <rect key="frame" x="0.0" y="90" width="367" height="46.333333333333343"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0z-as-xQk" customClass="StarRatingView" customModule="ProductList">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0z-as-xQk" customClass="StarRatingView" customModule="Components">
                                                 <rect key="frame" x="0.0" y="0.0" width="257" height="46.333333333333336"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -136,6 +137,7 @@
                 <outlet property="productImage" destination="1a7-9P-5Cd" id="46u-Wy-19Y"/>
                 <outlet property="productNameLabel" destination="y5l-CM-AUL" id="hNP-dx-cgv"/>
                 <outlet property="ratingCountLabel" destination="6JO-Fg-r92" id="I6J-49-dSy"/>
+                <outlet property="ratingStack" destination="beP-Zk-15Q" id="xg1-0w-T18"/>
                 <outlet property="ratingView" destination="K0z-as-xQk" id="Xbv-dH-JZL"/>
                 <outlet property="stackView" destination="M00-Ra-6fq" id="QbU-Me-Hj8"/>
             </connections>

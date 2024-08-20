@@ -16,6 +16,7 @@ let package = Package(
         .package(path: "../AppResources"),
         .package(path: "../Base"),
         .package(path: "../Campaigns"),
+        .package(path: "../Components"),
         .package(path: "../Network"),
         .package(path: "../ProductList"),
     ],
@@ -28,6 +29,7 @@ let package = Package(
                 "AppResources",
                 "Base",
                 "Campaigns",
+                "Components",
                 "Network",
                 "ProductList"
             ],

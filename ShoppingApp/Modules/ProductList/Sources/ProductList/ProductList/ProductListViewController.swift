@@ -9,6 +9,7 @@
 import AppResources
 import AppManagers
 import Base
+import Components
 import UIKit
 
 // MARK: - ProductListViewController
@@ -145,7 +146,7 @@ private extension ProductListViewController {
     final func setupCollectionView() {
         collectionView.delegate = self
         configureDatasource()
-        collectionView.register(nibWithCellClass: ProductCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: ProductCell.self, at: Components.bundle)
         collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }

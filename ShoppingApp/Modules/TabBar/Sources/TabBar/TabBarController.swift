@@ -10,6 +10,7 @@ import AppManagers
 import Cart
 import Categories
 import Campaigns
+import Favorites
 import Foundation
 import Home
 import UIKit
@@ -60,7 +61,7 @@ private extension TabBarController {
         let basketNavigationController = getStyledNavigationController(with: basketVC, title: basketTitle, image: .systemCartImage)
 
         let favoritesTitle = L10nGeneric.favorites.localized(in: AppResources.bundle)
-        let favoritesVC = MiddleViewController()
+        let favoritesVC = FavoritesViewController()
         let favoritesNavigationController = getStyledNavigationController(with: favoritesVC, title: favoritesTitle, image: .systemHeartImage)
 
         viewControllers = [homeNavigationController, categoriesNavigationController, middleNavigationController, basketNavigationController, favoritesNavigationController]

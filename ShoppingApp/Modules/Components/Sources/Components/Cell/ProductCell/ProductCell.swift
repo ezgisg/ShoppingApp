@@ -10,7 +10,7 @@ import AppManagers
 import UIKit
 
 //MARK: - ProductCell
-class ProductCell: UICollectionViewCell {
+public class ProductCell: UICollectionViewCell {
 
     @IBOutlet weak var mainContainerView: UIView!
     @IBOutlet weak var imageContainerView: UIView!
@@ -23,22 +23,23 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var ratingView: StarRatingView!
     @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var ratingStack: UIStackView!
     
     // MARK: - Properties
-    var onFavoriteTapped: (() -> Void)?
-    var onCartTapped: (() -> Void)?
+    public var onFavoriteTapped: (() -> Void)?
+    public var onCartTapped: (() -> Void)?
     
     private var product: ProductResponseElement?
     
     //MARK: - Life Cycles
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         setupUI()
         setupGestureRecognizers()
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         ratingView.setRating(0)
     }
@@ -64,12 +65,16 @@ class ProductCell: UICollectionViewCell {
 
 //MARK: - ProductCell Configure
 extension ProductCell {
-    func configure(withId id: Int?, withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
-        
-        product = ProductResponseElement(id: id, price: price, category: categoryName, image: imagePath)
-     
-        ratingView.setRating(rating ?? 0)
-        ratingCountLabel.text = "(\(String(ratingCount ?? 0)))"
+    public func configure(withId id: Int?, withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
+        product = ProductResponseElement(id: id, title: productName, price: price, category: categoryName, image: imagePath)
+        if let rating,
+           let ratingCount {
+            ratingStack.isHidden = false
+            ratingView.setRating(rating)
+            ratingCountLabel.text = "(\(String(ratingCount)))"
+        } else {
+            ratingStack.isHidden = true
+        }
         categoryNameLabel.text = categoryName ?? ""
         productNameLabel.text = productName ?? ""
         priceLabel.text = price != nil ? "\(String(price!)) $" : "N/A"
@@ -97,7 +102,7 @@ private extension ProductCell {
     @objc private func didTapFavorite() {
         onFavoriteTapped?()
         manageFavoriteImage()
-       }
+    }
        
     @objc private func didTapCart() {
         onCartTapped?()

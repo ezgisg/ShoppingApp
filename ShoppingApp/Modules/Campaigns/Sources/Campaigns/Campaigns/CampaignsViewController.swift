@@ -91,7 +91,13 @@ extension CampaignsViewController : UICollectionViewDataSource {
 }
 
 extension CampaignsViewController : UICollectionViewDelegate {
-    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let data = viewModel.campaignData?[indexPath.row] else { return }
+        let detailVC = CampaignDetailViewController(data: data)
+        detailVC.modalPresentationStyle = .popover
+        detailVC.modalTransitionStyle = .crossDissolve
+        present(detailVC, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Compositional Layout

@@ -7,6 +7,7 @@
 
 import AppResources
 import Base
+import Campaigns
 import UIKit
 import ProductList
 
@@ -291,7 +292,26 @@ extension HomeViewController: UICollectionViewDelegate {
         guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return }
         switch sectionType {
         case .campaign:
-            break
+            func goToDetailVC() {
+                guard let type = sectionType.stringValue,
+                      let data = bannerData?.elements?.filter({ $0.type == type }).first?.items?[indexPath.row]  else { return }
+                let detailVC = CampaignDetailViewController(data: data)
+                detailVC.modalPresentationStyle = .popover
+                detailVC.modalTransitionStyle = .crossDissolve
+                present(detailVC, animated: true, completion: nil)
+            }
+            
+            if let cell = collectionView.cellForItem(at: indexPath) {
+                UIView.animate(withDuration: 0.25, animations: {
+                    cell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                }) { _ in
+                    UIView.animate(withDuration: 0.25) {
+                        cell.transform = CGAffineTransform.identity
+                    } completion: {  _ in
+                        goToDetailVC()
+                    }
+                }
+            }
         case .banner:
             break
         case .categoryBanner:

@@ -19,11 +19,18 @@ class CampaignCell: UICollectionViewCell {
     @IBOutlet private weak var bottomLabel: UILabel!
     @IBOutlet weak var horizontalSeperatorView: UIView!
     
+    let gradientLayer = CAGradientLayer()
+    
     //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setups()
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], handler: { (self: Self, previousTraitCollection: UITraitCollection) in
+            self.gradientLayer.removeFromSuperlayer()
+            self.setupLeftViewGradient()
+        })
     }
+    
     
     func configureWith(data: Item) {
         leftLabel.text = data.name
@@ -52,7 +59,7 @@ private extension CampaignCell {
     
     
     func setupLeftViewGradient() {
-        let gradientLayer = CAGradientLayer()
+
         gradientLayer.colors = [
             UIColor.tabbarBackgroundColor.withAlphaComponent(0.3).cgColor,
             UIColor.tabbarBackgroundColor.withAlphaComponent(0.5).cgColor,

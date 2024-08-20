@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ProductResponseElement: Decodable, Hashable {
+public struct ProductResponseElement: Codable, Hashable {
     
     public let id: Int?
     public let title: String?
@@ -42,7 +42,7 @@ public struct ProductResponseElement: Decodable, Hashable {
       }
 }
 
-public struct Rating: Equatable, Decodable {
+public struct Rating: Equatable, Codable {
     public let rate: Double?
     public let count: Int?
 }

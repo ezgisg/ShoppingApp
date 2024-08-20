@@ -7,6 +7,7 @@
 
 //TODO: Data çekilen her yere loading koyalım
 import AppResources
+import AppManagers
 import Base
 import UIKit
 
@@ -331,8 +332,8 @@ extension ProductListViewController {
     }
     
      private func handleFavoriteTap(for product: ProductResponseElement?) {
-         //TODO: Favorilere eklenme yapılacak
-        print(product)
+         guard let product else { return }
+         FavoritesManager.shared.toggleFavorite(product: product)
      }
 
     private func handleCartTap(for product: ProductResponseElement?) {

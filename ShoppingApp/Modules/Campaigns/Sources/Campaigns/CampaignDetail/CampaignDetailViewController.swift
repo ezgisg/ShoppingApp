@@ -17,6 +17,7 @@ public class CampaignDetailViewController: UIViewController {
     @IBOutlet private weak var detailLabel: UILabel!
     @IBOutlet private weak var screenTitle: UILabel!
     @IBOutlet private weak var topView: UIView!
+    @IBOutlet private weak var seperatorView: UIView!
     
     public var data: Item?
     
@@ -40,6 +41,7 @@ public class CampaignDetailViewController: UIViewController {
         screenTitle.text = "Kampanya Detayı"
         screenTitle.textColor = .black
         topView.backgroundColor = .gray
+        seperatorView.backgroundColor = .lightDividerColor
         topView.layer.cornerRadius = 4
 
         titleLabel.text = data?.name

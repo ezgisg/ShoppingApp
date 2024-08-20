@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import AppManagers
 import UIKit
 
 //MARK: - ProductCell
@@ -27,9 +28,12 @@ class ProductCell: UICollectionViewCell {
     var onFavoriteTapped: (() -> Void)?
     var onCartTapped: (() -> Void)?
     
+    private var product: ProductResponseElement?
+    
     //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
+        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         setupUI()
         setupGestureRecognizers()
     }
@@ -54,8 +58,6 @@ class ProductCell: UICollectionViewCell {
         ratingCountLabel.textColor = .darkGray
         priceLabel.textColor = .darkGray
         //TODO: Sepete veya favorilere eklenip eklenmemesine göre farklı renkler alacak
-        addFavoriteImage.tintColor = .lightGray
-        addCartImage.tintColor = .lightGray
     }
     
 }
@@ -63,6 +65,9 @@ class ProductCell: UICollectionViewCell {
 //MARK: - ProductCell Configure
 extension ProductCell {
     func configure(withId id: Int?, withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
+        
+        product = ProductResponseElement(id: id, price: price, category: categoryName, image: imagePath)
+     
         ratingView.setRating(rating ?? 0)
         ratingCountLabel.text = "(\(String(ratingCount ?? 0)))"
         categoryNameLabel.text = categoryName ?? ""
@@ -72,6 +77,8 @@ extension ProductCell {
         guard let urlString = imagePath, let url = URL(string: urlString)
         else { return productImage.image = .noImage }
         productImage.loadImage(with: url, contentMode: .scaleAspectFit)
+        manageFavoriteImage()
+        manageCartImage()
     }
 }
 
@@ -88,10 +95,27 @@ private extension ProductCell {
     }
     
     @objc private func didTapFavorite() {
-           onFavoriteTapped?()
+        onFavoriteTapped?()
+        manageFavoriteImage()
        }
        
-       @objc private func didTapCart() {
-           onCartTapped?()
-       }
+    @objc private func didTapCart() {
+        onCartTapped?()
+    }
+    
+    @objc final func cartUpdated() {
+        manageCartImage()
+    }
+    
+    final func manageFavoriteImage() {
+        guard let product else { return }
+        let isFavorite = FavoritesManager.shared.isFavorite(product: product)
+        addFavoriteImage.tintColor = isFavorite ? .systemRed : .lightGray
+    }
+    
+    final func manageCartImage() {
+        guard let product else { return }
+        let isInCart = CartManager.shared.cartItems.contains { $0.productId == product.id }
+        addCartImage.tintColor = isInCart ? .black : .lightGray
+    }
 }

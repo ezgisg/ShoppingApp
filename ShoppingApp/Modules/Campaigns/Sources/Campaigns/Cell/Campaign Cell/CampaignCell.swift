@@ -17,7 +17,7 @@ class CampaignCell: UICollectionViewCell {
     @IBOutlet private weak var seperatorView: UIView!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var bottomLabel: UILabel!
-    @IBOutlet weak var horizontalSeperatorView: UIView!
+    @IBOutlet private weak var horizontalSeperatorView: UIView!
     
     let gradientLayer = CAGradientLayer()
     
@@ -28,6 +28,7 @@ class CampaignCell: UICollectionViewCell {
         registerForTraitChanges([UITraitUserInterfaceStyle.self], handler: { (self: Self, previousTraitCollection: UITraitCollection) in
             self.gradientLayer.removeFromSuperlayer()
             self.setupLeftViewGradient()
+            self.containerView.layer.borderColor = UIColor.tabbarBackgroundColor.cgColor
         })
     }
     
@@ -47,7 +48,7 @@ private extension CampaignCell {
         setupLeftViewGradient()
         leftView.backgroundColor = .black
         containerView.layer.cornerRadius = 8
-        containerView.layer.borderColor = UIColor.tabbarBackgroundColor.withAlphaComponent(0.5).cgColor
+        containerView.layer.borderColor = UIColor.tabbarBackgroundColor.cgColor
         containerView.layer.borderWidth = 4
         containerView.clipsToBounds = true
         horizontalSeperatorView.backgroundColor = .lightDividerColor

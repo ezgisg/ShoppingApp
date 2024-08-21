@@ -316,7 +316,12 @@ extension ProductListViewController: UICollectionViewDelegate {
             }
             collectionView.reloadData()
         case .products:
-            break
+            let selectedProduct = viewModel.filteredProducts[indexPath.row]
+            guard let id = selectedProduct.id else { return }
+            let detailProductVC = ProductDetailViewController(productID: id)
+            detailProductVC.modalPresentationStyle = .overFullScreen
+            detailProductVC.modalTransitionStyle = .crossDissolve
+            present(detailProductVC, animated: true, completion: nil)
         }
     }
 }

@@ -161,7 +161,6 @@ private extension CategoriesViewController {
             }
         }
     }
-    
 }
 
 // MARK: - Compositional Layout

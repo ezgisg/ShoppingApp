@@ -9,7 +9,7 @@ import AppResources
 import Foundation
 import UIKit
 
-class StarRatingView: UIView {
+public class StarRatingView: UIView {
     
     private let maxRating = 5.0
     private var rating: Double = 0 {
@@ -44,7 +44,7 @@ class StarRatingView: UIView {
         }
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         let size = bounds.width
         let spacing: CGFloat = 5.0
@@ -77,7 +77,7 @@ class StarRatingView: UIView {
         
     }
 
-    func setRating(_ rating: Double) {
+    public func setRating(_ rating: Double) {
         self.rating = rating
     }
 }

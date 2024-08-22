@@ -5,23 +5,37 @@
 //  Created by Ezgi Sümer Günaydın on 12.08.2024.
 //
 
+import AppResources
 import Foundation
+import Network
+
 
 // MARK: - DetailBottomViewModelProtocol
 protocol DetailBottomViewModelProtocol: AnyObject {
     var productSizeData: ProductStockModel? { get set }
     var selectedSize: String? { get set }
     func loadStockData(for id: Int)
+    
+    var product: ProductResponseElement? { get }
+    func fetchProduct(productId: Int)
 }
 
 // MARK: - DetailBottomViewModelDelegate
 protocol DetailBottomViewModelDelegate: AnyObject {
     func reloadData()
     func controlAddToCartButtonStatus(isEnabled: Bool)
+    
 }
 
 // MARK: - DetailBottomViewModel
 public final class DetailBottomViewModel {
+    
+    // MARK: - Private variables
+    private var service: ShoppingService = ShoppingService()
+
+    var product: ProductResponseElement? = nil
+    
+    
     weak var delegate: DetailBottomViewModelDelegate?
     var productSizeData: ProductStockModel? = nil
     var selectedSize: String? = nil {
@@ -56,4 +70,17 @@ extension DetailBottomViewModel: DetailBottomViewModelProtocol {
               print("Error decoding JSON: \(error)")
           }
       }
+    
+    func fetchProduct(productId: Int) {
+        service.fetchProduct(productId: productId) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let productResponse):
+                product = productResponse
+                delegate?.reloadData()
+            case .failure(let error):
+                debugPrint("Ürün bilgileri yüklenemedi \(error)")
+            }
+        }
+    }
 }

@@ -38,7 +38,7 @@ extension ProductDetailViewModel : ProductDetailViewModelProtocol {
                 product = productResponse
                 delegate?.reloadData()
             case .failure(let error):
-                debugPrint("Ürün bilgileri yüklenemedi")
+                debugPrint("Ürün bilgileri yüklenemedi \(error)")
             }
         }
     }

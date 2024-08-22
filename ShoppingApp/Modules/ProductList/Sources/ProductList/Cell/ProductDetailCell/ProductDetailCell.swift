@@ -38,7 +38,8 @@ class ProductDetailCell: UICollectionViewCell, NibLoadable {
         setPrice(price: product?.price)
         setProductName(name: product?.title)
         setCategory(category: product?.category)
-        setRating(rating: product?.rating?.count)
+        setRating(ratingCount: product?.rating?.count, rating: product?.rating?.rate)
+        loadImage(imagePath: product?.image)
     }
     
 }
@@ -62,7 +63,8 @@ private extension ProductDetailCell {
 private extension ProductDetailCell {
     final func setPrice(price: Double?) {
         guard let price else { return priceLabel.text = "N/A" }
-        priceLabel.text = String(format: "%.2f", price)
+        let formattedPrice = String(format: "%.2f", price)
+        priceLabel.text = "\(formattedPrice) $"
     }
     
     final func setCategory(category: String?) {
@@ -75,8 +77,17 @@ private extension ProductDetailCell {
         productNameLabel.text = name
     }
     
-    final func setRating(rating: Int?) {
-        guard let rating else { return ratingCountLabel.text = "N/A" }
-        ratingCountLabel.text = "\(rating) Değerlendirme"
+    final func setRating(ratingCount: Int?, rating: Double?) {
+        guard let rating,
+              let ratingCount else { return ratingCountLabel.text = "N/A" }
+        ratingCountLabel.text = "\(ratingCount) Değerlendirme"
+        ratingView.setRating(Double(rating))
+    }
+    
+    final func loadImage(imagePath: String?) {
+        guard let imagePath,
+              let url = URL(string: imagePath)
+        else { return imageView.image = .noImage }
+        imageView.loadImage(with: url, cornerRadius: 0, contentMode: .scaleAspectFit)
     }
 }

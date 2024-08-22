@@ -140,10 +140,10 @@ extension ProductDetailViewController {
     }
     
     final func similarSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .absolute(225))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .absolute(225))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
         
@@ -303,11 +303,11 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         case .suggestions:
             let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
             let product = products[indexPath.row]
-            cell.configureWith(product: product)
-            cell.onAddToCartTapped = {  [weak self] in
-                guard let self else { return }
-                cellOnAddToCartTapped(product: product)
-            }
+            cell.configureWith(product: product, isAddToCartButtonHidden: true)
+//            cell.onAddToCartTapped = {  [weak self] in
+//                guard let self else { return }
+//                cellOnAddToCartTapped(product: product)
+//            }
             return cell
         case .payment:
             let cell = collectionView.dequeueReusableCell(withClass: PaymentCell.self, for: indexPath)

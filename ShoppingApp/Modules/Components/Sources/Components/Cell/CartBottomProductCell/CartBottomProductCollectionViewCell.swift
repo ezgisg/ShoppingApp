@@ -29,10 +29,11 @@ public final class CartBottomProductCollectionViewCell: UICollectionViewCell {
 }
 
 extension CartBottomProductCollectionViewCell {
-    public func configureWith(product: ProductResponseElement) {
+    public func configureWith(product: ProductResponseElement, isAddToCartButtonHidden: Bool? = false) {
         loadProductImage(from: product.image)
         nameLabel.text = product.title ?? "N/A"
         updatePriceLabel(price: product.price)
+        addToCartView.isHidden = isAddToCartButtonHidden ?? false
     }
 }
 

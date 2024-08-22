@@ -7,6 +7,7 @@
 
 import AppManagers
 import AppResources
+import Base
 import UIKit
 
 // MARK: - Enums
@@ -33,7 +34,7 @@ enum ProductDetailSectionType: Int, CaseIterable {
     }
 }
     
-class ProductDetailViewController: UIViewController {
+class ProductDetailViewController: BaseViewController {
     
     @IBOutlet private weak var backView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -51,9 +52,13 @@ class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        setups()
+         setups()
         viewModel.loadStockData(for: productID)
         viewModel.fetchProduct(productId: productID)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        showLoadingView()
     }
     
     // MARK: - Module init
@@ -158,7 +163,27 @@ extension ProductDetailViewController {
 }
 
 extension ProductDetailViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return }
+        switch sectionType {
+        case .variant:
+            let previousSize = viewModel.selectedSize
+            let previousIndex = viewModel.productSizeData?.sizes.firstIndex(where: {$0.size == previousSize })
+            let previousIndexPath = IndexPath(row: previousIndex ?? indexPath.row, section: indexPath.section)
+            guard let newSize = viewModel.productSizeData?.sizes[indexPath.row].size else { return }
+            viewModel.selectedSize = viewModel.selectedSize == newSize ? nil : newSize
+            UIView.animate(
+                withDuration: 0,
+                animations: {
+                    collectionView.reloadItems(at: [indexPath, previousIndexPath])
+                }, completion: { _ in
+                    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                }
+            )
+        default:
+            break
+        }
+    }
 }
 
 
@@ -230,6 +255,10 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 
 
 extension ProductDetailViewController: DetailBottomViewModelDelegate {
+    func hideLoading() {
+        hideLoadingView()
+    }
+    
     func controlAddToCartButtonStatus(isEnabled: Bool) {
         
     }

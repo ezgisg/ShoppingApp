@@ -26,7 +26,7 @@ protocol DetailBottomViewModelProtocol: AnyObject {
 protocol DetailBottomViewModelDelegate: AnyObject {
     func reloadData()
     func controlAddToCartButtonStatus(isEnabled: Bool)
-    
+    func hideLoading()
 }
 
 // MARK: - DetailBottomViewModel
@@ -34,6 +34,10 @@ public final class DetailBottomViewModel {
     
     // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
+    
+    // MARK: - Private variables for loading status
+    private var isStockDataLoaded = false
+    private var isProductFetched = false
 
     var product: ProductResponseElement? = nil
     
@@ -50,6 +54,12 @@ public final class DetailBottomViewModel {
             }
             let isEnabled = (selectedSize != nil && isThereStock)
             delegate?.controlAddToCartButtonStatus(isEnabled: isEnabled)
+        }
+    }
+    
+    private func checkAndHideLoadingIfNeeded() {
+        if isStockDataLoaded && isProductFetched {
+            delegate?.hideLoading()
         }
     }
 }
@@ -78,11 +88,15 @@ extension DetailBottomViewModel: DetailBottomViewModelProtocol {
           } catch {
               print("Error decoding JSON: \(error)")
           }
+        isStockDataLoaded = true
+        checkAndHideLoadingIfNeeded()
       }
     
     func fetchProduct(productId: Int) {
         service.fetchProduct(productId: productId) { [weak self] result in
             guard let self else { return }
+            isProductFetched = true
+            checkAndHideLoadingIfNeeded()
             switch result {
             case .success(let productResponse):
                 product = productResponse

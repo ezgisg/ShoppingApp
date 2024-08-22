@@ -230,6 +230,10 @@ private extension DetailBottomViewController {
 
 //MARK: DetailBottomViewModelDelegate
 extension DetailBottomViewController: DetailBottomViewModelDelegate {
+    func hideLoading() {
+        hideLoadingView()
+    }
+    
     func reloadData() {
         collectionView.reloadData()
     }

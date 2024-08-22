@@ -8,7 +8,7 @@
 import AppResources
 import UIKit
 
-final class CartBottomProductCollectionViewCell: UICollectionViewCell {
+public final class CartBottomProductCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -19,9 +19,9 @@ final class CartBottomProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var addToCartLabel: UILabel!
     
     // MARK: - Properties
-    var onAddToCartTapped: (() -> Void)?
+    public var onAddToCartTapped: (() -> Void)?
     
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
     }
@@ -29,7 +29,7 @@ final class CartBottomProductCollectionViewCell: UICollectionViewCell {
 }
 
 extension CartBottomProductCollectionViewCell {
-    func configureWith(product: ProductResponseElement) {
+    public func configureWith(product: ProductResponseElement) {
         loadProductImage(from: product.image)
         nameLabel.text = product.title ?? "N/A"
         updatePriceLabel(price: product.price)

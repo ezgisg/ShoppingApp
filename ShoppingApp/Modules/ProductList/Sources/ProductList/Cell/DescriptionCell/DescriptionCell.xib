@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DescriptionCell" customModule="ProductList">
+            <rect key="frame" x="0.0" y="0.0" width="251" height="120"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="251" height="120"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kkG-ef-qPA">
+                        <rect key="frame" x="0.0" y="0.0" width="251" height="120"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ürün Açıklaması" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I50-So-Wir">
+                                <rect key="frame" x="0.0" y="0.0" width="251" height="120"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="I50-So-Wir" firstAttribute="top" secondItem="kkG-ef-qPA" secondAttribute="top" id="KEp-TK-oVp"/>
+                            <constraint firstAttribute="trailing" secondItem="I50-So-Wir" secondAttribute="trailing" id="nTe-cS-1Ak"/>
+                            <constraint firstItem="I50-So-Wir" firstAttribute="leading" secondItem="kkG-ef-qPA" secondAttribute="leading" id="oBY-WE-9hf"/>
+                            <constraint firstAttribute="bottom" secondItem="I50-So-Wir" secondAttribute="bottom" id="tXH-md-CAR"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="kkG-ef-qPA" secondAttribute="bottom" id="27j-lc-e6B"/>
+                <constraint firstItem="kkG-ef-qPA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="GgO-yX-xLe"/>
+                <constraint firstItem="kkG-ef-qPA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="zGV-5F-hjh"/>
+                <constraint firstAttribute="trailing" secondItem="kkG-ef-qPA" secondAttribute="trailing" id="zLC-GI-uJ6"/>
+            </constraints>
+            <size key="customSize" width="251" height="120"/>
+            <connections>
+                <outlet property="textLabel" destination="I50-So-Wir" id="anW-ia-c6U"/>
+            </connections>
+            <point key="canvasLocation" x="283.20610687022901" y="11.971830985915494"/>
+        </collectionViewCell>
+    </objects>
+</document>

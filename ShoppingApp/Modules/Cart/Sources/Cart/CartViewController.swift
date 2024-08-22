@@ -8,6 +8,7 @@
 import AppResources
 import AppManagers
 import Base
+import Components
 import UIKit
 import ProductList
 
@@ -234,7 +235,7 @@ private extension CartViewController {
         configureDatasource()
         collectionView.register(nibWithCellClass: CartControlCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: CartProductCollectionViewCell.self, at: Bundle.module)
-        collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Bundle.module)
+        collectionView.register(nibWithCellClass: CartBottomProductCollectionViewCell.self, at: Components.bundle)
         collectionView.register(nibWithCellClass: CouponCell.self, at: Bundle.module)
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()

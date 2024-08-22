@@ -319,7 +319,7 @@ extension ProductListViewController: UICollectionViewDelegate {
         case .products:
             let selectedProduct = viewModel.filteredProducts[indexPath.row]
             guard let id = selectedProduct.id else { return }
-            let detailProductVC = ProductDetailViewController(productID: id)
+            let detailProductVC = ProductDetailViewController(productID: id, products: viewModel.filteredProducts)
             detailProductVC.onScreenDismiss = {
                 collectionView.reloadData()
             }

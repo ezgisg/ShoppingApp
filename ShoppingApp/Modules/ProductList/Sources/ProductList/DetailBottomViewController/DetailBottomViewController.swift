@@ -188,9 +188,9 @@ extension DetailBottomViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
         guard let sizeData = viewModel.productSizeData?.sizes[indexPath.row] else { return cell }
-        let isInStock = sizeData.stock > 0
-        cell.isEnabled = isInStock
-        cell.isSelectedCell = isInStock && viewModel.selectedSize == sizeData.size
+
+        cell.isEnabled = viewModel.isEnabledisSelected(index: indexPath.row).0
+        cell.isSelectedCell = viewModel.isEnabledisSelected(index: indexPath.row).1
         cell.configureWith(text: sizeData.size, textFont: .systemFont(ofSize: 20))
         return cell
     }

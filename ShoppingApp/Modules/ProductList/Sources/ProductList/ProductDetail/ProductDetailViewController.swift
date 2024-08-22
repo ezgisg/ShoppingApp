@@ -5,6 +5,8 @@
 //  Created by Ezgi Sümer Günaydın on 21.08.2024.
 //
 
+import AppManagers
+import AppResources
 import UIKit
 
 // MARK: - Enums
@@ -40,6 +42,9 @@ class ProductDetailViewController: UIViewController {
     
     var productID: Int
     
+    // MARK: - Properties
+    public var onScreenDismiss: (() -> Void)?
+    
     // MARK: - Module Components
     public var viewModel = DetailBottomViewModel()
     
@@ -63,7 +68,6 @@ class ProductDetailViewController: UIViewController {
     
     
     @IBAction func tappedAddButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
         print("basıldı")
     }
     
@@ -72,6 +76,21 @@ class ProductDetailViewController: UIViewController {
 extension ProductDetailViewController {
     final func setups() {
         setupCollectionView()
+        setupUI()
+    }
+    
+    final func setupUI() {
+        
+        collectionView.backgroundColor = .white
+        bottomBackView.backgroundColor = .white
+        bottomBackView.layer.shadowOffset = CGSize(width: 0, height: -2)
+        bottomBackView.layer.shadowColor = UIColor.black.cgColor
+        bottomBackView.layer.shadowOpacity = 0.5
+        backView.backgroundColor = .tabbarBackgroundColor
+        addCartButton.tintColor = .tabbarBackgroundColor
+        addCartButton.layer.cornerRadius = 8
+        addCartButton.setTitleColor(.white, for: .normal)
+        addCartButton.setTitle("Sepete Ekle", for: .normal)
     }
     
     
@@ -81,6 +100,11 @@ extension ProductDetailViewController {
         collectionView.register(nibWithCellClass: ProductDetailCell.self, at: Bundle.module)
         collectionView.register(nibWithCellClass: FilterCell.self, at: Bundle.module)
         collectionView.collectionViewLayout = createCompositionalLayout()
+    }
+    
+    private func handleFavoriteTap(for product: ProductResponseElement?) {
+        guard let product else { return }
+        FavoritesManager.shared.toggleFavorite(product: product)
     }
     
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
@@ -167,14 +191,22 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         switch sectionType {
         case .product:
             let cell = collectionView.dequeueReusableCell(withClass: ProductDetailCell.self, for: indexPath)
+            cell.onDismissTapped = {  [weak self] in
+                guard let self else { return }
+                dismiss(animated: true, completion: nil)
+                onScreenDismiss?()
+            }
+            cell.onFavoriteTapped = {  [weak self] in
+                guard let self else { return }
+                handleFavoriteTap(for: viewModel.product)
+            }
             cell.configureWith(product: viewModel.product)
             return cell
         case .variant:
             let cell = collectionView.dequeueReusableCell(withClass: FilterCell.self, for: indexPath)
             guard let sizeData = viewModel.productSizeData?.sizes[indexPath.row] else { return cell }
-            let isInStock = sizeData.stock > 0
-            cell.isEnabled = isInStock
-            cell.isSelectedCell = isInStock && viewModel.selectedSize == sizeData.size
+            cell.isEnabled = viewModel.isEnabledisSelected(index: indexPath.row).0
+            cell.isSelectedCell = viewModel.isEnabledisSelected(index: indexPath.row).1
             cell.configureWith(text: sizeData.size, textFont: .systemFont(ofSize: 20))
             return cell
         case .details:

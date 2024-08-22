@@ -75,6 +75,7 @@ public class ProductListViewController: BaseViewController {
         collectionView.reloadData()
     }
 
+    
     // MARK: - Module init
     public init(
         viewModel: ProductListViewModelProtocol) {
@@ -319,6 +320,9 @@ extension ProductListViewController: UICollectionViewDelegate {
             let selectedProduct = viewModel.filteredProducts[indexPath.row]
             guard let id = selectedProduct.id else { return }
             let detailProductVC = ProductDetailViewController(productID: id)
+            detailProductVC.onScreenDismiss = {
+                collectionView.reloadData()
+            }
             detailProductVC.modalPresentationStyle = .overFullScreen
             detailProductVC.modalTransitionStyle = .crossDissolve
             present(detailProductVC, animated: true, completion: nil)
@@ -327,8 +331,8 @@ extension ProductListViewController: UICollectionViewDelegate {
 }
 
 //MARK: - Helpers
-extension ProductListViewController {
-    private func updateEmptyViewTopConstraint() {
+private extension ProductListViewController {
+    final func updateEmptyViewTopConstraint() {
         guard cachedFilterSectionHeight == nil else { return }
         let section1StartIndexPath = IndexPath(item: 0, section: 1)
         let section1Attributes = collectionView.layoutAttributesForItem(at: section1StartIndexPath)
@@ -337,18 +341,19 @@ extension ProductListViewController {
         cachedFilterSectionHeight = section1Frame.origin.y - collectionView.contentOffset.y
     }
     
-     private func handleFavoriteTap(for product: ProductResponseElement?) {
+    final func handleFavoriteTap(for product: ProductResponseElement?) {
          guard let product else { return }
          FavoritesManager.shared.toggleFavorite(product: product)
      }
 
-    private func handleCartTap(for product: ProductResponseElement?) {
+    final func handleCartTap(for product: ProductResponseElement?) {
          guard let product else { return }
          let detailBottomVC = DetailBottomViewController(product: product)
          detailBottomVC.modalPresentationStyle = .overFullScreen
          detailBottomVC.modalTransitionStyle = .crossDissolve
          present(detailBottomVC, animated: true, completion: nil)
      }
+    
 }
 
 //MARK: - ProductListViewModelDelegate

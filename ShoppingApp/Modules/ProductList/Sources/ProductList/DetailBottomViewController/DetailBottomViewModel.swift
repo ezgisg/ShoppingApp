@@ -12,11 +12,13 @@ import Network
 
 // MARK: - DetailBottomViewModelProtocol
 protocol DetailBottomViewModelProtocol: AnyObject {
+    var product: ProductResponseElement? { get }
     var productSizeData: ProductStockModel? { get set }
     var selectedSize: String? { get set }
-    func loadStockData(for id: Int)
+
+    func isEnabledisSelected(index: Int) -> (Bool, Bool)
     
-    var product: ProductResponseElement? { get }
+    func loadStockData(for id: Int)
     func fetchProduct(productId: Int)
 }
 
@@ -54,6 +56,13 @@ public final class DetailBottomViewModel {
 
 // MARK: - DetailBottomViewModelProtocol
 extension DetailBottomViewModel: DetailBottomViewModelProtocol {
+    func isEnabledisSelected(index: Int) -> (Bool,Bool) {
+        guard let sizeData = productSizeData?.sizes[index] else { return (false,false) }
+        let isInStock = sizeData.stock > 0
+        let isSelected = isInStock && selectedSize == sizeData.size
+        return (isInStock,isSelected)
+    }
+    
     //TODO: hata durumlarında uyarı vs..
     func loadStockData(for id: Int) {
         guard let url = Bundle.module.url(forResource: "productSize", withExtension: "json") else { return }

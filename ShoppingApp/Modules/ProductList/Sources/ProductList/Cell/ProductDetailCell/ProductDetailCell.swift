@@ -6,6 +6,7 @@
 //
 
 import AppResources
+import AppManagers
 import Components
 import UIKit
 
@@ -23,6 +24,12 @@ class ProductDetailCell: UICollectionViewCell, NibLoadable {
     @IBOutlet weak var ratingCountLabel: UILabel!
     
     
+    // MARK: - Properties
+    public var onFavoriteTapped: (() -> Void)?
+    public var onDismissTapped: (() -> Void)?
+    
+    private var product: ProductResponseElement?
+    
     //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,11 +42,13 @@ class ProductDetailCell: UICollectionViewCell, NibLoadable {
     }
     
     final func configureWith(product: ProductResponseElement?) {
+        self.product = product
         setPrice(price: product?.price)
         setProductName(name: product?.title)
         setCategory(category: product?.category)
         setRating(ratingCount: product?.rating?.count, rating: product?.rating?.rate)
         loadImage(imagePath: product?.image)
+        manageFavoriteImage()
     }
     
 }
@@ -48,6 +57,8 @@ private extension ProductDetailCell {
     final func setups() {
         setupTexts()
         setupColors()
+        setupImages()
+        setupGestureRecognizers()
     }
     
     final func setupTexts() {
@@ -56,6 +67,36 @@ private extension ProductDetailCell {
     
     final func setupColors() {
         
+    }
+    
+    final func setupImages() {
+
+    }
+    
+    func setupGestureRecognizers() {
+        let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFavorite))
+        addFavoriteImage.isUserInteractionEnabled = true
+        addFavoriteImage.addGestureRecognizer(favoriteTapGesture)
+
+        let dismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss))
+        dismissImage.isUserInteractionEnabled = true
+        dismissImage.addGestureRecognizer(dismissTapGesture)
+        
+    }
+    
+    @objc private func didTapFavorite() {
+        onFavoriteTapped?()
+        manageFavoriteImage()
+    }
+    
+    @objc private func didTapDismiss() {
+        onDismissTapped?()
+    }
+    
+    final func manageFavoriteImage() {
+        guard let product else { return }
+        let isFavorite = FavoritesManager.shared.isFavorite(product: product)
+        addFavoriteImage.tintColor = isFavorite ? .systemRed : .lightGray
     }
 }
 

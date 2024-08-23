@@ -7,17 +7,18 @@
 
 import UIKit
 
+//MARK: - DescriptionCell
 class DescriptionCell: UICollectionViewCell {
-
-    @IBOutlet weak var textLabel: UILabel!
+    //MARK: - Outlets
+    @IBOutlet private weak var textLabel: UILabel!
     
+    //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
+    
+    //MARK: - Configuration
     final func configureWith(text: String) {
         textLabel.text = text
     }
-    
 }

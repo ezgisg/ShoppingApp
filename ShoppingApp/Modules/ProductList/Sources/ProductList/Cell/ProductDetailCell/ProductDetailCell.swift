@@ -5,29 +5,31 @@
 //  Created by Ezgi Sümer Günaydın on 21.08.2024.
 //
 
-import AppResources
 import AppManagers
+import AppResources
 import Components
 import UIKit
 
+
+//MARK: - ProductDetailCell
 class ProductDetailCell: UICollectionViewCell, NibLoadable {
     static var module = Bundle.module
     
-    
-    @IBOutlet weak var dismissImage: UIImageView!
-    @IBOutlet weak var addFavoriteImage: UIImageView!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var categoryNameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var productNameLabel: UILabel!
-    @IBOutlet weak var ratingView: StarRatingView!
-    @IBOutlet weak var ratingCountLabel: UILabel!
-    
-    
+    //MARK: - Outlets
+    @IBOutlet private weak var dismissImage: UIImageView!
+    @IBOutlet private weak var addFavoriteImage: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var categoryNameLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var productNameLabel: UILabel!
+    @IBOutlet private weak var ratingView: StarRatingView!
+    @IBOutlet private weak var ratingCountLabel: UILabel!
+     
     // MARK: - Properties
     public var onFavoriteTapped: (() -> Void)?
     public var onDismissTapped: (() -> Void)?
     
+    //MARK: - Private Variables
     private var product: ProductResponseElement?
     
     //MARK: - Life Cycles
@@ -38,9 +40,11 @@ class ProductDetailCell: UICollectionViewCell, NibLoadable {
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        ratingView.setRating(0)
     }
-    
+}
+
+//MARK: - Configuration
+extension ProductDetailCell {
     final func configureWith(product: ProductResponseElement?) {
         self.product = product
         setPrice(price: product?.price)
@@ -50,53 +54,35 @@ class ProductDetailCell: UICollectionViewCell, NibLoadable {
         loadImage(imagePath: product?.image)
         manageFavoriteImage()
     }
-    
 }
 
+//MARK: - Actions
 private extension ProductDetailCell {
-    final func setups() {
-        setupTexts()
-        setupColors()
-        setupImages()
-        setupGestureRecognizers()
-    }
-    
-    final func setupTexts() {
-        
-    }
-    
-    final func setupColors() {
-        
-    }
-    
-    final func setupImages() {
-
-    }
-    
-    func setupGestureRecognizers() {
-        let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFavorite))
-        addFavoriteImage.isUserInteractionEnabled = true
-        addFavoriteImage.addGestureRecognizer(favoriteTapGesture)
-
-        let dismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss))
-        dismissImage.isUserInteractionEnabled = true
-        dismissImage.addGestureRecognizer(dismissTapGesture)
-        
-    }
-    
-    @objc private func didTapFavorite() {
+    @objc final func didTapFavorite() {
         onFavoriteTapped?()
         manageFavoriteImage()
     }
     
-    @objc private func didTapDismiss() {
+    @objc final func didTapDismiss() {
         onDismissTapped?()
     }
+}
+
+//MARK: - Setups
+private extension ProductDetailCell {
+    final func setups() {
+        setupGestureRecognizers()
+    }
     
-    final func manageFavoriteImage() {
-        guard let product else { return }
-        let isFavorite = FavoritesManager.shared.isFavorite(product: product)
-        addFavoriteImage.tintColor = isFavorite ? .systemRed : .lightGray
+    final func setupGestureRecognizers() {
+        let favoriteTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapFavorite))
+        addFavoriteImage.isUserInteractionEnabled = true
+        addFavoriteImage.addGestureRecognizer(favoriteTapGesture)
+        
+        let dismissTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapDismiss))
+        dismissImage.isUserInteractionEnabled = true
+        dismissImage.addGestureRecognizer(dismissTapGesture)
+        
     }
 }
 
@@ -130,5 +116,11 @@ private extension ProductDetailCell {
               let url = URL(string: imagePath)
         else { return imageView.image = .noImage }
         imageView.loadImage(with: url, cornerRadius: 0, contentMode: .scaleAspectFit)
+    }
+    
+    final func manageFavoriteImage() {
+        guard let product else { return }
+        let isFavorite = FavoritesManager.shared.isFavorite(product: product)
+        addFavoriteImage.tintColor = isFavorite ? .systemRed : .lightGray
     }
 }

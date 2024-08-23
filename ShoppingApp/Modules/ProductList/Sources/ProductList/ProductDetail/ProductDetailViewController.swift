@@ -18,49 +18,42 @@ enum ProductDetailSectionType: Int, CaseIterable {
     case details = 2
     case suggestions = 3
     case payment = 4
-    
-    var stringValue: String? {
-        switch self {
-        case .product:
-            "product"
-        case .variant:
-            "variant"
-        case .details:
-            "details"
-        case .suggestions:
-            "suggestions"
-        case .payment:
-            "payment"
-        }
-    }
 }
-    
+
+// MARK: - ProductDetailViewController
 class ProductDetailViewController: BaseViewController {
     
+    //MARK: - Outlets
     @IBOutlet private weak var backView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var bottomBackView: UIView!
     @IBOutlet private weak var addCartButton: UIButton!
     
+    //MARK: Initials
     var productID: Int
-    ///For using in similars section as a mock data
+    ///For using in similars section as a mock data. It includes product itself.
     var products: ProductListResponse
+    
+//    let filteredProductsExcluding = viewModel.filteredProducts.filter { $0.id != id }
     
     // MARK: - Properties
     public var onScreenDismiss: (() -> Void)?
     
     // MARK: - Module Components
+    ///Logic is same so there is common viewmodel
     public var viewModel = DetailBottomViewModel()
     
+    //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-         setups()
         viewModel.loadStockData(for: productID)
         viewModel.fetchProduct(productId: productID)
+        setups()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        ///It is called at willappear, otherwise it is called on the previous screen
         showLoadingView()
     }
     
@@ -74,34 +67,38 @@ class ProductDetailViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    @IBAction func tappedAddButton(_ sender: Any) {
-        print("basıldı")
-    }
-    
 }
 
+//MARK: - Actions
 extension ProductDetailViewController {
+    @IBAction func tappedAddButton(_ sender: Any) {
+        //TODO: Sepete ekleme
+    }
+}
+
+//MARK: - Setups
+private extension ProductDetailViewController {
     final func setups() {
         setupCollectionView()
         setupUI()
     }
     
+    //TODO: Localizable
     final func setupUI() {
-        
         collectionView.backgroundColor = .white
+        
         bottomBackView.backgroundColor = .white
         bottomBackView.layer.shadowOffset = CGSize(width: 0, height: -2)
         bottomBackView.layer.shadowColor = UIColor.black.cgColor
         bottomBackView.layer.shadowOpacity = 0.5
+        
         backView.backgroundColor = .tabbarBackgroundColor
+        
         addCartButton.tintColor = .tabbarBackgroundColor
         addCartButton.layer.cornerRadius = 8
         addCartButton.setTitleColor(.white, for: .normal)
         addCartButton.setTitle("Sepete Ekle", for: .normal)
     }
-    
     
     final func setupCollectionView() {
         collectionView.delegate = self
@@ -114,16 +111,16 @@ extension ProductDetailViewController {
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
-    
-    private func handleFavoriteTap(for product: ProductResponseElement?) {
-        guard let product else { return }
-        FavoritesManager.shared.toggleFavorite(product: product)
-    }
-    
+}
+
+//MARK: - Compositional Layout
+private extension ProductDetailViewController {
     final func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             guard let self,
-                  let sectionType = ProductDetailSectionType(rawValue: sectionIndex) else { return nil }
+                  let sectionType = ProductDetailSectionType(rawValue: sectionIndex)
+            else { return nil }
+            
             switch sectionType {
             case .product:
                 return createProductSection()
@@ -139,65 +136,10 @@ extension ProductDetailViewController {
         }
     }
     
-    final func similarSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-        section.orthogonalScrollingBehavior = .continuous
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(40)
-        )
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-
-        if products.count > 0 {
-            section.boundarySupplementaryItems = [header]
-        }
-        
-        return section
-    }
-    
-    final func createBasicSection(isSectionCertainlyExist: Bool) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(500))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16)
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(40)
-        )
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        
-        section.boundarySupplementaryItems = isSectionCertainlyExist || (viewModel.product?.description != "") ? [header] : []
-        
-        return section
-    }
-    
     final func createProductSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(200))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
@@ -210,7 +152,7 @@ extension ProductDetailViewController {
     final func createVariantSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(20), heightDimension: .absolute(36))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(20),  heightDimension: .absolute(36))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -218,12 +160,71 @@ extension ProductDetailViewController {
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading:16, bottom: 12, trailing: 16)
+    
+        return section
+    }
+    
+    final func createBasicSection(isSectionCertainlyExist: Bool) -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(500))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(40)
+        )
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -12, bottom: 0, trailing: -12)
+        
+        let isThereDescriptionForProduct = !(viewModel.product?.description?.isEmpty ?? true)
+        section.boundarySupplementaryItems = isSectionCertainlyExist || isThereDescriptionForProduct ? [header] : []
         
         return section
     }
     
+    final func similarSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(112), heightDimension: .estimated(193))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(4)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(40)
+        )
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -8, bottom: 0, trailing: -8)
+        if products.count > 0 {
+            section.boundarySupplementaryItems = [header]
+        }
+        return section
+    }
 }
 
+//MARK: - UICollectionViewDelegate
 extension ProductDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return }
@@ -232,25 +233,24 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             let previousSize = viewModel.selectedSize
             let previousIndex = viewModel.productSizeData?.sizes.firstIndex(where: {$0.size == previousSize })
             let previousIndexPath = IndexPath(row: previousIndex ?? indexPath.row, section: indexPath.section)
+            
             guard let newSize = viewModel.productSizeData?.sizes[indexPath.row].size else { return }
             viewModel.selectedSize = viewModel.selectedSize == newSize ? nil : newSize
-            UIView.animate(
-                withDuration: 0,
-                animations: {
-                    collectionView.reloadItems(at: [indexPath, previousIndexPath])
-                }, completion: { _ in
-                    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                }
-            )
+            
+            ///To prevent scroll to back when reload changed items
+            UIView.animate(withDuration: 0, animations: {
+                collectionView.reloadItems(at: [indexPath, previousIndexPath])
+            }, completion: { _ in
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            })
         default:
             break
         }
     }
 }
 
-
+//MARK: - UICollectionViewDataSource
 extension ProductDetailViewController: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ProductDetailSectionType.allCases.count
     }
@@ -265,7 +265,8 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         case .variant:
             return viewModel.productSizeData?.sizes.count ?? 0
         case .details:
-            return viewModel.product?.description != "" ? 1 : 0
+            let isThereDescriptionForProduct = !(viewModel.product?.description?.isEmpty ?? true)
+            return isThereDescriptionForProduct ? 1 : 0
         case .suggestions:
             return products.count
         case .payment:
@@ -304,24 +305,19 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
             let product = products[indexPath.row]
             cell.configureWith(product: product, isAddToCartButtonHidden: true)
-//            cell.onAddToCartTapped = {  [weak self] in
-//                guard let self else { return }
-//                cellOnAddToCartTapped(product: product)
-//            }
             return cell
         case .payment:
             let cell = collectionView.dequeueReusableCell(withClass: PaymentCell.self, for: indexPath)
             return cell
         }
-        
     }
     
-    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return UICollectionReusableView () }
         
         var title = ""
-        
+        //TODO: Localizable
         switch sectionType {
         case .details:
             title = "Ürün Açıklaması"
@@ -342,17 +338,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             return UICollectionReusableView()
         }
     }
-    
 }
 
-
-//extension ProductDetailViewController: ProductDetailViewModelDelegate {
-//    func reloadData() {
-//        collectionView.reloadData()
-//    }
-//}
-
-
+//MARK: - DetailBottomViewModelDelegate
 extension ProductDetailViewController: DetailBottomViewModelDelegate {
     func hideLoading() {
         hideLoadingView()
@@ -367,7 +355,13 @@ extension ProductDetailViewController: DetailBottomViewModelDelegate {
     }
 }
 
-extension ProductDetailViewController {
+//MARK: - Helpers
+private extension ProductDetailViewController {
+    final func handleFavoriteTap(for product: ProductResponseElement?) {
+        guard let product else { return }
+        FavoritesManager.shared.toggleFavorite(product: product)
+    }
+    
     final func cellOnAddToCartTapped(product: ProductResponseElement) {
         let detailBottomVC = DetailBottomViewController(product: product)
         detailBottomVC.modalPresentationStyle = .overFullScreen

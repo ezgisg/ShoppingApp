@@ -7,33 +7,40 @@
 
 import UIKit
 
+//MARK: - PaymentCell
 class PaymentCell: UICollectionViewCell {
 
-    @IBOutlet weak var image1: UIImageView!
-    @IBOutlet weak var label1: UILabel!
-    @IBOutlet weak var image2: UIImageView!
-    @IBOutlet weak var label2: UILabel!
-    @IBOutlet weak var image3: UIImageView!
-    @IBOutlet weak var label3: UILabel!
+    @IBOutlet private weak var image1: UIImageView!
+    @IBOutlet private weak var label1: UILabel!
+    @IBOutlet private weak var image2: UIImageView!
+    @IBOutlet private weak var label2: UILabel!
+    @IBOutlet private weak var image3: UIImageView!
+    @IBOutlet private weak var label3: UILabel!
     
+    //MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
     }
 
+    //MARK: - Setup
     private final func setup() {
+        //TODO: İsimler ve resimler
         image1.image = .browseImage
         image2.image = .browseImage
         image3.image = .browseImage
+        
         label1.text = "Ödeme Tipi"
         label2.text = "Ödeme Tipi"
         label3.text = "Ödeme Tipi"
-        label1.textColor = .gray
-        label2.textColor = .gray
-        label3.textColor = .gray
-        label1.font = .systemFont(ofSize: 14, weight: .thin)
-        label2.font = .systemFont(ofSize: 14, weight: .thin)
-        label3.font = .systemFont(ofSize: 14, weight: .thin)
+        
+        setupTextAndFont(label: label1)
+        setupTextAndFont(label: label2)
+        setupTextAndFont(label: label3)
+        
+        func setupTextAndFont(label: UILabel) {
+            label.textColor = .gray
+            label.font = .systemFont(ofSize: 14, weight: .thin)
+        }
     }
-    
 }

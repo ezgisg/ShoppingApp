@@ -32,7 +32,6 @@ class FilterCell: UICollectionViewCell {
         super.awakeFromNib()
         setupUI()
     }
-
 }
 
 //MARK: - Setup

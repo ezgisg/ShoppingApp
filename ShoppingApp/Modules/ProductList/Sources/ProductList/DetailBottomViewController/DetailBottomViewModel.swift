@@ -17,7 +17,6 @@ protocol DetailBottomViewModelProtocol: AnyObject {
     var selectedSize: String? { get set }
 
     func isEnabledisSelected(index: Int) -> (Bool, Bool)
-    
     func loadStockData(for id: Int)
     func fetchProduct(productId: Int)
 }
@@ -29,20 +28,24 @@ protocol DetailBottomViewModelDelegate: AnyObject {
     func hideLoading()
 }
 
+// MARK: - DetailBottomViewModelDelegate
+extension DetailBottomViewModelDelegate {
+    func hideLoading() {}
+}
+
 // MARK: - DetailBottomViewModel
 public final class DetailBottomViewModel {
     
+    weak var delegate: DetailBottomViewModelDelegate?
+    
     // MARK: - Private variables
     private var service: ShoppingService = ShoppingService()
-    
-    // MARK: - Private variables for loading status
+    ///For managing loading view status
     private var isStockDataLoaded = false
     private var isProductFetched = false
 
+    // MARK: - Variables
     var product: ProductResponseElement? = nil
-    
-    
-    weak var delegate: DetailBottomViewModelDelegate?
     var productSizeData: ProductStockModel? = nil
     var selectedSize: String? = nil {
         didSet {
@@ -56,17 +59,11 @@ public final class DetailBottomViewModel {
             delegate?.controlAddToCartButtonStatus(isEnabled: isEnabled)
         }
     }
-    
-    private func checkAndHideLoadingIfNeeded() {
-        if isStockDataLoaded && isProductFetched {
-            delegate?.hideLoading()
-        }
-    }
 }
 
 // MARK: - DetailBottomViewModelProtocol
 extension DetailBottomViewModel: DetailBottomViewModelProtocol {
-    func isEnabledisSelected(index: Int) -> (Bool,Bool) {
+    final func isEnabledisSelected(index: Int) -> (Bool,Bool) {
         guard let sizeData = productSizeData?.sizes[index] else { return (false,false) }
         let isInStock = sizeData.stock > 0
         let isSelected = isInStock && selectedSize == sizeData.size
@@ -74,25 +71,25 @@ extension DetailBottomViewModel: DetailBottomViewModelProtocol {
     }
     
     //TODO: hata durumlarında uyarı vs..
-    func loadStockData(for id: Int) {
+    final func loadStockData(for id: Int) {
         guard let url = Bundle.module.url(forResource: "productSize", withExtension: "json") else { return }
         do {
-              let data = try Data(contentsOf: url)
-              let productsResponse = try JSONDecoder().decode(ProductsResponse.self, from: data)
-              if let productData = productsResponse.products.first(where: { $0.id == id }) {
-                  productSizeData = productData
-                  delegate?.reloadData()
-              } else {
-                  print("Error: Product with id \(id) not found.")
-              }
-          } catch {
-              print("Error decoding JSON: \(error)")
-          }
+            let data = try Data(contentsOf: url)
+            let productsResponse = try JSONDecoder().decode(ProductsResponse.self, from: data)
+            if let productData = productsResponse.products.first(where: { $0.id == id }) {
+                productSizeData = productData
+                delegate?.reloadData()
+            } else {
+                print("Error: Product with id \(id) not found.")
+            }
+        } catch {
+            print("Error decoding JSON: \(error)")
+        }
         isStockDataLoaded = true
         checkAndHideLoadingIfNeeded()
-      }
+    }
     
-    func fetchProduct(productId: Int) {
+    final func fetchProduct(productId: Int) {
         service.fetchProduct(productId: productId) { [weak self] result in
             guard let self else { return }
             isProductFetched = true
@@ -107,3 +104,13 @@ extension DetailBottomViewModel: DetailBottomViewModelProtocol {
         }
     }
 }
+
+//MARK: - Helpers
+private extension DetailBottomViewModel {
+    final func checkAndHideLoadingIfNeeded() {
+        if isStockDataLoaded && isProductFetched {
+            delegate?.hideLoading()
+        }
+    }
+}
+

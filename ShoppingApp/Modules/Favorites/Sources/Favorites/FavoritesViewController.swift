@@ -86,7 +86,17 @@ private extension FavoritesViewController {
 
 //MARK: - UICollectionViewDelegate
 extension FavoritesViewController: UICollectionViewDelegate {
-    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let productID = favorites?[indexPath.row].id else { return }
+        let detailVC = ProductDetailViewController(productID: productID, products: [])
+        detailVC.onScreenDismiss = {  [weak self] in
+            guard let self else { return }
+            fetchFavorites()
+        }
+        detailVC.modalPresentationStyle = .overFullScreen
+        detailVC.modalTransitionStyle = .crossDissolve
+        present(detailVC, animated: true, completion: nil)
+    }
 }
 
 //MARK: - UICollectionViewDataSource

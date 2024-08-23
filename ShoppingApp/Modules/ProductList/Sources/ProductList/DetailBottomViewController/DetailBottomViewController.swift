@@ -70,7 +70,6 @@ private extension DetailBottomViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    //TODO: sepete ekleme aksiyonu eklenecek-stock bilgisi kontrolü ile (sepete ekli üründe sepet görseli seçili olacak, tabbarda sepetteki ürün sayısı güncellenecek vs..)
     @IBAction final func tappedChoseSizeButton(_ sender: Any) {
         let size = viewModel.selectedSize
         let productId = product.id
@@ -96,6 +95,14 @@ private extension DetailBottomViewController {
         })
         
     }
+
+    @objc final func goToDetail() {
+        guard let productID = product.id else { return }
+        let detailProductVC = ProductDetailViewController(productID: productID, products: [])
+        detailProductVC.modalPresentationStyle = .overFullScreen
+        detailProductVC.modalTransitionStyle = .crossDissolve
+        present(detailProductVC, animated: true, completion: nil)
+    }
 }
 
 //MARK: - Setups
@@ -107,6 +114,7 @@ private extension DetailBottomViewController {
         setupInitialStatus()
         setupImage()
         setupCollectionView()
+        addTapGesture()
     }
     
     final func setupTexts() {
@@ -121,9 +129,14 @@ private extension DetailBottomViewController {
         }
         let attributedString = NSMutableAttributedString(string: "Ürün Detay Sayfasına Git")
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
-        //TODO: tapgesture eklenip detay sayfasına gidilecek hazır olduğunda
         goToDetailLabel.attributedText = attributedString
         warningForAddingCartLabel.text = "Sepete Eklendi"
+    }
+    
+    final func addTapGesture() {
+        let goToDetailGesture = UITapGestureRecognizer(target: self, action: #selector(goToDetail))
+        goToDetailLabel.addGestureRecognizer(goToDetailGesture)
+        goToDetailLabel.isUserInteractionEnabled = true
     }
     
     final func setupBackgrounds() {

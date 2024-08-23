@@ -171,13 +171,3 @@ extension TabBarController {
     }
     
 }
-
-//TODO: ekran kaldırılacak gerçeği oluşturulunca
-// Dummy MiddleViewController for the middle button
-class MiddleViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .orange
-    }
-}
-

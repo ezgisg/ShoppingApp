@@ -81,6 +81,11 @@ private extension FilterDetailViewController {
         button.setTitleColor(.lightButtonColor, for: .highlighted)
         button.setTitle("Listele", for: .normal)
         
+        searchBar.searchTextField.textColor = .black
+        searchBar.tintColor = .black
+        searchBar.searchTextField.leftView?.tintColor = .black
+        searchBar.barStyle = .black
+        
         setupCustomBackButton()
         setupCustomRightButton()
         setupInitialSelections()

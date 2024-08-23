@@ -164,7 +164,7 @@ private extension OnboardingViewController {
         print("Skip button tapped")
         //TODO: denemeler için true bırakıldı, değiştirilecek
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
-        navigateToNextScreen(Routes.tabBar.getViewController())
+        navigateToNextScreen(Routes.signIn.getViewController())
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
     }
     

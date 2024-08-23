@@ -288,7 +288,21 @@ extension CartViewController: CartViewModelDelegate {
 
 // MARK: - UICollectionViewDelegate
 extension CartViewController: UICollectionViewDelegate {
-    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = CartScreenSectionType(rawValue: indexPath.section) else { return }
+        switch sectionType {
+        case .cart:
+            let cartItem = viewModel.products[indexPath.row]
+            guard let id = cartItem.id else { return }
+            goToDetail(productID: id)
+        case .similarProducts:
+            let similarItem = viewModel.similarProducts[indexPath.row]
+            guard let id = similarItem.id else { return }
+            goToDetail(productID: id)
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - Compositional Layout
@@ -489,6 +503,13 @@ private extension CartViewController {
 
     final func controlEmptyViewHiddenStatus() {
         emptyView.isHidden = viewModel.products.isEmpty ? false : true
+    }
+    
+    final func goToDetail(productID: Int) {
+        let detailProductVC = ProductDetailViewController(productID: productID, products: [])
+        detailProductVC.modalPresentationStyle = .overFullScreen
+        detailProductVC.modalTransitionStyle = .crossDissolve
+        present(detailProductVC, animated: true, completion: nil)
     }
     
 }

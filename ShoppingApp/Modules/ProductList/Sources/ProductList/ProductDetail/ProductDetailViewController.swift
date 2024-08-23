@@ -21,7 +21,7 @@ enum ProductDetailSectionType: Int, CaseIterable {
 }
 
 // MARK: - ProductDetailViewController
-class ProductDetailViewController: BaseViewController {
+public class ProductDetailViewController: BaseViewController {
     
     //MARK: - Outlets
     @IBOutlet private weak var backView: UIView!
@@ -34,8 +34,7 @@ class ProductDetailViewController: BaseViewController {
     var productID: Int
     ///For using in similars section as a mock data. It includes product itself.
     var products: ProductListResponse
-    
-//    let filteredProductsExcluding = viewModel.filteredProducts.filter { $0.id != id }
+    var filteredProductsExcluding: ProductListResponse?
     
     // MARK: - Properties
     public var onScreenDismiss: (() -> Void)?
@@ -45,7 +44,7 @@ class ProductDetailViewController: BaseViewController {
     public var viewModel = DetailBottomViewModel()
     
     //MARK: - Life Cycles
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         viewModel.delegate = self
@@ -55,9 +54,10 @@ class ProductDetailViewController: BaseViewController {
         topView.isHidden = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         ///It is called at willappear, otherwise it is called on the previous screen
         showLoadingView()
+        filteredProductsExcluding = products.filter{ $0.id != productID }
     }
     
     // MARK: - Module init
@@ -243,7 +243,7 @@ private extension ProductDetailViewController {
         )
         
         header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -8, bottom: 0, trailing: -8)
-        if products.count > 0 {
+        if filteredProductsExcluding?.count ?? 0 > 0 {
             section.boundarySupplementaryItems = [header]
         }
         return section
@@ -252,7 +252,7 @@ private extension ProductDetailViewController {
 
 //MARK: - UICollectionViewDelegate
 extension ProductDetailViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return }
         switch sectionType {
         case .variant:
@@ -269,6 +269,13 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             }, completion: { _ in
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             })
+            
+        case .suggestions:
+            guard let selectedProductID = filteredProductsExcluding?[indexPath.row].id else { return }
+            let detailProductVC = ProductDetailViewController(productID: selectedProductID, products: products)
+            detailProductVC.modalPresentationStyle = .overFullScreen
+            detailProductVC.modalTransitionStyle = .crossDissolve
+            present(detailProductVC, animated: true, completion: nil)
         default:
             break
         }
@@ -277,11 +284,11 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 
 //MARK: - UICollectionViewDataSource
 extension ProductDetailViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return ProductDetailSectionType.allCases.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let sectionType = ProductDetailSectionType(rawValue: section) else { return 0 }
         
         switch sectionType {
@@ -294,13 +301,13 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             let isThereDescriptionForProduct = !(viewModel.product?.description?.isEmpty ?? true)
             return isThereDescriptionForProduct ? 1 : 0
         case .suggestions:
-            return products.count
+            return filteredProductsExcluding?.count ?? 0
         case .payment:
             return 1
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return UICollectionViewCell() }
         switch sectionType {
         case .product:
@@ -329,8 +336,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             return cell
         case .suggestions:
             let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
-            let product = products[indexPath.row]
-            cell.configureWith(product: product, isAddToCartButtonHidden: true)
+            if let product = filteredProductsExcluding?[indexPath.row] {
+                cell.configureWith(product: product, isAddToCartButtonHidden: true)
+            }
             return cell
         case .payment:
             let cell = collectionView.dequeueReusableCell(withClass: PaymentCell.self, for: indexPath)
@@ -338,7 +346,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return UICollectionReusableView () }
         

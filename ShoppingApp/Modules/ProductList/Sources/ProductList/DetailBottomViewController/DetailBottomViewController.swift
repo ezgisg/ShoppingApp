@@ -77,8 +77,6 @@ private extension DetailBottomViewController {
         //TODO: eklendiğinde eklendi uyarısı else de sepee eklenemedi hatası verebiliriz
         guard let productId, let size else { return }
         CartManager.shared.addToCart(productId: productId, size: size)
-        CartManager.shared.printCart()
-        
         ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
         warningForAddingCartView.alpha = 0
         warningForAddingCartView.isHidden = false
@@ -155,12 +153,7 @@ private extension DetailBottomViewController {
     }
     
     final func setupInitialStatus() {
-        ///It is disabled at first because it change by (as it below) selected size changes
-        choseSizeButton.isEnabled = false
-        if let sizes = viewModel.productSizeData?.sizes,
-               sizes.count == 1 {
-            viewModel.selectedSize = sizes[0].size
-        }
+        choseSizeButton.isEnabled = viewModel.isAddCartButtonEnabled ?? false
     }
     
     final func setupImage() {

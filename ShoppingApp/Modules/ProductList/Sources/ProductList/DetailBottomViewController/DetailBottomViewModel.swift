@@ -15,6 +15,7 @@ protocol DetailBottomViewModelProtocol: AnyObject {
     var product: ProductResponseElement? { get }
     var productSizeData: ProductStockModel? { get set }
     var selectedSize: String? { get set }
+    var isAddCartButtonEnabled: Bool? { get }
 
     func isEnabledisSelected(index: Int) -> (Bool, Bool)
     func loadStockData(for id: Int)
@@ -57,6 +58,18 @@ public final class DetailBottomViewModel {
             }
             let isEnabled = (selectedSize != nil && isThereStock)
             delegate?.controlAddToCartButtonStatus(isEnabled: isEnabled)
+        }
+    }
+    var isAddCartButtonEnabled: Bool? {
+        ///To choose size automatically if there is just one size and there is a stock for this size
+        if let sizes = productSizeData?.sizes,
+           sizes.count == 1,
+           productSizeData?.sizes.first?.stock != 0
+        {
+            selectedSize = sizes[0].size
+            return true
+        } else {
+            return false
         }
     }
 }

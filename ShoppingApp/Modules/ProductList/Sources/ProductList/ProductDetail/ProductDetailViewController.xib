@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,6 +15,7 @@
                 <outlet property="backView" destination="tEE-ln-eV3" id="iCJ-Uv-nhC"/>
                 <outlet property="bottomBackView" destination="GbA-fg-43H" id="fTy-6x-POJ"/>
                 <outlet property="collectionView" destination="TwH-IR-3pf" id="0Cd-AZ-wDT"/>
+                <outlet property="topView" destination="WAB-Mh-vNu" id="51b-gO-ewx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,7 +38,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemMintColor"/>
+                    <color key="backgroundColor" name="tabbarBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="TwH-IR-3pf" secondAttribute="trailing" id="KLM-EU-7Gq"/>
                         <constraint firstItem="TwH-IR-3pf" firstAttribute="leading" secondItem="tEE-ln-eV3" secondAttribute="leading" id="bXE-qz-XYa"/>
@@ -47,9 +49,11 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wE9-xN-OJB">
                             <rect key="frame" x="24" y="24" width="345" height="42"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="DkN-cZ-d2V"/>
                             </constraints>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="filled" title="Button"/>
                             <connections>
@@ -57,12 +61,16 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemRedColor"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="wE9-xN-OJB" secondAttribute="trailing" constant="24" id="bW2-bX-90j"/>
                         <constraint firstItem="wE9-xN-OJB" firstAttribute="leading" secondItem="GbA-fg-43H" secondAttribute="leading" constant="24" id="egx-ys-YXv"/>
                         <constraint firstItem="wE9-xN-OJB" firstAttribute="top" secondItem="GbA-fg-43H" secondAttribute="top" constant="24" id="jRS-iX-pxy"/>
                     </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAB-Mh-vNu">
+                    <rect key="frame" x="0.0" y="59" width="393" height="669"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -71,26 +79,27 @@
                 <constraint firstAttribute="bottom" secondItem="GbA-fg-43H" secondAttribute="bottom" id="4i9-LB-OeO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GbA-fg-43H" secondAttribute="trailing" id="8gp-5f-MIC"/>
                 <constraint firstItem="tEE-ln-eV3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9mb-gE-5HO"/>
+                <constraint firstItem="GbA-fg-43H" firstAttribute="top" secondItem="WAB-Mh-vNu" secondAttribute="bottom" id="ADe-N3-a42"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wE9-xN-OJB" secondAttribute="bottom" constant="24" id="V7f-1t-rZS"/>
                 <constraint firstItem="GbA-fg-43H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bnk-Bh-PGG"/>
                 <constraint firstItem="TwH-IR-3pf" firstAttribute="bottom" secondItem="GbA-fg-43H" secondAttribute="top" id="fPb-PH-BUV"/>
                 <constraint firstItem="GbA-fg-43H" firstAttribute="top" secondItem="tEE-ln-eV3" secondAttribute="bottom" id="gce-pd-OSl"/>
+                <constraint firstItem="WAB-Mh-vNu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="if6-JH-vG4"/>
                 <constraint firstItem="tEE-ln-eV3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iip-DB-gb6"/>
+                <constraint firstItem="WAB-Mh-vNu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="k3e-dF-awG"/>
                 <constraint firstItem="TwH-IR-3pf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kwd-9B-wPi"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tEE-ln-eV3" secondAttribute="trailing" id="r4T-Dd-kbU"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WAB-Mh-vNu" secondAttribute="trailing" id="uL7-bp-VSG"/>
             </constraints>
             <point key="canvasLocation" x="-68" y="16"/>
         </view>
     </objects>
     <resources>
+        <namedColor name="tabbarBackgroundColor">
+            <color red="0.019607843137254902" green="0.011764705882352941" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemMintColor">
-            <color red="0.0" green="0.78039215689999997" blue="0.74509803919999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

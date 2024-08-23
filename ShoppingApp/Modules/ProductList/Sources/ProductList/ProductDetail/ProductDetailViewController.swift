@@ -28,6 +28,7 @@ class ProductDetailViewController: BaseViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var bottomBackView: UIView!
     @IBOutlet private weak var addCartButton: UIButton!
+    @IBOutlet private weak var topView: UIView!
     
     //MARK: Initials
     var productID: Int
@@ -46,10 +47,12 @@ class ProductDetailViewController: BaseViewController {
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         viewModel.delegate = self
         viewModel.loadStockData(for: productID)
         viewModel.fetchProduct(productId: productID)
         setups()
+        topView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,7 +75,24 @@ class ProductDetailViewController: BaseViewController {
 //MARK: - Actions
 extension ProductDetailViewController {
     @IBAction func tappedAddButton(_ sender: Any) {
-        //TODO: Sepete ekleme
+        let size = viewModel.selectedSize
+        guard let size else { return }
+        addCartButton.isEnabled = false
+        topView.isHidden = false
+        CartManager.shared.addToCart(productId: productID, size: size)
+    }
+    
+    @IBAction func cartUpdated(_ sender: Any) {
+        addCartButton.backgroundColor = .systemYellow
+        addCartButton.setTitle("Sepete Eklendi", for: .disabled)
+     
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
+            guard let self else { return }
+            addCartButton.isEnabled = true
+            setButtonColor(isEnabled: self.addCartButton.isEnabled)
+            topView.isHidden = true
+        }
+        
     }
 }
 
@@ -81,6 +101,7 @@ private extension ProductDetailViewController {
     final func setups() {
         setupCollectionView()
         setupUI()
+        setupInitialStatus()
     }
     
     //TODO: Localizable
@@ -94,10 +115,9 @@ private extension ProductDetailViewController {
         
         backView.backgroundColor = .tabbarBackgroundColor
         
-        addCartButton.tintColor = .tabbarBackgroundColor
         addCartButton.layer.cornerRadius = 8
-        addCartButton.setTitleColor(.white, for: .normal)
-        addCartButton.setTitle("Sepete Ekle", for: .normal)
+        addCartButton.setTitleColor(.lightDividerColor, for: .normal)
+        addCartButton.setTitleColor(.white, for: .disabled)
     }
     
     final func setupCollectionView() {
@@ -111,6 +131,12 @@ private extension ProductDetailViewController {
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
+    
+    final func setupInitialStatus() {
+        addCartButton.isEnabled = viewModel.isAddCartButtonEnabled ?? false
+        setButtonColor(isEnabled: addCartButton.isEnabled)
+    }
+    
 }
 
 //MARK: - Compositional Layout
@@ -347,7 +373,8 @@ extension ProductDetailViewController: DetailBottomViewModelDelegate {
     }
     
     func controlAddToCartButtonStatus(isEnabled: Bool) {
-        
+        addCartButton.isEnabled = isEnabled
+        setButtonColor(isEnabled: isEnabled)
     }
     
     func reloadData() {
@@ -362,10 +389,9 @@ private extension ProductDetailViewController {
         FavoritesManager.shared.toggleFavorite(product: product)
     }
     
-    final func cellOnAddToCartTapped(product: ProductResponseElement) {
-        let detailBottomVC = DetailBottomViewController(product: product)
-        detailBottomVC.modalPresentationStyle = .overFullScreen
-        detailBottomVC.modalTransitionStyle = .crossDissolve
-        present(detailBottomVC, animated: true, completion: nil)
+    final func setButtonColor(isEnabled: Bool) {
+        addCartButton.backgroundColor = .middleButtonColor.withAlphaComponent(0.5)
+        addCartButton.tintColor = isEnabled ? .tabbarBackgroundColor : .clear
+        addCartButton.setTitle("Sepete Ekle", for: .normal)
     }
 }

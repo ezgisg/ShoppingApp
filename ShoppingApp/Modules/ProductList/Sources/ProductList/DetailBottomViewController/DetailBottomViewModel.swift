@@ -27,11 +27,13 @@ protocol DetailBottomViewModelDelegate: AnyObject {
     func reloadData()
     func controlAddToCartButtonStatus(isEnabled: Bool)
     func hideLoading()
+    func errorWhileFetching()
 }
 
 // MARK: - DetailBottomViewModelDelegate
 extension DetailBottomViewModelDelegate {
     func hideLoading() {}
+    func errorWhileFetching() {}
 }
 
 // MARK: - DetailBottomViewModel
@@ -113,6 +115,7 @@ extension DetailBottomViewModel: DetailBottomViewModelProtocol {
                 delegate?.reloadData()
             case .failure(let error):
                 debugPrint("Ürün bilgileri yüklenemedi \(error)")
+                delegate?.errorWhileFetching()
             }
         }
     }

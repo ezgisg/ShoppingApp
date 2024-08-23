@@ -388,6 +388,16 @@ extension ProductDetailViewController: DetailBottomViewModelDelegate {
     func reloadData() {
         collectionView.reloadData()
     }
+    
+    //TODO: Localizable
+    func errorWhileFetching() {
+        topView.isHidden = false
+        topView.backgroundColor = .white
+        showAlert(title: "Ürün Bilgileri Yüklenemedi", message: "Ürün Bilgileri Yüklenemedi", buttonTitle: "OK") {  [weak self] in
+            guard let self else { return }
+            dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
 //MARK: - Helpers

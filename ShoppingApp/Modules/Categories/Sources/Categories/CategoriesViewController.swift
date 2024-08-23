@@ -228,27 +228,21 @@ extension CategoriesViewController: UISearchControllerDelegate {
         guard navigationItem.searchController == nil else {
             navigationItem.searchController = nil
             return }
-        
         searchController = UISearchController(searchResultsController: nil)
         guard let searchController else { return }
-        
-        
+        let searchTextField = searchController.searchBar.searchTextField
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = L10nGeneric.searchCategories.localized()
         searchController.searchBar.tintColor = .tabbarSelectedColor
-  
-        searchController.searchBar.searchTextField.backgroundColor = .white
-        searchController.searchBar.searchTextField.tintColor = .black
-        searchController.searchBar.barStyle = .black
         
-        
-        let searchTextField = searchController.searchBar.searchTextField
-        searchTextField.attributedPlaceholder = NSAttributedString(string: L10nGeneric.searchCategories.localized(), attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        searchTextField.overrideUserInterfaceStyle = .light
+        searchTextField.backgroundColor = .white
+        searchTextField.tintColor = .black
+        searchTextField.leftView?.tintColor = .black
         
         navigationItem.searchController = searchController
-        definesPresentationContext = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             searchController.searchBar.becomeFirstResponder()
         }

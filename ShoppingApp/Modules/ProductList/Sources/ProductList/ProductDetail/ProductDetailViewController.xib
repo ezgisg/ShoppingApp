@@ -69,7 +69,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WAB-Mh-vNu">
-                    <rect key="frame" x="0.0" y="59" width="393" height="669"/>
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
@@ -79,7 +79,6 @@
                 <constraint firstAttribute="bottom" secondItem="GbA-fg-43H" secondAttribute="bottom" id="4i9-LB-OeO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GbA-fg-43H" secondAttribute="trailing" id="8gp-5f-MIC"/>
                 <constraint firstItem="tEE-ln-eV3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9mb-gE-5HO"/>
-                <constraint firstItem="GbA-fg-43H" firstAttribute="top" secondItem="WAB-Mh-vNu" secondAttribute="bottom" id="ADe-N3-a42"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wE9-xN-OJB" secondAttribute="bottom" constant="24" id="V7f-1t-rZS"/>
                 <constraint firstItem="GbA-fg-43H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bnk-Bh-PGG"/>
                 <constraint firstItem="TwH-IR-3pf" firstAttribute="bottom" secondItem="GbA-fg-43H" secondAttribute="top" id="fPb-PH-BUV"/>
@@ -90,6 +89,7 @@
                 <constraint firstItem="TwH-IR-3pf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kwd-9B-wPi"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tEE-ln-eV3" secondAttribute="trailing" id="r4T-Dd-kbU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WAB-Mh-vNu" secondAttribute="trailing" id="uL7-bp-VSG"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="WAB-Mh-vNu" secondAttribute="bottom" id="uNS-T0-ubD"/>
             </constraints>
             <point key="canvasLocation" x="-68" y="16"/>
         </view>

@@ -140,8 +140,17 @@ private extension FavoritesViewController {
 private extension FavoritesViewController {
     final func handleFavoriteTap(for product: ProductResponseElement?) {
         guard let product else { return }
+
+        let oldFavorites = favorites
         FavoritesManager.shared.toggleFavorite(product: product)
-        fetchFavorites()
+        favorites = FavoritesManager.shared.getFavorites()
+        
+        collectionView.performBatchUpdates({
+            guard let oldIndex = oldFavorites?.firstIndex(where: { $0.id == product.id }) else { return }
+            collectionView.deleteItems(at: [IndexPath(row: oldIndex, section: 0)])
+        }, completion: nil)
+        
+        emptyView.isHidden = (favorites?.count ?? 0) > 0
     }
 
     final func handleCartTap(for product: ProductResponseElement?) {

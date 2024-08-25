@@ -322,9 +322,7 @@ extension HomeViewController: UICollectionViewDelegate {
             break
         case .categoryBanner:
             let category = CategoryResponseElement(value: categories[indexPath.row], imagePath: "")
-            let viewModel = ProductListViewModel(categories: [category])
-            let productVC = ProductListViewController(viewModel: viewModel)
-            navigationController?.pushViewController(productVC, animated: false)
+            coordinator.routeToProductList(with: [category])
         }
     }
 }

@@ -21,11 +21,11 @@ import SignIn
 typealias Routes = SplashRouter
 & HomeRouter
 & TabBarRouter
+& CategoriesRouter
 //& FavoritesRoutes
 //& CampaignsRoutes
 //& CartRoutes
 //& HomeRoutes
-//& CategoriesRoutes
 //& ProductListRoutes
 //& OnboardingRoutes
 //& SignInRoutes

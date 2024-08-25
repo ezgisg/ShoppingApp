@@ -1,32 +1,32 @@
 //
-//  HomeCoordinator.swift
-//  
+//  CategoriesCoordinator.swift
 //
-//  Created by Ezgi Sümer Günaydın on 23.08.2024.
+//
+//  Created by Ezgi Sümer Günaydın on 25.08.2024.
 //
 
 import AppResources
 import Base
 import UIKit
 
-// MARK: - HomeRouter
-public protocol HomeRouter: AnyObject {
+// MARK: - CategoriesRouter
+public protocol CategoriesRouter: AnyObject {
     func routeToProductList(
         categories: [CategoryResponseElement],
         _ from: BaseCoordinator
     )
 }
 
-// MARK: - HomeCoordinator
-final public class HomeCoordinator: BaseCoordinator {
+// MARK: - CategoriesCoordinator
+final public class CategoriesCoordinator: BaseCoordinator {
     // MARK: - Publics
-    public var delegate: HomeRouter?
+    public var delegate: CategoriesRouter?
 
     // MARK: - Start
     public override func start() {
-        let controller = HomeViewController(
+        let controller = CategoriesViewController(
             coordinator: self,
-            viewModel: HomeViewModel()
+            viewModel: CategoriesViewModel()
         )
 
         navigationController.setViewControllers([controller], animated: false)
@@ -37,4 +37,3 @@ final public class HomeCoordinator: BaseCoordinator {
         delegate?.routeToProductList(categories: categories, self)
     }
 }
-

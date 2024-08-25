@@ -13,7 +13,7 @@ import Components
 import UIKit
 
 // MARK: - ProductListViewController
-public class ProductListViewController: BaseViewController {
+class ProductListViewController: BaseViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var filterLabel: UILabel!
@@ -53,10 +53,11 @@ public class ProductListViewController: BaseViewController {
     }
     
     // MARK: - Module Components
-    public var viewModel: ProductListViewModelProtocol
- 
+    private var viewModel: ProductListViewModelProtocol
+    private var coordinator: ProductListCoordinator
+    
     // MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         showLoadingView()
         setups()
@@ -64,12 +65,12 @@ public class ProductListViewController: BaseViewController {
         viewModel.fetchProducts()
     }
     
-    public override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         updateEmptyViewTopConstraint()
     }
     
     ///There is a common viewmodel and selection datas
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         ///To get new result when back from filterPage with new filters
         viewModel.filterProductsWithSelections()
         collectionView.reloadData()
@@ -77,9 +78,12 @@ public class ProductListViewController: BaseViewController {
 
     
     // MARK: - Module init
-    public init(
-        viewModel: ProductListViewModelProtocol) {
+    init(
+        viewModel: ProductListViewModelProtocol,
+        coordinator: ProductListCoordinator
+    ) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    

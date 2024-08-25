@@ -13,6 +13,7 @@ let package = Package(
             targets: ["Coordinator"]),
     ],
     dependencies: [
+        .package(path: "../AppResources"),
         .package(path: "../Base"),
         .package(path: "../ProductList"),
         .package(path: "../Favorites"),
@@ -31,6 +32,7 @@ let package = Package(
         .target(
             name: "Coordinator",
             dependencies: [
+                "AppResources",
                 "Base",
                 "ProductList",
                 "Favorites",

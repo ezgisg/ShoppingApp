@@ -16,7 +16,7 @@ import Home
 import UIKit
 
 // MARK: - CoordinatorRoutingDelegate
-public typealias TabBarRoutes = HomeRouter
+public typealias TabBarRoutes = HomeRouter & CategoriesRouter
 public protocol TabBarRouter: TabBarRoutes {}
 
 // MARK: - TabBarCoordinator
@@ -36,7 +36,7 @@ public final class TabBarCoordinator: BaseCoordinator {
     }
 
     public let homeCoordinator: HomeCoordinator
-    public let categoriesCoordinator: HomeCoordinator
+    public let categoriesCoordinator: CategoriesCoordinator
     public let campaignsCoordinator: HomeCoordinator
     public let cartCoordinator: HomeCoordinator
     public let favoritesCoordinator: HomeCoordinator
@@ -74,7 +74,7 @@ public final class TabBarCoordinator: BaseCoordinator {
         
         let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
         let categoriesNavigationController = getStyledNavigationController(title: categoriesTitle, image: .systemListImage)
-        categoriesCoordinator = HomeCoordinator(categoriesNavigationController)
+        categoriesCoordinator = CategoriesCoordinator(categoriesNavigationController)
 
         let middleNavigationController = getStyledNavigationController(title: "", image: nil)
         campaignsCoordinator = HomeCoordinator(middleNavigationController)

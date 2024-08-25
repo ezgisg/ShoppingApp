@@ -25,10 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-//        let splashVC = SplashViewController()
+        let splashVC = SplashViewController()
 //        let signInVC = SignInViewController()
-        let tabBar = TabBarController()
-        let navigationController = UINavigationController(rootViewController: tabBar)
+//        let tabBar = TabBarController()
+        let navigationController = UINavigationController(rootViewController: splashVC)
         window?.rootViewController = navigationController
     }
 

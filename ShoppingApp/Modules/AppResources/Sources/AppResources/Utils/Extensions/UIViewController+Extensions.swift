@@ -1,5 +1,5 @@
 //
-//  UIViewController.swift
+//  UIViewController+Extensions.swift
 //
 //
 //  Created by Ezgi Sümer Günaydın on 31.07.2024.

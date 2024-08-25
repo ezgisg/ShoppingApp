@@ -20,6 +20,7 @@ let package = Package(
         .package(path: "../Campaigns"),
         .package(path: "../Home"),
         .package(path: "../Favorites"),
+        .package(path: "../Base"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -33,7 +34,8 @@ let package = Package(
                 "Categories",
                 "Campaigns",
                 "Home",
-                "Favorites"
+                "Favorites",
+                "Base"
             ]),
         .testTarget(
             name: "TabBarTests",

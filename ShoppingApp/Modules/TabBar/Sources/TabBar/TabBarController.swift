@@ -40,32 +40,8 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
 //MARK: Configuration
 private extension TabBarController {
-    //TODO: Oluşturulduğunde gerçek ekranlara atanacak
     ///Determining tabbar view controllers
     final func setupTabbar() {
-        
-        let homeTitle = L10nGeneric.home.localized(in: AppResources.bundle)
-        let homeVC = HomeViewController()
-        let homeNavigationController = getStyledNavigationController(with: homeVC, title: homeTitle, image: .systemHouseImage)
-        
-        let categoriesTitle = L10nGeneric.categories.localized(in: AppResources.bundle)
-        let categoriesVC = CategoriesViewController()
-        categoriesVC.title = categoriesTitle
-        let categoriesNavigationController = getStyledNavigationController(with: categoriesVC, title: categoriesTitle, image: .systemListImage)
-
-        let middleVC = CampaignsViewController()
-        let middleNavigationController = getStyledNavigationController(with: middleVC, title: "", image: nil)
-
-        let basketTitle = L10nGeneric.basket.localized(in: AppResources.bundle)
-        let basketVC = CartViewController()
-        let basketNavigationController = getStyledNavigationController(with: basketVC, title: basketTitle, image: .systemCartImage)
-
-        let favoritesTitle = L10nGeneric.favorites.localized(in: AppResources.bundle)
-        let favoritesVC = FavoritesViewController()
-        let favoritesNavigationController = getStyledNavigationController(with: favoritesVC, title: favoritesTitle, image: .systemHeartImage)
-
-        viewControllers = [homeNavigationController, categoriesNavigationController, middleNavigationController, basketNavigationController, favoritesNavigationController]
-        
         tabBar.items?[2].isEnabled = false
         customizeTabBarAppearance()
         setupMiddleButton()
@@ -139,20 +115,6 @@ public extension TabBarController {
 
 //MARK: Helpers
 extension TabBarController {
-    final func getStyledNavigationController(with viewController: UIViewController, title: String, image: UIImage?, isNeededRendering: Bool? = false, titleColor: UIColor = .buttonTextColor ) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: viewController)
-        var resizedImage = image
-        if let image,
-           let isNeededRendering,
-           isNeededRendering {
-            resizedImage = UIImage.resizeImage(image: image, targetSize:  CGSize(width: 35, height: 35))?.withRenderingMode(.alwaysOriginal)
-        }
-        navigationController.tabBarItem = UITabBarItem(title: title, image: resizedImage, tag: 0)
-        navigationController.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: titleColor
-        ]
-        return navigationController
-    }
     
     private func updateBasketBadge() {
         let basketIndex = 3

@@ -21,6 +21,7 @@ public class SplashViewController: BaseViewController {
     @IBOutlet private weak var appNameLabel: UILabel!
     
     // MARK: - Private Variables
+    var coordinator: SplashCoordinator
     private var animationView: LottieAnimationView?
     private let isFirstLaunch = UserDefaults.standard.object(forKey: Constants.UserDefaults.isFirstLaunch)
     
@@ -33,7 +34,10 @@ public class SplashViewController: BaseViewController {
     }
 
     // MARK: - Module init
-    public init() {
+    public init(
+        coordinator: SplashCoordinator
+    ) {
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -72,6 +76,7 @@ private extension SplashViewController {
             //TODO: Denemelerde uzun sürmemesi için şimdilik doğrudan next e gidiyoruz, düzeltilecek
             hideAnimation()
 //            navigateToNextScreen()
+            coordinator.routeToTabBar()
         }
     }
     

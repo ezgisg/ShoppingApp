@@ -10,10 +10,6 @@ import SignIn
 
 //TODO: navigate leri buraya alma?
 // MARK: - Enum
-public enum OnboardingRoutes {
-    case signIn
-    case home
-}
 
 // MARK: - OnboardingViewModelProtocol
 public protocol OnboardingViewModelProtocol: AnyObject {

@@ -30,7 +30,7 @@ enum HomeScreenSectionType: Int, CaseIterable {
 }
 
 // MARK: - HomeViewController
-public class HomeViewController: BaseViewController {
+class HomeViewController: BaseViewController {
     
     //MARK: - Outlets
     @IBOutlet private weak var topLabel: UILabel!
@@ -41,7 +41,8 @@ public class HomeViewController: BaseViewController {
     @IBOutlet private weak var backgroundView: UIView!
     
     // MARK: - Module Components
-    private var viewModel = HomeViewModel()
+    private var coordinator: HomeCoordinator
+    private var viewModel: HomeViewModel
     
     // MARK: - Private Variables
     private var bannerData : BannerData? = nil
@@ -66,7 +67,12 @@ public class HomeViewController: BaseViewController {
     }
     
      // MARK: - Module init
-    public init() {
+     init(
+        coordinator: HomeCoordinator,
+        viewModel: HomeViewModel
+    ) {
+        self.coordinator = coordinator
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     

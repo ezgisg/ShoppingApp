@@ -17,7 +17,6 @@
 		AB2873B12C4E94DA00BA9BCE /* ShoppingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B02C4E94DA00BA9BCE /* ShoppingAppUITests.swift */; };
 		AB2873B32C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2873B22C4E94DA00BA9BCE /* ShoppingAppUITestsLaunchTests.swift */; };
 		AB2873FB2C4EA79400BA9BCE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */; };
-		AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AB43159D2C4FAE8A00A7A855 /* SignIn */; };
 		AB4315B82C4FB3D900A7A855 /* AppResources in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B72C4FB3D900A7A855 /* AppResources */; };
 		AB4315BA2C4FB3E300A7A855 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = AB4315B92C4FB3E300A7A855 /* Base */; };
 		AB4315BC2C4FB3EE00A7A855 /* Common in Resources */ = {isa = PBXBuildFile; fileRef = AB4315BB2C4FB3EE00A7A855 /* Common */; };
@@ -27,7 +26,6 @@
 		AB7399752C60B7C400D4B7E5 /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = AB7399742C60B7C400D4B7E5 /* Categories */; };
 		AB7470E32C62082E002A69C3 /* ProductList in Resources */ = {isa = PBXBuildFile; fileRef = AB7470E22C62082E002A69C3 /* ProductList */; };
 		AB950A222C50DAA00045EEDC /* TabBar in Resources */ = {isa = PBXBuildFile; fileRef = AB950A212C50DAA00045EEDC /* TabBar */; };
-		AB950A242C50E7090045EEDC /* TabBar in Frameworks */ = {isa = PBXBuildFile; productRef = AB950A232C50E7090045EEDC /* TabBar */; };
 		ABA33F9E2C5B644600C519FB /* Network in Resources */ = {isa = PBXBuildFile; fileRef = ABA33F9D2C5B644600C519FB /* Network */; };
 		ABA33FA02C5B6A2300C519FB /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = ABA33F9F2C5B6A2300C519FB /* Network */; };
 		ABA33FA22C5B6BA000C519FB /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = ABA33FA12C5B6BA000C519FB /* Base */; };
@@ -35,7 +33,6 @@
 		ABA33FA92C5B786200C519FB /* UIWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */; };
 		ABA33FAB2C5BBB6300C519FB /* Home in Resources */ = {isa = PBXBuildFile; fileRef = ABA33FAA2C5BBB6300C519FB /* Home */; };
 		ABA5629B2C5229A700C7B1A9 /* Splash in Resources */ = {isa = PBXBuildFile; fileRef = ABA5629A2C5229A700C7B1A9 /* Splash */; };
-		ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = ABA5629C2C52348800C7B1A9 /* Splash */; };
 		ABA9896C2C74BCBC00F496D9 /* Components in Resources */ = {isa = PBXBuildFile; fileRef = ABA9896B2C74BCBC00F496D9 /* Components */; };
 		ABA9896E2C74C43600F496D9 /* Favorites in Resources */ = {isa = PBXBuildFile; fileRef = ABA9896D2C74C43600F496D9 /* Favorites */; };
 		ABAB518F2C73C6850087E60D /* Campaigns in Resources */ = {isa = PBXBuildFile; fileRef = ABAB518E2C73C6850087E60D /* Campaigns */; };
@@ -100,12 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB43159E2C4FAE8A00A7A855 /* SignIn in Frameworks */,
 				AB0675892C78E6D700742BB4 /* Coordinator in Frameworks */,
 				ABA33FA22C5B6BA000C519FB /* Base in Frameworks */,
-				ABA5629D2C52348800C7B1A9 /* Splash in Frameworks */,
 				AB4315C52C4FD0C000A7A855 /* Common in Frameworks */,
-				AB950A242C50E7090045EEDC /* TabBar in Frameworks */,
 				ABA33FA02C5B6A2300C519FB /* Network in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,10 +231,7 @@
 			);
 			name = ShoppingApp;
 			packageProductDependencies = (
-				AB43159D2C4FAE8A00A7A855 /* SignIn */,
 				AB4315C42C4FD0C000A7A855 /* Common */,
-				AB950A232C50E7090045EEDC /* TabBar */,
-				ABA5629C2C52348800C7B1A9 /* Splash */,
 				ABA33F9F2C5B6A2300C519FB /* Network */,
 				ABA33FA12C5B6BA000C519FB /* Base */,
 				AB0675882C78E6D700742BB4 /* Coordinator */,
@@ -565,8 +556,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -575,9 +566,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.esgdev.LetsShopping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -595,8 +590,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -605,9 +600,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.esgdev.LetsShopping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -733,17 +732,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Coordinator;
 		};
-		AB43159D2C4FAE8A00A7A855 /* SignIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SignIn;
-		};
 		AB4315C42C4FD0C000A7A855 /* Common */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Common;
-		};
-		AB950A232C50E7090045EEDC /* TabBar */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TabBar;
 		};
 		ABA33F9F2C5B6A2300C519FB /* Network */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -752,10 +743,6 @@
 		ABA33FA12C5B6BA000C519FB /* Base */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Base;
-		};
-		ABA5629C2C52348800C7B1A9 /* Splash */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Splash;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -11,6 +11,8 @@ import Base
 import Components
 import UIKit
 
+// TODO: - BUG: Selectiondan biri kaldırılınca Kuponun gözükmemesi
+
 // MARK: - Enums
 enum CartScreenSectionType: Int, CaseIterable {
     case top = 0

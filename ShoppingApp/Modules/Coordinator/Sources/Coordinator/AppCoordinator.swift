@@ -24,6 +24,9 @@ typealias Routes = SplashRouter
 & CategoriesRouter
 & CartRouter
 & FavoritesRouter
+& SignInRouter
+& OnboardingRouter
+& ProductListRouter
 
 public final class AppCoordinator: BaseCoordinator, Routes {
     weak var window: UIWindow?

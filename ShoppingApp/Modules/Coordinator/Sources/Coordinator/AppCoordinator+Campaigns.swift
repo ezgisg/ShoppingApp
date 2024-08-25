@@ -16,6 +16,7 @@ public extension AppCoordinator {
         _ from: BaseCoordinator
     ) {
         let coordinator = CampaignsCoordinator(from.navigationController)
+        coordinator.delegate = self
         
         coordinator.routeToDetail(with: item)
     }

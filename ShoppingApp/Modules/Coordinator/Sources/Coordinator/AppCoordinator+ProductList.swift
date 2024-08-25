@@ -19,6 +19,7 @@ public extension AppCoordinator {
             categories: categories,
             from.navigationController
         )
+        coordinator.delegate = self
         
         from.start(child: coordinator)
     }
@@ -30,6 +31,7 @@ public extension AppCoordinator {
         let coordinator = ProductListCoordinator(
             from.navigationController
         )
+        coordinator.delegate = self
         
         coordinator.routeToProductDetailSummary(with: data)
     }
@@ -43,6 +45,7 @@ public extension AppCoordinator {
         let coordinator = ProductListCoordinator(
             from.navigationController
         )
+        coordinator.delegate = self
         
         coordinator.routeToProductDetail(
             productID: productID,

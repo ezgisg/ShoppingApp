@@ -16,8 +16,7 @@ let package = Package(
         .package(path: "../AppResources"),
         .package(path: "../Base"),
         .package(path: "../Common"),
-        .package(path: "../Network"),
-        .package(path: "../TabBar"),
+        .package(path: "../Network")
 
     ],
     targets: [
@@ -29,8 +28,7 @@ let package = Package(
                 "AppResources",
                 "Base",
                 "Common",
-                "Network",
-                "TabBar"
+                "Network"
             ],
             resources: [
                 .process("Resources")

@@ -8,9 +8,10 @@
 import UIKit
 import Base
 
-// MARK: - CoordinatorRoutingDelegate
+// MARK: - SplashRouter
 public protocol SplashRouter: AnyObject {
-    func routeToTabBar(_ from: BaseCoordinator)
+    func routeToSignIn(_ from: BaseCoordinator)
+    func routeToOnboarding(_ from: BaseCoordinator)
 }
 
 // MARK: - SplashCoordinator
@@ -26,7 +27,11 @@ final public class SplashCoordinator: BaseCoordinator {
     }
 
     // MARK: - Routing Methods
-    final func routeToTabBar() {
-        delegate?.routeToTabBar(self)
+    final func routeToSignIn() {
+        delegate?.routeToSignIn(self)
+    }
+    
+    final func routeToOnboarding() {
+        delegate?.routeToOnboarding(self)
     }
 }

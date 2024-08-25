@@ -16,7 +16,11 @@ import Home
 import UIKit
 
 // MARK: - CoordinatorRoutingDelegate
-public typealias TabBarRoutes = HomeRouter & CategoriesRouter
+public typealias TabBarRoutes = HomeRouter 
+& CategoriesRouter
+& CampaignsRouter
+& CartRouter
+& FavoritesRouter
 public protocol TabBarRouter: TabBarRoutes {}
 
 // MARK: - TabBarCoordinator
@@ -37,9 +41,9 @@ public final class TabBarCoordinator: BaseCoordinator {
 
     public let homeCoordinator: HomeCoordinator
     public let categoriesCoordinator: CategoriesCoordinator
-    public let campaignsCoordinator: HomeCoordinator
-    public let cartCoordinator: HomeCoordinator
-    public let favoritesCoordinator: HomeCoordinator
+    public let campaignsCoordinator: CampaignsCoordinator
+    public let cartCoordinator: CartCoordinator
+    public let favoritesCoordinator: FavoritesCoordinator
 
     public var coordinators: [BaseCoordinator] {
         return [
@@ -77,15 +81,15 @@ public final class TabBarCoordinator: BaseCoordinator {
         categoriesCoordinator = CategoriesCoordinator(categoriesNavigationController)
 
         let middleNavigationController = getStyledNavigationController(title: "", image: nil)
-        campaignsCoordinator = HomeCoordinator(middleNavigationController)
+        campaignsCoordinator = CampaignsCoordinator(middleNavigationController)
 
         let basketTitle = L10nGeneric.basket.localized(in: AppResources.bundle)
         let basketNavigationController = getStyledNavigationController(title: basketTitle, image: .systemCartImage)
-        cartCoordinator = HomeCoordinator(basketNavigationController)
+        cartCoordinator = CartCoordinator(basketNavigationController)
 
         let favoritesTitle = L10nGeneric.favorites.localized(in: AppResources.bundle)
         let favoritesNavigationController = getStyledNavigationController(title: favoritesTitle, image: .systemHeartImage)
-        favoritesCoordinator = HomeCoordinator(favoritesNavigationController)
+        favoritesCoordinator = FavoritesCoordinator(favoritesNavigationController)
 
         super.init(navigationController)
     }

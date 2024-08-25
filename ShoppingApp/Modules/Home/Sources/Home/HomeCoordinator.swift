@@ -15,6 +15,11 @@ public protocol HomeRouter: AnyObject {
         categories: [CategoryResponseElement],
         _ from: BaseCoordinator
     )
+    
+    func routeToCampaignDetail(
+        with item: Item,
+        _ from: BaseCoordinator
+    )
 }
 
 // MARK: - HomeCoordinator
@@ -35,6 +40,10 @@ final public class HomeCoordinator: BaseCoordinator {
     // MARK: - Routing Methods
     final func routeToProductList(with categories: [CategoryResponseElement]) {
         delegate?.routeToProductList(categories: categories, self)
+    }
+    
+    final func routeToCampaignDetail(with item: Item) {
+        delegate?.routeToCampaignDetail(with: item, self)
     }
 }
 

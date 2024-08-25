@@ -22,4 +22,32 @@ public extension AppCoordinator {
         
         from.start(child: coordinator)
     }
+    
+    func routeToProductDetailSummary(
+        with data: ProductResponseElement,
+        _ from: BaseCoordinator
+    ) {
+        let coordinator = ProductListCoordinator(
+            from.navigationController
+        )
+        
+        coordinator.routeToProductDetailSummary(with: data)
+    }
+    
+    func routeToProductDetail(
+        productID: Int,
+        products: ProductListResponse,
+        onScreenDismiss: (() -> Void)?,
+        _ from: BaseCoordinator
+    ) {
+        let coordinator = ProductListCoordinator(
+            from.navigationController
+        )
+        
+        coordinator.routeToProductDetail(
+            productID: productID,
+            products: products,
+            onScreenDismiss: onScreenDismiss
+        )
+    }
 }

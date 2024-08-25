@@ -323,13 +323,13 @@ extension ProductListViewController: UICollectionViewDelegate {
         case .products:
             let selectedProduct = viewModel.filteredProducts[indexPath.row]
             guard let id = selectedProduct.id else { return }
-            let detailProductVC = ProductDetailViewController(productID: id, products: viewModel.filteredProducts)
-            detailProductVC.onScreenDismiss = {
-                collectionView.reloadData()
-            }
-            detailProductVC.modalPresentationStyle = .overFullScreen
-            detailProductVC.modalTransitionStyle = .crossDissolve
-            present(detailProductVC, animated: true, completion: nil)
+            coordinator.routeToProductDetail(
+                productID: id,
+                products: viewModel.filteredProducts,
+                onScreenDismiss: {
+                    collectionView.reloadData()
+                }
+            )
         }
     }
 }
@@ -346,18 +346,14 @@ private extension ProductListViewController {
     }
     
     final func handleFavoriteTap(for product: ProductResponseElement?) {
-         guard let product else { return }
-         FavoritesManager.shared.toggleFavorite(product: product)
-     }
-
-    final func handleCartTap(for product: ProductResponseElement?) {
-         guard let product else { return }
-         let detailBottomVC = DetailBottomViewController(product: product)
-         detailBottomVC.modalPresentationStyle = .overFullScreen
-         detailBottomVC.modalTransitionStyle = .crossDissolve
-         present(detailBottomVC, animated: true, completion: nil)
-     }
+        guard let product else { return }
+        FavoritesManager.shared.toggleFavorite(product: product)
+    }
     
+    final func handleCartTap(for product: ProductResponseElement?) {
+        guard let product else { return }
+        coordinator.routeToProductDetailSummary(with: product)
+    }
 }
 
 //MARK: - ProductListViewModelDelegate

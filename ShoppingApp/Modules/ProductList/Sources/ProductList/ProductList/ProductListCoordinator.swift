@@ -23,7 +23,7 @@ final public class ProductListCoordinator: BaseCoordinator {
     
     // MARK: - Init
     public init(
-        categories: [CategoryResponseElement],
+        categories: [CategoryResponseElement] = [],
         _ navigationController: UINavigationController
     ) {
         self.categories = categories
@@ -41,5 +41,33 @@ final public class ProductListCoordinator: BaseCoordinator {
     }
 
     // MARK: - Routing Methods
+    final public func routeToProductDetailSummary(with data: ProductResponseElement) {
+        let detailBottomVC = DetailBottomViewController(
+            product: data,
+            viewModel: DetailBottomViewModel(),
+            coordinator: self
+        )
+        detailBottomVC.modalPresentationStyle = .overFullScreen
+        detailBottomVC.modalTransitionStyle = .crossDissolve
+        navigationController.present(detailBottomVC, animated: true, completion: nil)
+    }
+    
+    
+    final public func routeToProductDetail(
+        productID: Int,
+        products: ProductListResponse,
+        onScreenDismiss: (() -> Void)? = nil
+    ) {
+        let detailProductVC = ProductDetailViewController(
+            productID: productID,
+            products: products,
+            viewModel: DetailBottomViewModel(),
+            coordinator: self,
+            onScreenDismiss: onScreenDismiss
+        )
+        detailProductVC.modalPresentationStyle = .overFullScreen
+        detailProductVC.modalTransitionStyle = .crossDissolve
+        navigationController.present(detailProductVC, animated: true, completion: nil)
+    }
 }
 

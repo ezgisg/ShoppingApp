@@ -7,9 +7,7 @@
 
 import AppResources
 import Base
-import Campaigns
 import UIKit
-import ProductList
 
 // MARK: - Enums
 enum HomeScreenSectionType: Int, CaseIterable {
@@ -301,10 +299,7 @@ extension HomeViewController: UICollectionViewDelegate {
             func goToDetailVC() {
                 guard let type = sectionType.stringValue,
                       let data = bannerData?.elements?.filter({ $0.type == type }).first?.items?[indexPath.row]  else { return }
-                let detailVC = CampaignDetailViewController(data: data)
-                detailVC.modalPresentationStyle = .popover
-                detailVC.modalTransitionStyle = .crossDissolve
-                present(detailVC, animated: true, completion: nil)
+                coordinator.routeToCampaignDetail(with: data)
             }
             
             if let cell = collectionView.cellForItem(at: indexPath) {

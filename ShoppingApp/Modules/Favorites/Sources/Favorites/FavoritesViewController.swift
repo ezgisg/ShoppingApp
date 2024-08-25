@@ -10,40 +10,44 @@ import AppManagers
 import Base
 import Components
 import UIKit
-import ProductList
 
 
 //MARK: - FavoritesViewController
-public class FavoritesViewController: UIViewController {
+final class FavoritesViewController: UIViewController {
 
     //MARK: - Outlets
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var emptyView: EmptyView!
     
+    // MARK: - Base Components
+    private var coordinator: FavoritesCoordinator
+    
     //MARK: - Variables
     var favorites: [ProductResponseElement]?
     
     //MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setups()
  
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         fetchFavorites()
     }
 
     // MARK: - Module init
-    public init() {
+    public init(
+        coordinator: FavoritesCoordinator
+    ) {
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
    required init?(coder: NSCoder) {
        fatalError("init(coder:) has not been implemented")
    }
-    
 }
 
 //MARK: - Setups
@@ -88,14 +92,14 @@ private extension FavoritesViewController {
 extension FavoritesViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let productID = favorites?[indexPath.row].id else { return }
-        let detailVC = ProductDetailViewController(productID: productID, products: [])
-        detailVC.onScreenDismiss = {  [weak self] in
-            guard let self else { return }
-            fetchFavorites()
-        }
-        detailVC.modalPresentationStyle = .overFullScreen
-        detailVC.modalTransitionStyle = .crossDissolve
-        present(detailVC, animated: true, completion: nil)
+        coordinator.routeToProductDetail(
+            productID: productID,
+            products: [],
+            onScreenDismiss: {  [weak self] in
+                guard let self else { return }
+                fetchFavorites()
+            }
+        )
     }
 }
 
@@ -165,10 +169,7 @@ private extension FavoritesViewController {
 
     final func handleCartTap(for product: ProductResponseElement?) {
         guard let product else { return }
-        let detailBottomVC = DetailBottomViewController(product: product)
-        detailBottomVC.modalPresentationStyle = .overFullScreen
-        detailBottomVC.modalTransitionStyle = .crossDissolve
-        present(detailBottomVC, animated: true, completion: nil)
+        coordinator.routeToProductDetailSummary(with: product)
     }
 
     final func fetchFavorites() {

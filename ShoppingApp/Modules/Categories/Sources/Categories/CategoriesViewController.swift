@@ -8,8 +8,6 @@
 import AppResources
 import Base
 import UIKit
-import ProductList
-
 
 // MARK: - Enums
 enum CategoriesScreenSectionType: Int, CaseIterable, Hashable {

@@ -8,14 +8,15 @@
 import AppResources
 import UIKit
 
-public class CampaignsViewController: UIViewController {
+final class CampaignsViewController: UIViewController {
 
     @IBOutlet private var containerView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: - Module Components
-    private var viewModel = CampaignsViewModel()
-    
+    private var viewModel: CampaignsViewModel
+    private var coordinator: CampaignsCoordinator
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
@@ -23,9 +24,13 @@ public class CampaignsViewController: UIViewController {
         fetchInitialData()
     }
     
-    
     // MARK: - Module init
-    public init() {
+    init(
+        viewModel: CampaignsViewModel,
+        coordinator: CampaignsCoordinator
+    ) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
@@ -37,8 +42,6 @@ public class CampaignsViewController: UIViewController {
         let currentLanguage = Localize.currentLanguage().uppercased()
         viewModel.loadCampaignData(for: currentLanguage)
     }
-    
-
 }
 
 private extension CampaignsViewController {
@@ -93,10 +96,7 @@ extension CampaignsViewController : UICollectionViewDataSource {
 extension CampaignsViewController : UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let data = viewModel.campaignData?[indexPath.row] else { return }
-        let detailVC = CampaignDetailViewController(data: data)
-        detailVC.modalPresentationStyle = .popover
-        detailVC.modalTransitionStyle = .crossDissolve
-        present(detailVC, animated: true, completion: nil)
+        coordinator.routeToDetail(with: data)
     }
 }
 

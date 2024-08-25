@@ -10,7 +10,6 @@ import AppManagers
 import Base
 import Components
 import UIKit
-import ProductList
 
 // MARK: - Enums
 enum CartScreenSectionType: Int, CaseIterable {
@@ -34,7 +33,7 @@ enum CartScreenSectionType: Int, CaseIterable {
 }
 
 // MARK: - CartViewController
-public class CartViewController: BaseViewController {
+final class CartViewController: BaseViewController {
     
     @IBOutlet private weak var mainView: UIView!
     @IBOutlet private weak var buttonBackgroundView: UIView!
@@ -82,10 +81,11 @@ public class CartViewController: BaseViewController {
     private var couponCell: CouponCell?
 
     // MARK: - Module Components
-    public var viewModel = CartViewModel()
+    private var viewModel: CartViewModel
+    private var coordinator: CartCoordinator
 
     // MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         ///not fetching data here because when something change in cart observer listen changes to reload collectionView
         viewModel.delegate = self
@@ -93,18 +93,23 @@ public class CartViewController: BaseViewController {
         setupKeyboardObservers(scrollView: collectionView)
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         controlEmptyViewHiddenStatus()
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: - Module init
-    public init() {
+    init(
+        viewModel: CartViewModel,
+        coordinator: CartCoordinator
+    ) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
@@ -495,10 +500,7 @@ private extension CartViewController {
     }
         
     final func cellOnAddToCartTapped(product: ProductResponseElement) {
-        let detailBottomVC = DetailBottomViewController(product: product)
-        detailBottomVC.modalPresentationStyle = .overFullScreen
-        detailBottomVC.modalTransitionStyle = .crossDissolve
-        present(detailBottomVC, animated: true, completion: nil)
+        coordinator.routeToProductDetailSummary(with: product)
     }
 
     final func controlEmptyViewHiddenStatus() {
@@ -506,10 +508,6 @@ private extension CartViewController {
     }
     
     final func goToDetail(productID: Int) {
-        let detailProductVC = ProductDetailViewController(productID: productID, products: [])
-        detailProductVC.modalPresentationStyle = .overFullScreen
-        detailProductVC.modalTransitionStyle = .crossDissolve
-        present(detailProductVC, animated: true, completion: nil)
+        coordinator.routeToProductDetail(productID: productID, products: [])
     }
-    
 }

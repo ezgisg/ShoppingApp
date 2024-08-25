@@ -9,7 +9,7 @@ import AppResources
 import UIKit
 
 //MARK: - CampaignDetailViewController
-public class CampaignDetailViewController: UIViewController {
+class CampaignDetailViewController: UIViewController {
 
     //MARK: - Outlets
     @IBOutlet private weak var imageView: UIImageView!
@@ -22,13 +22,13 @@ public class CampaignDetailViewController: UIViewController {
     public var data: Item?
     
     //MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
     
     // MARK: - Module init
-    public init(data: Item) {
+    init(data: Item) {
         self.data = data
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }

@@ -7,27 +7,16 @@
 
 
 import AppResources
-import SignIn
-import TabBar
 import UIKit
 
 // MARK: - Enums
-enum Routes {
+enum RouteType {
     case tabBar
     case signIn
-
-    func getViewController() -> UIViewController {
-        switch self {
-        case .tabBar:
-            return TabBarController()
-        case .signIn:
-            return SignInViewController()
-        }
-    }
 }
 
 // MARK: - OnboardingViewController
-public class OnboardingViewController: UIViewController {
+final class OnboardingViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var skipButtonLabel: UILabel!
@@ -50,8 +39,7 @@ public class OnboardingViewController: UIViewController {
     ]
     
     // MARK: - Module Components
-    //TODO: model e bir şey taşımazsam kaldırılacak
-    public var viewModel = OnboardingViewModel()
+    private var coordinator: OnboardingCoordinator
     
     // MARK: - Life Cycles
     public override func viewDidLoad() {
@@ -61,7 +49,10 @@ public class OnboardingViewController: UIViewController {
     }
     
     // MARK: - Module init
-    public init() {
+    init(
+        coordinator: OnboardingCoordinator
+    ) {
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -164,7 +155,7 @@ private extension OnboardingViewController {
         print("Skip button tapped")
         //TODO: denemeler için true bırakıldı, değiştirilecek
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
-        navigateToNextScreen(Routes.signIn.getViewController())
+        navigateToNextScreen(to: .tabBar)
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
     }
     
@@ -181,7 +172,7 @@ private extension OnboardingViewController {
         //TODO: denemeler için true bırakıldı, değiştirilecek
         UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
-        navigateToNextScreen(Routes.signIn.getViewController())
+        navigateToNextScreen(to: .signIn)
     }
     
     
@@ -207,13 +198,12 @@ private extension OnboardingViewController {
 //MARK: Navigation
 private extension OnboardingViewController {
     //TODO: vm e taşınabilir mi?
-    final func navigateToNextScreen(_ viewController: UIViewController) {
-            let transition = CATransition()
-            transition.duration = 0.5
-            transition.type = .fade
-            transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-            
-            navigationController?.view.layer.add(transition, forKey: kCATransition)
-            navigationController?.setViewControllers([viewController], animated: false)
+    final func navigateToNextScreen(to route: RouteType) {
+        switch route {
+        case .tabBar:
+            coordinator.routeToTabBar()
+        case .signIn:
+            coordinator.routeToSignIn()
+        }
     }
 }

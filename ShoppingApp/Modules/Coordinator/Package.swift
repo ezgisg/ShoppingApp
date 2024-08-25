@@ -4,41 +4,50 @@
 import PackageDescription
 
 let package = Package(
-    name: "TabBar",
+    name: "Coordinator",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "TabBar",
-            targets: ["TabBar"]),
+            name: "Coordinator",
+            targets: ["Coordinator"]),
     ],
     dependencies: [
         .package(path: "../AppResources"),
-        .package(path: "../AppManagers"),
-        .package(path: "../Cart"),
-        .package(path: "../Categories"),
-        .package(path: "../Campaigns"),
-        .package(path: "../Home"),
-        .package(path: "../Favorites"),
         .package(path: "../Base"),
+        .package(path: "../ProductList"),
+        .package(path: "../Favorites"),
+        .package(path: "../Campaigns"),
+        .package(path: "../Cart"),
+        .package(path: "../Home"),
+        .package(path: "../TabBar"),
+        .package(path: "../Categories"),
+        .package(path: "../Splash"),
+        .package(path: "../Onboarding"),
+        .package(path: "../SignIn")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "TabBar", 
+            name: "Coordinator",
             dependencies: [
                 "AppResources",
-                "AppManagers",
-                "Cart",
-                "Categories",
-                "Campaigns",
-                "Home",
+                "Base",
+                "ProductList",
                 "Favorites",
-                "Base"
-            ]),
+                "Campaigns",
+                "Cart",
+                "Home",
+                "TabBar",
+                "Categories",
+                "Splash",
+                "Onboarding",
+                "SignIn",
+            ]
+        ),
         .testTarget(
-            name: "TabBarTests",
-            dependencies: ["TabBar"]),
+            name: "CoordinatorTests",
+            dependencies: ["Coordinator"]),
     ]
 )

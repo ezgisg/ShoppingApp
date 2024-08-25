@@ -7,9 +7,7 @@
 
 import AppResources
 import Base
-import Campaigns
 import UIKit
-import ProductList
 
 // MARK: - Enums
 enum HomeScreenSectionType: Int, CaseIterable {
@@ -30,7 +28,7 @@ enum HomeScreenSectionType: Int, CaseIterable {
 }
 
 // MARK: - HomeViewController
-public class HomeViewController: BaseViewController {
+class HomeViewController: BaseViewController {
     
     //MARK: - Outlets
     @IBOutlet private weak var topLabel: UILabel!
@@ -41,7 +39,8 @@ public class HomeViewController: BaseViewController {
     @IBOutlet private weak var backgroundView: UIView!
     
     // MARK: - Module Components
-    private var viewModel = HomeViewModel()
+    private var coordinator: HomeCoordinator
+    private var viewModel: HomeViewModel
     
     // MARK: - Private Variables
     private var bannerData : BannerData? = nil
@@ -66,7 +65,12 @@ public class HomeViewController: BaseViewController {
     }
     
      // MARK: - Module init
-    public init() {
+     init(
+        coordinator: HomeCoordinator,
+        viewModel: HomeViewModel
+    ) {
+        self.coordinator = coordinator
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -295,10 +299,7 @@ extension HomeViewController: UICollectionViewDelegate {
             func goToDetailVC() {
                 guard let type = sectionType.stringValue,
                       let data = bannerData?.elements?.filter({ $0.type == type }).first?.items?[indexPath.row]  else { return }
-                let detailVC = CampaignDetailViewController(data: data)
-                detailVC.modalPresentationStyle = .popover
-                detailVC.modalTransitionStyle = .crossDissolve
-                present(detailVC, animated: true, completion: nil)
+                coordinator.routeToCampaignDetail(with: data)
             }
             
             if let cell = collectionView.cellForItem(at: indexPath) {
@@ -316,9 +317,7 @@ extension HomeViewController: UICollectionViewDelegate {
             break
         case .categoryBanner:
             let category = CategoryResponseElement(value: categories[indexPath.row], imagePath: "")
-            let viewModel = ProductListViewModel(categories: [category])
-            let productVC = ProductListViewController(viewModel: viewModel)
-            navigationController?.pushViewController(productVC, animated: false)
+            coordinator.routeToProductList(with: [category])
         }
     }
 }

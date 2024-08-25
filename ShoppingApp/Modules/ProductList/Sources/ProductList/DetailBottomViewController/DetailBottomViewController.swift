@@ -12,7 +12,7 @@ import Base
 import UIKit
 
 // MARK: - DetailBottomViewController
-public class DetailBottomViewController: BaseViewController {
+final class DetailBottomViewController: BaseViewController {
     
     // MARK: - Outlets
     @IBOutlet private weak var titleLabel: UILabel!
@@ -37,14 +37,16 @@ public class DetailBottomViewController: BaseViewController {
     var product: ProductResponseElement
 
     // MARK: - Module Components
-    public var viewModel = DetailBottomViewModel()
+    private var viewModel: DetailBottomViewModel
+    private var coordinator: ProductListCoordinator
     
     // MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         //TODO: datanın doğru gelmeme durumu ele alınacak
         viewModel.delegate = self
-        guard let productId = product.id
+        guard 
+            let productId = product.id
         else {
             dismiss(animated: false, completion: nil)
             return
@@ -54,8 +56,14 @@ public class DetailBottomViewController: BaseViewController {
     }
     
     // MARK: - Module init
-    public init(product: ProductResponseElement) {
+    init(
+        product: ProductResponseElement,
+        viewModel: DetailBottomViewModel,
+        coordinator: ProductListCoordinator
+    ) {
         self.product = product
+        self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
    
@@ -98,10 +106,10 @@ private extension DetailBottomViewController {
 
     @objc final func goToDetail() {
         guard let productID = product.id else { return }
-        let detailProductVC = ProductDetailViewController(productID: productID, products: [])
-        detailProductVC.modalPresentationStyle = .overFullScreen
-        detailProductVC.modalTransitionStyle = .crossDissolve
-        present(detailProductVC, animated: true, completion: nil)
+        dismiss(animated: true) {  [weak self] in
+            guard let self else { return }
+            coordinator.routeToProductDetail(productID: productID, products: [])
+        }
     }
 }
 

@@ -13,15 +13,13 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 import UIKit
-import TabBar
-
 import Network
 
 //TODO: error alertleri, şifremi unuttum.., kullanıcıyı login ettikten sonra hatırlama, register ....
 
 
 //MARK: - SignInViewController
-public class SignInViewController: BaseViewController {
+final class SignInViewController: BaseViewController {
     
     //MARK: - Outlets
     @IBOutlet weak var emailTextField: UITextField!
@@ -44,11 +42,12 @@ public class SignInViewController: BaseViewController {
     @IBOutlet weak var emailWarningLabel: UILabel!
     
     //TODO: Gerek olmazsa kaldırılacak
-    //MARK: Module Components
-    var viewModel = SignInViewModel()
+    // MARK: - Module Components
+    private var coordinator: SignInCoordinator
+    private var viewModel: SignInViewModel
     
     //MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleAuth()
         setupUI()
@@ -60,7 +59,12 @@ public class SignInViewController: BaseViewController {
     }
     
     // MARK: - Module init
-    public init() {
+    init(
+        coordinator: SignInCoordinator,
+        viewModel: SignInViewModel
+    ) {
+        self.coordinator = coordinator
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -93,13 +97,14 @@ extension SignInViewController {
                   let idToken = user.idToken?.tokenString
             else { return }
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
-            Auth.auth().signIn(with: credential) { result, error in
-                guard let _ = result, nil == nil else { return }
-                guard let error else { 
-                    let tabBarVC = TabBarController()
-                    self.navigationController?.setViewControllers([tabBarVC], animated: false)
-                    print("giriş yapıldı")
-                    return }
+            Auth.auth().signIn(with: credential) { [weak self] result, error in
+                guard let self else { return }
+                guard 
+                    result != nil,
+                    let error else {
+                    coordinator.routeToTabBar()
+                    return
+                }
                 //TODO: Alert
                 print("giriş yapılamadı")
             }
@@ -115,10 +120,7 @@ extension SignInViewController {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self else { return }
             guard let error else {
-                let tabBarVC = TabBarController()
-                navigationController?.setViewControllers([tabBarVC], animated: false)
-                print("giriş yapıldı")
-                
+                coordinator.routeToTabBar()
              //TODO: Doğrulama maili ve password reset mailleri yerel dilde gönderilecek
                 //TODO: email doğrulama deneme için buraya koyuldu, doğrulamadan içeri alınmayacak şekilde düzenleme yapılacak
                 if Auth.auth().currentUser != nil {

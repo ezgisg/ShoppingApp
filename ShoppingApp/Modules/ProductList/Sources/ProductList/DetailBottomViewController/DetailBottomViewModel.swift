@@ -37,7 +37,7 @@ extension DetailBottomViewModelDelegate {
 }
 
 // MARK: - DetailBottomViewModel
-public final class DetailBottomViewModel {
+final class DetailBottomViewModel {
     
     weak var delegate: DetailBottomViewModelDelegate?
     

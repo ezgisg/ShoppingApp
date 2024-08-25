@@ -21,7 +21,7 @@ enum ProductDetailSectionType: Int, CaseIterable {
 }
 
 // MARK: - ProductDetailViewController
-public class ProductDetailViewController: BaseViewController {
+final class ProductDetailViewController: BaseViewController {
     
     //MARK: - Outlets
     @IBOutlet private weak var backView: UIView!
@@ -37,14 +37,15 @@ public class ProductDetailViewController: BaseViewController {
     var filteredProductsExcluding: ProductListResponse?
     
     // MARK: - Properties
-    public var onScreenDismiss: (() -> Void)?
+    private var onScreenDismiss: (() -> Void)?
     
     // MARK: - Module Components
     ///Logic is same so there is common viewmodel
-    public var viewModel = DetailBottomViewModel()
+    private var viewModel: DetailBottomViewModel
+    private var coordinator: ProductListCoordinator
     
     //MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         viewModel.delegate = self
@@ -54,16 +55,25 @@ public class ProductDetailViewController: BaseViewController {
         topView.isHidden = true
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         ///It is called at willappear, otherwise it is called on the previous screen
         showLoadingView()
         filteredProductsExcluding = products.filter{ $0.id != productID }
     }
     
     // MARK: - Module init
-    public init(productID: Int, products: ProductListResponse) {
+    init(
+        productID: Int,
+        products: ProductListResponse,
+        viewModel: DetailBottomViewModel,
+        coordinator: ProductListCoordinator,
+        onScreenDismiss: (() -> Void)?
+    ) {
         self.productID = productID
         self.products = products
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        self.onScreenDismiss = onScreenDismiss
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -272,10 +282,10 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             
         case .suggestions:
             guard let selectedProductID = filteredProductsExcluding?[indexPath.row].id else { return }
-            let detailProductVC = ProductDetailViewController(productID: selectedProductID, products: products)
-            detailProductVC.modalPresentationStyle = .overFullScreen
-            detailProductVC.modalTransitionStyle = .crossDissolve
-            present(detailProductVC, animated: true, completion: nil)
+            coordinator.routeToProductDetail(
+                productID: selectedProductID,
+                products: products
+            )
         default:
             break
         }

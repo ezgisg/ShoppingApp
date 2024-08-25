@@ -8,8 +8,6 @@
 import AppResources
 import Base
 import UIKit
-import ProductList
-
 
 // MARK: - Enums
 enum CategoriesScreenSectionType: Int, CaseIterable, Hashable {
@@ -27,7 +25,7 @@ enum CategoriesScreenSectionType: Int, CaseIterable, Hashable {
 }
 
 // MARK: - CategoriesViewContoller
-public class CategoriesViewController: BaseViewController {
+final class CategoriesViewController: BaseViewController {
 
     //MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -39,10 +37,11 @@ public class CategoriesViewController: BaseViewController {
     private var searchController: UISearchController?
     
     // MARK: - Module Components
-    private var viewModel = CategoriesViewModel()
+    private var viewModel: CategoriesViewModel
+    private var coordinator: CategoriesCoordinator
     
     // MARK: - Life Cycles
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
         showLoadingView()
@@ -51,7 +50,12 @@ public class CategoriesViewController: BaseViewController {
     }
     
      // MARK: - Module init
-    public init() {
+    init(
+        coordinator: CategoriesCoordinator,
+        viewModel: CategoriesViewModel
+    ) {
+        self.coordinator = coordinator
+        self.viewModel = viewModel
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -102,9 +106,7 @@ private extension CategoriesViewController {
 extension CategoriesViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let category = viewModel.filteredCategories[indexPath.row]
-        let viewModel = ProductListViewModel(categories: [category])
-        let productListViewController = ProductListViewController(viewModel: viewModel)
-        navigationController?.pushViewController(productListViewController, animated: false)
+        coordinator.routeToProductList(with: [category])
     }
 }
 
@@ -153,9 +155,7 @@ private extension CategoriesViewController {
             case .categories:
                 footerView.configureWith(text: L10nGeneric.allCategories.localized()) {  [weak self] in
                     guard let self else { return }
-                    let productListViewModel = ProductListViewModel(categories: viewModel.categories)
-                    let productListViewController = ProductListViewController(viewModel: productListViewModel)
-                    navigationController?.pushViewController(productListViewController, animated: false)
+                    coordinator.routeToProductList(with: viewModel.categories)
                 }
                 return footerView
             }

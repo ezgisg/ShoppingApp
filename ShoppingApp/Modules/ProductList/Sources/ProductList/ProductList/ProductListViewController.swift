@@ -51,7 +51,8 @@ class ProductListViewController: BaseViewController {
             emptyViewTopConstraint.constant = cachedFilterSectionHeight ?? 0
         }
     }
-    
+    private var lastContentOffset: CGFloat = 0
+
     // MARK: - Module Components
     private var viewModel: ProductListViewModelProtocol
     private var coordinator: ProductListCoordinator
@@ -375,3 +376,22 @@ extension ProductListViewController: ProductListViewModelDelegate {
     }
 }
 
+//MARK: - ProductListViewModelDelegate
+extension ProductListViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yOffset = scrollView.contentOffset.y
+        let isDragToDown = yOffset > lastContentOffset
+        let isAtBottom = yOffset >= (scrollView.contentSize.height - scrollView.frame.size.height)
+        
+        let isHidden: Bool = if isAtBottom {
+            true
+        } else if yOffset <= 0 {
+            false
+        } else {
+            isDragToDown
+        }
+  
+        navigationController?.tabBarController?.tabBar.isHidden = isHidden
+        lastContentOffset = yOffset
+    }
+}

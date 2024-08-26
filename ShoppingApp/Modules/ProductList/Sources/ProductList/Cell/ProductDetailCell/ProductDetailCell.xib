@@ -60,8 +60,8 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="XCd-7c-VFe" secondAttribute="trailing" id="32u-RN-AHy"/>
                                 <constraint firstItem="XCd-7c-VFe" firstAttribute="width" secondItem="NXO-qA-qiC" secondAttribute="width" id="7RC-yD-DFT"/>
-                                <constraint firstItem="XCd-7c-VFe" firstAttribute="centerX" secondItem="NXO-qA-qiC" secondAttribute="centerX" id="Qyn-qQ-lTa"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="ZRN-qZ-1qt"/>
                                 <constraint firstItem="XCd-7c-VFe" firstAttribute="top" secondItem="NXO-qA-qiC" secondAttribute="top" id="id5-fG-jJK"/>
                             </constraints>
@@ -96,9 +96,9 @@
                                 <constraint firstAttribute="width" secondItem="0aQ-pv-qpi" secondAttribute="height" multiplier="5:1" id="WEb-T5-eaO"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mh3-uL-oaa">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mh3-uL-oaa">
                             <rect key="frame" x="270.33333333333331" y="0.0" width="98.666666666666686" height="51.666666666666664"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>

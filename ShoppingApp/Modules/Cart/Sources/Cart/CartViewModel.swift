@@ -10,8 +10,6 @@ import AppManagers
 import Foundation
 import Network
 
-//TODO: view model - vc ve cellerde refactor (backendden gelecek türde hesaplamalar için)
-
 //MARK: - CartViewModelProtocol
 protocol CartViewModelProtocol: AnyObject {
     var cartItems: [Cart] { get }
@@ -189,6 +187,7 @@ extension CartViewModel: CartViewModelProtocol {
 
 //MARK: Actions
 private extension CartViewModel {
+    //TODO: selection ve cart update bitişince ortaklaşa haber alıp hideloading i ortaklaşa yapmak
     @objc final func selectionUpdated() {
         let selections = CartManager.shared.selectionOfProducts
         selectionOfProducts = selections

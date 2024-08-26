@@ -71,7 +71,6 @@ private extension SplashViewController {
         animationView?.play { [weak self] finished in
             guard let self,
                   finished else { return }
-            //TODO: Denemelerde uzun sürmemesi için şimdilik doğrudan next e gidiyoruz, düzeltilecek
             hideAnimation()
         }
     }
@@ -111,7 +110,6 @@ private extension SplashViewController {
                 animationContainerView.removeFromSuperview()
                 appNameLabel.fadeIn() {  [weak self] _ in
                     guard let self else { return }
-                    //TODO: Eğer onboarding geçildi ise, bir daha gösterilmeyecek sign in e navigate olunacak
                     navigateToNextScreen()
                 }
             }

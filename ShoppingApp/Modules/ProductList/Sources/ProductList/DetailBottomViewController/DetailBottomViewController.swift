@@ -80,7 +80,6 @@ private extension DetailBottomViewController {
     @IBAction final func tappedChoseSizeButton(_ sender: Any) {
         let size = viewModel.selectedSize
         let productId = product.id
-        //TODO: eklendiğinde eklendi uyarısı else de sepee eklenemedi hatası verebiliriz
         guard let productId, let size else { return }
         CartManager.shared.addToCart(productId: productId, size: size)
         ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled

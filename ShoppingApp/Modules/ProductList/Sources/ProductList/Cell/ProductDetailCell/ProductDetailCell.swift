@@ -107,7 +107,10 @@ private extension ProductDetailCell {
     final func setRating(ratingCount: Int?, rating: Double?) {
         guard let rating,
               let ratingCount else { return ratingCountLabel.text = "N/A" }
-        ratingCountLabel.text = "\(ratingCount) \(L10nGeneric.SortOptions.rating.localized())"
+
+        let text = "\(ratingCount) \(L10nGeneric.SortOptions.rating.localized())"
+        let attributedText = NSAttributedString(string: text, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        ratingCountLabel.attributedText = attributedText
         ratingView.setRating(Double(rating))
     }
     

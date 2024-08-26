@@ -175,8 +175,6 @@ private extension OnboardingViewController {
         navigateToNextScreen(to: .signIn)
     }
     
-    
-    //TODO: gapview için daha iyi bir çözüm olabilir mi?fdsa    
     final func setupLastonboardingScreen(index: Int) {
        guard index == controllers.count - 1 else {
            skipButtonLabel.isHidden = false
@@ -197,7 +195,6 @@ private extension OnboardingViewController {
 
 //MARK: Navigation
 private extension OnboardingViewController {
-    //TODO: vm e taşınabilir mi?
     final func navigateToNextScreen(to route: RouteType) {
         switch route {
         case .tabBar:

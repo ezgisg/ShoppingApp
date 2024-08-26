@@ -26,7 +26,6 @@ class PaymentCell: UICollectionViewCell {
 
     //MARK: - Setup
     private final func setup() {
-        //TODO: İsimler ve resimler
         image1.image = .cash
         image2.image = .checkoutImage
         image3.image = .masterpass

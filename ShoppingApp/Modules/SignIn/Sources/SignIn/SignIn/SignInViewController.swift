@@ -41,7 +41,6 @@ final class SignInViewController: BaseViewController {
     @IBOutlet weak var registerLabel: UILabel!
     @IBOutlet weak var emailWarningLabel: UILabel!
     
-    //TODO: Gerek olmazsa kaldırılacak
     // MARK: - Module Components
     private var coordinator: SignInCoordinator
     private var viewModel: SignInViewModel

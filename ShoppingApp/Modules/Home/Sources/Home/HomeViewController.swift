@@ -290,7 +290,6 @@ extension HomeViewController {
     }
 }
 
-//TODO: Kategori ürün sayfaları oluşturulduğunda doldurulacak 1-Kategorilerden ürünlere gidiş 2-kampanyalardan kampanya sayfalarına veya ürünlere gidiş
 extension HomeViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let sectionType = HomeScreenSectionType(rawValue: indexPath.section) else { return }

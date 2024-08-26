@@ -5,8 +5,6 @@
 //  Created by Ezgi Sümer Günaydın on 6.08.2024.
 //
 
-//TODO: filter sonucunda ürün yoksa empty view koyulacak
-//TODO: kaç ürün var filtrede göster
 import AppResources
 import Foundation
 import Network

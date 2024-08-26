@@ -49,7 +49,7 @@ private extension CampaignsViewController {
         setupCollectionView()
         setColors()
         
-        navigationItem.title = "Kampanyalar"
+        navigationItem.title = L10nGeneric.campaigns.localized()
        
     }
     

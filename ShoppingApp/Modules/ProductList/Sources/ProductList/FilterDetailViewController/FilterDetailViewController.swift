@@ -5,9 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 8.08.2024.
 //
 
-//TODO: tek kategorililerde taşımyıoruz, taşıyıp homeda da düzeltme gerek
-//TODO: tek viewmodel ile de denenecek
-//TODO: geri butonu localizable ve categories harici seçimler vs eksik..
+//TODO: tek kategorililerde kategoriyi taşımyıoruz, taşıyıp homeda da düzeltme gerek
 
 import AppResources
 import Base
@@ -79,7 +77,7 @@ private extension FilterDetailViewController {
         button.tintColor = .tabbarBackgroundColor
         button.setTitleColor(.tabbarSelectedColor, for: .normal)
         button.setTitleColor(.lightButtonColor, for: .highlighted)
-        button.setTitle("Listele", for: .normal)
+        button.setTitle(L10nGeneric.list.localized(), for: .normal)
         
         searchBar.searchTextField.textColor = .black
         searchBar.tintColor = .black
@@ -131,7 +129,7 @@ private extension FilterDetailViewController {
     @objc final func didTapBackButton() {
         let isDifferentFromInitials = viewModel.isDifferentFromInitialsOnFilterDetail
         guard isDifferentFromInitials else { return dismissView() }
-        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
+        showAlert(title: L10nGeneric.FilterWarnings.clean.localized(), message: L10nGeneric.FilterWarnings.cleanMessages.localized(), buttonTitle: L10nGeneric.delete.localized(), showCancelButton: true, cancelButtonTitle: L10nGeneric.abort.localized()) {  [weak self] in
             guard let self else { return }
             viewModel.returnToInitials(isDetailScreen: true)
             dismissView()
@@ -234,7 +232,7 @@ private extension FilterDetailViewController {
             }
         }
         let isRightButtonForClear = count > 0 ? true : false
-        let newTitle = isRightButtonForClear ? "Temizle" : "Hepsini Seç"
+        let newTitle = isRightButtonForClear ? L10nGeneric.clean.localized() : L10nGeneric.selectAll.localized()
         guard let rightButton = navigationItem.rightBarButtonItem?.customView as? UIButton else { return }
         rightButton.setTitle(newTitle, for: .normal)
         rightButton.sizeToFit()

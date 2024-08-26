@@ -5,8 +5,9 @@
 //  Created by Ezgi Sümer Günaydın on 11.08.2024.
 //
 
+import AppResources
 import Foundation
-//TODO: Localizable for texts
+
 ///Unfortunately all filter options defined statically on screens because there is no backend to fetch data and to keep user selections
 ///Using enums to conveniently manage localizable
 //MARK: - Enums
@@ -19,11 +20,11 @@ public enum FilterOption: Int, CaseIterable {
     var stringValue: String {
         switch self {
         case .rating:
-            return "Rating"
+            return L10nGeneric.SortOptions.rating.localized()
         case .price:
-            return "Price"
+            return L10nGeneric.SortOptions.price.localized()
         case .category:
-            return "Category"
+            return L10nGeneric.SortOptions.category.localized()
         }
     }
 }
@@ -39,15 +40,15 @@ public enum RatingOption: Double, CaseIterable {
     var stringValue: String {
         switch self {
         case .zeroPlus:
-            return "0 - 1 Puan Arası"
+            return "0 - 1 \(L10nGeneric.points.localized())"
         case .onePlus:
-            return "1 - 2 Puan Arası"
+            return "1 - 2 \(L10nGeneric.points.localized())"
         case .twoPlus:
-            return "2 - 3 Puan Arası"
+            return "2 - 3 \(L10nGeneric.points.localized())"
         case .threePlus:
-            return "3 - 4 Puan Arası"
+            return "3 - 4 \(L10nGeneric.points.localized())"
         case .fourPlus:
-            return "4 - 5 Puan Arası"
+            return "4 - 5 \(L10nGeneric.points.localized())"
         }
     }
 }
@@ -59,9 +60,9 @@ enum ProductListScreenSectionType: Int, CaseIterable, Hashable {
     var stringValue: String? {
          switch self {
          case .filter:
-             return "Filter"
+             return L10nGeneric.filter.localized()
          case .products:
-             return "Products"
+             return L10nGeneric.products.localized()
          }
      }
 }

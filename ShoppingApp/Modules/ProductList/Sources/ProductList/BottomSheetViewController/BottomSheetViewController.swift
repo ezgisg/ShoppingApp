@@ -5,9 +5,6 @@
 //  Created by Ezgi Sümer Günaydın on 7.08.2024.
 //
 
-
-//TODO: localizable
-
 import AppResources
 import Base
 import UIKit
@@ -18,15 +15,14 @@ public enum SortingOption:  Int, CaseIterable {
     case highestPrice = 1
     case lowestPrice = 2
 
-    //TODO: localizable
     var stringValue: String? {
          switch self {
          case .highestPrice:
-             "Yüksekten Düşüğe Sırala"
+             L10nGeneric.SortOptions.highToLow.localized()
          case .lowestPrice:
-             "Düşükten Yükseğe Sırala"
+             L10nGeneric.SortOptions.lowToHigh.localized()
          case .none:
-             "Önerilen Sıralama"
+             L10nGeneric.SortOptions.suggested.localized()
          }
      }
 }
@@ -129,8 +125,8 @@ private extension BottomSheetViewController {
         containerViewofContainerView.layer.shadowOffset = CGSize(width: 0, height: -2)
         containerViewofContainerView.layer.shadowRadius = 20
         
-        applyButton.setTitle("Uygula", for: .normal)
-        cancelButton.setTitle("İptal", for: .normal)
+        applyButton.setTitle(L10nGeneric.apply.localized(), for: .normal)
+        cancelButton.setTitle(L10nGeneric.abort.localized(), for: .normal)
         
         applyButton.setTitleColor(.tabbarBackgroundColor, for: .normal)
         cancelButton.setTitleColor(.tabbarBackgroundColor, for: .normal)

@@ -26,6 +26,7 @@
 		AB7399752C60B7C400D4B7E5 /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = AB7399742C60B7C400D4B7E5 /* Categories */; };
 		AB7470E32C62082E002A69C3 /* ProductList in Resources */ = {isa = PBXBuildFile; fileRef = AB7470E22C62082E002A69C3 /* ProductList */; };
 		AB950A222C50DAA00045EEDC /* TabBar in Resources */ = {isa = PBXBuildFile; fileRef = AB950A212C50DAA00045EEDC /* TabBar */; };
+		ABA1FA1B2C7C7C7B00F018CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABA1FA1A2C7C7C7B00F018CB /* Assets.xcassets */; };
 		ABA33F9E2C5B644600C519FB /* Network in Resources */ = {isa = PBXBuildFile; fileRef = ABA33F9D2C5B644600C519FB /* Network */; };
 		ABA33FA02C5B6A2300C519FB /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = ABA33F9F2C5B6A2300C519FB /* Network */; };
 		ABA33FA22C5B6BA000C519FB /* Base in Frameworks */ = {isa = PBXBuildFile; productRef = ABA33FA12C5B6BA000C519FB /* Base */; };
@@ -80,6 +81,7 @@
 		AB7399742C60B7C400D4B7E5 /* Categories */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Categories; sourceTree = "<group>"; };
 		AB7470E22C62082E002A69C3 /* ProductList */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ProductList; sourceTree = "<group>"; };
 		AB950A212C50DAA00045EEDC /* TabBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = TabBar; sourceTree = "<group>"; };
+		ABA1FA1A2C7C7C7B00F018CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ABA33F9D2C5B644600C519FB /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		ABA33FA52C5B70EB00C519FB /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		ABA33FA82C5B786200C519FB /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				AB2873902C4E94D900BA9BCE /* ViewController.swift */,
 				AB28739A2C4E94DA00BA9BCE /* LaunchScreen.storyboard */,
 				AB28739D2C4E94DA00BA9BCE /* Info.plist */,
+				ABA1FA1A2C7C7C7B00F018CB /* Assets.xcassets */,
 				AB2873FA2C4EA79400BA9BCE /* GoogleService-Info.plist */,
 				AB2873952C4E94D900BA9BCE /* ShoppingApp.xcdatamodeld */,
 			);
@@ -339,6 +342,7 @@
 				ABA9896E2C74C43600F496D9 /* Favorites in Resources */,
 				AB4315BC2C4FB3EE00A7A855 /* Common in Resources */,
 				ABB791212C6F3F70008DD8A1 /* AppManagers in Resources */,
+				ABA1FA1B2C7C7C7B00F018CB /* Assets.xcassets in Resources */,
 				AB4315B82C4FB3D900A7A855 /* AppResources in Resources */,
 				ABAB518F2C73C6850087E60D /* Campaigns in Resources */,
 				AB4315BE2C4FB3FE00A7A855 /* SignIn in Resources */,
@@ -547,6 +551,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -554,7 +559,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = AppResources;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -581,6 +586,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -588,7 +594,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = AppResources;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

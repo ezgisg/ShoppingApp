@@ -107,7 +107,7 @@ private extension ProductDetailCell {
     final func setRating(ratingCount: Int?, rating: Double?) {
         guard let rating,
               let ratingCount else { return ratingCountLabel.text = "N/A" }
-        ratingCountLabel.text = "\(ratingCount) Değerlendirme"
+        ratingCountLabel.text = "\(ratingCount) \(L10nGeneric.SortOptions.rating.localized())"
         ratingView.setRating(Double(rating))
     }
     

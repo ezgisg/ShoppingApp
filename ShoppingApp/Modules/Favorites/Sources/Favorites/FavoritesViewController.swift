@@ -55,11 +55,10 @@ private extension FavoritesViewController {
     final func setups() {
         setupColors()
         configureCollectionView()
-        navigationItem.title = "Favorilerim"
+        navigationItem.title = L10nGeneric.favorites.localized()
         
-        //TODO:localizable vs..
         let image = UIImage(systemName: "heart.fill")?.withTintColor(.tabbarBackgroundColor, renderingMode: .alwaysOriginal)
-        emptyView.configure(with: .detailed(image: image ?? .browseImage, title: "Favorilerinde Ürün Yok", subtitle: "Henüz favorilerine ürün eklemedin. Ürünlerimizi keşfetmek ister misin? Başlamak için hemen tıkla!", buttonTitle: "Keşfet", buttonColor: .tabbarBackgroundColor, buttonAction: { [weak self] in
+        emptyView.configure(with: .detailed(image: image ?? .browseImage, title: L10nGeneric.FavoritesWarnings.title.localized(), subtitle: L10nGeneric.FavoritesWarnings.detail.localized(), buttonTitle: L10nGeneric.discover.localized(), buttonColor: .tabbarBackgroundColor, buttonAction: { [weak self] in
             guard let self,
                   let tabBarController = self.tabBarController
             else { return }

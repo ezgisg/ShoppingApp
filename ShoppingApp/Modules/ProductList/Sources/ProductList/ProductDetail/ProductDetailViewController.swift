@@ -94,7 +94,7 @@ extension ProductDetailViewController {
     
     @IBAction func cartUpdated(_ sender: Any) {
         addCartButton.backgroundColor = .systemYellow
-        addCartButton.setTitle("Sepete Eklendi", for: .disabled)
+        addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
      
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
             guard let self else { return }
@@ -114,7 +114,6 @@ private extension ProductDetailViewController {
         setupInitialStatus()
     }
     
-    //TODO: Localizable
     final func setupUI() {
         collectionView.backgroundColor = .white
         
@@ -361,14 +360,13 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         guard let sectionType = ProductDetailSectionType(rawValue: indexPath.section) else { return UICollectionReusableView () }
         
         var title = ""
-        //TODO: Localizable
         switch sectionType {
         case .details:
-            title = "Ürün Açıklaması"
+            title = L10nGeneric.CartTexts.titleProductDescription.localized()
         case .payment:
-            title = "Ödeme Tipleri"
+            title = L10nGeneric.CartTexts.titlePaymentTypes.localized()
         case .suggestions:
-            title = "Sana Özel Öneriler"
+            title = L10nGeneric.CartTexts.titleSuggestionsForYou.localized()
         default:
             break
         }
@@ -399,11 +397,10 @@ extension ProductDetailViewController: DetailBottomViewModelDelegate {
         collectionView.reloadData()
     }
     
-    //TODO: Localizable
     func errorWhileFetching() {
         topView.isHidden = false
         topView.backgroundColor = .white
-        showAlert(title: "Ürün Bilgileri Yüklenemedi", message: "Ürün Bilgileri Yüklenemedi", buttonTitle: "OK") {  [weak self] in
+        showAlert(title: L10nGeneric.fetchingProductError.title.localized(), message: L10nGeneric.fetchingProductError.message.localized(), buttonTitle: L10nGeneric.ok.localized()) {  [weak self] in
             guard let self else { return }
             dismiss(animated: true, completion: nil)
         }
@@ -420,6 +417,6 @@ private extension ProductDetailViewController {
     final func setButtonColor(isEnabled: Bool) {
         addCartButton.backgroundColor = .middleButtonColor.withAlphaComponent(0.5)
         addCartButton.tintColor = isEnabled ? .tabbarBackgroundColor : .clear
-        addCartButton.setTitle("Sepete Ekle", for: .normal)
+        addCartButton.setTitle(L10nGeneric.addToCart.localized(), for: .normal)
     }
 }

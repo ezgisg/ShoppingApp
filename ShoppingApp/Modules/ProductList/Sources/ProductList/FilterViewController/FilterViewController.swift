@@ -9,7 +9,6 @@ import AppResources
 import Base
 import UIKit
 
-//TODO:localizable
 // MARK: - FilterViewController
 final class FilterViewController: BaseViewController {
     
@@ -48,11 +47,10 @@ final class FilterViewController: BaseViewController {
 
 }
 
-//TODO: Localizable
 //MARK: - Setups
 private extension FilterViewController {
     final func setupUI() {
-        self.title = "Filtreleme"
+        self.title = L10nGeneric.filter.localized()
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.configureWithOpaqueBackground()
         standardAppearance.backgroundColor = UIColor.tabbarBackgroundColor
@@ -68,7 +66,7 @@ private extension FilterViewController {
         button.tintColor = .tabbarBackgroundColor
         button.setTitleColor(.tabbarSelectedColor, for: .normal)
         button.setTitleColor(.lightButtonColor, for: .highlighted)
-        button.setTitle("Listele", for: .normal)
+        button.setTitle(L10nGeneric.list.localized(), for: .normal)
         
         setupCustomBackButton()
         setupCustomRightButton()
@@ -93,7 +91,7 @@ private extension FilterViewController {
     
     final func setupCustomRightButton() {
         let rightButton = UIButton(type: .system)
-        rightButton.setTitle("Temizle", for: .normal)
+        rightButton.setTitle(L10nGeneric.clean.localized(), for: .normal)
         rightButton.addTarget(self, action: #selector(didTapRightButton), for: .touchUpInside)
         let rightButtonItem = UIBarButtonItem(customView: rightButton)
         navigationItem.rightBarButtonItem = rightButtonItem
@@ -110,7 +108,7 @@ private extension FilterViewController {
     @objc final func didTapBackButton() {
         let isDifferentFromInitials = viewModel.isDifferentFromInitialsOnFilter
         guard isDifferentFromInitials else { return dismissView() }
-        showAlert(title: "Filtrelemeden Çıkış", message: "Filtreleri silmek istediğine emin misin? Silersen seçimin geçerli olmayacak.", buttonTitle: "Sil", showCancelButton: true, cancelButtonTitle: "Vazgeç") {  [weak self] in
+        showAlert(title: L10nGeneric.FilterWarnings.clean.localized(), message: L10nGeneric.FilterWarnings.cleanMessages.localized(), buttonTitle: L10nGeneric.delete.localized(), showCancelButton: true, cancelButtonTitle: L10nGeneric.abort.localized()) {  [weak self] in
             guard let self else { return }
             viewModel.returnToInitials(isDetailScreen: false)
             dismissView()

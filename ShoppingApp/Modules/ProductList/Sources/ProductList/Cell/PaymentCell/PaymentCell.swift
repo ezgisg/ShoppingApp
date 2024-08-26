@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 22.08.2024.
 //
 
+import AppResources
 import UIKit
 
 //MARK: - PaymentCell
@@ -26,13 +27,13 @@ class PaymentCell: UICollectionViewCell {
     //MARK: - Setup
     private final func setup() {
         //TODO: İsimler ve resimler
-        image1.image = .browseImage
-        image2.image = .browseImage
-        image3.image = .browseImage
+        image1.image = .cash
+        image2.image = .checkoutImage
+        image3.image = .masterpass
         
-        label1.text = "Ödeme Tipi"
-        label2.text = "Ödeme Tipi"
-        label3.text = "Ödeme Tipi"
+        label1.text = L10nGeneric.paymentOptions.cashAtDelivery.localized()
+        label2.text = L10nGeneric.paymentOptions.creditBankCard.localized()
+        label3.text = L10nGeneric.paymentOptions.masterpass.localized()
         
         setupTextAndFont(label: label1)
         setupTextAndFont(label: label2)

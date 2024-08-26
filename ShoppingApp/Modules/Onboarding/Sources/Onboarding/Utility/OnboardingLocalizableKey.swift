@@ -65,12 +65,4 @@ extension LocalizableProtocol {
         let bundle = stringValue.localized(in: Bundle.module) == stringValue ? AppResources.bundle : Bundle.module
         return stringValue.localized(in: bundle)
     }
-
-    public func localizedFormat(arguments: CVarArg...) -> String {
-        return stringValue.localizedFormat(arguments: arguments, in: Bundle.module)
-    }
-
-    public func localizedPlural(argument: CVarArg) -> String {
-        return stringValue.localizedPlural(argument: argument, in: Bundle.module)
-    }
 }

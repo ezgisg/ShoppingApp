@@ -127,9 +127,8 @@ private extension ProductListViewController {
         setupEmptyView()
     }
     
-    //TODO: Localizable
     final func setupEmptyView() {
-        emptyView.configure(with: .basic(title: "No Result", titleColor: .tabbarBackgroundColor))
+        emptyView.configure(with: .basic(title: L10nGeneric.noResult.localized(), titleColor: .tabbarBackgroundColor))
         emptyView.isHidden = true
     }
     

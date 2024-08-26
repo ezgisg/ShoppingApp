@@ -66,8 +66,7 @@ private extension CartBottomProductCollectionViewCell {
         
         addToCartView.backgroundColor = .tabbarBackgroundColor
         addToCartView.layer.cornerRadius = 8
-        //TODO: localizable
-        addToCartLabel.text = "Sepete Ekle"
+        addToCartLabel.text = L10nGeneric.addToCart.localized()
         addToCartLabel.textColor = .white
         addToCartLabel.adjustsFontSizeToFitWidth = true
         

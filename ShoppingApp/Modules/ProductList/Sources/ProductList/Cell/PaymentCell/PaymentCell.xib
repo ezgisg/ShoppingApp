@@ -19,11 +19,11 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QgV-VS-5Ed">
                         <rect key="frame" x="0.0" y="0.0" width="274" height="157"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-wL-ecX">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-wL-ecX">
                                 <rect key="frame" x="0.0" y="0.0" width="274" height="157"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVc-Ir-H5j">
-                                        <rect key="frame" x="0.0" y="0.0" width="73.333333333333329" height="157"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="86" height="157"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zK2-19-U4r">
                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="157"/>
@@ -45,7 +45,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOB-v4-1aN">
-                                                <rect key="frame" x="32" y="0.0" width="41.333333333333343" height="157"/>
+                                                <rect key="frame" x="32" y="0.0" width="53.999999999999986" height="157"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -55,7 +55,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cA0-kI-l7d">
-                                        <rect key="frame" x="100.33333333333334" y="0.0" width="73.333333333333343" height="157"/>
+                                        <rect key="frame" x="94" y="0.0" width="86" height="157"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wy6-KL-dt5">
                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="157"/>
@@ -77,7 +77,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vk5-fO-nVU">
-                                                <rect key="frame" x="32.000000000000014" y="0.0" width="41.333333333333329" height="157"/>
+                                                <rect key="frame" x="32" y="0.0" width="53.999999999999986" height="157"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -87,7 +87,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mmB-T5-xpp">
-                                        <rect key="frame" x="200.66666666666666" y="0.0" width="73.333333333333343" height="157"/>
+                                        <rect key="frame" x="188" y="0.0" width="86" height="157"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ij-Pa-oJr">
                                                 <rect key="frame" x="0.0" y="0.0" width="32" height="157"/>
@@ -109,7 +109,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIO-8U-t0h">
-                                                <rect key="frame" x="32" y="0.0" width="41.333333333333343" height="157"/>
+                                                <rect key="frame" x="32" y="0.0" width="53.999999999999986" height="157"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>

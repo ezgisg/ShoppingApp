@@ -38,7 +38,7 @@ class CampaignDetailViewController: UIViewController {
    }
     
     private func setup() {
-        screenTitle.text = "Kampanya Detayı"
+        screenTitle.text = L10nGeneric.campaignDetails.localized()
         screenTitle.textColor = .black
         topView.backgroundColor = .gray
         seperatorView.backgroundColor = .lightDividerColor

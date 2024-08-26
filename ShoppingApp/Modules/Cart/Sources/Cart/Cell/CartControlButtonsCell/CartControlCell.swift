@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 16.08.2024.
 //
 
+import AppResources
 import UIKit
 
 class CartControlCell: UICollectionViewCell {
@@ -33,7 +34,7 @@ class CartControlCell: UICollectionViewCell {
     }
     
     func configureWith(selectedItemCount: Int, isSelectAllActive: Bool) {
-        deleteSelectedLabel.text = "Seçilenleri Sil (\(selectedItemCount))"
+        deleteSelectedLabel.text = "\(L10nGeneric.CartTexts.deleteSelecteds.localized()) (\(selectedItemCount))"
         self.isSelectAllActive = isSelectAllActive
         controlSelectionStatus()
     }
@@ -64,7 +65,7 @@ extension CartControlCell {
     }
     
     final func setupTexts() {
-        selectAllLabel.text = "Tümünü Seç"
+        selectAllLabel.text = L10nGeneric.selectAll.localized()
         selectAllLabel.textColor = .black
         deleteSelectedLabel.textColor = .black
     }

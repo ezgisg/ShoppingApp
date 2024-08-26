@@ -119,8 +119,18 @@ private extension CartViewController {
     
     final func setupTexts() {
         setTotalPrice()
-        paymentButton.setTitle("ÖDEME ADIMINA GEÇ", for: .normal)
-        //TODO: xib ler de localizable ile alınacak
+        paymentButton.setTitle(        L10nGeneric.CartTexts.goToPayment.localized(), for: .normal)
+        orderSummaryLabelOfDetailStack.text =         L10nGeneric.CartTexts.orderSummary.localized()
+        orderSummaryLabelOfMiniDetailStack.text = L10nGeneric.CartTexts.orderSummary.localized()
+        sumLabelOfDetailStack.text = L10nGeneric.CartTexts.total.localized()
+        discountLabel.text = L10nGeneric.CartTexts.discounts.localized()
+        subTotalLabel.text = L10nGeneric.CartTexts.subTotal.localized()
+        cargoFeeLabel.text = L10nGeneric.CartTexts.cargoFee.localized()
+        infoLabel.text = L10nGeneric.CartTexts.orderInfo.localized()
+        
+        sumLabelofSumStack.text = L10nGeneric.CartTexts.grandTotal.localized()
+        sumLabelofSumStackWithDiscount.text = L10nGeneric.CartTexts.grandTotal.localized()
+        totalDiscountLabel.text = L10nGeneric.CartTexts.totalDiscount.localized()
     }
     
     final func setupTextsColorFont() {
@@ -183,9 +193,9 @@ private extension CartViewController {
         
         emptyView.configure(
             with: .detailed(image: .browseImage,
-                            title: "Sepetinde Ürün Yok",
-                            subtitle: "Henüz sepetine ürün eklemedin. Ürünlerimizi keşfetmek ister misin? Başlamak için hemen tıkla!",
-                            buttonTitle: "Alışverişe Devam Et",
+                            title: L10nGeneric.CartWarnings.title.localized(),
+                            subtitle: L10nGeneric.CartWarnings.detail.localized(),
+                            buttonTitle: L10nGeneric.keepShopping.localized(),
                             buttonColor: .tabbarBackgroundColor,
                             buttonAction: { [weak self] in
                                 guard let self,
@@ -463,7 +473,7 @@ extension CartViewController {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withClass: SectionHeader.self, for: indexPath)
             switch sectionType {
             case .similarProducts:
-                headerView.configure(with: "Benzer Ürünler", color: .gray, leading: 8)
+                headerView.configure(with: L10nGeneric.CartTexts.similarProducts.localized(), color: .gray, leading: 8)
                 return headerView
             default:
                 return UICollectionReusableView()

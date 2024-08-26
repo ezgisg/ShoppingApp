@@ -1,6 +1,6 @@
 //
 //  Localize.swift
-//  Viper-Movies
+//
 //
 //  Created by Ezgi Sümer Günaydın on 16.07.2024.
 //
@@ -48,22 +48,6 @@ open class Localize: NSObject {
     }
 
     /**
-     Change the current language
-     - Parameter language: Desired language.
-     */
-    open class func setCurrentLanguage(_ language: String) {
-        let selectedLanguage = availableLanguages().contains(language) ? language : defaultLanguage()
-        if selectedLanguage != currentLanguage() {
-            UserDefaults.standard.set(selectedLanguage, forKey: CurrentLanguageKey)
-            UserDefaults.standard.synchronize()
-            NotificationCenter.default.post(
-                name: Notification.Name(rawValue: LanguageChangeNotification),
-                object: nil
-            )
-        }
-    }
-
-    /**
      Default language
      - Returns: The app's default language. String.
      */
@@ -81,25 +65,6 @@ open class Localize: NSObject {
         return defaultLanguage
     }
 
-    /**
-     Resets the current language to the default
-     */
-    open class func resetCurrentLanguageToDefault() {
-        setCurrentLanguage(self.defaultLanguage())
-    }
-
-    /**
-     Get the current language's display name for a language.
-     - Parameter language: Desired language.
-     - Returns: The localized string.
-     */
-    open class func displayNameForLanguage(_ language: String) -> String {
-        let locale = NSLocale(localeIdentifier: currentLanguage())
-        if let displayName = locale.displayName(forKey: NSLocale.Key.identifier, value: language) {
-            return displayName
-        }
-        return String()
-    }
 }
 
 

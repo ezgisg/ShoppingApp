@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../AppResources"),
+        .package(path: "../Base"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,7 +22,8 @@ let package = Package(
         .target(
             name: "Campaigns",
             dependencies: [
-                "AppResources"
+                "AppResources",
+                "Base"
             ]
         ),
         .testTarget(

@@ -5,8 +5,6 @@
 //  Created by Ezgi Sümer Günaydın on 23.07.2024.
 //
 
-//TODO: Düzenlenecek
-
 import UIKit
 
 // MARK: - UIColor
@@ -54,25 +52,6 @@ public extension UserDefaults {
         }
         set {
             set(newValue.rawValue, forKey: #function)
-        }
-    }
-}
-
-// MARK: - Override of Theme
-public extension UIApplication {
-    func override(_ userInterfaceStyle: UIUserInterfaceStyle) {
-        if supportsMultipleScenes {
-            for connectedScene in connectedScenes {
-                if let scene = connectedScene as? UIWindowScene {
-                    for window in scene.windows {
-                        window.overrideUserInterfaceStyle = userInterfaceStyle
-                    }
-                }
-            }
-        } else {
-            for window in windows {
-                window.overrideUserInterfaceStyle = userInterfaceStyle
-            }
         }
     }
 }

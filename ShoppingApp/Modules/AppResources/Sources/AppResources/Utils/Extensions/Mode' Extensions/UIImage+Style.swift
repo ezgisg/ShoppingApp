@@ -101,5 +101,12 @@ public extension UIImage {
         return UIImage(systemName: "trash")?.withRenderingMode(.alwaysTemplate)
     }
     
+    static var cash: UIImage {
+        return UIImage(named: "cash", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
+    
+    static var masterpass: UIImage {
+        return UIImage(named: "masterpass", in: Bundle.module, compatibleWith: .current) ?? UIImage()
+    }
     
 }

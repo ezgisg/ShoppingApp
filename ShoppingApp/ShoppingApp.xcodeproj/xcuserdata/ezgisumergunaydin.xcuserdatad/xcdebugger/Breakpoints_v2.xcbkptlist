@@ -14,8 +14,8 @@
             filePath = "Modules/Cart/Sources/Cart/CartViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
             landmarkName = "cellOnDeleteTapped()"
             landmarkType = "7">
          </BreakpointContent>

@@ -5,6 +5,7 @@
 //  Created by Ezgi Sümer Günaydın on 17.07.2024.
 //
 
+import AppResources
 import Foundation
 import UIKit
 
@@ -24,8 +25,7 @@ open class BaseViewController: UIViewController, LoadingShowable {
         super.viewDidLoad()
     }
     
-    //TODO: localizable
-    public final func showAlert(title: String, message: String, buttonTitle: String = "Try Again", showCancelButton: Bool = false, cancelButtonTitle: String = "Cancel", completion: (() -> Void)?) {
+    public final func showAlert(title: String, message: String, buttonTitle: String = L10nGeneric.againTry.localized(), showCancelButton: Bool = false, cancelButtonTitle: String = L10nGeneric.abort.localized(), completion: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
             completion?()

@@ -5,9 +5,8 @@
 //  Created by Ezgi Sümer Günaydın on 16.08.2024.
 //
 
-
-//TODO: localizable
 import UIKit
+import AppResources
 
 // MARK: - CouponCell
 class CouponCell: UICollectionViewCell {
@@ -31,10 +30,12 @@ class CouponCell: UICollectionViewCell {
     final func configureWith(couponStatus: CouponStatus) {
         couponTextField.text = couponStatus.text
         warningLabel.isHidden = !couponStatus.isApplied
-        warningLabel.text = couponStatus.isValid ? "Kupon Uygulandı" : "Kupon Geçerli Değil"
-        applyButtonLabel.text = couponStatus.isValid ? "Uygulandı" : "Uygula"
+        warningLabel.text = couponStatus.isValid ?     L10nGeneric.CouponWarnings.valid.localized() : L10nGeneric.CouponWarnings.notValid.localized()
+        applyButtonLabel.text = couponStatus.isValid ? L10nGeneric.applied.localized() : L10nGeneric.apply.localized()
         warningLabel.textColor = couponStatus.isValid ? .tabbarBackgroundColor : .red
+        
     }
+    
 }
 
 //MARK: - Setups
@@ -59,7 +60,7 @@ private extension CouponCell {
         
         let placeholderColor = UIColor.lightGray
         couponTextField.attributedPlaceholder = NSAttributedString(
-            string: "Kampanya Kodu",
+            string: L10nGeneric.CouponWarnings.code.localized(),
             attributes: [NSAttributedString.Key.foregroundColor: placeholderColor]
         )
         

@@ -58,7 +58,6 @@ public class ProductCell: UICollectionViewCell {
         categoryNameLabel.textColor = .darkGray
         ratingCountLabel.textColor = .darkGray
         priceLabel.textColor = .darkGray
-        //TODO: Sepete veya favorilere eklenip eklenmemesine göre farklı renkler alacak
     }
     
 }

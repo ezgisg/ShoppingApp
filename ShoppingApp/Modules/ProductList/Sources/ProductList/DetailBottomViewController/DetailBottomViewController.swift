@@ -5,7 +5,6 @@
 //  Created by Ezgi Sümer Günaydın on 12.08.2024.
 //
 
-//TODO: localizable
 import AppResources
 import AppManagers
 import Base
@@ -126,19 +125,19 @@ private extension DetailBottomViewController {
     }
     
     final func setupTexts() {
-        titleLabel.text = "Sepete Hızlı Ekle"
+        titleLabel.text = L10nGeneric.CartTexts.speedReview.localized()
         categoryLabel.text = product.category
         productLabel.text = product.title
-        sizeLabel.text = "Varyant"
-        choseSizeButton.setTitle("Sepete ekle", for: .normal)
-        cancelButton.setTitle("İptal", for: .normal)
+        sizeLabel.text = L10nGeneric.CartTexts.variant.localized()
+        choseSizeButton.setTitle(L10nGeneric.addToCart.localized(), for: .normal)
+        cancelButton.setTitle(L10nGeneric.abort.localized(), for: .normal)
         if let price = product.price {
             priceLabel.text = "\(String(price)) $"
         }
-        let attributedString = NSMutableAttributedString(string: "Ürün Detay Sayfasına Git")
+        let attributedString = NSMutableAttributedString(string: L10nGeneric.CartTexts.goToDetail.localized())
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
         goToDetailLabel.attributedText = attributedString
-        warningForAddingCartLabel.text = "Sepete Eklendi"
+        warningForAddingCartLabel.text = L10nGeneric.CartTexts.addedToCart.localized()
     }
     
     final func addTapGesture() {

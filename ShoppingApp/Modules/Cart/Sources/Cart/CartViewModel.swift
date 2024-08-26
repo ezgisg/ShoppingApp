@@ -167,7 +167,7 @@ extension CartViewModel: CartViewModelProtocol {
              "DSC20": 20.0,
              "DSC10": 10.0
          ]
-         let discountRate = discountRates[couponStatus.text]
+         discountRate = discountRates[couponStatus.text]
          let isCouponValid = discountRate.map { $0 > 0 } ?? false
          
          couponStatus = CouponStatus(

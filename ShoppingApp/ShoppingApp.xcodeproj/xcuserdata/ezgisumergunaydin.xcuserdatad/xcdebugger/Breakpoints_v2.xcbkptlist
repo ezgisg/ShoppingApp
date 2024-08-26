@@ -30,8 +30,8 @@
             filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "calculatePrices()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,40 +46,10 @@
             filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "controlCoupon()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D863F151-D015-4156-88F0-7CCB29E032AD - 552686272695c82e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Cart.CartViewModel.controlCoupon() -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/CartViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171">
-               </Location>
-               <Location
-                  uuid = "D863F151-D015-4156-88F0-7CCB29E032AD - 69165e0a763b52da"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Double) -&gt; Swift.Bool in Cart.CartViewModel.controlCoupon() -&gt; ()"
-                  moduleName = "ShoppingApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/Cart/Sources/Cart/CartViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -96,6 +66,38 @@
             endingLineNumber = "67"
             landmarkName = "discountRate"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EE8052F6-81EF-403B-8B45-954FE3CC0662"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "CartViewModel"
+            landmarkType = "21">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "73F06DB1-E033-4A7D-BADE-6437527061B1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Modules/Cart/Sources/Cart/CartViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "cartUpdated()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -53,7 +53,7 @@ public class CartManager {
             cartItems.remove(at: index)
         }
         notifyCartUpdate()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {  [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now()) {  [weak self] in
             guard let self else { return }
             removeAllSelectedProducts()
         }

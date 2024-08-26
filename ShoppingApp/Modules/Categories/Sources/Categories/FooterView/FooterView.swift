@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProductList
 
 class FooterView: UICollectionReusableView {
 

@@ -10,7 +10,6 @@ import Base
 import FirebaseAuth
 import FirebaseFirestore
 import UIKit
-import TabBar
 
 // MARK: - RegisterViewController
 class RegisterViewController: BaseViewController {
@@ -431,8 +430,8 @@ private extension RegisterViewController {
 extension RegisterViewController: RegisterViewModelDelegate {
     func didAddUserInfos() {
         // TODO: email doğrulandı mı kontrolü yapılacak, doğrulanmadıysa tabbar a geçilmeyecek
-        let viewController = TabBarController()
-        pushWithTransition(viewController)
+//        let viewController = TabBarController()
+//        pushWithTransition(viewController)
     }
     
     func didFailToAddUserInfos(error: Error) {

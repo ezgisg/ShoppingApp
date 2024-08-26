@@ -21,6 +21,7 @@ protocol CartViewModelProtocol: AnyObject {
     var selectionOfProducts: [ProductResponseElement] { get }
     var selectedItemCount: Int { get }
     var isSelectAllActive: Bool { get }
+    var couponStatus: CouponStatus { get }
 
     var totalPrice: Double? { get }
     var discountRate: Double? { get }
@@ -30,8 +31,9 @@ protocol CartViewModelProtocol: AnyObject {
     var priceToPay: Double? { get }
     
     func getCartDatas()
-    func controlCoupon(couponText: String)
+    func controlCoupon()
     func isSelectedProduct(id: Int, size: String) -> Bool?
+
 }
 
 //MARK: - CartViewModelDelegate
@@ -88,6 +90,8 @@ public final class CartViewModel {
     var isSelectAllActive: Bool {
         return selectedItemCount == CartManager.shared.selectionOfProducts.count
     }
+    
+    var couponStatus = CouponStatus(text: "", isApplied: false, isValid: false)
     
     //MARK: - Init
     init(service: ShoppingServiceProtocol = ShoppingService()) {
@@ -152,7 +156,6 @@ extension CartViewModel: CartViewModelProtocol {
                     updatedProducts.append(product)
                 }
             }
-            
             products = updatedProducts
             similarProducts = similarFetchedProducts
             calculatePrices()
@@ -161,12 +164,19 @@ extension CartViewModel: CartViewModelProtocol {
         }
     }
     
-    func controlCoupon(couponText: String) {
+    func controlCoupon() {
         let discountRates: [String: Double] = [
-            "DSC20": 20.0,
-            "DSC10": 10.0
-        ]
-        discountRate = discountRates[couponText]
+             "DSC20": 20.0,
+             "DSC10": 10.0
+         ]
+         let discountRate = discountRates[couponStatus.text]
+         let isCouponValid = discountRate.map { $0 > 0 } ?? false
+         
+         couponStatus = CouponStatus(
+             text: couponStatus.text,
+             isApplied: couponStatus.isApplied,
+             isValid: isCouponValid
+         )
     }
     
     func isSelectedProduct(id: Int, size: String) -> Bool? {
@@ -175,7 +185,6 @@ extension CartViewModel: CartViewModelProtocol {
             .isSelected
         return isSelected
     }
-    
 }
 
 //MARK: Actions
@@ -228,3 +237,4 @@ private extension CartViewModel {
         return randomIds
     }
 }
+

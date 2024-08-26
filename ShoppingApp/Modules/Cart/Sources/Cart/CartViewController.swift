@@ -11,7 +11,6 @@ import Base
 import Components
 import UIKit
 
-// TODO: - BUG: Selectiondan biri kaldırılınca Kuponun gözükmemesi
 
 // MARK: - Enums
 enum CartScreenSectionType: Int, CaseIterable {
@@ -19,19 +18,6 @@ enum CartScreenSectionType: Int, CaseIterable {
     case cart = 1
     case coupon = 2
     case similarProducts = 3
-    
-    var stringValue: String? {
-        switch self {
-        case .top:
-            "top"
-        case .cart:
-            "cart"
-        case .coupon:
-            "coupon"
-        case .similarProducts:
-            "similarProducts"
-        }
-     }
 }
 
 // MARK: - CartViewController
@@ -80,8 +66,7 @@ final class CartViewController: BaseViewController {
     
     // MARK: - Private Variables
     private var dataSource: UICollectionViewDiffableDataSource<CartScreenSectionType, AnyHashable>?
-    private var couponCell: CouponCell?
-
+    
     // MARK: - Module Components
     private var viewModel: CartViewModel
     private var coordinator: CartCoordinator
@@ -132,7 +117,6 @@ private extension CartViewController {
         setupCollectionView()
     }
     
-
     final func setupTexts() {
         setTotalPrice()
         paymentButton.setTitle("ÖDEME ADIMINA GEÇ", for: .normal)
@@ -247,7 +231,6 @@ private extension CartViewController {
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifier)
         collectionView.collectionViewLayout = createCompositionalLayout()
     }
-    
 }
 
 // MARK: - CartViewModelDelegate
@@ -283,8 +266,9 @@ extension CartViewController: CartViewModelDelegate {
         updatePriceLabel(label: cargoFeeCountLabel, with: viewModel.cargoFee)
     }
     
+    ///To remove discount coupon when there is no item in cart
     func deleteDiscountCoupon() {
-        couponCell?.deleteCoupon()
+        viewModel.couponStatus = CouponStatus(text: "", isApplied: false, isValid: false)
     }
     
     func manageSumStackType(isThereDiscount: Bool) {
@@ -428,14 +412,20 @@ extension CartViewController {
                 return cell
             case .coupon:
                 let cell = collectionView.dequeueReusableCell(withClass: CouponCell.self, for: indexPath)
-                couponCell = cell
-                cell.onApplyTapped = { [weak self] couponText in
+                cell.onApplyTapped = { [weak self] isApplied in
                     guard let self else { return }
-                    viewModel.controlCoupon(couponText: couponText)
-                    let isDiscountCouponValid = viewModel.discountRate == nil ? false : true
-                    cell.isDiscountCouponValid?(isDiscountCouponValid)
+                    viewModel.couponStatus.isApplied = isApplied
+                    if !isApplied {
+                        viewModel.couponStatus.text = ""
+                    }
+                    viewModel.controlCoupon()
                     collectionView.reloadData()
                  }
+                cell.configureWith(couponStatus: viewModel.couponStatus)
+                cell.couponTextChange = {  [weak self] text in
+                    guard let self else { return }
+                    viewModel.couponStatus.text = text
+                }
                 return cell
             case .similarProducts:
                 let cell = collectionView.dequeueReusableCell(withClass: CartBottomProductCollectionViewCell.self, for: indexPath)
@@ -459,8 +449,8 @@ extension CartViewController {
         }
     
         if viewModel.products.count > 0 {
-            snapshot.appendItems(["topSection"], toSection: .top)
-            snapshot.appendItems(["couponSection"], toSection: .coupon)
+            snapshot.appendItems([viewModel.selectedItemCount], toSection: .top)
+            snapshot.appendItems([viewModel.couponStatus], toSection: .coupon)
         }
         snapshot.appendItems(viewModel.products, toSection: .cart)
         snapshot.appendItems(viewModel.similarProducts, toSection: .similarProducts)
@@ -499,6 +489,7 @@ private extension CartViewController {
         guard viewModel.selectedItemCount > 0 else { return }
         showLoadingView()
         CartManager.shared.removeAllSelectedFromCart()
+        applySnapshot()
     }
         
     final func cellOnAddToCartTapped(product: ProductResponseElement) {

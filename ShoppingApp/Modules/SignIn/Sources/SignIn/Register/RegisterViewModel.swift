@@ -8,7 +8,6 @@
 import AppResources
 import FirebaseFirestore
 import Foundation
-import TabBar
 
 //MARK: - RegisterViewModelProtocol
 protocol RegisterViewModelProtocol: AnyObject {

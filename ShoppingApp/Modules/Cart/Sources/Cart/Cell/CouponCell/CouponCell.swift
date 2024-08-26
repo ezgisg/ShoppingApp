@@ -12,41 +12,39 @@ import UIKit
 // MARK: - CouponCell
 class CouponCell: UICollectionViewCell {
     // MARK: - Outlets
-    @IBOutlet private weak var couponTextField: UITextField!
+    @IBOutlet weak var couponTextField: UITextField!
     @IBOutlet private weak var applyLabelBackView: UIView!
     @IBOutlet private weak var applyButtonLabel: UILabel!
     @IBOutlet private weak var warningLabel: UILabel!
     
     // MARK: - Properties
-    var onApplyTapped: ((_ couponText: String) -> Void)?
-    var isDiscountCouponValid: ((Bool) -> Void)?
+    var onApplyTapped: ((_ isApplied: Bool) -> Void)?
+    var couponTextChange: ((String) -> Void)?
 
     // MARK: - Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         setups()
     }
-}
-
-
-//MARK: - CouponCell
-extension CouponCell {
-    func deleteCoupon() {
-        warningLabel.isHidden = true
-        couponTextField.text = ""
+    
+    // MARK: - Configure
+    final func configureWith(couponStatus: CouponStatus) {
+        couponTextField.text = couponStatus.text
+        warningLabel.isHidden = !couponStatus.isApplied
+        warningLabel.text = couponStatus.isValid ? "Kupon Uygulandı" : "Kupon Geçerli Değil"
+        applyButtonLabel.text = couponStatus.isValid ? "Uygulandı" : "Uygula"
+        warningLabel.textColor = couponStatus.isValid ? .tabbarBackgroundColor : .red
     }
 }
 
 //MARK: - Setups
 private extension CouponCell {
     final func setups() {
-        applyButtonLabel.text = "Uygula"
         applyButtonLabel.textColor = .black
         applyLabelBackView.backgroundColor = .clear
         applyLabelBackView.layer.borderColor = UIColor.lightDividerColor.cgColor
         applyLabelBackView.layer.borderWidth = 1
-        warningLabel.isHidden = true
-        
+    
         setupTextField()
         addTapGesture()
     }
@@ -96,26 +94,12 @@ private extension CouponCell {
 //MARK: - Actions
 private extension CouponCell {
     @objc final func tappedApply() {
-        setCoupons(isClearButtonTapped: false)
-        onApplyTapped?(couponTextField.text ?? "")
-    }
-    
-    final func setCoupons(isClearButtonTapped: Bool) {
-        isDiscountCouponValid = { [weak self] isValid in
-            guard let self else { return }
-            warningLabel.isHidden = isClearButtonTapped
-            warningLabel.text = isValid ? "Kupon Uygulandı" : "Kupon Geçerli Değil"
-            applyButtonLabel.text = isValid ? "Uygulandı" : "Uygula"
-            warningLabel.textColor = isValid ? .tabbarBackgroundColor : .red
-          }
+        onApplyTapped?(true)
     }
     
     @objc final func clearTextField() {
-        couponTextField.text = ""
-        setCoupons(isClearButtonTapped: true)
-        onApplyTapped?("")
+        onApplyTapped?(false)
     }
-    
 }
 
 //MARK: - UITextFieldDelegate
@@ -124,6 +108,8 @@ extension CouponCell: UITextFieldDelegate {
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        let text = updatedText.count <= 10 ? updatedText : currentText
+        couponTextChange?(text)
         return updatedText.count <= 10
     }
 }

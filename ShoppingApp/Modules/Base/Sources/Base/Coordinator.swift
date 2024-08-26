@@ -21,12 +21,7 @@ public protocol Coordinator: AnyObject {
     func back()
 
     func addChildCoordinator(_ coordinator: Coordinator)
-
-    func removeChildCoordinator(_ coordinator: Coordinator)
     func removeAllChildCoordinators()
-
-    func getCoordinator<T: Coordinator>(_ coordinator: T.Type) -> T?
-    func getParentCoordinator<T: Coordinator>(_ coordinator: T.Type) -> T?
 }
 
 public extension Coordinator {
@@ -51,26 +46,9 @@ public extension Coordinator {
         childCoordinators.append(coordinator)
     }
 
-    func removeChildCoordinator(_ coordinator: Coordinator) {
-        guard let index = childCoordinators.firstIndex(where: { $0 === coordinator }) else { return }
-        childCoordinators.remove(at: index)
-    }
-
     func removeAllChildCoordinators() {
         childCoordinators.forEach { $0.removeAllChildCoordinators() }
         childCoordinators.removeAll()
     }
 
-    func getCoordinator<T: Coordinator>(_ coordinator: T.Type) -> T? {
-        return childCoordinators.last { $0 is T } as? T
-    }
-
-    func getParentCoordinator<T: Coordinator>(_ coordinator: T.Type) -> T? {
-        guard let parent = parentCoordinator else { return nil }
-        if let pCoordinator = parent as? T {
-            return pCoordinator
-        } else {
-            return parent.getParentCoordinator(coordinator)
-        }
-    }
 }

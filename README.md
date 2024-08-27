@@ -29,3 +29,51 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 * **Auto-dismiss Keyboard Feature:** Includes a convenient feature where the keyboard automatically dismisses when tapping anywhere outside of it, except on the keyboard itself.
 * **Lottie Animations**: Incorporates Lottie animations for a dynamic user experience.
 
+## UI Architecture and Design
+* **XIB Files:** The majority of the UI is designed using XIB files for ease of layout management and visual clarity.
+* **Programmatic Views:** For common views like empty states, a programmatic approach is used to maintain flexibility and reusability across different parts of the application.
+
+## Libraries Used
+
+* **Firebase**: For authentication and analytics.
+* **Google SignIn**: For Google account integration.
+* **Alamofire**: For networking.
+* **KingFisher**: For image downloading and caching.
+* **Lottie**: For animations
+
+## Main Views
+* **Splash Screen:** This is the welcome screen displayed every time the application is opened. It features animations created using Lottie.
+* **Onboarding:** Includes application introduction, created using Page ViewController. Features:
+    * The introduction screen is shown only once; it is skipped on subsequent application starts (controlled via UserDefaults).
+    * Users can proceed directly to the next screen if they choose to skip the onboarding process.
+* **Sign In:** Sign-In screen. Features:
+    * Users can log in using their previously registered email and password or via Google Sign-In. Firebase and GoogleSignIn libraries are utilized for this purpose.
+    * A verification email is sent to newly registered users.
+* **Register:** This is the user registration screen. Features:
+    * It includes validations such as ensuring the password does not contain the user's name, has no sequential numbers, and includes at least one character and one number.
+    * If the registration is successful, the user is directed to the Home screen.
+* **Home:** The home screen is the first tab in the tab bar, showcasing campaigns, advertisement banners, and category information.
+    * Users can navigate to campaign details and the category screen from here.
+    * The layout is created using Compositional Layout.
+* **Categories:** This screen which is second tab in the tabbar, displays product categories. Users can search within categories using a search bar which is placed in the navigation bar. Upon opening a category, the user is directed to the product list screen containing products belonging to that category. 
+    * It uses Compositional Layout and Diffable DataSource.
+* **Product List:** This screen lists the products, allowing users to sort or filter the listed items.
+    * It offers two different layouts and lets users navigate to the product detail page.
+    * Users can also add items to the cart via a quick review or add/remove items from favorites using the heart icon on the product.
+    * Diffable DataSource and Compositional Layout, custom rating view are utilized.
+* **Product Detail:** This page displays the details of a product. Additionally, related products are suggested to the user. Users can arrive here from any product listing page. 
+    * The page allows users to add the product to the cart and manage its favorite status.
+* **Campaigns:** This is the third tab in the tab bar, listing available campaigns. Users can view the details of each campaign by tapping on them. The data is loaded from a local JSON file due to the lack of service data.
+    * Compositional Layout is used to create this screen.
+* **Cart:** This is the fourth tab in the tab bar, displaying the items added to the cart. The number of items is shown on a badge in the tab bar.
+    * The screen suggests different products to the user, which can be directly added to the cart.
+    * The number of items in the cart can be adjusted, and the selection status of items can be toggled in here.
+    * A discount can also be applied by entering a campaign code.
+    * The Cart Manager handles updates, and any additions made to the cart from anywhere in the app will be reflected in this tab.
+    * Diffable DataSource and Compositional Layout are utilized.n.
+* **Favorites:** This screen displays products added to favorites. It is the fifth tab in the tab bar.
+    * Since there is no backend, favorite products are stored using UserDefaults.  
+    * Compositional Layout is used.
+
+## Files
+<img width="200" alt="dosyayapısı" src="https://github.com/user-attachments/assets/95ac24aa-65c8-402f-96cd-295f512beb2c">

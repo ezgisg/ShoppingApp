@@ -25,7 +25,7 @@ open class BaseCoordinator: NSObject, Coordinator {
         fatalError("\(#function) should be implemented.")
     }
 
-    // MARK: Generic Back
+    // MARK: - Generic Methods
     public func back() {
         if let controller = navigationController.visibleViewController,
            controller.isModal {
@@ -33,5 +33,39 @@ open class BaseCoordinator: NSObject, Coordinator {
         } else {
             navigationController.popViewController(animated: true)
         }
+    }
+    
+    public func pushWithTransition(
+        _ viewController: UIViewController,
+        duration: CFTimeInterval = 0.5,
+        type: CATransitionType = .fade,
+        subtype: CATransitionSubtype? = nil,
+        timingFunction: CAMediaTimingFunctionName? = .easeInEaseOut
+    ) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.type = type
+        transition.subtype = subtype
+        transition.timingFunction = CAMediaTimingFunction(name: timingFunction ?? .easeInEaseOut)
+        
+        navigationController.view.layer.add(transition, forKey: kCATransition)
+        navigationController.pushViewController(viewController, animated: false)
+    }
+    
+    public func setWithTransition(
+        _ viewController: UIViewController,
+        duration: CFTimeInterval = 0.5,
+        type: CATransitionType = .fade,
+        subtype: CATransitionSubtype? = nil,
+        timingFunction: CAMediaTimingFunctionName? = .easeInEaseOut
+    ) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.type = type
+        transition.subtype = subtype
+        transition.timingFunction = CAMediaTimingFunction(name: timingFunction ?? .easeInEaseOut)
+        
+        navigationController.view.layer.add(transition, forKey: kCATransition)
+        navigationController.setViewControllers([viewController], animated: false)
     }
 }

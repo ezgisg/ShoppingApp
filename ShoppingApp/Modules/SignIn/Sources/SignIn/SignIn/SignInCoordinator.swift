@@ -39,4 +39,13 @@ final public class SignInCoordinator: BaseCoordinator {
     final func routeToTabBar() {
         delegate?.routeToTabBar(self)
     }
+    
+    final func routeToRegister() {
+        let viewController = RegisterViewController(
+            viewModel: RegisterViewModel(),
+            coordinator: self
+        )
+        
+        pushWithTransition(viewController)
+    }
 }

@@ -46,8 +46,9 @@ class RegisterViewController: BaseViewController {
     @IBOutlet private weak var passwordWarningLabel: UILabel!
     
     // MARK: - Module Components
-    private var viewModel = RegisterViewModel()
-    
+    private var viewModel: RegisterViewModel
+    private var coordinator: SignInCoordinator
+
     // MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +57,12 @@ class RegisterViewController: BaseViewController {
     }
 
     // MARK: - Module init
-    public init() {
+    public init(
+        viewModel: RegisterViewModel,
+        coordinator: SignInCoordinator
+    ) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
     }
     
@@ -430,12 +436,10 @@ private extension RegisterViewController {
 extension RegisterViewController: RegisterViewModelDelegate {
     func didAddUserInfos() {
         // TODO: email doğrulandı mı kontrolü yapılacak, doğrulanmadıysa tabbar a geçilmeyecek
-//        let viewController = TabBarController()
-//        pushWithTransition(viewController)
+        coordinator.routeToTabBar()
     }
     
     func didFailToAddUserInfos(error: Error) {
-        //TODO: ok'a basıldığında başarılı olduğunda nereye gidiliyorsa oraya gidelim
         showAlert(
             title: L10nGeneric.error.localized(),
             message: error.localizedDescription,

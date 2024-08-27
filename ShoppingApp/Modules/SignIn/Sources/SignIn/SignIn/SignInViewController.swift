@@ -120,21 +120,20 @@ extension SignInViewController {
             guard let self else { return }
             guard let error else {
                 coordinator.routeToTabBar()
-             //TODO: Doğrulama maili ve password reset mailleri yerel dilde gönderilecek
+                //TODO: Doğrulama maili ve password reset mailleri yerel dilde gönderilecek
                 //TODO: email doğrulama deneme için buraya koyuldu, doğrulamadan içeri alınmayacak şekilde düzenleme yapılacak
                 if Auth.auth().currentUser != nil {
                     Auth.auth().currentUser?.sendEmailVerification { error in
-                     print("doğrulama maili gönderildi")
+                        print("doğrulama maili gönderildi")
                     }
                 } else {
-                  // No user is signed in.
-                  // ...
+                    // No user is signed in.
+                    // ...
                 }
                 
                 return
             }
-            //TODO: Alert
-            print("giriş yapılamadı")
+            showAlert(title: L10nGeneric.error.localized(), message: "\(error.localizedDescription)", buttonTitle: L10nGeneric.ok.localized(), completion: nil)
         }
     }
     
@@ -182,11 +181,9 @@ extension SignInViewController {
     }
     
     @objc func registerTapped() {
-        let viewController = RegisterViewController()
-        pushWithTransition(viewController)
+        coordinator.routeToRegister()
     }
-    
-    }
+}
     
 //MARK: - Setup UI
 private extension SignInViewController {

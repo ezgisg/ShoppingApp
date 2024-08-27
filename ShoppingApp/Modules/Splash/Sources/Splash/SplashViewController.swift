@@ -59,10 +59,11 @@ private extension SplashViewController {
             return }
         animationView = LottieAnimationView(animation: animation)
         animationView?.frame = animationContainerView.bounds
-        animationView?.contentMode = .scaleAspectFill
+        animationView?.contentMode = .scaleAspectFit
         animationView?.loopMode = .playOnce
         if let animationView {
             animationContainerView.addSubview(animationView)
+
         }
     }
 

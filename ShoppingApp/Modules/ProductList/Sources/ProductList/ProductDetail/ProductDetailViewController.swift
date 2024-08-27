@@ -281,6 +281,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             
         case .suggestions:
             guard let selectedProductID = filteredProductsExcluding?[indexPath.row].id else { return }
+            
             coordinator.routeToProductDetail(
                 productID: selectedProductID,
                 products: products

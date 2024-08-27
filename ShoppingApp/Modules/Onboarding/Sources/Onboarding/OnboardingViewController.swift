@@ -152,11 +152,9 @@ private extension OnboardingViewController {
     }
     
     @objc private func skipTapped() {
-        print("Skip button tapped")
-        //TODO: denemeler için true bırakıldı, değiştirilecek
-        UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
+        UserDefaults.standard.set(false, forKey: Constants.UserDefaults.isFirstLaunch)
         navigateToNextScreen(to: .tabBar)
-        //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
+        //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek, hızlı gidiş için şimdilik direkt tabbar bırakıldı
     }
     
     @objc private func nextTapped() {
@@ -168,9 +166,7 @@ private extension OnboardingViewController {
     }
     
     @objc private func bottomTapped() {
-        print("Let's start tapped")
-        //TODO: denemeler için true bırakıldı, değiştirilecek
-        UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
+        UserDefaults.standard.set(false, forKey: Constants.UserDefaults.isFirstLaunch)
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
         navigateToNextScreen(to: .signIn)
     }

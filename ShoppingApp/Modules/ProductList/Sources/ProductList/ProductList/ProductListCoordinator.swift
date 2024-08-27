@@ -67,7 +67,13 @@ final public class ProductListCoordinator: BaseCoordinator {
         )
         detailProductVC.modalPresentationStyle = .overFullScreen
         detailProductVC.modalTransitionStyle = .crossDissolve
-        navigationController.present(detailProductVC, animated: true, completion: nil)
+        
+        var topController: UIViewController = navigationController
+
+        while let presentedVC = topController.presentedViewController {
+            topController = presentedVC
+        }
+        topController.present(detailProductVC, animated: true, completion: nil)
     }
 }
 

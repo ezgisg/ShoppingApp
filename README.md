@@ -3,7 +3,7 @@ Shopping App is an e-commerce iOS application that provides a complete shopping 
 It is built with the **MVVM-C architecture** and uses data from [Fake Store API](https://fakestoreapi.com/).
 The app is **modular**, created with **Swift Package Manager (SPM)**, and has a own network layer.
 
-![ShoppingApp_Flow_optimized](https://github.com/user-attachments/assets/04b78b35-6fa6-42fa-b878-8e28e1a13e2b)
+![ShoppingApp_Flow_optimized](https://github.com/user-attachments/assets/dba55119-b2dd-422d-983a-0f77982e2f68)
 
 ## General Features
 
@@ -24,9 +24,13 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 <img width="400" alt="noConnection" src="https://github.com/user-attachments/assets/45b3bdfd-a6ba-4a12-9ccd-77a41fc041fb">
 
 * **Loading View:** Displays a loading view until data is fetched for a smooth user experience.
-<img height="400" alt="Simulator Screenshot - iPhone 15 Pro Max - 2024-08-27 at 12 30 26" src="https://github.com/user-attachments/assets/e991fcfa-f139-4c70-9332-a55e2f52a76b">
+  
+https://github.com/user-attachments/assets/bd843137-b0f1-413a-9570-8fc26b44e919
 
-* **Auto-dismiss Keyboard Feature:** The app includes a convenient auto-dismiss keyboard feature. When the keyboard is active, tapping anywhere outside it will hide the keyboard. Additionally, the view automatically shifts up if the active text field is covered by the keyboard, ensuring smooth user interactions. 
+* **Auto-dismiss Keyboard Feature:** The app includes a convenient auto-dismiss keyboard feature. When the keyboard is active, tapping anywhere outside it will hide the keyboard. Additionally, the view automatically shifts up if the active text field is covered by the keyboard, ensuring smooth user interactions.
+  
+https://github.com/user-attachments/assets/e9b8acfc-d40e-4672-9bb7-5203b51789e4
+
 * **Lottie Animations**: Incorporates Lottie animations for a dynamic user experience.
 
 ## UI Architecture and Design
@@ -49,6 +53,8 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 * **Sign In:** Sign-In screen. Features:
     * Users can log in using their previously registered email and password or via Google Sign-In. Firebase and GoogleSignIn libraries are utilized for this purpose.
     * A verification email is sent to newly registered users.
+     <img width="400" alt="Doğrulama Maili" src="https://github.com/user-attachments/assets/bedc6d1a-296c-4a90-9f93-1613f1b86821">
+
 * **Register:** This is the user registration screen. Features:
     * It includes validations such as ensuring the password does not contain the user's name, has no sequential numbers, and includes at least one character and one number.
     * If the registration is successful, the user is directed to the Home screen.

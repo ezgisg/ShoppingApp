@@ -26,7 +26,7 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 * **Loading View:** Displays a loading view until data is fetched for a smooth user experience.
 <img height="400" alt="Simulator Screenshot - iPhone 15 Pro Max - 2024-08-27 at 12 30 26" src="https://github.com/user-attachments/assets/e991fcfa-f139-4c70-9332-a55e2f52a76b">
 
-* **Auto-dismiss Keyboard Feature:** Includes a convenient feature where the keyboard automatically dismisses when tapping anywhere outside of it, except on the keyboard itself.
+* **Auto-dismiss Keyboard Feature:** The app includes a convenient auto-dismiss keyboard feature. When the keyboard is active, tapping anywhere outside it will hide the keyboard. Additionally, the view automatically shifts up if the active text field is covered by the keyboard, ensuring smooth user interactions. 
 * **Lottie Animations**: Incorporates Lottie animations for a dynamic user experience.
 
 ## UI Architecture and Design
@@ -74,6 +74,32 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 * **Favorites:** This screen displays products added to favorites. It is the fifth tab in the tab bar.
     * Since there is no backend, favorite products are stored using UserDefaults.  
     * Compositional Layout is used.
+
+## Samples
+
+   * ### **Splash & Onboarding**
+   https://github.com/user-attachments/assets/bec76479-df06-4c3c-881d-4993f00b9ce7
+   * ### **Sign In**
+   ######  **Sign In with E-mail-Password**
+   https://github.com/user-attachments/assets/28a8cb2d-2340-4592-a30f-1d97ff67f64c
+   ######  **Sign In with Google Sign-In**
+   https://github.com/user-attachments/assets/83f44b29-34b7-48ac-82e5-7b0f5bf0ca4a
+   * ### **Register**
+   https://github.com/user-attachments/assets/e9569b13-d220-4af5-bf26-7db9e1a1c9f4
+   * ### **Home**
+   https://github.com/user-attachments/assets/7d0cd8d9-3d9e-4f66-bd1c-8a2f2278a1d7
+   * ### **Categories**
+   https://github.com/user-attachments/assets/dd503856-6593-42ac-a5e5-e35e0c0cf898
+   * ### **Product List**
+   https://github.com/user-attachments/assets/cf64f03d-c2b3-4232-84dc-a0e9635d62df
+   * ### **Product Detail**
+   https://github.com/user-attachments/assets/ca011cfd-5edb-4cfa-8d84-bb2b97387025
+   * ### **Campaigns**
+   https://github.com/user-attachments/assets/f0e27900-2cc1-4ad5-b061-f6f9adb05e66
+   * ### **Cart**
+   https://github.com/user-attachments/assets/1cc7b255-7b2a-4ae3-ac6e-b7d40c9047d5
+   * ### **Favorites**
+   https://github.com/user-attachments/assets/381fda4f-b6e1-4b5d-bb19-4504c251133f
 
 ## Files
 <img width="200" alt="dosyayapısı" src="https://github.com/user-attachments/assets/95ac24aa-65c8-402f-96cd-295f512beb2c">

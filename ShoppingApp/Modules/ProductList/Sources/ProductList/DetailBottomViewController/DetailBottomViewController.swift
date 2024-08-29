@@ -81,24 +81,34 @@ private extension DetailBottomViewController {
         let size = viewModel.selectedSize
         let productId = product.id
         guard let productId, let size else { return }
+        showLoadingView()
         CartManager.shared.addToCart(productId: productId, size: size)
-        ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
-        warningForAddingCartView.alpha = 0
-        warningForAddingCartView.isHidden = false
-        UIView.animate(withDuration: 0.1, animations: {  [weak self] in
-            guard let self else { return }
-            warningForAddingCartView.alpha = 1
-        }, completion: { [weak self] _ in
-            guard let self else { return }
-            UIView.animate(withDuration: 0.3, delay: 1, options: [], animations: {  [weak self] in
+        let cancellable = CartManager.shared.cartItemsPublisher
+            .sink { _ in
+            } receiveValue: {  [weak self] _ in
                 guard let self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.hideLoadingView()
+                }
+       
+                ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
                 warningForAddingCartView.alpha = 0
-            }, completion: {  [weak self] _ in
-                guard let self else { return }
-                warningForAddingCartView.isHidden = true
-                warningForAddingCartView.alpha = 1
-            })
-        })
+                warningForAddingCartView.isHidden = false
+                UIView.animate(withDuration: 0.1, animations: {  [weak self] in
+                    guard let self else { return }
+                    warningForAddingCartView.alpha = 1
+                }, completion: { [weak self] _ in
+                    guard let self else { return }
+                    UIView.animate(withDuration: 0.3, delay: 1, options: [], animations: {  [weak self] in
+                        guard let self else { return }
+                        warningForAddingCartView.alpha = 0
+                    }, completion: {  [weak self] _ in
+                        guard let self else { return }
+                        warningForAddingCartView.isHidden = true
+                        warningForAddingCartView.alpha = 1
+                    })
+                })
+            }
         
     }
 

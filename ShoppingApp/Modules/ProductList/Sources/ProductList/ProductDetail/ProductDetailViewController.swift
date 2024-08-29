@@ -11,6 +11,8 @@ import Base
 import Components
 import UIKit
 
+import Combine
+
 // MARK: - Enums
 enum ProductDetailSectionType: Int, CaseIterable {
     case product = 0
@@ -39,20 +41,47 @@ final class ProductDetailViewController: BaseViewController {
     // MARK: - Properties
     private var onScreenDismiss: (() -> Void)?
     
+    private var cancellables: Set<AnyCancellable> = []
+    
     // MARK: - Module Components
     ///Logic is same so there is common viewmodel
     private var viewModel: DetailBottomViewModel
     private var coordinator: ProductListCoordinator
     
+    private var isFirstLaunch: Bool = true
+    
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         viewModel.delegate = self
         viewModel.loadStockData(for: productID)
         viewModel.fetchProduct(productId: productID)
         setups()
         topView.isHidden = true
+        
+        CartManager.shared.cartItemsPublisher
+            .sink {  [weak self] _ in
+                guard let self else { return }
+      
+            } receiveValue: {  [weak self] _ in
+                guard let self else { return }
+                guard !isFirstLaunch else {
+                    isFirstLaunch = false
+                    return
+                }
+                addCartButton.backgroundColor = .systemYellow
+                addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
+             
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
+                    guard let self else { return }
+                    addCartButton.isEnabled = true
+                    setButtonColor(isEnabled: self.addCartButton.isEnabled)
+                    topView.isHidden = true
+                }
+                
+            }.store(in: &cancellables)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,18 +121,18 @@ extension ProductDetailViewController {
         CartManager.shared.addToCart(productId: productID, size: size)
     }
     
-    @IBAction func cartUpdated(_ sender: Any) {
-        addCartButton.backgroundColor = .systemYellow
-        addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
-     
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
-            guard let self else { return }
-            addCartButton.isEnabled = true
-            setButtonColor(isEnabled: self.addCartButton.isEnabled)
-            topView.isHidden = true
-        }
-        
-    }
+//    @IBAction func cartUpdated(_ sender: Any) {
+//        addCartButton.backgroundColor = .systemYellow
+//        addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
+//     
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
+//            guard let self else { return }
+//            addCartButton.isEnabled = true
+//            setButtonColor(isEnabled: self.addCartButton.isEnabled)
+//            topView.isHidden = true
+//        }
+//        
+//    }
 }
 
 //MARK: - Setups

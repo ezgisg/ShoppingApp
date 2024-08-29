@@ -78,6 +78,9 @@ final class CartViewController: BaseViewController {
         viewModel.delegate = self
         setups()
         setupKeyboardObservers(scrollView: collectionView)
+        viewModel.getCartwithCombine()
+        viewModel.getSelectionswithCombine()
+        viewModel.observeBothPublishersWithCombineLatest()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -406,17 +409,21 @@ extension CartViewController {
                 guard let id = cartItem.id, let size = cartItem.size else { return cell }
                 let isSelected = viewModel.isSelectedProduct(id: id, size: size)
                 cell.configureWith(product: cartItem, discountRate: viewModel.discountRate, isSelected: isSelected)
-                cell.onSelectionTapped = {
+                cell.onSelectionTapped = {  [weak self] in
+                    guard let self else { return }
+                    showLoadingView()
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
-                
+    
                 cell.onMinusTapped = {  [weak self] in
                     guard let self else { return }
+                    showLoadingView()
                     cellOnMinusTapped(id: id, size: size)
                 }
                 
                 cell.onPlusTapped = { [weak self] in
                     guard let self else { return }
+                    showLoadingView()
                     cellOnPlusTapped(id: id, size: size)
                 }
                 return cell

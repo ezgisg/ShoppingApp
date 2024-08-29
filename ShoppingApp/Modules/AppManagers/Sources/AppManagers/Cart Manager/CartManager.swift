@@ -8,13 +8,18 @@
 import AppResources
 import Foundation
 
-///There is no logic for keeping cart items when app killed. To keep without backend,  userDefaults/CoreData can be used 
+import Combine
+
+///There is no logic for keeping cart items when app killed. To keep without backend,  userDefaults/CoreData can be used
 public class CartManager {
     public static let shared = CartManager()
     private init() {}
 
     public var cartItems: [Cart] = []
     public var selectionOfProducts: [ProductResponseElement] = []
+    
+    public var cartItemsPublisher = CurrentValueSubject<[Cart], Error>([])
+    public var selectionOfProductsPublisher = CurrentValueSubject<[ProductResponseElement], Error>([])
 
     public func addToCart(productId: Int, size: String) {
         if let index = cartItems.firstIndex(where: { $0.productId == productId && $0.size == size }) {
@@ -25,9 +30,11 @@ public class CartManager {
             cartItems.append(newCartItem)
             let newProduct = ProductResponseElement(id: productId, size: size, isSelected: true)
             selectionOfProducts.append(newProduct)
-            notifySelectionUpdate()
+//            notifySelectionUpdate()
+//            selectionOfProductsPublisher.send(selectionOfProducts)
         }
-        notifyCartUpdate()
+//        notifyCartUpdate()
+        cartItemsPublisher.send(cartItems)
     }
 
     public func removeFromCart(productId: Int, size: String) {
@@ -41,7 +48,8 @@ public class CartManager {
             cartItems.remove(at: index)
             removeFromSelection(productId: productId, size: size)
         }
-        notifyCartUpdate()
+//        notifyCartUpdate()
+        cartItemsPublisher.send(cartItems)
     }
     
     public func removeAllSelectedFromCart() {
@@ -52,7 +60,8 @@ public class CartManager {
                   let index = cartItems.firstIndex(where: { $0.productId == productId && $0.size == size }) else { return }
             cartItems.remove(at: index)
         }
-        notifyCartUpdate()
+//        notifyCartUpdate()
+        cartItemsPublisher.send(cartItems)
         DispatchQueue.main.asyncAfter(deadline: .now()) {  [weak self] in
             guard let self else { return }
             removeAllSelectedProducts()
@@ -65,12 +74,14 @@ public class CartManager {
             return
         }
         selectionOfProducts.remove(at: index)
-        notifySelectionUpdate()
+//        notifySelectionUpdate()
+        selectionOfProductsPublisher.send(selectionOfProducts)
     }
     
     public func removeAllSelectedProducts() {
         selectionOfProducts.removeAll { $0.isSelected == true }
-        notifySelectionUpdate()
+//        notifySelectionUpdate()
+        selectionOfProductsPublisher.send(selectionOfProducts)
     }
 
     public var totalItemsInCart: Int {
@@ -82,7 +93,8 @@ public class CartManager {
         var product = selectionOfProducts[index]
         product.isSelected = !(product.isSelected ?? true)
         selectionOfProducts[index] = product
-        notifySelectionUpdate()
+//        notifySelectionUpdate()
+        selectionOfProductsPublisher.send(selectionOfProducts)
     }
     
     public func updateAllProductsSelection(to isSelected: Bool) {
@@ -91,7 +103,8 @@ public class CartManager {
             product.isSelected = isSelected
             selectionOfProducts[index] = product
         }
-        notifySelectionUpdate()
+//        notifySelectionUpdate()
+        selectionOfProductsPublisher.send(selectionOfProducts)
     }
     
     public func isProductSelected(productId: Int, size: String) -> Bool {
@@ -104,16 +117,18 @@ public class CartManager {
          }
      }
     
-    private func notifyCartUpdate() {
-        NotificationCenter.default.post(name: .cartUpdated, object: nil)
-    }
-    
-    private func notifySelectionUpdate() {
-        NotificationCenter.default.post(name: .selectionUpdated, object: nil)
-    }
+//    private func notifyCartUpdate() {
+//        NotificationCenter.default.post(name: .cartUpdated, object: nil)
+//    }
+//    
+//    private func notifySelectionUpdate() {
+//        NotificationCenter.default.post(name: .selectionUpdated, object: nil)
+//    }
 }
 
-public extension Notification.Name {
-    static let cartUpdated = Notification.Name("cartUpdated")
-    static let selectionUpdated = Notification.Name("selectionUpdated")
-}
+/*
+ public extension Notification.Name {
+ static let cartUpdated = Notification.Name("cartUpdated")
+ static let selectionUpdated = Notification.Name("selectionUpdated")
+ }
+ */

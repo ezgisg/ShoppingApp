@@ -9,6 +9,8 @@ import AppResources
 import AppManagers
 import UIKit
 
+import Combine
+
 //MARK: - ProductCell
 public class ProductCell: UICollectionViewCell {
 
@@ -30,11 +32,12 @@ public class ProductCell: UICollectionViewCell {
     public var onCartTapped: (() -> Void)?
     
     private var product: ProductResponseElement?
+    private var cancellable: AnyCancellable?
     
     //MARK: - Life Cycles
     public override func awakeFromNib() {
         super.awakeFromNib()
-        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         setupUI()
         setupGestureRecognizers()
     }
@@ -42,6 +45,7 @@ public class ProductCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         ratingView.setRating(0)
+        cancellable?.cancel()
     }
     
     private func setupUI() {
@@ -60,11 +64,21 @@ public class ProductCell: UICollectionViewCell {
         priceLabel.textColor = .darkGray
     }
     
+    
 }
 
 //MARK: - ProductCell Configure
 extension ProductCell {
     public func configure(withId id: Int?, withRating rating: Double?, ratingCount: Int?, categoryName: String?, productName: String?, price: Double?, imagePath: String?) {
+        cancellable?.cancel()
+        cancellable = CartManager.shared.cartItemsPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+                
+            }, receiveValue: {  [weak self] cart in
+                guard let self else { return }
+                manageCartImage()
+            })
         product = ProductResponseElement(id: id, title: productName, price: price, category: categoryName, image: imagePath)
         if let rating,
            let ratingCount {
@@ -82,7 +96,7 @@ extension ProductCell {
         else { return productImage.image = .noImage }
         productImage.loadImage(with: url, contentMode: .scaleAspectFit)
         manageFavoriteImage()
-        manageCartImage()
+//        manageCartImage()
     }
 }
 
@@ -106,10 +120,10 @@ private extension ProductCell {
     @objc private func didTapCart() {
         onCartTapped?()
     }
-    
-    @objc final func cartUpdated() {
-        manageCartImage()
-    }
+        
+//    @objc final func cartUpdated() {
+//        manageCartImage()
+//    }
     
     final func manageFavoriteImage() {
         guard let product else { return }

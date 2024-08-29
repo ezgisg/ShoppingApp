@@ -43,7 +43,7 @@ public final class AppCoordinator: BaseCoordinator, Routes {
     }
 
     public override func start() {
-        routeToSplash()
-//        routeToTabBar(self)
+//        routeToSplash()
+        routeToTabBar(self)
     }
 }

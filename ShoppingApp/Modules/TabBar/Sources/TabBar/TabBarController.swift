@@ -15,18 +15,22 @@ import Foundation
 import Home
 import UIKit
 
+import Combine
+
 // MARK: - TabBarController
 public class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     let circleInsideImage = UIImageView(image: UIImage.tabbarCircle)
     let tabBarItemCount: CGFloat = 5
+    private var cancellables: Set<AnyCancellable> = []
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
         self.selectedIndex = 1
         setupTabbar()
-        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
+
+//        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +39,14 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
             true,
             animated: false
         )
+        
+        CartManager.shared.cartItemsPublisher
+            .sink(receiveCompletion: { _ in
+                
+            }, receiveValue: {  [weak self] cart in
+                guard let self else { return }
+                updateBasketBadge()
+            }).store(in: &cancellables)
     }
 }
 
@@ -128,8 +140,8 @@ extension TabBarController {
         }
     }
     
-    @objc private func cartUpdated() {
-        updateBasketBadge()
-    }
+//    @objc private func cartUpdated() {
+//        updateBasketBadge()
+//    }
     
 }

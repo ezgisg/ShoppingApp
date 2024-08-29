@@ -7,9 +7,9 @@
 
 import AppResources
 import AppManagers
+import Combine
 import Foundation
 import Network
-import Combine
 
 //MARK: - CartViewModelProtocol
 protocol CartViewModelProtocol: AnyObject {
@@ -35,7 +35,6 @@ protocol CartViewModelProtocol: AnyObject {
     
     func getCartwithCombine()
     func getSelectionswithCombine()
-
 }
 
 //MARK: - CartViewModelDelegate
@@ -50,8 +49,7 @@ protocol CartViewModelDelegate: AnyObject {
 
 //MARK: - CartViewModel
 public final class CartViewModel {
-    public var cancellables: [AnyCancellable] = []
-    
+    private var cancellables: Set<AnyCancellable> = []
     private var service: ShoppingServiceProtocol
     weak var delegate: CartViewModelDelegate?
     
@@ -100,57 +98,12 @@ public final class CartViewModel {
     //MARK: - Init
     init(service: ShoppingServiceProtocol = ShoppingService()) {
         self.service = service
-//        NotificationCenter.default.addObserver(self, selector: #selector(selectionUpdated), name: .selectionUpdated, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
     
 }
 
 //MARK: - CartViewModelProtocol
 extension CartViewModel: CartViewModelProtocol {
-    func getSelectionswithCombine() {
- 
-        CartManager.shared.selectionOfProductsPublisher
-            .sink { _ in
-            } receiveValue: { [weak self] selections in
-                guard let self else { return }
-                selectionOfProducts = selections
-                calculatePrices()
-                delegate?.reloadData()
-                print("selection combine")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.delegate?.hideLoading()
-                }
-             
-            }.store(in: &cancellables)
-    }
-    
-    func getCartwithCombine() {
-        CartManager.shared.cartItemsPublisher
-            .sink { _ in
-                print("completed")
-            } receiveValue: {  [weak self] _ in
-                guard let self else { return }
-                print("cart combine")
-                selectionOfProducts = CartManager.shared.selectionOfProducts
-                getCartDatas()
-            }
-            .store(in: &cancellables)
-    }
-    
-    func observeBothPublishersWithCombineLatest() {
-        Publishers.Zip(CartManager.shared.selectionOfProductsPublisher,
-                                 CartManager.shared.cartItemsPublisher)
-        .sink(receiveCompletion: { _ in
-            
-        }, receiveValue: { [weak self] selections, cartItems in
-            guard let self else { return }
-            print("ikisi de combine")
-//            delegate?.hideLoading()
-        })
-            .store(in: &cancellables)
-    }
-    
     ///In this scenario, actually adding/removing new products is sufficient, but normally when the data is received from the backend, it may be necessary to request the cart again for stock or other changes.
      func getCartDatas() {
         cartItems = CartManager.shared.cartItems
@@ -206,8 +159,8 @@ extension CartViewModel: CartViewModelProtocol {
             products = updatedProducts
             similarProducts = similarFetchedProducts
             calculatePrices()
+            ///It includes hideloading
             delegate?.reloadData()
-            delegate?.hideLoading()
         }
     }
     
@@ -232,21 +185,27 @@ extension CartViewModel: CartViewModelProtocol {
             .isSelected
         return isSelected
     }
-}
-
-//MARK: Actions
-private extension CartViewModel {
-    //TODO: selection ve cart update bitişince ortaklaşa haber alıp hideloading i ortaklaşa yapmak
-    @objc final func selectionUpdated() {
-        let selections = CartManager.shared.selectionOfProducts
-        selectionOfProducts = selections
-        calculatePrices()
-        delegate?.reloadData()
+    
+    func getSelectionswithCombine() {
+        CartManager.shared.selectionOfProductsPublisher
+            .sink { _ in
+            } receiveValue: { [weak self] selections in
+                guard let self else { return }
+                selectionOfProducts = selections
+                calculatePrices()
+                delegate?.reloadData()
+            }.store(in: &cancellables)
     }
     
-    @objc final func cartUpdated() {
-        delegate?.showLoadingView()
-        getCartDatas()
+    func getCartwithCombine() {
+        CartManager.shared.cartItemsPublisher
+            .sink { _ in
+            } receiveValue: {  [weak self] _ in
+                guard let self else { return }
+                selectionOfProducts = CartManager.shared.selectionOfProducts
+                getCartDatas()
+            }
+            .store(in: &cancellables)
     }
 }
 

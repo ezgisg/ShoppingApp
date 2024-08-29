@@ -10,12 +10,11 @@ import AppManagers
 import Cart
 import Categories
 import Campaigns
+import Combine
 import Favorites
 import Foundation
 import Home
 import UIKit
-
-import Combine
 
 // MARK: - TabBarController
 public class TabBarController: UITabBarController, UITabBarControllerDelegate {
@@ -29,8 +28,6 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
         self.selectedIndex = 1
         setupTabbar()
-
-//        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -39,14 +36,7 @@ public class TabBarController: UITabBarController, UITabBarControllerDelegate {
             true,
             animated: false
         )
-        
-        CartManager.shared.cartItemsPublisher
-            .sink(receiveCompletion: { _ in
-                
-            }, receiveValue: {  [weak self] cart in
-                guard let self else { return }
-                updateBasketBadge()
-            }).store(in: &cancellables)
+        getCartItemsWithCombine()
     }
 }
 
@@ -60,7 +50,6 @@ private extension TabBarController {
     }
     
     final func setupMiddleButton() {
-        
         let middleButtonOffset: CGFloat = 20
         let tabBarHeight = self.tabBar.frame.size.height
         let tabBarWidth = self.tabBar.frame.size.width
@@ -112,6 +101,22 @@ private extension TabBarController {
         tabBar.standardAppearance = tabBarAppearance
         tabBar.scrollEdgeAppearance = tabBarAppearance
     }
+    
+    final func getCartItemsWithCombine() {
+        CartManager.shared.cartItemsPublisher
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: {  [weak self] cart in
+                guard let self else { return }
+                let basketIndex = 3
+                let basketTabBarItem = tabBar.items?[basketIndex]
+                let cartItemCount = cart.reduce(0) { $0 + ($1.quantity ?? 0) }
+                if cartItemCount > 0 {
+                    basketTabBarItem?.badgeValue = "\(cartItemCount)"
+                } else {
+                    basketTabBarItem?.badgeValue = nil
+                }
+            }).store(in: &cancellables)
+    }
 }
 
 //MARK: TabBarController didSelect control
@@ -125,23 +130,3 @@ public extension TabBarController {
     }
 }
 
-//MARK: Helpers
-extension TabBarController {
-    
-    private func updateBasketBadge() {
-        let basketIndex = 3
-        let basketTabBarItem = tabBar.items?[basketIndex]
-        
-        let cartItemCount = CartManager.shared.totalItemsInCart
-        if cartItemCount > 0 {
-            basketTabBarItem?.badgeValue = "\(cartItemCount)"
-        } else {
-            basketTabBarItem?.badgeValue = nil
-        }
-    }
-    
-//    @objc private func cartUpdated() {
-//        updateBasketBadge()
-//    }
-    
-}

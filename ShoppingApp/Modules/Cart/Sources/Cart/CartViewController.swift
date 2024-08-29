@@ -80,7 +80,6 @@ final class CartViewController: BaseViewController {
         setupKeyboardObservers(scrollView: collectionView)
         viewModel.getCartwithCombine()
         viewModel.getSelectionswithCombine()
-        viewModel.observeBothPublishersWithCombineLatest()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -252,6 +251,7 @@ extension CartViewController: CartViewModelDelegate {
         applySnapshot()
         collectionView.reloadData()
         controlEmptyViewHiddenStatus()
+        hideLoadingView()
     }
     
     func hideLoading() {
@@ -414,7 +414,6 @@ extension CartViewController {
                     showLoadingView()
                     CartManager.shared.updateProductSelection(productId: id, size: size)
                 }
-    
                 cell.onMinusTapped = {  [weak self] in
                     guard let self else { return }
                     showLoadingView()

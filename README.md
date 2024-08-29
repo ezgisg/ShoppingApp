@@ -18,7 +18,7 @@ The app is **modular**, created with **Swift Package Manager (SPM)**, and has a 
 * **Layout and Data Management:** Implements ***compositional layout*** and ***diffable datasource*** on some pages for efficient data rendering.
 * **Firebase Integration:** Allows users to register and log in with their credentials using Firebase authentication.
 * **Google Sign-In:** Offers Google Sign-In as an alternative login method, enhancing user convenience and accessibility.
-* **Notification Center**: Ensuring up-to-date information across the app.
+* **Combine**: Reactive programming is leveraged using the Combine framework, allowing for seamless data binding, real-time updates, and efficient handling of asynchronous events throughout the app.
 * **UserDefaults**: Persistent local storage for user data.
 * **Network Connectivity:** Checks for internet connectivity app-wide; restricts usage without internet.
 <img width="400" alt="noConnection" src="https://github.com/user-attachments/assets/45b3bdfd-a6ba-4a12-9ccd-77a41fc041fb">
@@ -76,7 +76,8 @@ https://github.com/user-attachments/assets/e9b8acfc-d40e-4672-9bb7-5203b51789e4
     * The number of items in the cart can be adjusted, and the selection status of items can be toggled in here.
     * A discount can also be applied by entering a campaign code.
     * The Cart Manager handles updates, and any additions made to the cart from anywhere in the app will be reflected in this tab.
-    * Diffable DataSource and Compositional Layout are utilized.n.
+    * Diffable DataSource and Compositional Layout are utilized.
+    * It is monitored using the Combine framework, ensuring real-time updates to the cart items and quantities across the app.
 * **Favorites:** This screen displays products added to favorites. It is the fifth tab in the tab bar.
     * Since there is no backend, favorite products are stored using UserDefaults.  
     * Compositional Layout is used.

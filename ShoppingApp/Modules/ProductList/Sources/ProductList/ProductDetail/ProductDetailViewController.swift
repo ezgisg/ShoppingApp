@@ -8,6 +8,7 @@
 import AppManagers
 import AppResources
 import Base
+import Combine
 import Components
 import UIKit
 
@@ -39,6 +40,11 @@ final class ProductDetailViewController: BaseViewController {
     // MARK: - Properties
     private var onScreenDismiss: (() -> Void)?
     
+    // MARK: - Private Variables
+    private var cancellables: Set<AnyCancellable> = []
+    ///To prevent executing cart subscriber sink operations in start. Actually currentvaluesubject can be used for this but in this case there must be two different type publisher in cart manager for same action.
+    private var isFirstLaunch: Bool = true
+    
     // MARK: - Module Components
     ///Logic is same so there is common viewmodel
     private var viewModel: DetailBottomViewModel
@@ -47,12 +53,12 @@ final class ProductDetailViewController: BaseViewController {
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(cartUpdated), name: .cartUpdated, object: nil)
         viewModel.delegate = self
         viewModel.loadStockData(for: productID)
         viewModel.fetchProduct(productId: productID)
         setups()
         topView.isHidden = true
+        getCartWithCombine()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,19 +96,6 @@ extension ProductDetailViewController {
         addCartButton.isEnabled = false
         topView.isHidden = false
         CartManager.shared.addToCart(productId: productID, size: size)
-    }
-    
-    @IBAction func cartUpdated(_ sender: Any) {
-        addCartButton.backgroundColor = .systemYellow
-        addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
-     
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
-            guard let self else { return }
-            addCartButton.isEnabled = true
-            setButtonColor(isEnabled: self.addCartButton.isEnabled)
-            topView.isHidden = true
-        }
-        
     }
 }
 
@@ -146,6 +139,25 @@ private extension ProductDetailViewController {
         setButtonColor(isEnabled: addCartButton.isEnabled)
     }
     
+    final func getCartWithCombine() {
+        CartManager.shared.cartItemsPublisher
+            .sink { _ in
+            } receiveValue: {  [weak self] _ in
+                guard let self else { return }
+                guard !isFirstLaunch else {
+                    isFirstLaunch = false
+                    return
+                }
+                addCartButton.backgroundColor = .systemYellow
+                addCartButton.setTitle(L10nGeneric.CartTexts.addedToCart.localized(), for: .disabled)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {  [weak self] in
+                    guard let self else { return }
+                    addCartButton.isEnabled = true
+                    setButtonColor(isEnabled: self.addCartButton.isEnabled)
+                    topView.isHidden = true
+                }
+            }.store(in: &cancellables)
+    }
 }
 
 //MARK: - Compositional Layout

@@ -8,6 +8,7 @@
 import AppResources
 import AppManagers
 import Base
+import Combine
 import UIKit
 
 // MARK: - DetailBottomViewController
@@ -35,6 +36,11 @@ final class DetailBottomViewController: BaseViewController {
     // MARK: - Variables
     var product: ProductResponseElement
 
+    // MARK: - Private Variables
+    private var cancellables: Set<AnyCancellable> = []
+    ///To prevent executing cart subscriber sink operations in start. Actually currentvaluesubject can be used for this but in this case there must be two different type publisher in cart manager for same action.
+    private var isFirstLaunch: Bool = true
+
     // MARK: - Module Components
     private var viewModel: DetailBottomViewModel
     private var coordinator: ProductListCoordinator
@@ -51,6 +57,7 @@ final class DetailBottomViewController: BaseViewController {
             return
         }
         viewModel.loadStockData(for: productId)
+        getNewCartWithCombine()
         setups()
     }
     
@@ -81,25 +88,8 @@ private extension DetailBottomViewController {
         let size = viewModel.selectedSize
         let productId = product.id
         guard let productId, let size else { return }
+        showLoadingView()
         CartManager.shared.addToCart(productId: productId, size: size)
-        ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
-        warningForAddingCartView.alpha = 0
-        warningForAddingCartView.isHidden = false
-        UIView.animate(withDuration: 0.1, animations: {  [weak self] in
-            guard let self else { return }
-            warningForAddingCartView.alpha = 1
-        }, completion: { [weak self] _ in
-            guard let self else { return }
-            UIView.animate(withDuration: 0.3, delay: 1, options: [], animations: {  [weak self] in
-                guard let self else { return }
-                warningForAddingCartView.alpha = 0
-            }, completion: {  [weak self] _ in
-                guard let self else { return }
-                warningForAddingCartView.isHidden = true
-                warningForAddingCartView.alpha = 1
-            })
-        })
-        
     }
 
     @objc final func goToDetail() {
@@ -188,6 +178,36 @@ private extension DetailBottomViewController {
         collectionView.collectionViewLayout = createCompositionalLayout()
         collectionView.isScrollEnabled = false
         collectionView.allowsMultipleSelection = false
+    }
+    
+    final func getNewCartWithCombine() {
+        CartManager.shared.cartItemsPublisher
+            .sink { _ in
+            } receiveValue: {  [weak self] cart in
+                guard let self else { return }
+                guard !isFirstLaunch else {
+                    isFirstLaunch = false
+                    return
+                }
+                hideLoadingView()
+                ///Adding another view for handling animation easily otherwise to have to manage enabling-title etc. if the size selection is changed while add to cart is enabled
+                warningForAddingCartView.alpha = 0
+                warningForAddingCartView.isHidden = false
+                UIView.animate(withDuration: 0.1, animations: {  [weak self] in
+                    guard let self else { return }
+                    warningForAddingCartView.alpha = 1
+                }, completion: { [weak self] _ in
+                    guard let self else { return }
+                    UIView.animate(withDuration: 0.3, delay: 1, options: [], animations: {  [weak self] in
+                        guard let self else { return }
+                        warningForAddingCartView.alpha = 0
+                    }, completion: {  [weak self] _ in
+                        guard let self else { return }
+                        warningForAddingCartView.isHidden = true
+                        warningForAddingCartView.alpha = 1
+                    })
+                })
+            }.store(in: &cancellables)
     }
 }
 

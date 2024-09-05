@@ -9,11 +9,15 @@ import Alamofire
 import AppResources
 import Foundation
 
+public protocol NetworkProtocol {
+    func request<T: Decodable> (_ request: URLRequestConvertible, decodeToType type: T.Type, completion: @escaping (Result<T,BaseError>) -> ())
+}
+
 //MARK: NetworkManager
-final class NetworkManager {
+final public class NetworkManager: NetworkProtocol {
     static let shared = NetworkManager()
     
-    func request<T: Decodable> (_ request: URLRequestConvertible, decodeToType type: T.Type, completion: @escaping (Result<T,BaseError>) -> ()) {
+    public func request<T: Decodable> (_ request: URLRequestConvertible, decodeToType type: T.Type, completion: @escaping (Result<T,BaseError>) -> ()) {
         AF.request(request).responseData { [weak self] response in
             guard let self else { return }
             switch response.result {

@@ -54,7 +54,6 @@ final class SignInViewController: BaseViewController {
         
         resetPasswordSetup()
         setupRegister()
-        
     }
     
     // MARK: - Module init

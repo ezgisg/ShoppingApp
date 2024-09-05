@@ -4,10 +4,8 @@
 //
 //  Created by Ezgi Sümer Günaydın on 23.08.2024.
 //
-
 import Foundation
 import Splash
-
 
 extension AppCoordinator {
     public func routeToSplash() {

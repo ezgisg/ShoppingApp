@@ -1,30 +1,21 @@
 //
-//  ServiceManager.swift
+//  File.swift
 //  
 //
-//  Created by Ezgi Sümer Günaydın on 1.08.2024.
+//  Created by Ezgi Sümer Günaydın on 5.09.2024.
 //
 
+import XCTest
 import AppResources
-import Foundation
+import Network
+@testable import Home
 
-// MARK: - ShoppingServiceProtocol
-public protocol ShoppingServiceProtocol {
-    var network: NetworkProtocol { get set }
-
-    func fetchProducts(completion: @escaping (ProductListResult) -> ())
-    func fetchProduct(productId: Int, completion: @escaping (ProductResult) -> ())
-    func fetchCategories(completion: @escaping (Result<[String],BaseError>) -> ())
-    func fetchCarts(startDate: String?, endDate: String?, completion: @escaping (CartListResult) -> ())
-    func fetchCart(cartId: Int, completion: @escaping (CartResult) -> ())
-    func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductListResult) -> ())
-}
-
-public final class ShoppingService: ShoppingServiceProtocol {
+final class ServiceMock: ShoppingServiceProtocol {
+    var network: NetworkProtocol
     
-    public var network: NetworkProtocol = NetworkManager.shared
-
-    public init() { }
+    init(network: NetworkProtocol) {
+        self.network = network
+    }
     
     public func fetchProducts(completion: @escaping (ProductListResult) -> ()) {
         network.request(Router.products, decodeToType: ProductListResponse.self, completion: completion)
@@ -49,5 +40,6 @@ public final class ShoppingService: ShoppingServiceProtocol {
     public func fetchProductsFromCategory(categoryName: String, completion: @escaping (ProductListResult) -> ()) {
         network.request(Router.productsFromCategory(categoryName: categoryName), decodeToType: ProductListResponse.self, completion: completion)
     }
-    
 }
+
+    

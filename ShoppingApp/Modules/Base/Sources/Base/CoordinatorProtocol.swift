@@ -8,40 +8,40 @@
 import UIKit
 
 @MainActor
-public protocol Coordinator: AnyObject {
-    var childCoordinators: [Coordinator] { get set }
-    var parentCoordinator: Coordinator? { get set }
+public protocol CoordinatorProtocol: AnyObject {
+    var childCoordinators: [CoordinatorProtocol] { get set }
+    var parentCoordinator: CoordinatorProtocol? { get set }
 
     var navigationController: UINavigationController { get set }
 
     func start()
-    func start(child coordinator: Coordinator)
-    func start(_ coordinator: Coordinator)
+    func start(child coordinator: CoordinatorProtocol)
+    func start(_ coordinator: CoordinatorProtocol)
 
     func back()
 
-    func addChildCoordinator(_ coordinator: Coordinator)
+    func addChildCoordinator(_ coordinator: CoordinatorProtocol)
     func removeAllChildCoordinators()
 }
 
-public extension Coordinator {
+public extension CoordinatorProtocol {
     func start() {
         fatalError("\(#function) should be implemented.")
     }
 
-    func start(child coordinator: Coordinator) {
+    func start(child coordinator: CoordinatorProtocol) {
         addChildCoordinator(coordinator)
         start(coordinator)
     }
 
-    func start(_ coordinator: Coordinator) {
+    func start(_ coordinator: CoordinatorProtocol) {
         if coordinator.parentCoordinator == nil {
             coordinator.parentCoordinator = self
         }
         coordinator.start()
     }
 
-    func addChildCoordinator(_ coordinator: Coordinator) {
+    func addChildCoordinator(_ coordinator: CoordinatorProtocol) {
         coordinator.parentCoordinator = self
         childCoordinators.append(coordinator)
     }

@@ -8,10 +8,10 @@
 import UIKit
 
 // MARK: - BaseCoordinator
-open class BaseCoordinator: NSObject, Coordinator {
+open class BaseCoordinator: NSObject, CoordinatorProtocol {
     // MARK: - Publics
-    public var childCoordinators: [Coordinator] = []
-    public weak var parentCoordinator: Coordinator?
+    public var childCoordinators: [CoordinatorProtocol] = []
+    public weak var parentCoordinator: CoordinatorProtocol?
     public var navigationController = UINavigationController()
 
     // MARK: - Init

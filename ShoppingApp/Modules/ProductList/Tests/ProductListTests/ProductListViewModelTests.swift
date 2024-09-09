@@ -20,11 +20,34 @@ final class ProductListViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-    func testFetchProducts_whenRequestSucceed_shouldGetProducts() {
-        guard let mockResponse = ProductListMockDataProvider.allProductsSuccessData else { return }
+    func testFetchProductsWithAllCategories_whenRequestSucceed_shouldGetProducts() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
         prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
         sut.fetchProducts()
         XCTAssertNotNil(delegate.filterCount)
+        XCTAssertEqual(sut.filteredProducts, mockResponse)
+    }
+    
+    func testFetchProductsWithAllCategories_whenRequestFailure_shouldGetEmptyArray() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: false, categories: [])
+        sut.fetchProducts()
+        XCTAssertEqual(sut.filteredProducts, [])
+    }
+    
+    func testFetchProductsWithOneCategory_whenRequestSucceed_shouldGetProducts() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [CategoryResponseElement(value: "electronics", imagePath: "")])
+        sut.fetchProducts()
+        XCTAssertNotNil(delegate.filterCount)
+        XCTAssertEqual(sut.filteredProducts, mockResponse)
+    }
+    
+    func testFetchProductsWithOneCategory_whenRequestFailure_shouldGetEmptyArray() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: false, categories: [CategoryResponseElement(value: "electronics", imagePath: "")])
+        sut.fetchProducts()
+        XCTAssertEqual(sut.filteredProducts, [])
     }
     
 }

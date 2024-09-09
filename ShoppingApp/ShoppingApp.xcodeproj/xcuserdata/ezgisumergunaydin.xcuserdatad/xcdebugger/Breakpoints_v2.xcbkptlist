@@ -7,110 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "23011D9A-C8AB-4205-9FC6-09ABBBB88889"
+            uuid = "9DDFFF81-B6DF-498D-8C03-A3E1CA4ECB2D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/ServiceMock.swift"
+            filePath = "Modules/ProductList/Sources/ProductList/ProductList/ProductListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "fetchProducts(completion:)"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "fetchProducts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E07D9DB2-BE92-478D-9564-5BCE7319F8E7"
+            uuid = "DDB64485-A4D4-40D1-BD11-4EED59BE915B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
+            filePath = "Modules/ProductList/Sources/ProductList/ProductList/ProductListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "request(_:decodeToType:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3C6006AD-C2A5-4A9B-BA94-2DB682823FE4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "request(_:decodeToType:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4F357A26-331F-4D21-880B-497F22889C56"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "request(_:decodeToType:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4F357A26-331F-4D21-880B-497F22889C56 - 8432144eecf15586"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductListTests.MockNetworkManager.request&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Swift.Decodable&gt;(_: Alamofire.URLRequestConvertible, decodeToType: &#x3c4;_1_0.Type, completion: (Swift.Result&lt;&#x3c4;_1_0, AppResources.BaseError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "ProductListTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34">
-               </Location>
-               <Location
-                  uuid = "4F357A26-331F-4D21-880B-497F22889C56 - 8432144eecf15586"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductListTests.MockNetworkManager.request&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Swift.Decodable&gt;(_: Alamofire.URLRequestConvertible, decodeToType: &#x3c4;_1_0.Type, completion: (Swift.Result&lt;&#x3c4;_1_0, AppResources.BaseError&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "ProductListTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ezgisumergunaydin/Documents/Repostories/ShoppingApp/ShoppingApp/Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3ADD39E2-F894-4386-9686-B7C0EA5CCE97"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/MockNetworkManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "request(_:decodeToType:completion:)"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "fetchProducts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

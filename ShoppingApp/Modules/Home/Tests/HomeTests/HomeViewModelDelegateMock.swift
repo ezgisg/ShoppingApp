@@ -12,10 +12,12 @@ import Foundation
 final class HomeViewModelDelegateMock: HomeViewModelDelegate {
     
     var isBannerDataLoaded = false
+    var banner: BannerData? = nil
     var calledCategories: [String]?
     
     func getBannerData(bannerData: BannerData) {
         isBannerDataLoaded = true
+        banner = bannerData
     }
     
     func getCategories(categories: [String]) {

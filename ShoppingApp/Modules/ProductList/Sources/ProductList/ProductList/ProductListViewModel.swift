@@ -78,7 +78,6 @@ public extension FilterDelegate {
 public final class ProductListViewModel: ProductListViewModelProtocol {
     
     // MARK: - Private variables
-    private var service: ShoppingService = ShoppingService()
     private var products: ProductListResponse = []
     
     // MARK: - Variables
@@ -123,9 +122,13 @@ public final class ProductListViewModel: ProductListViewModelProtocol {
     public var filteredPrices: [PriceOption] = []
     public var filteredCategories: [CategoryResponseElement] = []
     
+    private var service: ShoppingServiceProtocol
+    
     // MARK: - Init
-    public init(categories: [CategoryResponseElement]) {
+    public init(categories: [CategoryResponseElement],
+                service: ShoppingServiceProtocol = ShoppingService()) {
         self.categories = categories
+        self.service = service
     }
 }
 

@@ -31,6 +31,30 @@ final class HomeViewModelTests: XCTestCase {
         
         XCTAssertEqual(delegate.calledCategories, mockResponse)
     }
+    
+    func testFetchCategories_whenRequestFailure_shouldGetCategoriesNil() {
+        let mockResponse = ["Ezgi", "Sümer", "Günaydın"]
+        prepareMockedServicedSut(
+            mockResponse: mockResponse,
+            isSuccess: false
+        )
+        
+        sut.fetchCategories()
+        XCTAssertTrue(delegate.calledCategories == nil)
+    }
+    
+    func testLoadBannerData_whenRequestSuccess_shouldGetBannerData() {
+        sut.delegate = delegate
+        sut.loadBannerData(for: "TR")
+        XCTAssertNotNil(delegate.banner)
+    }
+    
+    func testLoadBannerData_whenRequestFailure_shouldGetBannerDataNil() {
+        sut.delegate = delegate
+        sut.loadBannerData(for: "TEST")
+        XCTAssertNil(delegate.banner)
+    }
+
 }
 
 private extension HomeViewModelTests {

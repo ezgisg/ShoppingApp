@@ -78,7 +78,7 @@ public extension FilterDelegate {
 public final class ProductListViewModel: ProductListViewModelProtocol {
     
     // MARK: - Private variables
-    private var products: ProductListResponse = []
+    public var products: ProductListResponse = []
     
     // MARK: - Variables
     public weak var delegate: ProductListViewModelDelegate?

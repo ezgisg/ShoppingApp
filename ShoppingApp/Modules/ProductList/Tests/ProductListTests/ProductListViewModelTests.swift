@@ -50,6 +50,28 @@ final class ProductListViewModelTests: XCTestCase {
         XCTAssertEqual(sut.filteredProducts, [])
     }
     
+    func testFilterProducts_whenFilterCountZero_shouldGetFilteredProducts() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        sut.selectedPrices = []
+        sut.selectedRatings = []
+        sut.selectedCategories = []
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
+        sut.fetchProducts()
+        sut.filterProductsWithSelections()
+        XCTAssertEqual(sut.filteredProducts, sut.products)
+    }
+    
+    func testFilterProducts_whenFilterCountGreaterThanZero_shouldGetFilteredProducts() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
+        sut.fetchProducts()
+        sut.selectedPrices = [PriceOption.oneToTen, PriceOption.tenToHundred, PriceOption.hundredPlus]
+        sut.selectedRatings = [RatingOption.onePlus, RatingOption.twoPlus, RatingOption.threePlus, RatingOption.fourPlus, RatingOption.zeroPlus]
+        sut.selectedCategories = [CategoryResponseElement(value: "men's clothing", imagePath: "")]
+        sut.filterProductsWithSelections()
+        XCTAssertEqual(sut.filteredProducts.count, 4)
+    }
+    
 }
 
 private extension ProductListViewModelTests {

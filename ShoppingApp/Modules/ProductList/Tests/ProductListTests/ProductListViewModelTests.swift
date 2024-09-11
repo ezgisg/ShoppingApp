@@ -72,6 +72,37 @@ final class ProductListViewModelTests: XCTestCase {
         XCTAssertEqual(sut.filteredProducts.count, 4)
     }
     
+    func testSortProducts_whenHighestPriceSelected_shouldGetHighestFirst() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
+        sut.fetchProducts()
+        sut.selectedSortingOption = .highestPrice
+        sut.sortProducts()
+        let ordered = mockResponse?.sorted { $0.price! > $1.price! }
+        let firstProduct = ordered?.first
+        XCTAssertEqual(sut.filteredProducts.first?.title, firstProduct?.title)
+    }
+    
+    func testSortProducts_whenLowestPriceSelected_shouldGetHighestFirst() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
+        sut.fetchProducts()
+        sut.selectedSortingOption = .lowestPrice
+        sut.sortProducts()
+        let ordered = mockResponse?.sorted { $0.price! < $1.price! }
+        let firstProduct = ordered?.first
+        XCTAssertEqual(sut.filteredProducts.first?.title, firstProduct?.title)
+    }
+    
+    func testSortProducts_whenDefaultSelected_shouldGetHighestFirst() {
+        let mockResponse = ProductListMockDataProvider.allProductsSuccessData
+        prepareMockedServicedSut(mockResponse: mockResponse, isSuccess: true, categories: [])
+        sut.fetchProducts()
+        sut.selectedSortingOption = .none
+        sut.sortProducts()
+        XCTAssertEqual(sut.filteredProducts.first?.title, mockResponse?.first?.title)
+    }
+    
 }
 
 private extension ProductListViewModelTests {

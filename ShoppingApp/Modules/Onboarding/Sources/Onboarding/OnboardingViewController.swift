@@ -152,7 +152,8 @@ private extension OnboardingViewController {
     }
     
     @objc private func skipTapped() {
-        UserDefaults.standard.set(false, forKey: Constants.UserDefaults.isFirstLaunch)
+        //TODO: false olmalı bir kez göstermek için
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
         navigateToNextScreen(to: .tabBar)
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek, hızlı gidiş için şimdilik direkt tabbar bırakıldı
     }
@@ -166,7 +167,8 @@ private extension OnboardingViewController {
     }
     
     @objc private func bottomTapped() {
-        UserDefaults.standard.set(false, forKey: Constants.UserDefaults.isFirstLaunch)
+        //TODO: false olmalı bir kez göstermek için
+        UserDefaults.standard.set(true, forKey: Constants.UserDefaults.isFirstLaunch)
         //TODO: sign in screen e gidilecek eğer giriş yapıldıysa atlanacak home a gidecek
         navigateToNextScreen(to: .signIn)
     }

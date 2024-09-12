@@ -7,16 +7,19 @@ import Network
 final class ProductListViewModelTests: XCTestCase {
     private var sut: ProductListViewModel!
     private var delegate: ProductListViewModelDelegateMock!
+    private var filterDelegate: ProductListViewModelFilterDelegateMock!
     
     override func setUp() {
         super.setUp()
         sut = ProductListViewModel(categories: [])
         delegate = ProductListViewModelDelegateMock()
+        filterDelegate = ProductListViewModelFilterDelegateMock()
     }
     
     override func tearDown() {
         delegate = nil
         sut = nil
+        filterDelegate = nil
         super.tearDown()
     }
 
@@ -102,6 +105,61 @@ final class ProductListViewModelTests: XCTestCase {
         sut.sortProducts()
         XCTAssertEqual(sut.filteredProducts.first?.title, mockResponse?.first?.title)
     }
+    
+    func testClearFilters_whenFilterCountZero_shouldCallControlButtonStatus() {
+        sut.filterDelegate = filterDelegate
+        sut.clearAllFilters()
+        XCTAssertTrue(filterDelegate.isControlledButtonStatus)
+    }
+    
+    func testClearFilters_whenFilterCountGreaterThanZero_shouldCallControlButtonStatus() {
+        sut.filterDelegate = filterDelegate
+        sut.selectedPrices = [PriceOption.oneToTen, PriceOption.tenToHundred, PriceOption.hundredPlus]
+        sut.clearAllFilters()
+        XCTAssertTrue(filterDelegate.isControlledButtonStatus)
+        XCTAssertEqual(sut.selectedPrices, [])
+    }
+    
+    func testSelectAllFilters_whenNoSelectedFilterOnPrice_shouldChangeFilters() {
+        sut.filterDelegate = filterDelegate
+        sut.clearOrSelectAllFilters(filterOptionType: .price)
+        XCTAssertTrue(sut.selectedPrices.count > 0)
+    }
+    
+    func testSelectAllFilters_whenNoSelectedFilterOnRating_shouldChangeFilters() {
+        sut.filterDelegate = filterDelegate
+        sut.clearOrSelectAllFilters(filterOptionType: .rating)
+        XCTAssertTrue(sut.selectedRatings.count > 0)
+    }
+    
+    func testClearFilters_whenAnyFilterSelected_shouldClearFilters() {
+        sut.filterDelegate = filterDelegate
+        sut.selectedCategories = [CategoryResponseElement(value: "men's clothing", imagePath: "")]
+        sut.clearOrSelectAllFilters(filterOptionType: .category)
+        XCTAssertTrue(sut.selectedCategories.count == 0)
+    }
+    
+    func testGetIndex_whenForPrice_shouldGetFilterCountEqualSelectedPrices() {
+        sut.filteredPrices = [PriceOption.oneToTen, PriceOption.tenToHundred, PriceOption.hundredPlus]
+        sut.selectedPrices = [PriceOption.oneToTen, PriceOption.tenToHundred, PriceOption.hundredPlus]
+        let indexs = sut.getIndexOfSelection(for: .price)
+        XCTAssertEqual(indexs.count,sut.selectedPrices.count)
+    }
+    
+    func testGetIndex_whenForRating_shouldGetFilterCountEqualSelectedRating() {
+        sut.filteredRatings = [.fourPlus,.onePlus]
+        sut.selectedRatings = []
+        let indexs = sut.getIndexOfSelection(for: .rating)
+        XCTAssertEqual(indexs.count,sut.selectedRatings.count)
+    }
+    
+    func testGetIndex_whenForCategory_shouldGetFilterCountEqualSelectedCategories() {
+        sut.filteredCategories = [CategoryResponseElement(value: "electronics", imagePath: "")]
+        sut.selectedCategories = []
+        let indexs = sut.getIndexOfSelection(for: .category)
+        XCTAssertEqual(indexs.count,sut.selectedCategories.count)
+    }
+    
     
 }
 

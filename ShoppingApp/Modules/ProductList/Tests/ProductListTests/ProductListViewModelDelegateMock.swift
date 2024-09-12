@@ -8,6 +8,7 @@ final class ProductListViewModelDelegateMock: ProductListViewModelDelegate {
     
     var filterCount: Int?
     
+    
     func manageFilterStatus(filterCount: Int) {
         self.filterCount = filterCount
     }

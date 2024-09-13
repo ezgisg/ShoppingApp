@@ -193,6 +193,27 @@ final class ProductListViewModelTests: XCTestCase {
         XCTAssertTrue(sut.filteredCategories.count == 2)
     }
     
+    func testKeepInitials_whenIsDetailScreenTrue_shouldSetFilterDetails() {
+        sut.keepInitials(isDetailScreen: true)
+        XCTAssertEqual(sut.filterDetailInitialSelectedPrices, sut.selectedPrices)
+    }
+    
+    func testKeepInitials_whenIsDetailScreenFalse_shouldSetFilterInitials() {
+        sut.keepInitials(isDetailScreen: false)
+        XCTAssertEqual(sut.filterDetailInitialSelectedPrices, sut.selectedPrices)
+    }
+    
+    
+    func testReturnInitials_whenIsDetailScreenTrue_shouldSetFilterDetails() {
+        sut.returnToInitials(isDetailScreen: true)
+        XCTAssertEqual(sut.filterDetailInitialSelectedPrices, sut.selectedPrices)
+    }
+    
+    func testReturnInitials_whenIsDetailScreenFalse_shouldSetFilterInitials() {
+        sut.returnToInitials(isDetailScreen: false)
+        XCTAssertEqual(sut.filterDetailInitialSelectedPrices, sut.selectedPrices)
+    }
+    
 }
 
 private extension ProductListViewModelTests {

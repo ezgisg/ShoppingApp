@@ -160,6 +160,38 @@ final class ProductListViewModelTests: XCTestCase {
         XCTAssertEqual(indexs.count,sut.selectedCategories.count)
     }
     
+    func testSearchWithText_whenFilterOptionRating_shouldReturnFilteredSelections() {
+        sut.filterDelegate = filterDelegate
+        sut.searchWithTextInSelections(text: RatingOption.onePlus.stringValue, filterOption: .rating)
+        XCTAssertTrue(filterDelegate.isSetupSelections)
+        XCTAssertTrue(filterDelegate.isReload)
+        XCTAssertEqual([RatingOption.onePlus], sut.filteredRatings)
+    }
+    
+    func testSearchWithText_whenFilterOptionRatingWithNoText_shouldReturnFilteredSelections() {
+        sut.filterDelegate = filterDelegate
+        sut.searchWithTextInSelections(text: "", filterOption: .rating)
+        XCTAssertTrue(filterDelegate.isSetupSelections)
+        XCTAssertTrue(filterDelegate.isReload)
+        XCTAssertEqual(sut.filteredPrices, PriceOption.allCases)
+    }
+    
+    func testSearchWithText_whenFilterOptionPrice_shouldReturnFilteredSelections() {
+        sut.filterDelegate = filterDelegate
+        sut.searchWithTextInSelections(text: PriceOption.oneToTen.stringValue, filterOption: .price)
+        XCTAssertTrue(filterDelegate.isSetupSelections)
+        XCTAssertTrue(filterDelegate.isReload)
+        XCTAssertEqual([PriceOption.oneToTen], sut.filteredPrices)
+    }
+    
+    func testSearchWithText_whenFilterOptionCategories_shouldReturnFilteredSelections() {
+        sut.filterDelegate = filterDelegate
+        sut.categories = [CategoryResponseElement(value: "electronics", imagePath: ""), CategoryResponseElement(value: "jewelery", imagePath: "")]
+        sut.searchWithTextInSelections(text: "ele", filterOption: .category)
+        XCTAssertTrue(filterDelegate.isSetupSelections)
+        XCTAssertTrue(filterDelegate.isReload)
+        XCTAssertTrue(sut.filteredCategories.count == 2)
+    }
     
 }
 

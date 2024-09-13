@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5D1ECAF7-07C2-4B2B-B12B-F9278DAED458"
+            uuid = "C7F0E84E-B866-4BEE-A48E-03F1CC766ED3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Modules/ProductList/Tests/ProductListTests/ProductListViewModelTests.swift"
+            filePath = "Modules/ProductList/Sources/ProductList/ProductList/ProductListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "testGetIndex_whenForRating_shouldGetFilterCountEqualSelectedRating()"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "searchWithTextInSelections(text:filterOption:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -12,6 +12,7 @@ final class ProductListViewModelFilterDelegateMock: FilterDelegate {
     
     var isControlledButtonStatus: Bool = false
     var isReload: Bool = false
+    var isSetupSelections: Bool = false
     
     func controlAllButtonStatus() {
         isControlledButtonStatus = true
@@ -21,5 +22,8 @@ final class ProductListViewModelFilterDelegateMock: FilterDelegate {
         isReload = true
     }
     
+    func setupSelections() {
+        isSetupSelections = true
+    }
 
 }
